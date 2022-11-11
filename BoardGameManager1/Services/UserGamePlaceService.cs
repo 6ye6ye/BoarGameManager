@@ -1,0 +1,98 @@
+﻿
+using AutoMapper;
+using BoardGameManager1;
+using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.DTO;
+using BoardGamesManager.Data;
+using DAL.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
+
+namespace BoardUserGamePlaceManager1.Services
+{
+    public class UserGamePlaceService
+    {
+        private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
+
+
+        public UserGamePlaceService(AppDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
+
+
+        //-------------------FOR ADMIN-----------------------
+
+        public async Task<IEnumerable<UserGamePlaceDTOGet>> GetUserGamePlaces()
+        {
+            var userGamePlaces = await _context.UserGamePlaces.ToListAsync();
+            return _mapper.Map<List<UserGamePlaceDTOGet>>(userGamePlaces).AsEnumerable();
+        }
+
+        public async Task<UserGamePlaceDTOGet> GetUserGamePlaceById(int id)
+        {
+            var userGamePlace = await _context.UserGamePlaces.FindAsync(id);
+            if (userGamePlace==null)
+            {
+                throw new NotFoundException("Game place not founded");
+            }
+            return _mapper.Map<UserGamePlaceDTOGet>(userGamePlace);
+        }
+
+
+        //----------------FOR logged users---------------------
+    
+        public async Task<IEnumerable<CurrentUserGamePlaceDTOGet>> GetCurrentUserGamePlaces(string userId)
+        {
+            var userGamePlaces = await _context.UserGamePlaces.Where(p=>p.UserId==userId).ToListAsync();
+            return _mapper.Map<List<CurrentUserGamePlaceDTOGet>>(userGamePlaces).AsEnumerable();
+        }
+
+
+        public async Task<CurrentUserGamePlaceDTOGet> GetCurrentUserGamePlaceById(int placeId,string userId)
+        {
+            var userGamePlace = await _context.UserGamePlaces.FirstOrDefaultAsync(c=>c.UserId==userId&& c.Id==placeId);
+            return _mapper.Map<CurrentUserGamePlaceDTOGet>(userGamePlace);
+        }
+
+        public async Task<int> AddUserGamePlace(string name,string userId)
+        {
+            var gamePlace= new UserGamePlace() { Name=name,UserId=userId};
+            _context.UserGamePlaces.Add(gamePlace);
+            await _context.SaveChangesAsync();
+            return gamePlace.Id;
+        }
+
+
+        public async Task DeleteUserGamePlace(int id)
+        {
+            var userGamePlace = await _context.UserGamePlaces.FindAsync(id);
+            if (userGamePlace == null)
+            {
+                throw new NotFoundException("Game place not founded") ;
+            }
+            _context.UserGamePlaces.Remove(userGamePlace);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ChangeUserGamePlaceName(int id, string name)
+        {
+            if (!UserGamePlaceExists(id))
+            {
+                throw new NotFoundException("Game place not founded");
+            }
+            var gamePlace = await _context.UserGamePlaces.FindAsync(id);         
+            gamePlace.Name = name;
+            _context.Entry(gamePlace).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+        private bool UserGamePlaceExists(int id)
+        {
+            return _context.UserGamePlaces.Any(e => e.Id == id);
+        }
+     
+    }
+}
