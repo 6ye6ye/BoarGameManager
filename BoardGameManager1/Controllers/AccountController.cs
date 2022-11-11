@@ -1,12 +1,9 @@
-﻿using AutoMapper;
-using BoardGameManager1.DTO;
-using BoardGameManager1.Enums;
-using BoardGameManager1.Services;
+﻿using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
+using DTO;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,7 +19,7 @@ namespace BoardGameManager1.Controllers
         //private readonly IMapper _mapper;
         private readonly AccountService _accountService;
 
-        public AccountController(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,AppDbContext context)
+        public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,AppDbContext context)
         {
             //_userManager = userManager;
             //_signInManager = signInManager;

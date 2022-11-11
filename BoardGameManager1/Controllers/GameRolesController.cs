@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.DTO;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoardGameManager1.Controllers
 {

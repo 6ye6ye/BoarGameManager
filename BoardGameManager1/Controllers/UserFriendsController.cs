@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.DTO;
 using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserFriendManager1.Services;
 using DAL;
-using DAL.Entities;
-using Microsoft.AspNetCore.Identity;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -17,13 +15,13 @@ namespace BoardGameManager1.Controllers
     public class UserFriendsController : ControllerBase
     {
 
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        //private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
         private readonly UserFriendService _service;
         public UserFriendsController(AppDbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            //_context = context;
+            //_mapper = mapper;
             _service = new UserFriendService(context, mapper);
         }
 
@@ -96,25 +94,26 @@ namespace BoardGameManager1.Controllers
            
         }
 
-        [HttpDelete()]
-     //   [Route("status")]
-        public async Task<IActionResult> ChangeFriendStatus(int id, [FromQuery] FriendStatus status)
-        {
-            var userFriend = await _context.UserFriends.FindAsync(id);
-            if (userFriend == null)
-            {
-                return NotFound();
-            }
+        //TODOOOOO
+     //   [HttpDelete()]
+     ////   [Route("status")]
+     //   public async Task<IActionResult> ChangeFriendStatus(int id, [FromQuery] FriendStatus status)
+     //   {
+     //       var userFriend = await _context.UserFriends.FindAsync(id);
+     //       if (userFriend == null)
+     //       {
+     //           return NotFound();
+     //       }
 
-            _context.UserFriends.Remove(userFriend);
-            await _context.SaveChangesAsync();
+     //       _context.UserFriends.Remove(userFriend);
+     //       await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+     //       return NoContent();
+     //   }
 
-        private bool UserFriendExists(int id)
-        {
-            return _context.UserFriends.Any(e => e.Id == id);
-        }
+     //   private bool UserFriendExists(int id)
+     //   {
+     //       return _context.UserFriends.Any(e => e.Id == id);
+     //   }
     }
 }

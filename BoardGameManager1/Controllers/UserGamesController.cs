@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.DTO;
-using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardUserGameManager1.Services;
-using BoardUserGamePlaceManager1.Services;
-using DAL.Entities;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
@@ -16,14 +12,14 @@ namespace BoardGameManager1.Controllers
     [ApiController]
     public class UserGamesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        //private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
         private readonly UserGameService _service;
 
         public UserGamesController(AppDbContext context,IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            //_context = context;
+            //_mapper = mapper;
             _service = new UserGameService(context, mapper);
         }
 
@@ -108,11 +104,6 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        private bool UserGameExists(int id)
-        {
-            return _context.UserGames.Any(e => e.Id == id);
         }
     }
 }

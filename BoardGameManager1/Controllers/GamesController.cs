@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
-using BoardGameManager1.Services;
-using BoardGameManager1.DTO;
-using AutoMapper;
-using BoardGamePartyManager1.Services;
-using System.Security.Claims;
-using BoardGameManager1.Entities;
-using BoardGameManager1.Common.Exceptions;
+using DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameManager1.Controllers
 {
@@ -21,15 +12,15 @@ namespace BoardGameManager1.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        //private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
         private readonly GameService _gameService;
 
         public GamesController(AppDbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
-            _gameService=new  GameService(_context, _mapper);
+            //_context = context;
+            //_mapper = mapper;
+            _gameService=new  GameService(context, mapper);
         }
 
         // GET: api/Games
@@ -137,9 +128,6 @@ namespace BoardGameManager1.Controllers
         //        return BadRequest(ex.Message);
         //    }
         //}
-        private bool GameExists(int id)
-        {
-            return _context.Games.Any(e => e.Id == id);
-        }
+
     }
 }

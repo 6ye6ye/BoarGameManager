@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BoardGamesManager.Data;
-using DAL.Entities;
-using BoardUserGameManager1.Services;
-using BoardGamePartyManager1.Services;
-using BoardGameManager1.DTO;
-using AutoMapper;
-using BoardUserManager1.Services;
-using System.Security.Claims;
+﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.Services;
+using BoardGamePartyManager1.Services;
+using BoardGamesManager.Data;
+using DTO;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
 {
@@ -22,15 +12,15 @@ namespace BoardGameManager1.Controllers
     [ApiController]
     public class GamePartiesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        //private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
         private readonly GamePartiesService _service;
 
         public GamePartiesController(AppDbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
-            _service = new GamePartiesService(_context, _mapper);
+            //_context = context;
+            //_mapper = mapper;
+            _service = new GamePartiesService(context, mapper);
         }
 
         // GET: api/GameParties

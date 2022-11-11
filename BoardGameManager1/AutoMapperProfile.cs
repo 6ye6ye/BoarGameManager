@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using BoardGameManager1.DTO;
 using BoardGameManager1.Entities;
 using DAL;
 using DAL.Entities;
+using DTO;
 using Microsoft.AspNetCore.Identity;
 
 namespace BoardGameManager1

@@ -12,7 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<PasswordHasherOptions>(options =>
     options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
 );
-builder.Services.AddControllers();
+builder.Services
+            .AddControllers()
+            // Notice the assembly is the type of this class, as this
+            // is the assembly the controller is in.
+            // You'll have to call this for every assembly you have
+            // controllers in, except for any controllers
+            // you might put in your worker service project.
+            .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

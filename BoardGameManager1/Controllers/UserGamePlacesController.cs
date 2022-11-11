@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BoardGamesManager.Data;
-using DAL.Entities;
-using BoardUserGameManager1.Services;
-using BoardGameManager1.DTO;
-using BoardUserGamePlaceManager1.Services;
-using AutoMapper;
-using System.Security.Claims;
+﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
+using BoardGamesManager.Data;
+using BoardUserGamePlaceManager1.Services;
+using DTO;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
 {
@@ -20,14 +12,14 @@ namespace BoardGameManager1.Controllers
     [ApiController]
     public class UserGamePlacesController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        //private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
         private readonly UserGamePlaceService _service;
 
         public UserGamePlacesController(AppDbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            //_context = context;
+            //_mapper = mapper;
             _service = new UserGamePlaceService(context,mapper);
         }
 

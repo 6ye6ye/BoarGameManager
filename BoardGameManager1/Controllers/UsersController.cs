@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using BoardGamesManager.Data;
-using DAL.Entities;
 using BoardUserManager1.Services;
-using BoardGameManager1.Services;
-using BoardGameManager1.DTO;
-using AutoMapper;
+using DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameManager1.Controllers
 {
@@ -18,13 +10,15 @@ namespace BoardGameManager1.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
+        //private readonly AppDbContext _context;
+        //private readonly IMapper _mapper;
+        private readonly UserService _service;
 
         public UsersController(AppDbContext context, IMapper mapper)
         {
-            _context = context;
-            _mapper = mapper;
+            //_context = context;
+            //_mapper = mapper;
+            _service = new UserService(context, mapper);
         }
 
         // GET: api/Users
@@ -33,7 +27,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await new UserService(_context, _mapper).GetUsers());
+                return Ok(await _service.GetUsers());
             }
             catch (Exception ex)
             {
@@ -46,7 +40,7 @@ namespace BoardGameManager1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTOGet>> GetUser(string id)
         {
-            var user = await new UserService(_context, _mapper).GetUserById(id);
+            var user = await _service.GetUserById(id);
 
 
             if (user == null)
@@ -89,25 +83,28 @@ namespace BoardGameManager1.Controllers
         //    var newId = new UserService(_context, _mapper).AddUser(user);
         //    return CreatedAtAction("GetUser", new { id = newId }, user);
         //}
+        
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        //TODOOOOOOO
 
-            await new UserService(_context, _mapper).DeleteUser(user);
+        //// DELETE: api/Users/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteUser(int id)
+        //{
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return NoContent();
-        }
+        //    await new UserService(_context, _mapper).DeleteUser(user);
 
-        private bool UserExists(string id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }
+        //    return NoContent();
+        //}
+
+        //private bool UserExists(string id)
+        //{
+        //    return _context.Users.Any(e => e.Id == id);
+        //}
     }
 }
