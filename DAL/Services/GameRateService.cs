@@ -20,18 +20,28 @@ namespace BoardGameManager1.Services
             _mapper = mapper;
         }
 
-        public async Task<double> GetCurrentUserGameRate(int gameId, string userId)
-        {
-            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
-            if (userGameRate == null)
-                throw new NotFoundException("Rate");
-            return userGameRate.Rate;
-        }
-        public async Task<IEnumerable<GameRateDTOGet>>  GetGamesRates()
+        public async Task<IEnumerable<GameRateDTOGet>> GetGamesRates()
         {
             var gameRole = await _context.GameRoles.ToListAsync();
             return _mapper.Map<List<GameRateDTOGet>>(gameRole).AsEnumerable();
         }
+
+        public async Task<double> GetGameRate(int gameId)
+        {
+            var userGameRate = _context.GameRates.FirstOrDefault(g => g.GameId == gameId);
+            if (userGameRate == null)
+                return 0;
+            return userGameRate.Rate;
+        }
+
+        public async Task<double> GetCurrentUserGameRate(int gameId, string userId)
+        {
+            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
+            if (userGameRate == null)
+                return 0;
+            return userGameRate.Rate;
+        }
+
 
         public async Task<double> AddCurrentUserGameRate(int gameId, int rate, string userId)
         {

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -26,6 +28,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/GamePartyMembers
         [HttpGet]
+        [AppAutorize(UserRoleEnum.User)]
         public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembers()
         {
             try
@@ -40,6 +43,7 @@ namespace BoardGameManager1.Controllers
 
         [HttpGet]
         [Route("Current")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetCurrentUserGamePartiesMember()
         {
             try
@@ -54,6 +58,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/GamePartyMembers/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(int id)
         {
             try
@@ -76,6 +81,7 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/GamePartyMembers
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<GamePartyMember>> PostGamePartyMember(GamePartyMemberDTOAdd gamePartyMember)
         {
             try
@@ -92,6 +98,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/GamePartyMembers/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteGamePartyMember(int id)
         {
             try

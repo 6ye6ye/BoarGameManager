@@ -2,6 +2,7 @@
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameManager1.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase

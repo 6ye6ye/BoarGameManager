@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserGamePlaceManager1.Services;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -10,6 +12,7 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserGamePlacesController : ControllerBase
     {
         //private readonly AppDbContext _context;
@@ -25,6 +28,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/UserGamePlaces
         [HttpGet]
+        [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGet>>> GetUsersGamePlaces()
         {
             try
@@ -39,6 +43,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/UserGamePlaces/5
         [HttpGet("{id}")]
+     
         public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(int id)
         {
             try

@@ -5,6 +5,7 @@ using BoardGamesManager.Data;
 using BoardUserFriendManager1.Services;
 using DAL;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -12,6 +13,7 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserFriendsController : ControllerBase
     {
 

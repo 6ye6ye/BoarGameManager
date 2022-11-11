@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+  
     public class GamesController : ControllerBase
     {
         //private readonly AppDbContext _context;
@@ -25,6 +28,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Games
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGames()
         {
             try
@@ -39,6 +43,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Games/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<GameDTOGet>> GetGame(int id)
         {
             try
@@ -55,8 +60,9 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+      
         [HttpPatch("{id}")]
+        [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> PatchGame(int id, [FromBody] GameDTOEdit gameDTO)
         {
             try
@@ -76,6 +82,7 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/Games
         [HttpPost]
+        [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<Game>> PostGame(GameDTOAdd game)
         {
             try
@@ -91,6 +98,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/Games/5
         [HttpDelete("{id}")]
+        [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGame(int id)
         {
             try

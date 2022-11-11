@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserManager1.Services;
 using DTO;
@@ -8,6 +9,7 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AppAutorize(UserRoleEnum.Admin)]
     public class UsersController : ControllerBase
     {
         //private readonly AppDbContext _context;
