@@ -1,0 +1,2 @@
+C:\Users\student\Проект стажировка\BoardGameManager1\PresentationLayer\obj\Debug\presentationlayer.esproj.SuggestedBindingRedirects.cache
+C:\Users\student\Проект стажировка\BoardGameManager1\PresentationLayer\obj\Debug\presentationlayer.esproj.CoreCompileInputs.cache
