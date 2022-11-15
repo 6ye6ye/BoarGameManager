@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\DomainLayer\DomainLayer.csproj" />
+
   </ItemGroup>
 
 </Project>

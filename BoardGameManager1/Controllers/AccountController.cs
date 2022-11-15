@@ -1,4 +1,5 @@
-﻿using BoardGameManager1.Services;
+﻿using BoardGameManager1.Enums;
+using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
@@ -51,6 +52,7 @@ namespace BoardGameManager1.Controllers
 
         [HttpPost]
         [Route("Login")]
+
         public async Task<IActionResult> Login([FromBody] AccountDTOLogin loginDTO)
         {
             if (ModelState.IsValid)
@@ -69,6 +71,7 @@ namespace BoardGameManager1.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _accountService.Logout();

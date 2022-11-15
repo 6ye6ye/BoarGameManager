@@ -1,6 +1,7 @@
 import LoginView from '../views/Account/LoginView.vue';
 import GamesView from '../views/Games/GamesView.vue';
 import RegisterView from '../views/Account/RegisterView.vue';
+import FriendsView from '../views/Friends/Friends.vue';
 //Vue.use(Router)
 import {
     createWebHistory,
@@ -11,6 +12,11 @@ const routes = [
     {
         path: '',
         name: 'GamesView',
+        component: GamesView
+    },
+    {
+        path: '/myGames',
+        name: 'MyGames',
         component: GamesView
     },
     {
@@ -26,7 +32,13 @@ const routes = [
         path: '/register',
         name: 'RegisterView',
         component: RegisterView
+    },
+    {
+        path: '/friends',
+        name: 'FriendsView',
+        component: FriendsView
     }
+
 ];
 
 const router = createRouter({

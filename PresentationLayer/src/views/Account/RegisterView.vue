@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form class="col-sm">
         <div>
             <label class="form-label">Login</label>
             <input type="text" v-model="login" class="form-control" />

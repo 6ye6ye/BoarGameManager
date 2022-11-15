@@ -1,5 +1,5 @@
 ﻿<template>
-    <form>
+    <form class="col-sm">
         <div>
             <label class="form-label">Email address</label>
             <input type="email" v-model="email" class="form-control" />
@@ -25,7 +25,7 @@
                 <a href="#!">Forgot password?</a>
             </div>
         </div>
-        <button v-on:click="trylogin()" type="button" class="btn">Войти</button>
+        <button v-on:click="trylogin()" type="button" class="btn">Sign in</button>
         <div class="text-center">
             <p>Not a member? <a href="#!">Register</a></p>
         </div>
@@ -47,7 +47,7 @@
         },
         methods: {
             trylogin: function() {
-                AccountService.login(this.email,this.password,true).then(response => {
+                AccountService.login(this.email, this.password, this.rememberMe).then(response => {
  
                     console.log(response.data);
                 })

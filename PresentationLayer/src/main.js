@@ -8,9 +8,10 @@ import router from '@/router/index.js';
 //import 'bootstrap/dist/css/bootstrap.css';
 
 export const eventBus = createApp(App)
+const cors = require('cors');
 
 
 
-createApp(App).use(router).mount('#app')   
+createApp(App).use(router).use(cors).mount('#app')   
 //createApp(App).mount('#app')
 

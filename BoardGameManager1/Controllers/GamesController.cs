@@ -33,7 +33,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _gameService.GetGames());
+                return  Ok(await _gameService.GetGames());
             }
             catch(Exception ex)
             {
