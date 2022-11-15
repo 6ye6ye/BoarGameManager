@@ -47,19 +47,19 @@
     import GamesService from "../../services/GameService";  
     export default {  
         name: 'GamesView',  
-             data() {  
-       return {  
-      games: [],  
-    };  
-  },  
-          created()  
-        {  
-             this.retrieveGames();  
-        },  
+            data() {  
+                return {  
+                    games: [],  
+                };  
+            },  
+            created()  
+                {  
+                this.getGames();  
+            },  
       
-    methods: {  
-        retrieveGames() {  
-            GamesService.getAll().then(response => {  
+        methods: {  
+        getGames() {  
+            GamesService.GetAll().then(response => {  
                 this.games = response.data;  
           console.log(response.data);  
         })  

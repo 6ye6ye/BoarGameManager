@@ -17,14 +17,9 @@ namespace BoardGameManager1.Controllers
     [Authorize]
     public class UserFriendsController : ControllerBase
     {
-
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly UserFriendService _service;
         public UserFriendsController(AppDbContext context, IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _service = new UserFriendService(context, mapper);
         }
 

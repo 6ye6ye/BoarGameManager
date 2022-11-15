@@ -1,4 +1,4 @@
-using BoardGameManager1.Entities;
+﻿using BoardGameManager1.Entities;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -14,18 +14,31 @@ builder.Services.Configure<PasswordHasherOptions>(options =>
 );
 builder.Services
             .AddControllers()
-            // Notice the assembly is the type of this class, as this
-            // is the assembly the controller is in.
-            // You'll have to call this for every assembly you have
-            // controllers in, except for any controllers
-            // you might put in your worker service project.
             .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+
+
+var MyAllowSpecificOrigins = "AllowOrigin";
+
 builder.Services.AddCors(c =>
-    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-); ;
+    c.AddPolicy(MyAllowSpecificOrigins, options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
+);
+
+
+//-----------Не работает
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: MyAllowSpecificOrigins,
+//                      policy =>
+//                      {
+//                          policy.WithOrigins("https://localhost:5002") 
+//                          .AllowAnyHeader()
+//                          .AllowAnyMethod(); ;
+//                      });
+//});
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
@@ -54,20 +67,22 @@ builder.Services.Configure<IdentityOptions>(options =>
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
     options.User.RequireUniqueEmail = true;
 });
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles();
+app.UseRouting();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors( options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors(MyAllowSpecificOrigins);
+//app.UseCors( options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.MapControllers();
 
 app.Run();

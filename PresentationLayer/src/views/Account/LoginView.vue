@@ -6,7 +6,7 @@
 
         </div>
         <div>
-            <label class="form-label" for="form2Example2">Password</label>
+            <label class="form-label" >Password</label>
             <input type="password"  v-model="password" class="form-control" />
 
         </div>
