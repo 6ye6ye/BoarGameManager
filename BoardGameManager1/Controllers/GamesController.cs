@@ -7,6 +7,7 @@ using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BoardGameManager1.Controllers
 {
@@ -65,35 +66,45 @@ namespace BoardGameManager1.Controllers
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> PatchGame(int id, [FromBody] GameDTOEdit gameDTO)
         {
-            try
+            if (ModelState.IsValid)
             {
-                await _gameService.EditGame(id, gameDTO);
-                return Ok();
+                try
+                {
+                    await _gameService.EditGame(id, gameDTO);
+                    return Ok();
+                }
+                catch (NotFoundException ex)
+                {
+                    return NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest("Is not valid");
         }
 
         // POST: api/Games
         [HttpPost]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<ActionResult<Game>> PostGame(GameDTOAdd game)
+        public async Task<ActionResult<GameDTOGet>> PostGame( GameDTOAdd game)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var newId = _gameService.AddGame(game);
-                return CreatedAtAction("GetGame", new { id = newId }, game);
+                try
+                {
+                    if (game.Image == "")
+                        game.Image="no-image-icon-6.png";
+                    var newId = await _gameService.AddGame(game);
+                    return CreatedAtAction("GetGame", new { id = newId }, game);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
             }
-            catch(Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }       
+            return BadRequest("Is not valid");
         }
 
         // DELETE: api/Games/5
@@ -116,8 +127,33 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-     
+        [HttpPost]
+        [Route("image")]
+        [AppAutorize(UserRoleEnum.Admin)]
+        //[AppAutorize(UserRoleEnum.Admin)]
+        public string UploadImage([FromForm] IFormFile file)
+        {
+            try
+            {
+                // getting file original name
+                string FileName =  file.FileName;
 
+                // combining GUID to create unique name before saving in wwwroot
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + FileName;
+
+                // getting full path inside wwwroot/images
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
+
+                // copying file
+                file.CopyTo(new FileStream(imagePath, FileMode.Create));
+
+                return uniqueFileName;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
 
         //[HttpPatch]
         //[Route("UserRate")]

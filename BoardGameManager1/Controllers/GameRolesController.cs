@@ -34,9 +34,9 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         [Route("game")]
         [AllowAnonymous]
-        public async Task<IEnumerable<GameRoleDTOGet>> GetGameRolesByGameId(int gameId)
+        public async Task<IEnumerable<GameRoleDTOGet>> GetGameRolesByGameId(int id)
         {
-            return await _service.GetGameRolesByGameId(gameId);
+            return await _service.GetGameRolesByGameId(id);
         }
 
         // GET: api/GameRoles/5

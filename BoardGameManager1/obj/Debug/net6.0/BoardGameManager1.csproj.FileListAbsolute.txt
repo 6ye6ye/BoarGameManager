@@ -278,3 +278,4 @@ C:\Users\student\Проект стажировка\BoardGameManager1\BoardGameMa
 C:\Users\student\Проект стажировка\BoardGameManager1\BoardGameManager1\obj\Debug\net6.0\BoardGameManager1.pdb
 C:\Users\student\Проект стажировка\BoardGameManager1\BoardGameManager1\obj\Debug\net6.0\BoardGameManager1.genruntimeconfig.cache
 C:\Users\student\Проект стажировка\BoardGameManager1\BoardGameManager1\obj\Debug\net6.0\ref\BoardGameManager1.dll
+C:\Users\student\Проект стажировка\BoardGameManager1\BoardGameManager1\bin\Debug\net6.0\BoardGameManager1.staticwebassets.runtime.json
