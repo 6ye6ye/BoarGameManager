@@ -32,7 +32,7 @@ const routes = [
         path: '/game:id',
         name: 'GameView',
         component: GameView,
-        params:true 
+        params: true
     },
 
     {
@@ -43,13 +43,15 @@ const routes = [
     {
         path: '/addGameParty',
         name: 'AddGamePartyView',
+
         component: AddGamePartyView
     },
     {
         path: '/gameParty:id',
         name: 'GamePartyView',
         component: GamePartyView,
-        params: true
+        params: true,
+
     },
     {
         path: '/login',
@@ -69,9 +71,10 @@ const routes = [
         path: '/friends',
         name: 'FriendsView',
         component: FriendsView
-    }
+    },
 
 ];
+
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),

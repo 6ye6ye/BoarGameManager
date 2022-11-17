@@ -3,7 +3,6 @@ var url = "https://localhost:5001"
 export default  class AccountService {
 
     static async login(email, password, rememberMe) {
-
         return await axios({
             method: 'post',
             url: url + '/API/Account/Login',
@@ -13,9 +12,6 @@ export default  class AccountService {
                 rememberMe: rememberMe
             }
         });
-
-   
-
     }
 
     static async register(login,email, password, passwordRepeat,name) {
@@ -48,15 +44,13 @@ export default  class AccountService {
     static async logout() {
 
         var rezult = await axios({
-            method: 'get',
+            method: 'post',
             url: url + '/API/Account/Logout',
         });
 
         switch (rezult.status) {
             case (200):
                 {
-                    this.$router.push({ name: 'GamesView' })
-
                     return { ok: true }
                 }
             case (400):

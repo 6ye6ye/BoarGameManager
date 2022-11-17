@@ -46,7 +46,7 @@ namespace BoardGameManager1.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("GameRates");
+                    b.ToTable("GameRates", (string)null);
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.GameRole", b =>
@@ -68,7 +68,7 @@ namespace BoardGameManager1.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("GameRoles");
+                    b.ToTable("GameRoles", (string)null);
 
                     b.HasData(
                         new
@@ -220,7 +220,7 @@ namespace BoardGameManager1.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
 
                     b.HasData(
                         new
@@ -270,7 +270,7 @@ namespace BoardGameManager1.Migrations
 
                     b.HasIndex("UserGamePlaceId");
 
-                    b.ToTable("GameParties");
+                    b.ToTable("GameParties", (string)null);
 
                     b.HasData(
                         new
@@ -313,7 +313,7 @@ namespace BoardGameManager1.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("GamePartyMembers");
+                    b.ToTable("GamePartyMembers", (string)null);
 
                     b.HasData(
                         new
@@ -362,7 +362,7 @@ namespace BoardGameManager1.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
 
                     b.HasData(
                         new
@@ -500,7 +500,7 @@ namespace BoardGameManager1.Migrations
                     b.HasIndex("UserId", "GameId")
                         .IsUnique();
 
-                    b.ToTable("UserGames");
+                    b.ToTable("UserGames", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.UserGamePlace", b =>
@@ -524,7 +524,7 @@ namespace BoardGameManager1.Migrations
                     b.HasIndex("UserId", "Name")
                         .IsUnique();
 
-                    b.ToTable("UserGamePlaces");
+                    b.ToTable("UserGamePlaces", (string)null);
 
                     b.HasData(
                         new
@@ -566,7 +566,7 @@ namespace BoardGameManager1.Migrations
                         .IsUnique()
                         .HasFilter("[InRequestUserId] IS NOT NULL AND [OutRequestUserId] IS NOT NULL");
 
-                    b.ToTable("UserFriends");
+                    b.ToTable("UserFriends", (string)null);
 
                     b.HasData(
                         new

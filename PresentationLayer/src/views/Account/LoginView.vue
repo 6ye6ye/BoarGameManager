@@ -25,6 +25,8 @@
                 <a href="#!">Forgot password?</a>
             </div>
         </div>
+
+        <p class="text-danger"> {{errorMessage}}</p>
         <button v-on:click="trylogin()" type="button" class="btn">Sign in</button>
         <div class="text-center">
             <p>Not a member? <a href="#!">Register</a></p>
@@ -40,6 +42,7 @@
         name: 'LoginView',
         data() {
             return {
+                errorMessage:'',
                 email: '',
                 password: '',
                 rememberMe: false
@@ -51,16 +54,22 @@
                     switch (response.status) {
                         case (200):
                             {
-                                this.$router.push({ name: 'GamesView' })
+                             this.$router.push({ name: 'GamesView' })
 
-                                return { ok: true }
+                            return { ok: true }
                             }
                         case (400):
-                            return { ok: false }
+                            {
+                                this.errorMessage = response;
+                                return {ok: false}
+                            }
+                
+
                     }
                     console.log(response.data);
                 })
                     .catch(e => {
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     });
             },

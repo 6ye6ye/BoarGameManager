@@ -126,9 +126,9 @@ namespace BoardGamesManager.Data
                 Id = Guid.NewGuid().ToString(),
                 Email = "admin@gmail.com",
                 PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
-                UserName = "admin@gmail.com",
+                UserName = "admin",
                 NormalizedEmail = "admin@gmail.com".Normalize(),
-                NormalizedUserName = "admin@gmail.com".Normalize(),
+                NormalizedUserName = "admin".Normalize(),
 
                 // RoleId = adminRole.Id
             };
@@ -137,9 +137,9 @@ namespace BoardGamesManager.Data
                 Id = Guid.NewGuid().ToString(),
                 PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                 Email = "user@gmail.com",
-                UserName = "user@gmail.com",
+                UserName = "use",
                 NormalizedEmail = "user@gmail.com".Normalize(),
-                NormalizedUserName = "user@gmail.com".Normalize(),
+                NormalizedUserName = "user".Normalize(),
                 //   RoleId = userRole.Id
 
             };

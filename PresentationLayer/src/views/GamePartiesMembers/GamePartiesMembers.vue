@@ -13,10 +13,11 @@
 
     import GamePartyMemberService from "../../services/GamePartyMemberService";  
     export default {
-        name: 'GamePartiesView',
-      
+        name: 'GamePartyMembresView',
+        props: ['gamePartyId'],
         data() {
             return {
+             //   gamePartyId:  0,
                 gamePartyMembers: [],
             };
         },
@@ -25,7 +26,7 @@
         },
          methods: {
              getGamePartyMembers() {
-                 GamePartyMemberService.GetAll().then(response => {
+                 GamePartyMemberService.GetAll(this.gamePartyId).then(response => {
                      this.gameParties = response.data;
                     console.log(response.data);
                 })

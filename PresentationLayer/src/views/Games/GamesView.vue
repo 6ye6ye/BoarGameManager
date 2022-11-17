@@ -1,5 +1,5 @@
 ﻿<template>
-    <p>Game list</p> 
+    <h1>Game list</h1> 
     <button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game</button>
     <div class="post">
         <div class="row" style="margin-bottom: 10px;">

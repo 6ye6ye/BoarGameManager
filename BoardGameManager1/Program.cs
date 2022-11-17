@@ -22,13 +22,6 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 var MyAllowSpecificOrigins = "AllowOrigin";
-
-//builder.Services.AddCors(c =>
-//    c.AddPolicy(MyAllowSpecificOrigins, options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader())
-//);
-
-
-//-----------Не работает
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: MyAllowSpecificOrigins,
@@ -43,7 +36,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found."), 
+        b => b.MigrationsAssembly("DAL")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddIdentity<User,Role>(options => 
     options.SignIn.RequireConfirmedAccount = false)

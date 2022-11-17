@@ -65,13 +65,14 @@ namespace BoardGameManager1.Controllers
                 }
                 else
                 {
-                    return BadRequest("No user with this password and login");
+                    return NotFound("No user with this password and login");
                 }
             }
             return Ok();
         }
 
         [HttpPost]
+        [Route("Logout")]
         [Authorize]
         public async Task<IActionResult> Logout()
         {

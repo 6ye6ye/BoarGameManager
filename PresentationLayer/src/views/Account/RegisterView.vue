@@ -20,8 +20,8 @@
             <label class="form-label" for="form2Example2">Password repeat</label>
             <input type="password" v-model="passwordRepeat" class="form-control" />
         </div>
-        <div class="row">
-        </div>
+
+        <p class="text-danger">faf {{errorMessage}}</p>
         <button v-on:click="tryregister()" type="button" class="btn">Register</button>
 
     </form>
@@ -35,6 +35,7 @@
         name: 'RegisterView',
         data() {
             return {
+                errorMessage: '',
                 login:'',
                 email: '',
                 password: '',
@@ -50,6 +51,7 @@
                     console.log(response.data);
                 })
                     .catch(e => {
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     });
             },

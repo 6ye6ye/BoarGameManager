@@ -13,6 +13,7 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GamePartyMembersController : ControllerBase
     {
         //private readonly AppDbContext _context;
@@ -27,13 +28,14 @@ namespace BoardGameManager1.Controllers
         }
 
         // GET: api/GamePartyMembers
+
         [HttpGet]
-        [AppAutorize(UserRoleEnum.User)]
-        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId([FromBody] int gameId)
+        [Route("gameParty")]
+        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId( int id)
         {
             try
             {
-                return Ok(await _service.GetGamePartyMembers(gameId));
+                return Ok(await _service.GetGamePartyMembers(id));
             }
             catch(Exception ex)
             {
@@ -58,7 +60,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/GamePartyMembers/5
         [HttpGet("{id}")]
-        [Authorize]
+
         public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(int id)
         {
             try
@@ -81,7 +83,7 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/GamePartyMembers
         [HttpPost]
-        [Authorize]
+
         public async Task<ActionResult<GamePartyMember>> PostGamePartyMember(GamePartyMemberDTOAdd gamePartyMember)
         {
             try
@@ -98,7 +100,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/GamePartyMembers/5
         [HttpDelete("{id}")]
-        [Authorize]
+
         public async Task<IActionResult> DeleteGamePartyMember(int id)
         {
             try

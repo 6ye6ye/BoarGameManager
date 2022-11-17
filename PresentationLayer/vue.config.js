@@ -23,11 +23,13 @@ module.exports = {
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
         },
-        proxy: {
-            '^/games': {
-                target: 'https://192.168.180.154:5002/'
-            }
-        },
+        proxy:
+            'http://localhost:5001',
+        //{
+        //    '^/games': {
+        //        target: 'https://192.168.180.154:5002/'
+        //    }
+        //},
         port: 5002
     }
 }

@@ -1,0 +1,108 @@
+<template>
+    <p>Новая игра</p>
+    <div class="post">
+        <div>
+            <label class="form-label">Name</label>
+            <input type="text" v-model="game.name" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">NameRu</label>
+            <input type="text" v-model="game.nameRu" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">NameEng</label>
+            <input type="text" v-model="game.nameEng" class="form-control" />
+        </div>
+        <!--<div>
+            <label class="form-label">NameEng</label>
+            <input type="text" v-model="game.nameEng" class="form-control" />
+        </div>-->
+
+        <div>
+        <label class="form-label">Image</label>
+
+            <input type="file"
+                   accept="image/*"
+                   ref="file"
+                   @change="selectImage()"
+                   class="form-control" />
+    </div>
+        <div>
+            <label class="form-label">PlayersMinCount</label>
+            <input type="number" v-model="game.playersMinCount" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">PlayersMaxCount</label>
+            <input type="number" v-model="game.playersMaxCount" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">MinAge</label>
+            <input type="number" v-model="game.minAge" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">MinPartyTime</label>
+            <input type="number" v-model="game.minPartyTime" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">MaxPartyTime</label>
+            <input type="number" v-model="game.maxPartyTime" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label">ReleaseYear</label>
+            <input type="number" v-model="game.releaseYear" class="form-control" />
+        </div>
+        <button v-on:click="addGame()" type="button" class="btn">Add</button>
+
+    </div>
+
+</template>  
+  
+<script>  
+
+    import GamesService from "../../services/GameService";  
+  
+
+    export default {
+        name: 'AddGameView',
+        data() {
+            return {
+                imageFile: undefined,
+                game: {
+                    image:'',
+                    name: '',
+                    nameRu: '',
+                    nameEng: '',
+                    playersMinCount: 0,
+                    playersMaxCount: 0,
+                    minAge: 0,
+                    minPartyTime: 0,
+                    maxPartyTime: 0,
+                    releaseYear: 2022
+                }
+            }
+        },
+
+        methods: {
+            selectImage() {
+                this.imageFile = this.$refs.file.files[0];
+            },
+            addGame: function () {
+
+                GamesService.Add(this.imageFile,this.game)
+                //GamesService.AddGame(this.game)
+                    .then(response => {
+                        console.log(response.data);
+                     })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+
+        }
+    }
+
+</script>  
+  
+<style lang="scss" scoped>  
+  
+</style>  
