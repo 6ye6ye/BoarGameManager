@@ -2,7 +2,7 @@
 using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +14,7 @@ builder.Services.Configure<PasswordHasherOptions>(options =>
 );
 builder.Services
             .AddControllers()
+
             .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();

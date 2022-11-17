@@ -6,13 +6,13 @@ namespace DTO
     {
         public int Id { get; set; }
         public UserDTOGetShort Friend { get; set; }
-        public FriendStatus Status { get; set; }
+        //public FriendStatus Status { get; set; }
     }
     public class UserFriendDTOGetWihhDetails
     {
         public int Id { get; set; }
-        public UserDTOGetShort Friend { get; set; }
-        public FriendStatus Status { get; set; }
+        public UserDTOGet Friend { get; set; }
+       // public FriendStatus Status { get; set; }
     }
     public class UserFriendDTOAdd
     {

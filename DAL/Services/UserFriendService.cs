@@ -28,7 +28,7 @@ namespace BoardUserFriendManager1.Services
             //Не получать информацию о себе
             var userFriends = await _context.UserFriends
                 .Where(u=>(u.InRequestUserId==userId|| u.OutRequestUserId==userId) && u.Status==FriendStatus.Added)
-                .Select(c=>new UserFriendDTOGet() { Friend=c.InRequestUserId==userId? _mapper.Map<UserDTOGetShort>(c.OutRequestUser): _mapper.Map<UserDTOGetShort> (c.InRequestUser)})
+                .Select(c=>new UserFriendDTOGet() { Id=c.Id,Friend=c.InRequestUserId==userId? _mapper.Map<UserDTOGetShort>(c.OutRequestUser): _mapper.Map<UserDTOGetShort> (c.InRequestUser)})
                 .ToListAsync();
 
             return userFriends;

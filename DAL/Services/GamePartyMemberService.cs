@@ -19,9 +19,11 @@ namespace BoardGameManager1.Services
         }
         #region ForAdmin
        
-        public async Task<IEnumerable<GamePartyMemberDTOGet>> GetGamePartyMembers()
+        public async Task<IEnumerable<GamePartyMemberDTOGet>> GetGamePartyMembers(int gameId)
         {
             var gamePartys = await _context.GamePartyMembers
+                .Include(g=>g.GameParty)
+                .Where(g=>g.GameParty.GameId==gameId)
                 .ToListAsync();
             return _mapper.Map<List<GamePartyMemberDTOGet>>(gamePartys).AsEnumerable();
         }

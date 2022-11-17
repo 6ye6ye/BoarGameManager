@@ -29,11 +29,11 @@ namespace BoardGameManager1.Controllers
         // GET: api/GamePartyMembers
         [HttpGet]
         [AppAutorize(UserRoleEnum.User)]
-        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembers()
+        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId([FromBody] int gameId)
         {
             try
             {
-                return Ok(await _service.GetGamePartyMembers());
+                return Ok(await _service.GetGamePartyMembers(gameId));
             }
             catch(Exception ex)
             {

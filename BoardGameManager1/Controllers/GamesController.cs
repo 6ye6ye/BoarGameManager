@@ -41,6 +41,20 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet]
+        [Route("short")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<GameDTOGetShort>>> GetGamesShort()
+        {
+            try
+            {
+                return Ok(await _gameService.GetGamesShort());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         // GET: api/Games/5
         [HttpGet("{id}")]

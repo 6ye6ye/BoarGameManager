@@ -22,17 +22,22 @@ namespace BoardGameManager1
         
             CreateMap<GameDTOAdd , Game>();
             CreateMap<GameDTOEdit , Game>();
+            CreateMap<GameParty, GamePartyDTOGet>()
+                 .ForMember(dest => dest.GameName, opt => opt.MapFrom(src => src.Game.Name))
+               
+                 .ForMember(dest => dest.PartyCreatorName, opt => opt.MapFrom(src => src.PartyCreator.UserName))
+                 .ForMember(dest => dest.UserGamePlaceName, opt => opt.MapFrom(src => src.UserGamePlace.Name))
+                 ;
 
-            CreateMap<GameParty, GamePartyDTOGet>();
-              //  .ForMember(dest => dest.GamePartyMembers, opt => opt.MapFrom(src => src.GamePartyMembers));
-            CreateMap<GamePartyMember, GamePartyDTOGet>()
-                .ForMember(dest => dest.GamePartyMembers, opt => opt.MapFrom(src => src.GameParty.GamePartyMembers));
+       
             CreateMap<GamePartyDTOAdd, GameParty>();
             CreateMap<GamePartyDTOEdit, GameParty>();
             CreateMap<GameParty, GameDTOGetShort>()
                  .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Game.Id))
                   .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Game.Name));
 
+            CreateMap<GamePartyMember, GamePartyMemberDTOGetShort>()
+                .ForMember(dest => dest.PlayerName, opt => opt.MapFrom(src => src.Player.Name));
 
 
             CreateMap<GamePartyMember, GamePartyMemberDTOGet  >();
@@ -79,7 +84,7 @@ namespace BoardGameManager1
             CreateMap<UserGamePlace, UserGamePlaceDTOGet>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
                 
-            CreateMap<UserGamePlace, CurrentUserGamePlaceDTOGet>();
+            CreateMap<UserGamePlace, UserGamePlaceDTOGetShort>();
             //CreateMap<UserGamePlace, UserGamePlaceDTOEdit>();
             //CreateMap<UserGamePlace, UserGamePlaceDTOAdd>();
         }

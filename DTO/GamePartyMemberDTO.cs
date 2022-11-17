@@ -1,5 +1,14 @@
 ﻿namespace DTO
 {
+
+    public class GamePartyMemberDTOGetShort
+    {
+        public int Id { get; set; }
+        public string PlayerName { get; set; }
+        public int GameRoleId { get; set; }
+        public int Points { get; set; }
+        public bool IsWinner { get; set; }
+    }
     public class GamePartyMemberDTOGet
     {
         public int Id { get; set; }

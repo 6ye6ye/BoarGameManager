@@ -42,17 +42,17 @@ namespace BoardUserGamePlaceManager1.Services
 
         //----------------FOR logged users---------------------
     
-        public async Task<IEnumerable<CurrentUserGamePlaceDTOGet>> GetCurrentUserGamePlaces(string userId)
+        public async Task<IEnumerable<UserGamePlaceDTOGetShort>> GetCurrentUserGamePlaces(string userId)
         {
             var userGamePlaces = await _context.UserGamePlaces.Where(p=>p.UserId==userId).ToListAsync();
-            return _mapper.Map<List<CurrentUserGamePlaceDTOGet>>(userGamePlaces).AsEnumerable();
+            return _mapper.Map<List<UserGamePlaceDTOGetShort>>(userGamePlaces).AsEnumerable();
         }
 
 
-        public async Task<CurrentUserGamePlaceDTOGet> GetCurrentUserGamePlaceById(int placeId,string userId)
+        public async Task<UserGamePlaceDTOGetShort> GetCurrentUserGamePlaceById(int placeId,string userId)
         {
             var userGamePlace = await _context.UserGamePlaces.FirstOrDefaultAsync(c=>c.UserId==userId&& c.Id==placeId);
-            return _mapper.Map<CurrentUserGamePlaceDTOGet>(userGamePlace);
+            return _mapper.Map<UserGamePlaceDTOGetShort>(userGamePlace);
         }
 
         public async Task<int> AddUserGamePlace(string name,string userId)

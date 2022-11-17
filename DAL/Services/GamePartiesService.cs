@@ -19,10 +19,13 @@ namespace BoardGamePartyManager1.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GamePartyDTOGet>> GetGameParties()
+        public async Task<IEnumerable<GamePartyDTOGet>> GetGameParties(string userId)
         {
             var gamePartys = await _context.GameParties
                 .Include(p => p.Game)
+                .Include(p => p.PartyCreator)
+                .Include(p => p.UserGamePlace)
+                .Where(c => c.GamePartyMembers.Any(c => c.Player.AccountId == userId) ||   c.PartyCreatorId == userId)
                 .ToListAsync();
             return _mapper.Map<List<GamePartyDTOGet>>(gamePartys).AsEnumerable();
         }
@@ -31,8 +34,10 @@ namespace BoardGamePartyManager1.Services
         public async Task<IEnumerable<GamePartyDTOGet>> GetCurrentUserGamePartiesPlayer(string id)
         {
             var gameParties = await _context.GameParties
-                .Include(p => p.Game)
-                .Include(p => p.GamePartyMembers)
+                 .Include(p => p.Game)
+                .Include(p => p.PartyCreator)
+                .Include(p => p.UserGamePlace)
+
                 .Where(c => c.GamePartyMembers.Any(c=>c.Player.AccountId== id))
                 .ToListAsync();
             return _mapper.Map<List<GamePartyDTOGet>>(gameParties).AsEnumerable();
@@ -42,8 +47,9 @@ namespace BoardGamePartyManager1.Services
         {
             var gamePartys = await _context.GameParties
                 .Where(p=>p.PartyCreatorId==id)
-                .Include(p=>p.Game)
-                .Include(p => p.GamePartyMembers)
+                 .Include(p => p.Game)
+                .Include(p => p.PartyCreator)
+                .Include(p => p.UserGamePlace)
                 .ToListAsync();
             return _mapper.Map<List<GamePartyDTOGet>>(gamePartys).AsEnumerable();
         }
@@ -51,7 +57,11 @@ namespace BoardGamePartyManager1.Services
         public async Task<GamePartyDTOGet> GetGamePartyById(int id)
         {
 
-            var gameParty = await _context.GameParties.FindAsync(id);
+            var gameParty = await _context.GameParties
+                 .Include(p => p.Game)
+                .Include(p => p.PartyCreator)
+                .Include(p => p.UserGamePlace)
+                .FirstAsync(g=>g.Id==id);
             if (gameParty == null)
             {
                 throw new NotFoundException("Game party");

@@ -3,21 +3,24 @@
         <div class="container-fluid .navbar">
             <a class="navbar-brand" href="/">Настольные игры</a>
 
-            <router-link class="nav-link" to="/">
+            <a class="nav-link" href="/">
                 Games
-            </router-link>
-            <router-link class="nav-link" to="/friends">
+            </a>
+            <a class="nav-link" href="/myGameParties">
+                Game parties
+            </a>
+            <a class="nav-link" href="/friends">
                 Friends
-            </router-link>
-            <router-link class="nav-link" to="/login">
+            </a>
+            <a class="nav-link" href="/login">
                 Sing in
-            </router-link>
-            <router-link class="nav-link" to="/register">
+            </a>
+            <a class="nav-link" href="/register">
                 Sing up
-            </router-link>
-            <router-link class="nav-link" to="/">
+            </a>
+            <a class="nav-link" href="/">
                 Logout
-            </router-link>
+            </a>
 
         </div>
 
@@ -25,12 +28,15 @@
 </template>
 
 <script>
+
      export default {
         name: "AppHeader",
             data() {
             return {};
         },
-        methods: { },
+        methods: {
+
+        },
         components: { },
     };
 

@@ -1,4 +1,7 @@
-﻿namespace DTO
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+
+namespace DTO
 {
     public class GameDTOGet
     {
@@ -27,6 +30,8 @@
         public string Name { get; set; }
         public string NameRu { get; set; }
         public string NameEng { get; set; }
+        
+        
         //public float Rating { get; set; }
         // public int VotesCount { get; set; }
         public int PlayersMinCount { get; set; }

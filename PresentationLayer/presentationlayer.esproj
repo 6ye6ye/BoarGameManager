@@ -13,9 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="src\components\" />
-    <Folder Include="src\views\GameParties\" />
     <Folder Include="src\views\GameRoles\" />
-    <Folder Include="src\views\GamePlaces\" />
     <Folder Include="src\views\GamePartiesMembers\" />
   </ItemGroup>
 </Project>

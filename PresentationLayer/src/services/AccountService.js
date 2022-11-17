@@ -4,7 +4,7 @@ export default  class AccountService {
 
     static async login(email, password, rememberMe) {
 
-        var rezult = await axios({
+        return await axios({
             method: 'post',
             url: url + '/API/Account/Login',
             data: {
@@ -14,16 +14,7 @@ export default  class AccountService {
             }
         });
 
-        switch (rezult.status) {
-            case (200):
-                {
-                    window.location.href = '/'
-
-                    return { ok: true }
-                }
-            case (400):
-                return { ok: false }
-        }
+   
 
     }
 
@@ -44,7 +35,8 @@ export default  class AccountService {
         switch (rezult.status) {
             case (200):
                 {
-                    window.location.href = ''
+                    window.location.href = '/'
+                    this.$router.push({ name: 'GamesView' })
                     return { ok: true }
                 }
             case (400):
@@ -63,7 +55,7 @@ export default  class AccountService {
         switch (rezult.status) {
             case (200):
                 {
-                    window.location.href = ''
+                    this.$router.push({ name: 'GamesView' })
 
                     return { ok: true }
                 }

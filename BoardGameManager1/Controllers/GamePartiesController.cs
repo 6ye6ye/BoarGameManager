@@ -12,7 +12,7 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AppAutorize(UserRoleEnum.Admin)]
+    [Authorize]
     public class GamePartiesController : ControllerBase
     {
         //private readonly AppDbContext _context;
@@ -28,20 +28,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/GameParties
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetGameParties()
-        {
-            try
-            {
-                return Ok(await _service.GetGameParties());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [AppAutorize(UserRoleEnum.User)]
+      
         // GET: api/GameParties/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GamePartyDTOGet>> GetGameParty(int id)
@@ -62,9 +49,23 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        [AppAutorize(UserRoleEnum.User)]
         [HttpGet]
-        [Route("Current/played")]
+        public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetGameParties()
+        {
+            try
+            {
+                return Ok(await _service.GetGameParties(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("played")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserGamePartiesPlayer()
         {
             try
@@ -77,9 +78,9 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        [AppAutorize(UserRoleEnum.User)]
+    
         [HttpGet]
-        [Route ("Current/created")]
+        [Route ("created")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserCreatedGameParties()
         {
             try
@@ -92,7 +93,7 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        [AppAutorize(UserRoleEnum.User)]
+       
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchGame(int id, [FromBody] GamePartyDTOEdit gamePartyDTO)
         {
@@ -113,14 +114,13 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/GameParties
         [HttpPost]
-        [Route("Current")]
-        [AppAutorize(UserRoleEnum.User)]
-        public async Task<ActionResult<GamePartyDTOGet>> PostGameParty(GamePartyDTOAdd gameParty)
+
+      
+        public async Task<ActionResult<int>> PostGameParty(GamePartyDTOAdd gameParty)
         {
             try
             {
-                var newId = await _service.AddGameParty(gameParty, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                return CreatedAtAction("GetGameParty", new { id = newId }, gameParty);
+                return  await _service.AddGameParty(gameParty, User.FindFirstValue(ClaimTypes.NameIdentifier));
             }
             catch (Exception ex)
             {
@@ -130,7 +130,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/GameParties/5
         [HttpDelete("{id}")]
-        [AppAutorize(UserRoleEnum.User)]
+ 
         public async Task<IActionResult> DeleteGameParty(int id)
         {
             try

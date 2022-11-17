@@ -1,7 +1,16 @@
 import LoginView from '../views/Account/LoginView.vue';
-import GamesView from '../views/Games/GamesView.vue';
 import RegisterView from '../views/Account/RegisterView.vue';
-import FriendsView from '../views/Friends/Friends.vue';
+
+import GamesView from '../views/Games/GamesView.vue';
+import AddGameView from '../views/Games/AddGameView.vue';
+import GameView from '../views/Games/GameView.vue';
+
+import GamePartiesView from '../views/GameParties/GamePartiesView.vue';
+import GamePartyView from '../views/GameParties/GamePartyView.vue';
+import AddGamePartyView from '../views/GameParties/AddGamePartyView.vue';
+
+import FriendsView from '../views/Friends/FriendsView.vue';
+
 //Vue.use(Router)
 import {
     createWebHistory,
@@ -15,9 +24,32 @@ const routes = [
         component: GamesView
     },
     {
-        path: '/myGames',
-        name: 'MyGames',
-        component: GamesView
+        path: '/addGame',
+        name: 'AddGameView',
+        component: AddGameView
+    },
+    {
+        path: '/game:id',
+        name: 'GameView',
+        component: GameView,
+        params:true 
+    },
+
+    {
+        path: '/myGameParties',
+        name: 'GamePartiesView',
+        component: GamePartiesView
+    },
+    {
+        path: '/addGameParty',
+        name: 'AddGamePartyView',
+        component: AddGamePartyView
+    },
+    {
+        path: '/gameParty:id',
+        name: 'GamePartyView',
+        component: GamePartyView,
+        params: true
     },
     {
         path: '/login',

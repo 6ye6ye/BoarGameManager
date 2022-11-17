@@ -21,12 +21,16 @@ namespace BoardGameManager1.Services
             _mapper = mapper;
         }
 
-        public  async Task<IEnumerable<GameDTOGet>> GetGames()
+        public  async Task<IEnumerable<GameDTOGetShort>> GetGamesShort()
         {
-            var games = await _context.Games.ToListAsync();
-            return  _mapper.Map<List<GameDTOGet>>(games).AsEnumerable();
+            var games = await _context.Games.Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
+            return games.AsEnumerable();
         }
-        
+        public async Task<IEnumerable<GameDTOGet>> GetGames()
+        {
+            var games = await _context.Games.Select(c => _mapper.Map<GameDTOGet>(c)).ToListAsync();
+            return games.AsEnumerable();
+        }
         public async Task<GameDTOGet> GetGameById(int id)
         {
             var game = await getGame(id);

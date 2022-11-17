@@ -1,7 +1,7 @@
 ﻿<template>
     <form class="col-sm">
         <div>
-            <label class="form-label">Email address</label>
+            <label class="form-label">Login</label>
             <input type="email" v-model="email" class="form-control" />
 
         </div>
@@ -48,7 +48,16 @@
         methods: {
             trylogin: function() {
                 AccountService.login(this.email, this.password, this.rememberMe).then(response => {
- 
+                    switch (response.status) {
+                        case (200):
+                            {
+                                this.$router.push({ name: 'GamesView' })
+
+                                return { ok: true }
+                            }
+                        case (400):
+                            return { ok: false }
+                    }
                     console.log(response.data);
                 })
                     .catch(e => {

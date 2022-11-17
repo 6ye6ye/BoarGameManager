@@ -15,32 +15,42 @@ namespace BoardGameManager1.Controllers
     [Authorize]
     public class UserGamePlacesController : ControllerBase
     {
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly UserGamePlaceService _service;
 
         public UserGamePlacesController(AppDbContext context, IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _service = new UserGamePlaceService(context,mapper);
         }
 
-        // GET: api/UserGamePlaces
-        [HttpGet]
-        [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGet>>> GetUsersGamePlaces()
-        {
-            try
-            {
-                return Ok(await _service.GetUserGamePlaces());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //// GET: api/UserGamePlaces
+        //[HttpGet]
+        //[AppAutorize(UserRoleEnum.Admin)]
+        //public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGet>>> GetUsersGamePlaces()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _service.GetUserGamePlaces());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
+        //[HttpGet]
+        //[Route("short")]
+        //[AppAutorize(UserRoleEnum.Admin)]
+        //public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGetShort>>> GetUsersGamePlacesShort()
+        //{
+        //    try
+        //    {
+        //        return Ok(await _service.GetUserGamePlaces());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
         // GET: api/UserGamePlaces/5
         [HttpGet("{id}")]
      
@@ -60,11 +70,10 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // GET: api/UserGamePlaces/Current/5
-        [Route("Current")]
+  
         [HttpGet]
-      
-        public async Task<ActionResult<IEnumerable<CurrentUserGamePlaceDTOGet>>> GetCurrentUserGamePlaces()
+        [Route("short")]
+        public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGetShort>>> GetCurrentUserGamePlaces()
         {
             try
             {
@@ -117,12 +126,11 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/UserGamePlaces
         [HttpPost]
-        [Route("Current")]
-        public async Task<ActionResult<CurrentUserGamePlaceDTOGet>> PostCurrentUserGamePlace([FromQuery] string name)
+        public async Task<ActionResult<UserGamePlaceDTOGetShort>> PostCurrentUserGamePlace([FromBody] UserGamePlaceDTOAdd gamePlace)
         {
             try
             {
-                var newId = _service.AddUserGamePlace(name, User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var newId = await _service.AddUserGamePlace(gamePlace.Name, User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok();
             }
             catch (Exception ex)
