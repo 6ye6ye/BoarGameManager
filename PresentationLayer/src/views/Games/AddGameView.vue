@@ -1,5 +1,5 @@
 <template>
-    <p>Новая игра</p>
+    <h2>Новая игра</h2>
     <div class="post">
         <div>
             <label class="form-label">Name</label>
@@ -19,14 +19,14 @@
         </div>-->
 
         <div>
-        <label class="form-label">Image</label>
+            <label class="form-label">Image</label>
 
             <input type="file"
                    accept="image/*"
                    ref="file"
                    @change="selectImage()"
                    class="form-control" />
-    </div>
+        </div>
         <div>
             <label class="form-label">PlayersMinCount</label>
             <input type="number" v-model="game.playersMinCount" class="form-control" />
@@ -51,16 +51,16 @@
             <label class="form-label">ReleaseYear</label>
             <input type="number" v-model="game.releaseYear" class="form-control" />
         </div>
-        <button v-on:click="addGame()" type="button" class="btn">Add</button>
+        <button v-on:click="addGame()" type="button" class="btn btn-primary">Add</button>
 
     </div>
 
-</template>  
-  
-<script>  
+</template>
 
-    import GamesService from "../../services/GameService";  
-  
+<script>
+
+    import GamesService from "../../services/GameService";
+
 
     export default {
         name: 'AddGameView',
@@ -68,7 +68,7 @@
             return {
                 imageFile: undefined,
                 game: {
-                    image:'',
+                    image: '',
                     name: '',
                     nameRu: '',
                     nameEng: '',
@@ -88,11 +88,13 @@
             },
             addGame: function () {
 
-                GamesService.Add(this.imageFile,this.game)
-                //GamesService.AddGame(this.game)
+                GamesService.Add(this.imageFile, this.game)
+                    //GamesService.AddGame(this.game)
                     .then(response => {
+                        this.$emit('close');
+                        this.$emit('get-games');
                         console.log(response.data);
-                     })
+                    })
                     .catch(e => {
                         console.log(e);
                     });
@@ -101,8 +103,7 @@
         }
     }
 
-</script>  
-  
-<style lang="scss" scoped>  
-  
-</style>  
+</script>
+
+<style lang="scss" scoped>
+</style>

@@ -1,22 +1,24 @@
 <template>
-  
-
-    <div class="row">
-        <div class="col-md-4">
-            <p>New game party</p>
+            <h2>New game party</h2>
             <div class="form-group  mb-3">
                 <label class="control-label">Date</label><span class="required">*</span>
                 <input type="date" v-model="gameParty.date" class="form-control" />
             </div>
             <div class="form-group ">
                 <label class="control-label">Game place</label><span class="required">*</span>
+                <button type="button" class="btn btn-primary" @click="showModal">+</button>
+
+                <ModalWindow v-show="isModalVisible" @close="closeModal">
+                    <template v-slot:body>
+                        <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
+                    </template>
+                </ModalWindow>
+
                 <select v-model="gameParty.userGamePlaceId" class="form-select">
                     <option value=0>- Select game place -</option>
                     <option v-for="place in userGamePlaces" v-bind:key="place.id" v-bind:value="place.id"> {{place.name}}</option>
                 </select>
-
             </div>
-
 
             <div class="form-group ">
                 <label class="control-label">Game</label><span class="required">*</span>
@@ -28,24 +30,25 @@
             <p> {{errorMessage}}</p>
             <button v-on:click="addGameParty()" type="button" class="btn btn-primary">Add</button>
 
-        </div>
-
-        <div class="col-md-4">
+      
+        <!--<div class="col-md-4">
             <button v-on:click="showGamePlaceAdd = !showGamePlaceAdd" class="btn btn-primary">Add game place window</button>
 
             <div v-if="showGamePlaceAdd">
-                <AddGamePlace @get-user-game-places="getUserGamePlaces"/>
-             
-            </div>
-        </div>
+                <slot name="body">
+                    <AddGamePlace @get-user-game-places="getUserGamePlaces" />
+                    </slot>
+</div>
+        </div>-->
 
-    </div>
+  
 </template>
 
    
 
 <script>
-   
+    import ModalWindow from "../ModalWindow.vue";
+
     import AddGamePlace from "../../views/GamePlaces/AddGamePlace.vue";
     import GamePartiesService from "../../services/GamePartiesService";
     import GameService from "../../services/GameService";
@@ -55,7 +58,8 @@
         name: 'AddGamePartyView',
         data() {
             return {
-                errorMesage:'',
+                errorMesage: '',
+                isModalVisible: false,
                 showGamePlaceAdd: false,
                 games: [],
                 userGamePlaces: [],
@@ -67,7 +71,8 @@
             }
         },
         components: {
-            AddGamePlace
+            AddGamePlace,
+            ModalWindow
         },
         created() {
             this.getGames();
@@ -83,6 +88,12 @@
             //            console.log(e);
             //        })
             //},
+            showModal() {
+                this.isModalVisible = true;
+            },
+            closeModal() {
+                this.isModalVisible = false;
+            },
             getGames: function () {
                 GameService.GetAllShort().then(response => {
                     this.games = response.data;
@@ -106,7 +117,9 @@
             addGameParty: function () {
                 GamePartiesService.Add(this.gameParty)
                     .then(response => {
-                        this.$router.push({ name: 'GamePartyView', params: { id: response.data } })
+                     /*   this.$router.push({ name: 'GamePartyView', params: { id: response.data } })*/
+                        this.$emit('close');
+                        this.$emit('get-game-parties');
                         console.log(response.data);
                     })
                     .catch(e => {

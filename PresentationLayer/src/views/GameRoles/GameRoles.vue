@@ -9,7 +9,7 @@
         </thead>
         <tbody>
 
-            <tr  v-for="role in gameRoles" :key="role.Id">
+            <tr v-for="role in gameRoles" :key="role.Id">
                 <td> {{role.name}}</td>
                 <td> <button v-on:click="goToDelete(role.id)" type="button" class="btn btn-danger">Delete</button></td>
             </tr>
@@ -22,17 +22,17 @@
     <div v-if="seen">
         <AddGameRole />
     </div>
-</template>  
-  
-<script>  
-    import AddGameRole from   "./AddGameRole.vue";
-    import GameRolesService from "../../services/GameRolesService";  
+</template>
+
+<script>
+    import AddGameRole from "./AddGameRole.vue";
+    import GameRolesService from "../../services/GameRolesService";
     export default {
         name: 'GamesRoles',
         data() {
             return {
                 gameId: this.$route.params.id.toString(),
-                seen:false,
+                seen: false,
                 gameRoles: [],
             };
         },
@@ -69,8 +69,7 @@
             },
         },
     }
-</script>  
-  
-<style lang="scss" scoped>  
-  
-</style>  
+</script>
+
+<style lang="scss" scoped>
+</style>

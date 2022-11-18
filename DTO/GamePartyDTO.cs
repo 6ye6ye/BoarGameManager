@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public string GameName { get; set; }
+        public GameDTOGetShort Game { get; set; }
         public string UserGamePlaceName { get; set; }
         public string PartyCreatorName { get; set; }
     }

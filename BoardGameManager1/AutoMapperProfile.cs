@@ -18,40 +18,33 @@ namespace BoardGameManager1
             CreateMap<Game, GameDTOGet >()
                   .ForMember(dest => dest.Image, opt => opt.MapFrom(src => "https://localhost:5001/images/" + src.Image));
 
-
-        
             CreateMap<GameDTOAdd , Game>();
             CreateMap<GameDTOEdit , Game>();
             CreateMap<GameParty, GamePartyDTOGet>()
-                 .ForMember(dest => dest.GameName, opt => opt.MapFrom(src => src.Game.Name))
-               
                  .ForMember(dest => dest.PartyCreatorName, opt => opt.MapFrom(src => src.PartyCreator.UserName))
-                 .ForMember(dest => dest.UserGamePlaceName, opt => opt.MapFrom(src => src.UserGamePlace.Name))
-                 ;
-
+                 .ForMember(dest => dest.UserGamePlaceName, opt => opt.MapFrom(src => src.UserGamePlace.Name));
        
             CreateMap<GamePartyDTOAdd, GameParty>();
             CreateMap<GamePartyDTOEdit, GameParty>();
             CreateMap<GameParty, GameDTOGetShort>()
                  .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Game.Id))
-                  .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Game.Name));
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Game.Name));
 
             CreateMap<GamePartyMember, GamePartyMemberDTOGetShort>()
                 .ForMember(dest => dest.PlayerName, opt => opt.MapFrom(src => src.Player.Name));
-
-
-            CreateMap<GamePartyMember, GamePartyMemberDTOGet  >();
+            CreateMap<GamePartyMember, GamePartyMemberDTOGet>()
+                .ForMember(dest => dest.Game, opt => opt.MapFrom(src => src.GameParty.Game));
             CreateMap<GamePartyMemberDTOEdit , GamePartyMember>();
             CreateMap<GamePartyMemberDTOAdd, GamePartyMember >();
 
             CreateMap<GameRole, GameRoleDTOGet>();
+            CreateMap<GameRole, GameRoleDTOGetShort>();
             CreateMap<GameRoleDTOAdd, GameRole>();
-
+            
             CreateMap<GameRate, GameRateDTOGet>();
     
-
             CreateMap<Player, PlayerDTOGet>();
-
+            CreateMap<Player, PlayerDTOGetShort>();
 
             //CreateMap<RoleForGame, RoleForGameDTOGet>();
             //CreateMap<RoleForGameDTOEdit, RoleForGame >();

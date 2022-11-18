@@ -1,10 +1,11 @@
-import axios from 'axios';
-var url = "https://localhost:5001"
-export default class AccountService {
+<!DOCTYPE html>
 
-    static async getCurrentUserId() {
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
 
-       return await axios.get(url + '/API/Account/getId');
-
-    }
-}
+</body>
+</html>

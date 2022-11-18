@@ -25,12 +25,40 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/UserFriends
         [HttpGet()]
-        [Route("Current")]
+        [Route("Friends")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsByCurrentUserId()
         {
             try
             {
                 return Ok(await _service.GetUserFriendsByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet()]
+        [Route("IncomingRequests")]
+        public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserIncomingRequestsByCurrentUserId()
+        {
+            try
+            {
+                return Ok(await _service.GetUserFriendIncomingRequests(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet()]
+        [Route("OutRequests")]
+        public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserOutRequestsByCurrentUserId()
+        {
+            try
+            {
+                return Ok(await _service.GetUserFriendOutRequests(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch (Exception ex)
             {

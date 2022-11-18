@@ -1,5 +1,12 @@
 ﻿namespace DTO
 {
+    public class UserDTOGetByName
+    {
+
+        public string UserName { get; set; }
+
+    }
+
     public class UserDTOGet
     {
         public string Id { get; set; }

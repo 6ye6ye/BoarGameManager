@@ -1,45 +1,100 @@
-<template>
-    <h3>Game party members list</h3> 
-
-       
-</template>  
-  
+﻿<template>
 
 
+    <!-- <button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game</button>-->
 
-<script>  
+    <div class="post">
+
+        <div class="form-group ">
+            <h2>Game party members list</h2>
+            <button type="button" class="btn btn-primary" @click="showModal">+</button>
+        </div>
+        <!--//  <button v-on:click="showGamePartyMemberAdd= !showGamePartyMemberAdd" class="btn btn-primary">Show add party member window</button>-->
+        <ModalWindow v-show="isModalVisible" @close="closeModal">
+            <template v-slot:body>
+                <AddGamePartyMemberView @close="closeModal" @get-game-party-members="getGamePartyMembers" :gameId="gameId" :gamePartyId="gamePartyId"></AddGamePartyMemberView>
+            </template>
+        </ModalWindow>
+
+
+        <table id="gamePartyMembersTable" class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Game</th>
+                    <th>Player</th>
+                    <th>Game role</th>
+                    <th>Points</th>
+                    <th>IsWinner</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr v-for="item in gamePartyMembers" :key="item.Id">
+                    <td>{{item.id}}</td>
+                    <td>{{item.game.name}}</td>
+                    <td>{{item.player.name }}</td>
+                    <td>{{item.gameRole.name }}</td>
+                    <td>{{item.points }}</td>
+                    <td>{{item.isWinner }}</td>
+                    <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--<div v-if="showGamePartyMemberAdd">
+        <AddGamePartyMemberView :gameId="gameId" :gamePartyId="gamePartyId" />
+    </div>-->
+</template>
 
 
 
-    import GamePartyMemberService from "../../services/GamePartyMemberService";  
+
+<script>
+
+    import ModalWindow from "../ModalWindow.vue";
+    import AddGamePartyMemberView from "../GamePartiesMembers/AddGamePartyMember.vue";
+    import GamePartyMemberService from "../../services/GamePartyMemberService";
     export default {
         name: 'GamePartyMembresView',
-        props: ['gamePartyId'],
+        props: ['gamePartyId', 'gameId'],
         data() {
             return {
-             //   gamePartyId:  0,
+                addModal: 'AddGamePartyMemberView',
+                isModalVisible: false,
                 gamePartyMembers: [],
             };
+        },
+        components: {
+            AddGamePartyMemberView,
+            ModalWindow
         },
         created() {
             this.getGamePartyMembers();
         },
-         methods: {
-             getGamePartyMembers() {
-                 GamePartyMemberService.GetAll(this.gamePartyId).then(response => {
-                     this.gameParties = response.data;
+        methods: {
+            showModal() {
+                this.isModalVisible = true;
+            },
+            closeModal() {
+                this.isModalVisible = false;
+            },
+            getGamePartyMembers() {
+                GamePartyMemberService.GetAll(this.gamePartyId).then(response => {
+                    this.gamePartyMembers = response.data;
                     console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
                     });
             },
-            goToAdd() {
-                this.$router.push({ name: 'AddGamePartyMemberView' })
-            },
             goToDelete(id) {
                 GamePartyMemberService.Delete(id).then(response => {
                     console.log(response.data);
+                    let i = this.gamePartyMembers.map(item => item.id).indexOf(id) // find index of your object
+                    this.gamePartyMembers.splice(i, 1)
                 })
                     .catch(e => {
                         console.log(e);
@@ -47,8 +102,7 @@
             },
         },
     }
-</script>  
-  
-<style lang="scss" scoped>  
-  
-</style>  
+</script>
+
+<style lang="scss" scoped>
+</style>

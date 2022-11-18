@@ -1,5 +1,12 @@
 ﻿namespace DTO
 {
+
+    public class GameRoleDTOGetShort
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+    }
     public class GameRoleDTOGet
     {
         public int Id { get; set; }

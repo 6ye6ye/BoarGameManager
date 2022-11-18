@@ -1,64 +1,82 @@
 <template>
-    <h1>Game parties list</h1> 
-    <button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game party</button>
+    <h1>Game parties list</h1>
+    <button type="button" class="btn btn-primary" @click="showModal">+</button>
+  
+   <ModalWindow v-show="isModalVisible" @close="closeModal">
+        <template v-slot:body>
+            <AddGamePartyView @close="closeModal" @get-game-parties="getGameParties" ></AddGamePartyView>
+        </template>
+    </ModalWindow>
+
+    <!--<button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game party</button>-->
     <div class="post">
         <div class="row" style="margin-bottom: 10px;">
         </div>
-       <p>{{errorMessage}}</p>
-            <table id="gamesTable" class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Date</th>
-                        <th>Game</th>
-                        <th>Place</th>
-                        <th>Creator</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    <tr v-for="item in gameParties" :key="item.Id">
-                        <td>{{item.id}}</td>
+        <p>{{errorMessage}}</p>
+        <table id="gamesTable" class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Game</th>
+                    <th>Place</th>
+                    <th>Creator</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
 
-                        <td>{{item.date }}</td>
-                        <td>{{item.gameName}}</td>
-                        <td>{{item.userGamePlace }}</td>
-                        <td>{{item.partyCreatorName }}</td>
+                <tr v-for="item in gameParties" :key="item.Id">
+                    <td>{{item.id}}</td>
+
+                    <td>{{item.date }}</td>
+                    <td>{{item.game.name}}</td>
+                    <td>{{item.userGamePlaceName }}</td>
+                    <td>{{item.partyCreatorName }}</td>
 
 
-                        <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
-                        <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+                    <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
+                    <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-       
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </template>  
   
 
 
 
 <script>  
-
-
-
+    import ModalWindow from "../ModalWindow.vue";
+    import AddGamePartyView from "../GameParties/AddGamePartyView.vue";
     import GamePartiesService from "../../services/GamePartiesService";  
     export default {
         name: 'GamePartiesView',
       
         data() {
             return {
+                isModalVisible: false,
                 errorMessage:'',
                 gameParties: [],
             };
         },
+        components: {
+            ModalWindow,
+            AddGamePartyView
+        },
         created() {
             this.getGameParties();
         },
-         methods: {
+        methods: {
+            showModal() {
+                this.isModalVisible = true;
+            },
+            closeModal() {
+                this.isModalVisible = false;
+            },
             getGameParties() {
                  GamePartiesService.GetAll().then(response => {
                      this.gameParties = response.data;

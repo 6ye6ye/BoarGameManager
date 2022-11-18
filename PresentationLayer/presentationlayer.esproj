@@ -15,5 +15,6 @@
     <Folder Include="src\components\" />
     <Folder Include="src\views\GameRoles\" />
     <Folder Include="src\views\GamePartiesMembers\" />
+    <Folder Include="src\views\Players\" />
   </ItemGroup>
 </Project>

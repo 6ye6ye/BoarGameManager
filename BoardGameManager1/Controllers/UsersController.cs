@@ -12,14 +12,10 @@ namespace BoardGameManager1.Controllers
     [AppAutorize(UserRoleEnum.Admin)]
     public class UsersController : ControllerBase
     {
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly UserService _service;
 
         public UsersController(AppDbContext context, IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _service = new UserService(context, mapper);
         }
 
@@ -34,8 +30,23 @@ namespace BoardGameManager1.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }     
+        }
+
+        // GET: api/Users
+        [HttpGet]
+        [Route("search")]
+        public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetFirstTenUsersByName(UserDTOGetByName userDto)
+        {
+            try
+            {
+                return Ok(await _service.GetFirstTenUsers(userDto.UserName));
             }
-          
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // GET: api/Users/5

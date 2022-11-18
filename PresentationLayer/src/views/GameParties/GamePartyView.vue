@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <div class="container">
 
         <h4>Game party</h4>
@@ -14,7 +14,7 @@
                 <label>Game </label>
             </dt>
             <dd class="col-sm-10">
-                <label>{{gameParty.gameName}}</label>
+                <label>{{gameParty.game.name}}</label>
             </dd>
             <dt class="col-sm-2">
                 <label>Place </label>
@@ -32,7 +32,10 @@
         </dl>
 
         <div>
-            <GamePartyMembers :gamePartyId="id" />
+
+            <GamePartyMembers  :gameId="gameParty.game.id" :gamePartyId="id" />
+            <!--  <button сlass="show-add-member-modal-button" @click="showAddMemberModal">add member</button>-->
+            <!--  <GamePartyMembers ref="membermodal" :gameId="gameParty.game.id" :gamePartyId="id" />-->
         </div>
     </div>
 </template>
@@ -42,12 +45,13 @@
 
     import GamesPartyService from "../../services/GamePartiesService";
     import GamePartyMembers from "../GamePartiesMembers/GamePartiesMembers.vue";
+ 
 
     export default {
         name: 'GamePartyView',
         data() {
             return {
-                id: this.$route.params.id.toString(),
+                id: this.$route.params.id,
                 gameParty: undefined,
             }
         },
@@ -55,10 +59,11 @@
             this.getGameParty();
         },
         components: {
-            GamePartyMembers
+            GamePartyMembers,
         },
 
         methods: {
+           
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {
                     this.gameParty = response.data;

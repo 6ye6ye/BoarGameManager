@@ -35,8 +35,9 @@ namespace BoardUserFriendManager1.Services
            // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
         }
 
+
         //Get input request to add to friends
-        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendInputRequests(string userId)
+        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendIncomingRequests(string userId)
         {
 
             var userFriends = await _context.UserFriends

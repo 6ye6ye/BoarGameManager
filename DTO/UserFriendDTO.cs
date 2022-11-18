@@ -2,11 +2,16 @@
 
 namespace DTO
 {
+    public class UserFriendDTOGetByName
+    {
+        public string Name { get; set; }
+        // public string Status { get; set; }
+    }
     public class UserFriendDTOGet
     {
         public int Id { get; set; }
         public UserDTOGetShort Friend { get; set; }
-        //public FriendStatus Status { get; set; }
+       // public string Status { get; set; }
     }
     public class UserFriendDTOGetWihhDetails
     {

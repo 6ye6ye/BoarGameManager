@@ -16,10 +16,7 @@
 </template>
 
 <script>
-
-
     import GameRolesService from "../../services/GameRolesService";
-
 
     export default {
         name: 'AddGameRoleView',

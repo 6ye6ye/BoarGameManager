@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 var url = "https://localhost:5001"
-class GameEolesService {
+class GameRolesService {
 
     async GetGameRolesByGame(id) {
         return await axios.get(url + '/api/GameRoles/game', { params: { id: id } });
@@ -49,4 +49,4 @@ class GameEolesService {
 
     
 }
-export default new GameEolesService();  
+export default new GameRolesService();  

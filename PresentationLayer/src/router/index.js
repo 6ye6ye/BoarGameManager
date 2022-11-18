@@ -22,6 +22,7 @@ const routes = [
         path: '',
         name: 'GamesView',
         component: GamesView
+        
     },
     {
         path: '/addGame',
@@ -72,6 +73,15 @@ const routes = [
         name: 'FriendsView',
         component: FriendsView
     },
+    {
+        path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
+        redirect: '/404',
+    },
+    {
+        path: '/404',
+        name: 'PageNotExist',
+        component: () => import('@/views/PageNotExist.vue')
+    }
 
 ];
 

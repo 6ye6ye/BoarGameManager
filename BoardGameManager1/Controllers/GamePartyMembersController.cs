@@ -30,9 +30,11 @@ namespace BoardGameManager1.Controllers
         // GET: api/GamePartyMembers
 
         [HttpGet]
-        [Route("gameParty")]
-        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId( int id)
+        [Route("gameParty/{id}")]
+        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId([FromRoute] int id)
         {
+            if (id == 0)
+                return BadRequest("Id exception");
             try
             {
                 return Ok(await _service.GetGamePartyMembers(id));
@@ -63,6 +65,7 @@ namespace BoardGameManager1.Controllers
 
         public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(int id)
         {
+           
             try
             {
                 var gameParty = await _service.GetGamePartyMemberById(id);
@@ -84,12 +87,16 @@ namespace BoardGameManager1.Controllers
         // POST: api/GamePartyMembers
         [HttpPost]
 
-        public async Task<ActionResult<GamePartyMember>> PostGamePartyMember(GamePartyMemberDTOAdd gamePartyMember)
+        public async Task<ActionResult<int>> PostGamePartyMember(GamePartyMemberDTOAdd gamePartyMember)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Not valid input");
+            }
             try
             {
-                var id = await _service.AddGamePartyMember(gamePartyMember);
-                return CreatedAtAction("GetGamePartyMember", new { id = id}, gamePartyMember);
+                return  await _service.AddGamePartyMember(gamePartyMember);
+                 
             }
 
             catch (Exception ex)

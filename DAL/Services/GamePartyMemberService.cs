@@ -21,10 +21,14 @@ namespace BoardGameManager1.Services
        
         public async Task<IEnumerable<GamePartyMemberDTOGet>> GetGamePartyMembers(int gamePartyId)
         {
-            var gamePartys = await _context.GamePartyMembers
+            var gameParties = await _context.GamePartyMembers
+                .Include(c=>c.GameParty.Game)
+                .Include(c=>c.GameRole)
+                .Include(c=>c.Player)
                 .Where(g=>g.GamePartyId== gamePartyId)
+                .Select( c => _mapper.Map<GamePartyMemberDTOGet>(c))
                 .ToListAsync();
-            return _mapper.Map<List<GamePartyMemberDTOGet>>(gamePartys).AsEnumerable();
+            return gameParties.AsEnumerable();
         }
         #endregion
 
@@ -33,19 +37,19 @@ namespace BoardGameManager1.Services
         //-------------------------------------------------------
         public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(int gamePartyMemberId)
         {
-            var gamePartys = await _context.GamePartyMembers.FindAsync(gamePartyMemberId);
-            if (gamePartys == null)
+            var gameParties = await _context.GamePartyMembers.FindAsync(gamePartyMemberId);
+            if (gameParties == null)
                 throw new NotFoundException("Record");
-            return _mapper.Map<GamePartyMemberDTOGet>(gamePartys);
+            return _mapper.Map<GamePartyMemberDTOGet>(gameParties);
         }
 
         public async Task<IEnumerable<GamePartyMemberDTOGet>> GetCurrentUserGamePartiesMember(string userId)
         {
-            var gamePartys = await _context.GamePartyMembers
+            var gameParties = await _context.GamePartyMembers
                 .Where(m => m.Player.AccountId == userId)
                 .Include(p => p.GameParty.Game)
                 .ToListAsync();
-            return _mapper.Map<List<GamePartyMemberDTOGet>>(gamePartys).AsEnumerable();
+            return _mapper.Map<List<GamePartyMemberDTOGet>>(gameParties).AsEnumerable();
         }
 
     

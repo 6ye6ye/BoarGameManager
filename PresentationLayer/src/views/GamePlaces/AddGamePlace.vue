@@ -1,8 +1,8 @@
 <template>
     <div class="form-control border bg-light">
-        <label class="control-label">Add game place window</label>
+        <h2>Game place</h2>
         <div class="row">
-            <label class="control-label">Name</label>
+            <label class="control-label">Name:</label>
             <input type="text" v-model="name" class="form-control" />
             <button v-on:click="addGamePlace()" type="button" class="btn btn-primary">Add</button>
         </div>
@@ -18,18 +18,19 @@
         name: 'AddGamePlace',
         data() {
             return {
-                name:""
+                name: ""
             }
         },
 
         methods: {
-          
+
             addGamePlace: function () {
                 GamePlaceService.AddGamePlace(this.name)
                     .then(response => {
-                        console.log(response.data);
+                        console.log(response.data)
+                        this.$emit('close');
                         this.$emit('get-user-game-places');
-                     })
+                    })
                     .catch(e => {
                         console.log(e);
                     });

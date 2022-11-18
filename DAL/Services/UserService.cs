@@ -26,6 +26,18 @@ namespace BoardUserManager1.Services
             return _mapper.Map<List<UserDTOGet>>(users).AsEnumerable();
         }
 
+
+        public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName)
+        {
+            var users = await _context.Users
+                .Where(u=>u.UserName.StartsWith(userName))
+                .Take(10)
+                .Select(u=> _mapper.Map<UserDTOGetShort>(u))
+                .ToListAsync();
+            return users.AsEnumerable();
+        }
+
+
         public async Task<UserDTOGet> GetUserById(string id)
         {
             var user = await _context.Users
