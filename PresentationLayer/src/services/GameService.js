@@ -4,7 +4,10 @@ var url = "https://localhost:5001"
 class GameService {
 
     async GetAll() {
-        return  await axios.get(url + '/api/Games');
+        return await axios.get(url + '/api/Games');
+    }
+    async GetUserGames() {
+        return await axios.get(url + '/api/Games');
     }
     async GetAllShort() {
         return await axios.get(url + '/api/Games/short');
@@ -43,37 +46,7 @@ class GameService {
         return await axios.delete(url + '/api/Games/' + id);
     }
 
-
-
-    //GameROles
-
-
-
-
-    //upload(file) {
-    //    let formData = new FormData();
-
-    //    formData.append("file", file);
-
-    //    return await axios({
-    //        method: 'post',
-    //        url: url + '/api/Games',
-    //        data: {
-
-    //            image: game.image,
-    //            name: game.name,
-    //            nameRu: game.nameRu,
-    //            nameEng: game.nameEng,
-    //            playersMinCount: game.playersMinCount,
-    //            playersMaxCount: game.playersMaxCount,
-    //            minAge: game.minAge,
-    //            minPartyTime: game.minPartyTime,
-    //            maxPartyTime: game.maxPartyTime,
-    //            releaseYear: game.releaseYear
-    //        }
-    //    });
-    //}
-          
+        
 
     
 }

@@ -3,8 +3,8 @@
         <h2>Add friend</h2>
         <div class="row">
             <label class="control-label">User name:</label>
-            <input type="text" v-model="name" class="form-control" />
-            <button v-on:click="addGamePlace()" type="button" class="btn btn-primary">Add</button>
+            <input type="text" v-model="userName" class="form-control"/>
+            <button v-on:click="getFirstTenUsers()" type="button" class="btn btn-primary">Search</button>-->
         </div>
 
         <table  class="table">
@@ -17,10 +17,10 @@
             </thead>
             <tbody>
 
-                <tr v-for="item in games" :key="item.Id">
+                <tr v-for="item in users" :key="item.id">
                     <td>{{item.id}}</td>
                     <td>{{item.userName }}</td>
-                    <td><button v-on:click="goToAdd(item.id)" type="button" class="btn btn-info">Add</button></td>
+                    <td><button v-on:click="goToAdd(item.id)" type="button" class="btn btn-info">+</button></td>
                 </tr>
             </tbody>
         </table>
@@ -28,21 +28,80 @@
 </template>
 
 <script>
-    import GamePlaceService from "../../services/GamePlaceService";
+    import UserService from "../../services/UserService";
+    import FriendsService from "../../services/FriendsService";
+    import lodash from 'lodash';
     export default {
-        name: 'AddGamePlace',
+        name: 'AddFriend',
         data() {
             return {
-                name: ""
+                users:[],
+                userName: ''
             }
         },
         methods: {
-            addGamePlace: function () {
-                GamePlaceService.AddGamePlace(this.name)
+            //debounceMethod: lodash.debounce(() => {
+            //    this.getFirstTenUsers();
+            //}, 2000),
+            getFirstTenUsers: lodash.throttle(function () {
+                UserService.getFirstTenUsers(this.userName)
                     .then(response => {
-                        console.log(response.data)
-                        this.$emit('close');
-                        this.$emit('get-user-game-places');
+                        this.users = response.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            }, 200),
+
+            //getFirstTenUsers: function () {
+            //    UserService.getFirstTenUsers(this.name)
+            //        .then(response => {
+            //            this.users = response.data;
+            //        })
+            //        .catch(e => {
+            //            console.log(e);
+            //        });
+
+            //},
+            goToAdd: function (id) {
+                FriendsService.AddFriend(id)
+                    .then(response => {
+                        console.log(response.data);
+                        let i = this.users.map(item => item.id).indexOf(id) // find index of your object
+                        this.users.splice(i, 1)
+                    
+                        //this.$emit('close');
+                        //this.$emit('get-user-game-places');
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+
+            },
+            goToAccept: function (id) {
+                FriendsService.AddFriend(id)
+                    .then(response => {
+                        console.log(response.data);
+                        let i = this.users.map(item => item.id).indexOf(id) // find index of your object
+                        this.users.splice(i, 1)
+
+                        //this.$emit('close');
+                        //this.$emit('get-user-game-places');
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    });
+
+            },
+            goToDelete: function (id) {
+                FriendsService.Delete(id)
+                    .then(response => {
+                        console.log(response.data);
+                        let i = this.users.map(item => item.id).indexOf(id) // find index of your object
+                        this.users.splice(i, 1)
+
+                        //this.$emit('close');
+                        //this.$emit('get-user-game-places');
                     })
                     .catch(e => {
                         console.log(e);

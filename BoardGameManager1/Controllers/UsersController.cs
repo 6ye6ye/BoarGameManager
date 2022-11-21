@@ -3,13 +3,14 @@ using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserManager1.Services;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AppAutorize(UserRoleEnum.Admin)]
+
     public class UsersController : ControllerBase
     {
         private readonly UserService _service;
@@ -21,6 +22,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Users
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetUsers()
         {
             try
@@ -35,12 +37,13 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Users
         [HttpGet]
-        [Route("search")]
-        public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetFirstTenUsersByName(UserDTOGetByName userDto)
+        [Route("search/{name}")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetFirstTenUsersByName( string name)
         {
             try
             {
-                return Ok(await _service.GetFirstTenUsers(userDto.UserName));
+                return Ok(await _service.GetFirstTenUsers(name));
             }
             catch (Exception ex)
             {
@@ -51,6 +54,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserDTOGet>> GetUser(string id)
         {
             var user = await _service.GetUserById(id);

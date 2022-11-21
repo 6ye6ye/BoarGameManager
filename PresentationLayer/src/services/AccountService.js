@@ -1,14 +1,61 @@
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 var url = "https://localhost:5001"
-class UsersService {
+export default class AccountService {
 
-    async getFirstTenUsers(name) {
-        return await axios.get(url + '/api/Users/search', name);
+    static async login(email, password, rememberMe) {
+        return await axios({
+            method: 'post',
+            url: url + '/API/Account/Login',
+            data: {
+                login: email,
+                password: password,
+                rememberMe: rememberMe
+            }
+        });
     }
- 
-    async Delete(id) {
-        return await axios.delete(url + '/api/UserFriends/' + id);
+
+    static async register(login, email, password, passwordRepeat, name) {
+
+        var rezult = await axios({
+            method: 'post',
+            url: url + '/API/Account/Register',
+            data: {
+                login: login,
+                email: email,
+                password: password,
+                passwordRepeat: passwordRepeat,
+                name: name
+            }
+        });
+
+        switch (rezult.status) {
+            case (200):
+                {
+                    window.location.href = '/'
+                    this.$router.push({ name: 'GamesView' })
+                    return { ok: true }
+                }
+            case (400):
+                return { ok: false }
+        }
+
+    }
+
+    static async logout() {
+
+        var rezult = await axios({
+            method: 'post',
+            url: url + '/API/Account/Logout',
+        });
+
+        switch (rezult.status) {
+            case (200):
+                {
+                    return { ok: true }
+                }
+            case (400):
+                return { ok: false }
+        }
+
     }
 }
-export default new UsersService()

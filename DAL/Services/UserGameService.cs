@@ -4,6 +4,7 @@ using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BoardUserGameManager1.Services
 {

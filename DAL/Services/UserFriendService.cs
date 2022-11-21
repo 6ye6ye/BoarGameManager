@@ -3,6 +3,7 @@ using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using DAL;
+using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
 namespace BoardUserFriendManager1.Services
@@ -39,12 +40,11 @@ namespace BoardUserFriendManager1.Services
         //Get input request to add to friends
         public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendIncomingRequests(string userId)
         {
-
             var userFriends = await _context.UserFriends
-                .Where(u => u.InRequestUserId == userId  && u.Status == FriendStatus.Request)
-                .Select(c => new UserFriendDTOGet() { Friend =_mapper.Map<UserDTOGetShort>(c.OutRequestUser) })
-                .ToListAsync();
-
+               .Where(u => u.OutRequestUserId == userId && u.Status == FriendStatus.Request)
+               .Include(c => c.InRequestUser)
+               .Select(c => new UserFriendDTOGet() { Id = c.Id, Friend = _mapper.Map<UserDTOGetShort>(c.InRequestUser) })
+               .ToListAsync();
             return userFriends;
             // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
         }
@@ -54,10 +54,13 @@ namespace BoardUserFriendManager1.Services
         {
 
             var userFriends = await _context.UserFriends
-                .Where(u => u.OutRequestUserId == userId && u.Status == FriendStatus.Request)
-                .Select(c => new UserFriendDTOGet() { Friend = _mapper.Map<UserDTOGetShort>(c.InRequestUser) })
+                .Where(u => u.InRequestUserId == userId && u.Status == FriendStatus.Request)
+                .Include(c => c.OutRequestUser)
+                .Select(c => new UserFriendDTOGet() { Id = c.Id, Friend = _mapper.Map<UserDTOGetShort>(c.OutRequestUser) })
                 .ToListAsync();
+
             return userFriends;
+           
             // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
         }
 
@@ -68,12 +71,39 @@ namespace BoardUserFriendManager1.Services
         }
 
 
-        public async Task<int> AddUserFriend(UserFriendDTOAdd userFriendDTO)
+        public async Task<int> AddUserFriend(string userId, string outRequestUserId)
         {
-            var userFriend = _mapper.Map<UserFriend>(userFriendDTO);
+            var userFriend = await _context.UserFriends.FirstOrDefaultAsync(c => c.InRequestUserId == outRequestUserId && c.OutRequestUserId == userId);
+            if (userFriend != null)
+                throw new DoublicateException("Сan't send request");
+             userFriend = new UserFriend()
+            {
+                InRequestUserId = userId,
+                OutRequestUserId = outRequestUserId,
+                Status = FriendStatus.Request
+            };
             _context.UserFriends.Add(userFriend);
             await _context.SaveChangesAsync();
             return userFriend.Id;
+        }
+        
+        public async Task IgnoreUserFriend(int id)
+        {
+            var userFriend = await _context.UserFriends.FindAsync(id);
+            if (userFriend == null)
+                throw new NotFoundException("Request");
+            userFriend.Status = FriendStatus.Rejected;
+            _context.Entry(userFriend).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+        public async Task AcceptUserFriend(int id)
+        {
+            var userFriend = await _context.UserFriends.FindAsync(id);
+            if (userFriend == null)
+                throw new NotFoundException("Request");
+            userFriend.Status = FriendStatus.Added;
+            _context.Entry(userFriend).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         //public async Task<UserFriendDTOEdit> EditUserFriend(UserFriendDTOEdit userFriendDTO)

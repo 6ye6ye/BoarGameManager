@@ -8,37 +8,40 @@
             </template>
         </ModalWindow>
     </div>
-    <button v-on:click="getFriends" type="button" class="btn btn-danger">Friends</button>
-    <button v-on:click="getIncomingRequests" type="button" class="btn btn-danger">Requests</button>
-    <button v-on:click="getOutRequests" type="button" class="btn btn-danger">Requests</button>
-    <div class="post">
-        <div class="row" style="margin-bottom: 10px;">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <button v-on:click="getFriends" type="button" class="btn btn-outline-primary">Friends</button>
+        <button v-on:click="getIncomingRequests" type="button" class="btn btn-outline-primary">Incoming</button>
+        <button v-on:click="getOutRequests" type="button" class="btn btn-outline-primary">Outgoing</button>
         </div>
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <!--  <th>FriendId</th>-->
-                        <th>Name</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="post">
+            <div class="row" style="margin-bottom: 10px;">
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <!--  <th>FriendId</th>-->
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                    <tr v-for="item in friends" :key="item.Id">
-                        <td>{{item.id}}</td>
-                        <!-- <td>{{item.friend.id }}</td>-->
-                        <td>{{item.friend.userName }}</td>
-                        <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+                        <tr v-for="item in friends" :key="item.id">
+                            <td>{{item.id}}</td>
+                            <!-- <td>{{item.friend.id }}</td>-->
+                            <td>{{item.friend.userName }}</td>
+                            <td><button v-show="showButtonIgnore" v-on:click="goToIgnore(item.id)" type="button" class="btn btn-danger">Ignore</button></td>
+                            <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">{{btnDelText}}</button></td>
 
-                        <td><button v-show="showButtonAccept" v-on:click="goToAccept(item.id)" type="button" class="btn btn-danger">Accept</button></td>
+                            <td><button v-show="showButtonAccept" v-on:click="goToAccept(item.id)" type="button" class="btn btn-danger">Accept</button></td>
 
-                    </tr>
-                </tbody>
-            </table>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 </template>  
   
 <script>  
@@ -50,9 +53,10 @@
         data() {
             return {
                 header: 'Friends',
-              
+                btnDelText: 'Delete',
                 isModalVisible: false,
                 showButtonAddFriend: true,
+                showButtonIgnore:false,
                 showButtonAccept: false,
                 friends: [],
             };
@@ -73,11 +77,34 @@
             closeModal() {
                 this.isModalVisible = false;
             },
+
+            goToIgnore(id) {
+                FriendsService.Ignore(id).then(response => {
+                    let i = this.friends.map(item => item.id).indexOf(id) // find index of your object
+                    this.friends.splice(i, 1);
+                    console.log(response.data);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            goToAccept(id) {
+                FriendsService.AcceptRequest(id).then(response => {
+                    let i = this.friends.map(item => item.id).indexOf(id) // find index of your object
+                    this.friends.splice(i, 1);
+                    console.log(response.data);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
             getFriends() {
                 FriendsService.getAllFriends().then(response => {
                     this.friends = response.data;
                     this.header = 'Friends';
                     this.showButtonAccept = false;
+                    this.showButtonIgnore = false;
+                    this.btnDelText='Delete',
                     console.log(response.data);
                 })
                     .catch(e => {
@@ -88,6 +115,8 @@
                 FriendsService.getAllIncomingRequests().then(response => {
                     this.friends = response.data;
                     this.showButtonAccept = true;
+                    this.showButtonIgnore = true;
+                    this.btnDelText = 'Reject',
                     this.header = 'Incoming requests';
                 })
                     .catch(e => {
@@ -95,10 +124,12 @@
                     });
             },
             getOutRequests() {
-                FriendsService.getAllIncomingRequests().then(response => {
+                FriendsService.getAllOutrequests().then(response => {
                     this.friends = response.data;
                     this.header = 'Outgoing requests';
                     this.showButtonAccept = false;
+                    this.showButtonIgnore = false;
+                    this.btnDelText = 'Cancel';
                 })
                     .catch(e => {
                         console.log(e);

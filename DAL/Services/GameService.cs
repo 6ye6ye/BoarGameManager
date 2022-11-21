@@ -26,9 +26,16 @@ namespace BoardGameManager1.Services
             var games = await _context.Games.Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
             return games.AsEnumerable();
         }
-        public async Task<IEnumerable<GameDTOGet>> GetGames()
+        public async Task<IEnumerable<GameDTOGet>> GetGames(string userId)
         {
-            var games = await _context.Games.Select(c => _mapper.Map<GameDTOGet>(c)).ToListAsync();
+
+            var games = await _context.Games
+                     .Include(c => c.UserGames)
+
+                     .Select(c => _mapper.Map<GameDTOGet>(c))
+                     .ToListAsync();
+
+           
             return games.AsEnumerable();
         }
         public async Task<GameDTOGet> GetGameById(int id)
@@ -78,7 +85,7 @@ namespace BoardGameManager1.Services
         public async Task<double> GetCurrentUserGameRate(int gameId,string userId)
         {
            
-            var userGameRate= _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
+            var userGameRate= await _context.GameRates.FirstOrDefaultAsync(g => g.UserId == userId && g.GameId == gameId);
             if (userGameRate == null)
                 throw new NotFoundException("Rate");
             return userGameRate.Rate;

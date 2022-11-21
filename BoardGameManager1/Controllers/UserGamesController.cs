@@ -15,34 +15,16 @@ namespace BoardGameManager1.Controllers
     [Authorize]
     public class UserGamesController : ControllerBase
     {
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly UserGameService _service;
 
         public UserGamesController(AppDbContext context,IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _service = new UserGameService(context, mapper);
         }
 
-        // GET: api/UserGames
-        [HttpGet]
-        [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<ActionResult<IEnumerable<UserGameDTOGet>>> GetUsersGames()
-        {
-            try
-            {
-                return Ok(await _service.GetUsersGames());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpGet]
-        [Route("Current")]
+        //[Route("Current")]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetCurrentUserGames()
         {
             try
@@ -54,24 +36,10 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        // GET: api/UserGames/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<UserGameDTOGet>> GetUserGame(int id)
-        //{
-        //    var userGame = await _service.GetUserGameById(id);
 
-        //    if (userGame == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    return userGame;
-        //}
+        [HttpPost("{gameId}")]
 
- 
-        // POST: api/UserGames
-        [HttpPost]
-        [Route("Current")]
         public async Task<ActionResult<int>> PostCurrentUserGame(int gameId)
         {
             try
@@ -91,8 +59,7 @@ namespace BoardGameManager1.Controllers
         }
 
         // DELETE: api/UserGames/5
-        [HttpDelete]
-        [Route("Current")]
+        [HttpDelete("{gameId}")]
         public async Task<IActionResult> DeleteCurrentUserGame(int gameId)
         {
             try

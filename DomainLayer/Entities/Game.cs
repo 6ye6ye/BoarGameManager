@@ -27,5 +27,6 @@ namespace DAL.Entities
         public virtual ICollection<GameRate> GameRates { get; set; }
         public virtual ICollection<GameRole> GameRoles { get; set; }
         public virtual ICollection<GameParty>? GameParties { get; set; }
+        public virtual ICollection<UserGame>? UserGames { get; set; }
     }
 }

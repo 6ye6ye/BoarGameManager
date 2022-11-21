@@ -16,7 +16,8 @@ namespace BoardGameManager1
 
             CreateMap<Game, GameDTOGetShort>();
             CreateMap<Game, GameDTOGet >()
-                  .ForMember(dest => dest.Image, opt => opt.MapFrom(src => "https://localhost:5001/images/" + src.Image));
+                  .ForMember(dest => dest.Image, opt => opt.MapFrom(src => "https://localhost:5001/images/" + src.Image))
+                  .ForMember(dest => dest.AddedToUserGames, opt => opt.MapFrom(src=>src.UserGames.Any()));
 
             CreateMap<GameDTOAdd , Game>();
             CreateMap<GameDTOEdit , Game>();

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
+using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardUserFriendManager1.Services;
 using DAL;
@@ -87,18 +88,67 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/UserFriends
         [HttpPost]
-        public async Task<ActionResult<UserFriend>> PostUserFriend(UserFriendDTOAdd userFriend)
+        public async Task<ActionResult<int>> PostUserFriend(UserFriendDTOAdd userFriend)
         {
             // _context.UserFriends.Add(userFriend);
             try
             {
-                var id = await _service.AddUserFriend(userFriend);
-                return CreatedAtAction("GetUserFriend", new { id = id }, userFriend);
+                return await _service.AddUserFriend(User.FindFirstValue(ClaimTypes.NameIdentifier),userFriend.OutRequestUser);
+               
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+
+        [HttpPut]
+        [Route("Accept/{id}")]
+        [Authorize]
+        public async Task<IActionResult> AcceptRequest(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.AcceptUserFriend(id);
+                    return Ok();
+                }
+                catch (NotFoundException ex)
+                {
+                    return NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return BadRequest("Is not valid");
+        }
+
+        [HttpPut]
+        [Route("Ignore/{id}")]
+        [Authorize]
+        public async Task<IActionResult> IgnoreRequest(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.IgnoreUserFriend(id);
+                    return Ok();
+                }
+                catch (NotFoundException ex)
+                {
+                    return NotFound(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+            return BadRequest("Is not valid");
         }
 
         // DELETE: api/UserFriends/5
@@ -107,7 +157,8 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok( _service.DeleteUserFriend(id));
+                await _service.DeleteUserFriend(id);
+                return Ok();
             }
             catch (NotFoundException ex)
             {

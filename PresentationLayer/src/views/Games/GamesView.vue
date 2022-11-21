@@ -10,6 +10,7 @@
         </template>
     </ModalWindow>
 
+    <button v-on:click="getUserGames()" type="button" class="btn btn-danger">MyGames</button>
 
     <div class="post">
         <div class="row" style="margin-bottom: 10px;">
@@ -29,6 +30,7 @@
                     <th>Min party time</th>
                     <th>Max party time</th>
                     <th>Release year</th>
+                    <th>Added</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -50,9 +52,13 @@
                     <td>{{item.minPartyTime }}</td>
                     <td>{{item.maxPartyTime }}</td>
                     <td>{{item.releaseYear }}</td>
-
+                    <td><input class="form-check-input" type="checkbox" v-model="item.addedToUserGames" /> </td>
                     <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
-                    <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+                    <td><button v-show="!isMyGamesPage" v-on:click="goToAddToUserGames(item.id)" type="button" class="btn btn-danger">Add to my</button></td>
+
+                    <td><button v-show="!isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+
+                    <td><button v-show="isMyGamesPage" v-on:click="goToDeleteFromUserGames(item.id)" type="button" class="btn btn-danger">Delete</button></td>
 
                 </tr>
             </tbody>
@@ -69,12 +75,14 @@
     import ModalWindow from "../ModalWindow.vue";
     import AddGameView from "../Games/AddGameView.vue";
     import GamesService from "../../services/GameService";  
+    import UserGamesService from "../../services/UserGamesService";  
     export default {
         name: 'GamesView',
       
         data() {
             return {
                 isModalVisible: false,
+                isMyGamesPage: false,
                 games: [],
             };
         },
@@ -95,6 +103,17 @@
             getGames() {
                 GamesService.GetAll().then(response => {
                     this.games = response.data;
+                    this.isMyGamesPage = false;
+                    console.log(response.data);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            getUserGames() {
+                UserGamesService.GetUserGames().then(response => {
+                    this.games = response.data;
+                    this.isMyGamesPage = true;
                     console.log(response.data);
                 })
                     .catch(e => {
@@ -115,6 +134,24 @@
                         console.log(e);
                     });
             },
+            
+            goToAddToUserGames(id) {
+                UserGamesService.Add(id).then(response => {
+                    console.log(response.data);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            goToDeleteFromUserGames(id) {
+                UserGamesService.Delete(id).then(response => {
+                    console.log(response.data);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
+            
         },
     }
 </script>  

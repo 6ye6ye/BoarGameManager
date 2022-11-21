@@ -4,7 +4,7 @@ namespace DTO
 {
     public class UserFriendDTOGetByName
     {
-        public string Name { get; set; }
+        public string UserName { get; set; }
         // public string Status { get; set; }
     }
     public class UserFriendDTOGet
@@ -21,8 +21,7 @@ namespace DTO
     }
     public class UserFriendDTOAdd
     {
-        public int InRequestUser { get; set; }
-        public int OutRequestUser { get; set; }
+        public string OutRequestUser { get; set; }
     }
     public class UserFriendDTOEdit
     {
