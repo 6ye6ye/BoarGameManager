@@ -52,11 +52,11 @@
                     <td>{{item.minPartyTime }}</td>
                     <td>{{item.maxPartyTime }}</td>
                     <td>{{item.releaseYear }}</td>
-                    <td><input class="form-check-input" type="checkbox" v-model="item.addedToUserGames" /> </td>
+                    <td v-show="isAuth"><input class="form-check-input" type="checkbox" v-model="item.addedToUserGames" /> </td>
                     <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
                     <td><button v-show="!isMyGamesPage" v-on:click="goToAddToUserGames(item.id)" type="button" class="btn btn-danger">Add to my</button></td>
 
-                    <td><button v-show="!isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+                    <td><button v-show="role=='Admin' && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
 
                     <td><button v-show="isMyGamesPage" v-on:click="goToDeleteFromUserGames(item.id)" type="button" class="btn btn-danger">Delete</button></td>
 
@@ -81,6 +81,8 @@
       
         data() {
             return {
+                isAuth: localStorage.getItem('isAuth'),
+                role: localStorage.role,
                 isModalVisible: false,
                 isMyGamesPage: false,
                 games: [],
@@ -92,6 +94,8 @@
         },
         created() {
             this.getGames();
+            this.isAuth = localStorage.isAuth;
+            this.role= localStorage.role
         },
         methods: {
             showModal() {

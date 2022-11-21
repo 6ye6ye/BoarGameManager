@@ -1,4 +1,5 @@
-﻿using BoardGameManager1.Enums;
+﻿using BoardGameManager1.Entities;
+using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
@@ -27,6 +28,7 @@ namespace BoardGameManager1.Controllers
         {
             //_userManager = userManager;
             //_signInManager = signInManager;
+          
             //_context = context;
             //_mapper = mapper;
             _accountService = new AccountService(mapper, userManager, signInManager, context);
@@ -49,6 +51,26 @@ namespace BoardGameManager1.Controllers
                 }
             }
             return BadRequest("Model isn't valid");
+        }
+        [HttpGet]
+        [Route("Role")]
+        public async Task<ActionResult<IList<string>>> GetUserRole()
+        {
+
+                try
+                {
+                if (User.Identities.Any()) {
+                   return Ok(await _accountService.GetUserRoles(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                }
+
+                return BadRequest("Need login");
+            }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+
         }
 
         [HttpPost]

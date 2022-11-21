@@ -66,6 +66,7 @@
         name: 'AddGameView',
         data() {
             return {
+
                 imageFile: undefined,
                 game: {
                     image: '',

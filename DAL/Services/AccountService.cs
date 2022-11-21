@@ -27,6 +27,11 @@ namespace BoardGameManager1.Services
             _mapper = mapper;
         }
 
+        public async Task<IList<string>> GetUserRoles(string id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            return await _userManager.GetRolesAsync(user);
+        }
         public async Task Register(AccountDTORegister registerDTO)
         {
             var userRole = await _context.Roles.FirstOrDefaultAsync(e => e.Name == UserRoleEnum.User.ToString());

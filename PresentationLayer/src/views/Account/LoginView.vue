@@ -54,6 +54,13 @@
                     switch (response.status) {
                         case (200):
                             {
+                                AccountService.getCurrentUserRole().then(response => {
+                                    console.log(response.data[0]);
+                                    localStorage.setItem('role', response.data[0]);
+                                 
+                                })
+                            localStorage.setItem('isAuth', 'true')
+                               
                              this.$router.push({ name: 'GamesView' })
 
                             return { ok: true }

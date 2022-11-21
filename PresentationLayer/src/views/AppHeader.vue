@@ -12,13 +12,13 @@
             <a class="nav-link" href="/friends">
                 Friends
             </a>
-            <a class="nav-link" href="/login">
+            <a v-show="!isAuth" class="nav-link" href="/login">
                 Sing in
             </a>
-            <a class="nav-link" href="/register">
+            <a v-show="!isAuth" class="nav-link" href="/register">
                 Sing up
             </a>
-            <a class="nav-link" @click="logout" href="/">
+            <a  class="nav-link" @click="logout" href="/">
                 Logout
             </a>
 
@@ -33,7 +33,10 @@
      export default {
         name: "AppHeader",
             data() {
-            return {};
+                return {
+                    isAuth: localStorage.isAuth,
+                    
+                };
         },
         methods: {
             logout: function () {
@@ -41,8 +44,10 @@
                     switch (response.status) {
                         case (200):
                             {
+                                localStorage.removeItem('role');
+                                localStorage.removeItem('isAuth');
                                 this.$router.push({ name: 'GamesView' })
-
+                               
                                 return { ok: true }
                             }
                         case (400):

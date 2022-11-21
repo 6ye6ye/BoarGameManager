@@ -13,7 +13,12 @@ export default class AccountService {
             }
         });
     }
-
+    static async getCurrentUserRole() {
+        return await axios({
+            method: 'get',
+            url: url + '/API/Account/Role'
+        });
+    }
     static async register(login, email, password, passwordRepeat, name) {
 
         var rezult = await axios({
