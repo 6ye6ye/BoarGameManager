@@ -70,8 +70,6 @@
                                 this.errorMessage = response;
                                 return {ok: false}
                             }
-                
-
                     }
                     console.log(response.data);
                 })

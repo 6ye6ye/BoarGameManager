@@ -9,8 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace BoardGameManager1.Controllers
 {
     [AllowAnonymous]
@@ -18,19 +16,10 @@ namespace BoardGameManager1.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        //private readonly UserManager<User> _userManager;
-        //private readonly SignInManager<User> _signInManager;
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly AccountService _accountService;
 
         public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,AppDbContext context)
         {
-            //_userManager = userManager;
-            //_signInManager = signInManager;
-          
-            //_context = context;
-            //_mapper = mapper;
             _accountService = new AccountService(mapper, userManager, signInManager, context);
         }
 

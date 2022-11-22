@@ -27,6 +27,7 @@
             addGamePlace: function () {
                 GamePlaceService.AddGamePlace(this.name)
                     .then(response => {
+
                         console.log(response.data)
                         this.$emit('close');
                         this.$emit('get-user-game-places');

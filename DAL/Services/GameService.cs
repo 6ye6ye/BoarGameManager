@@ -2,6 +2,7 @@
 using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Entities;
 using BoardGamesManager.Data;
+using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -26,16 +27,36 @@ namespace BoardGameManager1.Services
             var games = await _context.Games.Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
             return games.AsEnumerable();
         }
+
+        public async Task<IEnumerable<GameDTOGet>> GetGamesWithFilters(GameFilter filter, string userId)
+        {
+            var games =  _context.Games
+                    .Include(c => c.UserGames).AsQueryable();
+            if (filter.ShowAdded == true)
+                games = games.Where(g => g.UserGames.Any(g => g.UserId == userId));
+            if (filter.ReleaseYear != 0)
+                games = games.Where(g => g.ReleaseYear == filter.ReleaseYear);
+            if (filter.Name != null)
+                games = games.Where(g => g.Name.StartsWith(filter.Name));
+            if (filter.MinRate != 0)
+                games = games.Where(g => g.Rating >= filter.MinRate);
+            if (filter.MaxRate != 10)
+                games = games.Where(g => g.Rating <= filter.MaxRate);
+
+
+
+            var rezult = await games.Select(c => _mapper.Map<GameDTOGet>(c)).ToListAsync();
+            return rezult.AsEnumerable();
+          
+        }
+
         public async Task<IEnumerable<GameDTOGet>> GetGames(string userId)
         {
 
             var games = await _context.Games
-                     .Include(c => c.UserGames)
-
+                     .Include(c => c.UserGames.Where(c=>c.UserId==userId))
                      .Select(c => _mapper.Map<GameDTOGet>(c))
                      .ToListAsync();
-
-           
             return games.AsEnumerable();
         }
         public async Task<GameDTOGet> GetGameById(int id)

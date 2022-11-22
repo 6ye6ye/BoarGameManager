@@ -42,54 +42,47 @@ namespace BoardGameManager1.Services
             return userGameRate.Rate;
         }
 
-
-        public async Task<double> AddCurrentUserGameRate(int gameId, int rate, string userId)
+        //Return new game rating after edit
+        public async Task<double> AddCurrentUserGameRate(Game game, int rate, string userId)
         {
-            var game = await getGame(gameId);
-            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
+       
+            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == game.Id);
 
-            //if already rated change user game rate
-            if (userGameRate != null &&  rate != userGameRate.Rate)
-            {
-                userGameRate.Rate = rate;
-                _context.GameRates.Update(userGameRate);
-            }
-            //if not rated, add new rate
-            else
-            {
-                _context.GameRates.Add(new GameRate() { GameId = gameId, Rate = rate, UserId = userId });
-            }
+            _context.GameRates.Add(new GameRate() { GameId = game.Id, Rate = rate, UserId = userId });
+
             await _context.SaveChangesAsync();
             await UpdateGameRate(game);
             return game.Rating;
         }
+
+       // Return new game rating after edit
         public async Task<double> EditCurrentUserGameRate(int gameId, int rate, string userId)
         {
             var game = await getGame(gameId);
             var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
 
             if (userGameRate == null)
-                throw new NotFoundException("Rate");
+                return await AddCurrentUserGameRate(game, rate, userId);
             if (userGameRate.Rate == rate)
-                return rate;
+                return game.Rating;
 
             userGameRate.Rate = rate;
             _context.GameRates.Update(userGameRate);
             await _context.SaveChangesAsync();
-            await UpdateGameRate(game);
-            return game.Rating;
+            return await UpdateGameRate(game);
         }
 
-    
-      
 
-        private async Task UpdateGameRate(Game game)
+
+        //Return new game rating after edit
+        private async Task<double> UpdateGameRate(Game game)
         {
             var gameRates = _context.GameRates.Where(g => g.GameId == game.Id);
             game.RatingCount = gameRates.Count();
             game.Rating = (gameRates.Sum(c => c.Rate) / game.RatingCount);
             _context.Games.Update(game);
             await _context.SaveChangesAsync();
+            return game.Rating;
         }
         private async Task<Game> getGame(int id)
         {

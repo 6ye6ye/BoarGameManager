@@ -57,7 +57,10 @@ namespace BoardUserGamePlaceManager1.Services
 
         public async Task<int> AddUserGamePlace(string name,string userId)
         {
-            var gamePlace= new UserGamePlace() { Name=name,UserId=userId};
+            var gamePlace = await _context.UserGamePlaces.FirstOrDefaultAsync(g => g.UserId == userId && g.Name == name);
+            if (gamePlace != null)
+                throw new DoublicateException("Game place");
+            gamePlace= new UserGamePlace() { Name=name,UserId=userId};
             _context.UserGamePlaces.Add(gamePlace);
             await _context.SaveChangesAsync();
             return gamePlace.Id;

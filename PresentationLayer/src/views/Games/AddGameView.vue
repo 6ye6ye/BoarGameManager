@@ -51,6 +51,7 @@
             <label class="form-label">ReleaseYear</label>
             <input type="number" v-model="game.releaseYear" class="form-control" />
         </div>
+        <ErrorMessage :errorMessage="errorMessage"/>
         <button v-on:click="addGame()" type="button" class="btn btn-primary">Add</button>
 
     </div>
@@ -60,8 +61,9 @@
 <script>
 
     import GamesService from "../../services/GameService";
+    import ErrorMessage from "../ErrorMessage.vue";
 
-
+    
     export default {
         name: 'AddGameView',
         data() {
@@ -79,10 +81,13 @@
                     minPartyTime: 0,
                     maxPartyTime: 0,
                     releaseYear: 2022
-                }
+                },
+                errorMessage:''
             }
         },
-
+        components: {
+            ErrorMessage
+        },
         methods: {
             selectImage() {
                 this.imageFile = this.$refs.file.files[0];
@@ -92,11 +97,24 @@
                 GamesService.Add(this.imageFile, this.game)
                     //GamesService.AddGame(this.game)
                     .then(response => {
-                        this.$emit('close');
-                        this.$emit('get-games');
-                        console.log(response.data);
+                        switch (response.status) {
+                            case (200):
+                                {
+                                    this.$emit('close');
+                                    this.$emit('get-games');
+                                    console.log(response.data);
+                                    return { ok: true }
+                                }
+                            case (400):
+                                {
+                                    this.errorMessage = response;
+                                    console.log(response);
+                                    return { ok: false }
+                                }
+                        }
                     })
                     .catch(e => {
+                        this.errorMessage = e;
                         console.log(e);
                     });
             },

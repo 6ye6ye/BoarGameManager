@@ -10,12 +10,12 @@ using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
 {
-  
-    public class GameRateController: ControllerBase
+    [Route("api/[controller]")]
+    public class GameRateController : ControllerBase
     {
         private readonly GameRateService _service;
 
-        
+
         public GameRateController(AppDbContext context, IMapper mapper)
         {
             _service = new GameRateService(context, mapper);
@@ -30,7 +30,7 @@ namespace BoardGameManager1.Controllers
             return await _service.GetGamesRates();
         }
 
-        [HttpGet]
+        [HttpGet("{gameId}")]
         [AllowAnonymous]
         public async Task<ActionResult<double>> GetGameRate(int gameId)
         {
@@ -47,7 +47,7 @@ namespace BoardGameManager1.Controllers
         }
         // GET: api/GameRoles/5
         [HttpGet]
-        [Route("Current")]
+        [Route("user-gameRate/{gameId}")]
         [Authorize]
         public async Task<ActionResult<double>> GetCurrentUserGameRate(int gameId)
         {
@@ -63,32 +63,31 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("Rate")]
+        //[HttpPost]
+        //[Route("Rate")]
+        //[Authorize]
+        //public async Task<ActionResult<double>> PostCurrenUserRateGame(GameRateDTOPost gameRate)
+        //{
+        //    try
+        //    {
+        //        return await _service.AddCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //    }
+        //    catch (NotFoundException ex)
+        //    {
+        //        return NotFound(ex.Message);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        [HttpPut]
         [Authorize]
-        public async Task<ActionResult<double>> PostCurrenUserRateGame([FromQuery] int gameId, int rate)
+        public async Task<ActionResult<double>> ChangeCurrentUserGameRate([FromBody] GameRateDTOPost gameRate)
         {
             try
             {
-                return await _service.AddCurrentUserGameRate(gameId, rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        [HttpPatch]
-        [Route("Rate")]
-        [Authorize]
-        public async Task<ActionResult<double>> ChangeCurrentUserGameRate([FromQuery] int gameId, int rate)
-        {
-            try
-            {
-                return await _service.EditCurrentUserGameRate(gameId, rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
             }
             catch (NotFoundException ex)
             {

@@ -11,12 +11,12 @@
 
             <tr v-for="role in gameRoles" :key="role.Id">
                 <td> {{role.name}}</td>
-                <td> <button v-on:click="goToDelete(role.id)" type="button" class="btn btn-danger">Delete</button></td>
+                <td v-show="isAdmin"> <button v-on:click="goToDelete(role.id)" type="button" class="btn btn-danger">Delete</button></td>
             </tr>
         </tbody>
     </table>
 
-    <div v-on:click="seen = !seen" class="control">
+    <div v-show="isAdmin" v-on:click="seen = !seen" class="control">
         <button class="btn btn-primary">Show add window</button>
     </div>
     <div v-if="seen">
@@ -34,6 +34,7 @@
                 gameId: this.$route.params.id.toString(),
                 seen: false,
                 gameRoles: [],
+                isAdmin: localStorage.role == 'Admin',
             };
         },
         created() {

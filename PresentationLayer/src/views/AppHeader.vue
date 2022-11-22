@@ -6,10 +6,10 @@
             <a class="nav-link" href="/">
                 Games
             </a>
-            <a class="nav-link" href="/myGameParties">
+            <a  v-show="isAuth" class="nav-link" href="/myGameParties">
                 Game parties
             </a>
-            <a class="nav-link" href="/friends">
+            <a v-show="isAuth" class="nav-link" href="/friends">
                 Friends
             </a>
             <a v-show="!isAuth" class="nav-link" href="/login">
@@ -34,20 +34,22 @@
         name: "AppHeader",
             data() {
                 return {
-                    isAuth: localStorage.isAuth,
-                    
+                    isAuth: false,
                 };
+        },
+        created: function () {
+            this.isAuth=localStorage.getItem('isAuth');
         },
         methods: {
             logout: function () {
                 AccountService.logout().then(response => {
+                    this.isAuth = false;
+                    localStorage.setItem('role', '');
+                    localStorage.setItem('isAuth', 'false');
                     switch (response.status) {
                         case (200):
                             {
-                                localStorage.removeItem('role');
-                                localStorage.removeItem('isAuth');
-                                this.$router.push({ name: 'GamesView' })
-                               
+                                this.$router.push({ name: 'GamesView' })                
                                 return { ok: true }
                             }
                         case (400):
@@ -55,8 +57,6 @@
                                 this.errorMessage = response;
                                 return { ok: false }
                             }
-
-
                     }
                     console.log(response.data);
                 })

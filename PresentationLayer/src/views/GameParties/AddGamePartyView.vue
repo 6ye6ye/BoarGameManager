@@ -10,7 +10,7 @@
 
                 <ModalWindow v-show="isModalVisible" @close="closeModal">
                     <template v-slot:body>
-                        <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
+                        <AddGamePlace @close="closeModal" @get-user-game-places="getUserGamePlaces"></AddGamePlace>
                     </template>
                 </ModalWindow>
 

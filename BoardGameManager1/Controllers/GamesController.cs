@@ -3,6 +3,7 @@ using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
+using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -38,6 +39,20 @@ namespace BoardGameManager1.Controllers
                 return  Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Filtered")]
+        public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGamesWithFilters( [FromQuery] GameFilter filter)
+        {
+            try
+            {
+                return Ok(await _gameService.GetGamesWithFilters( filter, User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

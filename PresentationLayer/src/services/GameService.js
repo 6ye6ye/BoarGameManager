@@ -6,6 +6,38 @@ class GameService {
     async GetAll() {
         return await axios.get(url + '/api/Games');
     }
+    async GetAllWithFilters(filter) {
+        return await axios.get(url + '/api/Games/Filtered', {
+            params: {
+                name: filter.name,
+                releaseYear: filter.releaseYear != '' ? filter.releaseYear:0,
+                minRate: filter.minRate,
+                maxRate: filter.maxRate,
+                showAdded: filter.showAdded
+            }
+        }
+        )
+    }
+    
+    //async GetAllWithFilters(gameFilter) {
+    //    return await axios({
+    //        method: 'get',
+    //        url: url + '/api/Games/Filtered',
+
+    //        data: {
+              
+    //                Name: gameFilter.name,
+    //                PlayersMinCount: gameFilter.minRate,
+    //                PlayersMaxCount: gameFilter.maxRate,
+    //                //minAge: game.minAge,
+    //                // minPartyTime: game.minPartyTime,
+    //                //  maxPartyTime: game.maxPartyTime,
+    //                ReleaseYear: gameFilter.releaseYear
+              
+    //        }
+    //    });
+    //}
+    
     async GetUserGames() {
         return await axios.get(url + '/api/Games');
     }
