@@ -14,7 +14,6 @@ builder.Services.Configure<PasswordHasherOptions>(options =>
 );
 builder.Services
             .AddControllers()
-
             .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
 
 builder.Services.AddEndpointsApiExplorer();
@@ -64,6 +63,10 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
+//builder.Services.AddHttpContextAccessor();
+//builder.Services.ConfigureApplicationCookie(options => {
+//    options.LoginPath = "/Auth/SignIn";
+//});
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -73,13 +76,12 @@ if (app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 app.UseRouting();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseStaticFiles();
 
-//app.UseCors( options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+//app.UseCookiePolicy();
 app.MapControllers();
 
 app.Run();

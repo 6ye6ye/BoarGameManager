@@ -124,7 +124,7 @@ namespace BoardGameManager1.Controllers
             {
                 try
                 {
-                    if (game.Image == "")
+                    if (game.Image == null)
                         game.Image="no-image-icon-6.png";
                     var newId = await _gameService.AddGame(game);
                     return CreatedAtAction("GetGame", new { id = newId }, game);

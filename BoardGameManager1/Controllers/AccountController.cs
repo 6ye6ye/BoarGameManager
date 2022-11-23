@@ -4,6 +4,8 @@ using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +19,12 @@ namespace BoardGameManager1.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+       
 
-        public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager,AppDbContext context)
+        public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context)
         {
             _accountService = new AccountService(mapper, userManager, signInManager, context);
+            
         }
 
         [HttpPost]
@@ -29,9 +33,11 @@ namespace BoardGameManager1.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (registerDTO.PasswordRepeat != registerDTO.Password)
+                    return ValidationProblem("Passwords are not the same");
                 try
                 {
-                     await _accountService.Register(registerDTO);
+                    await _accountService.Register(registerDTO);
                     return Ok();
                 }
                 catch (Exception ex)
@@ -45,20 +51,18 @@ namespace BoardGameManager1.Controllers
         [Route("Role")]
         public async Task<ActionResult<IList<string>>> GetUserRole()
         {
-
-                try
+            try
+            {
+                if (User.Identities.Any())
                 {
-                if (User.Identities.Any()) {
-                   return Ok(await _accountService.GetUserRoles(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
+                    return Ok(await _accountService.GetUserRoles(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 }
-
-                return BadRequest("Need login");
+                return BadRequest("Need sign in");
             }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
 
@@ -87,9 +91,9 @@ namespace BoardGameManager1.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
+            //  await HttpContext.SignOutAsync();
             await _accountService.Logout();
-            return Ok("Logout");
-            
+            return Ok();
         }
 
         [HttpGet]
