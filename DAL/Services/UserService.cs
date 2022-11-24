@@ -23,9 +23,18 @@ namespace BoardUserManager1.Services
         public async Task<IEnumerable<UserDTOGet>> GetUsers()
         {
             var users = await _context.Users
-                .Include(u => u.Roles)
+                .Include(u => u.UserRoles)
+                .ThenInclude(r=>r.Role)
+
                 .ToListAsync();
             return _mapper.Map<List<UserDTOGet>>(users).AsEnumerable();
+
+       //     var users = await _context.Users
+       //.Include(u => u.UserRoles)
+       //.ThenInclude(r => r.Role)
+       //.Select(u => _mapper.Map<UserDTOGet>(u))
+       //.ToListAsync();
+       //     return users.AsEnumerable();
         }
 
 
@@ -43,7 +52,8 @@ namespace BoardUserManager1.Services
         public async Task<UserDTOGet> GetUserById(Guid id)
         {
             var user = await _context.Users
-                // .Include(u=>u.Role)
+                  .Include(u => u.UserRoles)
+                .ThenInclude(r => r.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
             //var user = await _context.Users.FindAsync(id);
 
@@ -82,28 +92,35 @@ namespace BoardUserManager1.Services
 
         public async Task<IEnumerable<UserDTOGet>> GetUsersWithFilters(UsersFilter filter)
         {
-            var users = _context.Users.AsQueryable();
+            var users = _context.Users
+                .Include(u=>u.UserRoles)
+                .ThenInclude(u=>u.Role)
+                .AsQueryable();
 
             if (filter.Name != null)
                 users = users.Where(g => g.UserName.StartsWith(filter.Name));
             if (filter.Email != null)
                 users = users.Where(g => g.Email.StartsWith(filter.Email));
             if (filter.RoleId != null)
-                users = users.Where(g => g.Roles.Any(r => r.Id == filter.RoleId));
-            //    var usersRoles= _context.UserRoles.Where(r=>r.RoleId== filter.RoleId)
-            //    users = users.Join(usersRoles,
-            //        u=>u.Id,
-            //        r=>r.UserId,
+                users = users.Where(g => g.UserRoles.Any(r => r.RoleId == filter.RoleId));
+            //var roles = _context.Roles.Where(r => r.Id == filter.RoleId);
+            //    users = users.Join(roles,
+            //        u => u.UserRoles,
+            //        r => r.Id,
             //        (u, r) => new
             //        {
-            //            u.Id,
+                    
+            //            r.Id,
+            //            r.Name,
 
-            //        }
-            //        ) Where(g => usersRoles.);
-            //}
+            //        })
+                
+
+        //    //        ) Where(g => usersRoles.);
+        //}
 
 
-            var rezult = await users.Select(c => _mapper.Map<UserDTOGet>(c)).ToListAsync();
+        var rezult = await users.Select(c => _mapper.Map<UserDTOGet>(c)).ToListAsync();
             return rezult.AsEnumerable();
         }
 

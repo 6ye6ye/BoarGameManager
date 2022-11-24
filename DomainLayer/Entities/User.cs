@@ -6,8 +6,8 @@ namespace DAL.Entities
 
     public class User :IdentityUser<Guid>
     {
-        public string? RoleId { get; set; }
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        //public Guid? RoleId { get; set; }
+        //public virtual ICollection<UserRole> UserRoles { get; set; }
 
         public virtual ICollection<Player>? CreatedPlayers { get; set; }
         public virtual ICollection<Player>? PlayGamesPlayers { get; set; }
@@ -19,7 +19,7 @@ namespace DAL.Entities
 
         public virtual ICollection<GameParty> CreatedGames { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
 
 
 

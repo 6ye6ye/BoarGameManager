@@ -15,13 +15,13 @@ namespace DAL.Entities
         public int Points { get; set; }
         public bool IsWinner { get; set; }
 
-        [ForeignKey("GamePartyId")]
+       // [ForeignKey("GamePartyId")]
         public virtual GameParty GameParty { get; set; }
 
-        [ForeignKey("PlayerId")]
+      //  [ForeignKey("PlayerId")]
         public virtual Player Player { get; set; }
 
-        [ForeignKey("GameRoleId")]
+      //  [ForeignKey("GameRoleId")]
         public virtual GameRole GameRole { get; set; }
     }
 }

@@ -6,11 +6,14 @@
                 <label class="form-label">Name</label>
                 <input type="text" v-model="filter.name" class="form-control" />
             </div>
+            <div class="col-sm-2 sub_filters">
+                <label class="form-label">Role</label>
+                <select v-model="filter.roleId" class="form-select">
 
-            <select v-model="filter.roleId" class="form-select">
-                <option value=null>- Select Role -</option>
-                <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
-            </select>
+                    <option value=''>- All roles -</option>
+                    <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
+                </select>
+            </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">Email</label>
                 <input type="text" v-model="filter.email" class="form-control" />
@@ -38,6 +41,8 @@
                     <td>{{item.userName }}</td>
                     <td>{{item.email}}</td>
                     <td>{{item.role.name }}</td>
+                    <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
+
                 </tr>
             </tbody>
         </table>
@@ -61,12 +66,12 @@
             return {
                 filter: {
                     name: '',
-                    roleId: null,
+                    roleId: '',
                     email: ''
                 },
                 isAdmin: localStorage.role == 'Admin',
                 users: [],
-                roles:[],
+                roles: [],
                 currentSort: 'name',
                 currentSortDir: 'asc',
 
@@ -100,7 +105,7 @@
             getUsers() {
                 UsersService.GetAll().then(response => {
                     this.users = response.data;
-                    console.log(response.data);
+     
                 })
                     .catch(e => {
                         console.log(e);
@@ -115,7 +120,9 @@
                     });
             },
 
-
+            goToDetails(id) {
+                this.$router.push({ name: 'UserView', params: { id: id } })
+            },
             getUsersWithFilters() {
                 UsersService.GetAllWithFilters(this.filter).then(response => {
                     this.users = response.data;

@@ -64,7 +64,7 @@ namespace BoardUserFriendManager1.Services
             // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
         }
 
-        public async Task<UserFriendDTOGet> GetUserFriendById(Guid id)
+        public async Task<UserFriendDTOGet> GetUserFriendById(string id)
         {
             var userFriend = await getUserById(id);
             return _mapper.Map<UserFriendDTOGet>(userFriend);
@@ -87,18 +87,18 @@ namespace BoardUserFriendManager1.Services
             return userFriend.Id;
         }
 
-        public async Task IgnoreUserFriend(Guid id)
+        public async Task IgnoreUserFriend(string id)
         {
-            var userFriend = await _context.UserFriends.FindAsync(id);
+            var userFriend = await _context.UserFriends.FindAsync(new Guid(id));
             if (userFriend == null)
                 throw new NotFoundException("Request");
             userFriend.Status = FriendStatus.Rejected;
             _context.Entry(userFriend).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        public async Task AcceptUserFriend(Guid id)
+        public async Task AcceptUserFriend(string id)
         {
-            var userFriend = await _context.UserFriends.FindAsync(id);
+            var userFriend = await _context.UserFriends.FindAsync(new Guid(id));
             if (userFriend == null)
                 throw new NotFoundException("Request");
             userFriend.Status = FriendStatus.Added;
@@ -121,7 +121,7 @@ namespace BoardUserFriendManager1.Services
         //    _context.SaveChanges();
         //}
 
-        public async Task DeleteUserFriend(Guid id)
+        public async Task DeleteUserFriend(string id)
         {
             var userFriend = await getUserById(id);
             _context.UserFriends.Remove(userFriend);
@@ -139,9 +139,9 @@ namespace BoardUserFriendManager1.Services
             _context.UserFriends.Update(userFriend);
             await _context.SaveChangesAsync();
         }
-        private async Task<UserFriend> getUserById(Guid id)
+        private async Task<UserFriend> getUserById(string id)
         {
-            var userFriend = await _context.UserFriends.FindAsync(id);
+            var userFriend = await _context.UserFriends.FindAsync(new Guid(id));
             if (userFriend == null)
                 throw new NotFoundException("User");
             return userFriend;

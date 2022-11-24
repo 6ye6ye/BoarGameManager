@@ -10,13 +10,13 @@
     public class GameRoleDTOGet
     {
         public Guid Id { get; set; }
-        public int GameId { get; set; }
+        public Guid GameId { get; set; }
         public string Name { get; set; }
 
     }
     public class GameRoleDTOAdd
     {
-        public Guid GameId { get; set; }
+        public string GameId { get; set; }
         public string Name { get; set; }
     }
 

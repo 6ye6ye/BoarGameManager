@@ -47,25 +47,7 @@ namespace BoardGameManager1.Controllers
             }
             return BadRequest("Model isn't valid");
         }
-        [HttpGet]
-        [Route("Role")]
-        public async Task<ActionResult<IList<string>>> GetUserRole()
-        {
-            try
-            {
-                if (User.Identities.Any())
-                {
-                    return Ok(await _accountService.GetUserRoles(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                }
-                return BadRequest("Need sign in");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
+    
         [HttpPost]
         [Route("Login")]
 
@@ -94,6 +76,25 @@ namespace BoardGameManager1.Controllers
             //  await HttpContext.SignOutAsync();
             await _accountService.Logout();
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("Role")]
+        public async Task<ActionResult<IList<string>>> GetUserRole()
+        {
+            try
+            {
+                if (User.Identities.Any())
+                {
+                    return Ok(await _accountService.GetUserRoles(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                }
+                return BadRequest("Need sign in");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpGet]

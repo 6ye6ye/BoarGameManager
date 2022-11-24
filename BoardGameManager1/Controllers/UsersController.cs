@@ -3,6 +3,7 @@ using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardUserManager1.Services;
+using DAL;
 using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
@@ -85,37 +86,53 @@ namespace BoardGameManager1.Controllers
             }
 
             return user;
-            //}
-
-            //// POST: api/Users
-            //[HttpPost]
-            //public async Task<ActionResult<User>> PostUser(UserDTOAdd user)
-            //{
-            //    var newId = new UserService(_context, _mapper).AddUser(user);
-            //    return CreatedAtAction("GetUser", new { id = newId }, user);
-            //}
-
-
-
-            //// DELETE: api/Users/5
-            //[HttpDelete("{id}")]
-            //public async Task<IActionResult> DeleteUser(int id)
-            //{
-            //    var user = await _context.Users.FindAsync(id);
-            //    if (user == null)
-            //    {
-            //        return NotFound();
-            //    }
-
-            //    await new UserService(_context, _mapper).DeleteUser(user);
-
-            //    return NoContent();
-            //}
-
-            //private bool UserExists(string id)
-            //{
-            //    return _context.Users.Any(e => e.Id == id);
-            //}
         }
+        [HttpGet]
+        [Route("Current")]
+        [Authorize]
+        public async Task<ActionResult<UserDTOGet>> GetCurrentUser()
+        {
+            var user = await _service.GetUserById(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
+        //}
+
+        //// POST: api/Users
+        //[HttpPost]
+        //public async Task<ActionResult<User>> PostUser(UserDTOAdd user)
+        //{
+        //    var newId = new UserService(_context, _mapper).AddUser(user);
+        //    return CreatedAtAction("GetUser", new { id = newId }, user);
+        //}
+
+
+
+        //// DELETE: api/Users/5
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteUser(int id)
+        //{
+        //    var user = await _context.Users.FindAsync(id);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    await new UserService(_context, _mapper).DeleteUser(user);
+
+        //    return NoContent();
+        //}
+
+        //private bool UserExists(string id)
+        //{
+        //    return _context.Users.Any(e => e.Id == id);
+        //}
+
     }
 }

@@ -4,7 +4,7 @@
         <div class="row">
             <label class="control-label">User name:</label>
             <input type="text" v-model="userName" class="form-control"/>
-            <button v-on:click="getFirstTenUsers()" type="button" class="btn btn-primary">Search</button>-->
+            <button v-on:click="GetfirstTenUsers()" type="button" class="btn btn-primary">Search</button>-->
         </div>
 
         <table  class="table">
@@ -44,7 +44,7 @@
             //    this.getFirstTenUsers();
             //}, 2000),
             getFirstTenUsers: lodash.throttle(function () {
-                UserService.getFirstTenUsers(this.userName)
+                UserService.GetfirstTenUsers(this.userName)
                     .then(response => {
                         this.users = response.data;
                     })

@@ -15,7 +15,7 @@
     public class PlayerDTOAdd
     {
         public string Name { get; set; }
-        public Guid? CreatorId { get; set; }
+        public string? CreatorId { get; set; }
     }
 
 }

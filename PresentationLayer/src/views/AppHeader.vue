@@ -1,7 +1,7 @@
 ﻿<template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid .navbar">
-            <a class="navbar-brand" href="/">Настольные игры</a>
+            <a class="navbar-brand" href="/">BoardGames</a>
 
             <a class="nav-link" href="/">
                 Games
@@ -24,7 +24,7 @@
             <a v-show="isAuth" class="nav-link" @click="logout" href="/">
                 Logout
             </a>
-            <a v-show="isAuth" class="nav-link" href="/user">
+            <a v-show="isAuth" class="nav-link" href="/myAccount">
                 {{userName}}
             </a>
         </div>

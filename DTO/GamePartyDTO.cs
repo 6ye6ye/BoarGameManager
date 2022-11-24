@@ -20,14 +20,14 @@
     public class GamePartyDTOAdd
     {
         public DateTime Date { get; set; }
-        public Guid GameId { get; set; }
-        public Guid? UserGamePlaceId { get; set; }
+        public string GameId { get; set; }
+        public string? UserGamePlaceId { get; set; }
 
     }
     public class GamePartyDTOEdit
     {
         public DateTime Date { get; set; }
-        public Guid? UserGamePlaceId { get; set; }
+        public string? UserGamePlaceId { get; set; }
 
     }
 }

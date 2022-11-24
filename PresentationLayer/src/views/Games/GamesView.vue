@@ -1,9 +1,7 @@
 ﻿<template>
     <div class="mb-3">
-        <h1>Game list</h1>
+        <h1>Games</h1>
         <!--<button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game</button>-->
-
-        <button v-show="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">+</button>
         <!--<button v-on:click="getUserGames()" type="button" class="btn btn-danger">MyGames</button>-->
     </div>
     <ModalWindow v-show="isModalVisible" @close="closeModal">
@@ -16,7 +14,12 @@
     <div class="post">
 
         <div class="row row_filters">
+            <div class="col-sm-1">
+                <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">
 
+                    Add game
+                </button>
+            </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">Name</label>
                 <input type="text" v-model="filter.name" class="form-control" />
@@ -33,29 +36,29 @@
                 <label class="form-label">ReleaseYear</label>
                 <input type="number" v-model="filter.releaseYear" min="1900" max="2022" class="form-control" />
             </div>
-            <div v-show="isAuth" class="col-sm-2 sub_filters ">
+            <div v-show="isAuth" class="col-sm-1 sub_filters  ">
                 <label class="form-label">my games</label>
-                <input class="form-check-input " type="checkbox" v-model="filter.showAdded"/>
+                <input class="form-check-input " type="checkbox" v-model="filter.showAdded" />
             </div>
-            <div class="col-sm-2  sub_filters">
+            <div class="col-sm-1  sub_filters">
                 <button v-on:click="getGamesWithFilters()" type="button" class="form-control btn btn-info">Search</button>
             </div>
-           </div>
-        <table id="gamesTable" class="table">
+        </div>
+        <table id="gamesTable" class="table table-hover ">
             <thead>
-                <tr>
-                    <th>Id</th>
+                <tr class="table-active">
+                    
                     <th>Image</th>
                     <th @click="sort('name')">Name</th>
                     <th>Ru/Eng</th>
-                    <th @click="sort('rate')">Rate</th>
-                    <th @click="sort('playersMinCount')">Min player count</th>
-                    <th @click="sort('playersMaxCount')">Max player count</th>
-                    <th @click="sort('minAge')">Min age</th>
-                    <th @click="sort('minPartyTime')">Min party time</th>
-                    <th @click="sort('maxPartyTime')">Max party time</th>
-                    <th @click="sort('releaseYear')">Release year</th>
-                    <th @click="sort('addedToUserGames')">Added</th>
+                    <th class="nav-item" @click="sort('rate')">Rate</th>
+                    <th class="nav-item" @click="sort('playersMinCount')">Min player count</th>
+                    <th class="nav-item" @click="sort('playersMaxCount')">Max player count</th>
+                    <th class="nav-item" @click="sort('minAge')">Min age</th>
+                    <th class="th-sm" @click="sort('minPartyTime')">Min party time</th>
+                    <th class="th-sm" @click="sort('maxPartyTime')">Max party time</th>
+                    <th class="th-sm" @click="sort('releaseYear')">Release year</th>
+                    <th class="th-sm" @click="sort('addedToUserGames')">Added</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -63,7 +66,7 @@
             <tbody>
 
                 <tr v-for="item in games" :key="item.Id">
-                    <td>{{item.id}}</td>
+                
                     <td>
                         <img v-bind:src="item.image" width="50" height="80" />
                     </td>
@@ -78,10 +81,10 @@
                     <td>{{item.maxPartyTime }}</td>
                     <td>{{item.releaseYear }}</td>
                     <td v-show="isAuth">
-                        <input class="form-check-input" type="checkbox"  v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" /> 
+                        <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
                     </td>
                     <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
-   
+
                     <td><button v-show="isAdmin && !isMyGamesPage" v-on:click="delete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
 
                     <td><button v-show="isMyGamesPage" v-on:click="deleteFromUserGames(item.id)" type="button" class="btn btn-danger">Delete</button></td>
@@ -92,17 +95,17 @@
 
     </div>
 
-</template>  
-  
+</template>
 
 
 
-<script>  
+
+<script>
 
     import ModalWindow from "../ModalWindow.vue";
     import AddGameView from "../Games/AddGameView.vue";
-    import GamesService from "../../services/GameService";  
-    import UserGamesService from "../../services/UserGamesService";  
+    import GamesService from "../../services/GameService";
+    import UserGamesService from "../../services/UserGamesService";
     export default {
         name: 'GamesView',
         data() {
@@ -112,10 +115,10 @@
                     minRate: 0,
                     maxRate: 10,
                     releaseYear: '',
-                    showAdded:false,
+                    showAdded: false,
                 },
                 isAuth: localStorage.getItem('isAuth'),
-                isAdmin: localStorage.role=='Admin',
+                isAdmin: localStorage.role == 'Admin',
                 isModalVisible: false,
                 isMyGamesPage: false,
                 games: [],
@@ -135,14 +138,14 @@
         },
 
         methods: {
-   
+
             sort: function (s) {
 
                 if (s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
                 }
                 this.currentSort = s;
-                this.games =this.games.sort((a, b) => {
+                this.games = this.games.sort((a, b) => {
                     let modifier = 1;
                     if (this.currentSortDir === 'desc') modifier = -1;
                     if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
@@ -167,7 +170,7 @@
                         console.log(e);
                     });
             },
-            
+
             getGamesWithFilters() {
                 GamesService.GetAllWithFilters(this.filter).then(response => {
                     this.games = response.data;
@@ -193,11 +196,13 @@
                 this.$router.push({ name: 'AddGameView' })
             },
             goToDetails(id) {
-                this.$router.push({ name: 'GameView',params: { id: id } })
+                this.$router.push({ name: 'GameView', params: { id: id } })
             },
             delete(id) {
                 GamesService.Delete(id).then(response => {
                     console.log(response.data);
+                    let i = this.games.map(item => item.id).indexOf(id) // find index of your object
+                    this.games.splice(i, 1)
                 })
                     .catch(e => {
                         console.log(e);
@@ -225,12 +230,12 @@
                         console.log(e);
                     });
             },
-            
+
         },
     }
-</script>  
-  
-<style >
+</script>
+
+<style>
     .row_filters {
         align-content: center;
         align-items: center;
@@ -244,5 +249,4 @@
         padding-right: 5px;
         margin: 0;
     }
-
-</style>  
+</style>

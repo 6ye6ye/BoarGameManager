@@ -81,12 +81,19 @@ const routes = [
 
     },
     {
-        path: '/user',
+        path: '/user:id',
         name: 'UserView',
-        component: UserView
+        component: UserView,
+        params: true,
     },
     {
-        path: "/:catchAll(.*)", // Unrecognized path automatically matches 404
+        path: '/myAccount',
+        name: 'MyUserView',
+        component: UserView,
+        params: true,
+    },
+    {
+        path: "/:catchAll(.*)",
         redirect: '/404',
     },
     {

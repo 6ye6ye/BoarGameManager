@@ -9,6 +9,6 @@
     }
     public class UserGameDTOAdd
     {
-        public int GameId { get; set; }
+        public string GameId { get; set; }
     }
 }

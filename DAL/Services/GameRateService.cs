@@ -56,13 +56,13 @@ namespace BoardGameManager1.Services
         }
 
         // Return new game rating after edit
-        public async Task<double> EditCurrentUserGameRate(Guid gameId, int rate, Guid userId)
+        public async Task<double> EditCurrentUserGameRate(string gameId, int rate, string userId)
         {
             var game = await getGame(gameId);
-            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
+            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == new Guid(userId) && g.GameId == new Guid(gameId));
 
             if (userGameRate == null)
-                return await AddCurrentUserGameRate(game, rate, userId);
+                return await AddCurrentUserGameRate(game, rate, new Guid(userId));
             if (userGameRate.Rate == rate)
                 return game.Rating;
 
@@ -84,9 +84,9 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
             return game.Rating;
         }
-        private async Task<Game> getGame(Guid id)
+        private async Task<Game> getGame(string id)
         {
-            var game = await _context.Games.FindAsync(id);
+            var game = await _context.Games.FindAsync(new Guid(id));
             if (game == null)
                 throw new NotFoundException("Game");
             return game;

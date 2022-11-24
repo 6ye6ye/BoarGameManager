@@ -2,9 +2,10 @@
 {
     public class DoublicateException : Exception
     {
-        public DoublicateException(string message) : base(message)
+        public DoublicateException(string name) 
+            : base(String.Format(" Already exist:{0}", name))
         {
-            message = message + " already exist";
+
         }
     }
 }

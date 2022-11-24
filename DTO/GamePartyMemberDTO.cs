@@ -21,16 +21,16 @@
     }
     public class GamePartyMemberDTOAdd
     {
-        public Guid GamePartyId { get; set; }
-        public Guid PlayerId { get; set; }
-        public Guid GameRoleId { get; set; }
+        public string GamePartyId { get; set; }
+        public string PlayerId { get; set; }
+        public string GameRoleId { get; set; }
         public int Points { get; set; }
         public bool IsWinner { get; set; }
     }
     public class GamePartyMemberDTOEdit
     {
-        public Guid PlayerId { get; set; }
-        public Guid GameRoleId { get; set; }
+        public string PlayerId { get; set; }
+        public string GameRoleId { get; set; }
         public int Points { get; set; }
         public bool IsWinner { get; set; }
     }

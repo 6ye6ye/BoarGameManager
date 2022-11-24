@@ -29,7 +29,7 @@ namespace BoardGameManager1.Services
 
         public async Task<IList<string>> GetUserRoles(string id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(new Guid(id));
             return await _userManager.GetRolesAsync(user);
         }
         public async Task Register(AccountDTORegister registerDTO)

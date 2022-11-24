@@ -13,7 +13,7 @@ class GameRolesService {
             url: url + '/api/GameRoles',
 
             data: {
-                gameId: gameRole.gameId*1,
+                gameId: gameRole.gameId,
                 name: gameRole.name
             }
         });

@@ -87,7 +87,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
             }
             catch (NotFoundException ex)
             {

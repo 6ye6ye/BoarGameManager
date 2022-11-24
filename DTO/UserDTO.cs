@@ -11,6 +11,7 @@
         public string UserName { get; set; }
         public string Email { get; set; }
         public RoleDTOGet Role { get; set; }
+       
     }
     public class UserDTOGetShort
     {

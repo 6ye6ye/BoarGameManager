@@ -48,14 +48,15 @@ class GameService {
         return await axios.get(url + '/api/Games/'+id);
     }
     async Add(file,game) {
-    //async AddGame(game) {
-      
-        let formData = new FormData();
-        formData.append("file", file);
-        var patch = await axios.post(url + '/api/Games/image',
-            formData)
-            .then(response => response.data);
-   
+        //async AddGame(game) {
+        if (file != null) {
+            let formData = new FormData();
+            formData.append("file", file);
+            var patch = await axios.post(url + '/api/Games/image',
+                formData)
+                .then(response => response.data);
+        }
+       
         return  await axios({
             method: 'post',
             url: url + '/api/Games',

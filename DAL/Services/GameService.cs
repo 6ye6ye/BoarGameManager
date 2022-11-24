@@ -28,12 +28,12 @@ namespace BoardGameManager1.Services
             return games.AsEnumerable();
         }
 
-        public async Task<IEnumerable<GameDTOGet>> GetGamesWithFilters(GameFilter filter, Guid userId)
+        public async Task<IEnumerable<GameDTOGet>> GetGamesWithFilters(GameFilter filter, string userId)
         {
             var games = _context.Games
                     .Include(c => c.UserGames).AsQueryable();
             if (filter.ShowAdded == true)
-                games = games.Where(g => g.UserGames.Any(g => g.UserId == userId));
+                games = games.Where(g => g.UserGames.Any(g => g.UserId.ToString() == userId));
             if (filter.ReleaseYear != 0)
                 games = games.Where(g => g.ReleaseYear == filter.ReleaseYear);
             if (filter.Name != null)
@@ -46,17 +46,17 @@ namespace BoardGameManager1.Services
             return rezult.AsEnumerable();
         }
 
-        public async Task<IEnumerable<GameDTOGet>> GetGames(Guid userId)
+        public async Task<IEnumerable<GameDTOGet>> GetGames(string userId)
         {
 
             var games = await _context.Games
-                     .Include(c => c.UserGames.Where(c => c.UserId == userId))
+                     .Include(c => c.UserGames.Where(c => c.UserId.ToString() == userId))
                      .Select(c => _mapper.Map<GameDTOGet>(c))
                      .ToListAsync();
             return games.AsEnumerable();
         }
 
-        public async Task<GameDTOGet> GetGameById(Guid id)
+        public async Task<GameDTOGet> GetGameById(string id)
         {
             var game = await getGame(id);
             return _mapper.Map<GameDTOGet>(game);
@@ -72,14 +72,14 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
             return game.Id;
         }
-        public async Task EditGame(Guid id, GameDTOEdit gameDTO)
+        public async Task EditGame(string id, GameDTOEdit gameDTO)
         {
             var game = await getGame(id);
             game = _mapper.Map<GameDTOEdit, Game>(gameDTO, game);
             _context.Entry(game).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteGame(Guid id)
+        public async Task DeleteGame(string id)
         {
             var game = await getGame(id);
             _context.Games.Remove(game);
@@ -103,19 +103,20 @@ namespace BoardGameManager1.Services
         //}
 
 
-        public async Task<double> GetCurrentUserGameRate(Guid gameId, Guid userId)
+        public async Task<double> GetCurrentUserGameRate(string gameId, string userId)
         {
 
-            var userGameRate = await _context.GameRates.FirstOrDefaultAsync(g => g.UserId == userId && g.GameId == gameId);
+            var userGameRate = await _context.GameRates.FirstOrDefaultAsync(g => 
+                g.UserId.ToString() == userId && g.GameId.ToString() == gameId);
             if (userGameRate == null)
                 throw new NotFoundException("Rate");
             return userGameRate.Rate;
         }
 
-        public async Task<double> PostCurrentUserGameRate(Guid gameId, int rate, Guid userId)
+        public async Task<double> PostCurrentUserGameRate(string gameId, int rate, string userId)
         {
             var game = await getGame(gameId);
-            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
+            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId.ToString() == userId && g.GameId.ToString() == gameId);
 
             //if already rated change user game rate
             if (userGameRate != null || rate != userGameRate.Rate)
@@ -126,10 +127,10 @@ namespace BoardGameManager1.Services
             //if not rated, add new rate
             else
             {
-                _context.GameRates.Add(new GameRate() { GameId = gameId, Rate = rate, UserId = userId });
+                _context.GameRates.Add(new GameRate() { GameId = new Guid(gameId), Rate = rate, UserId = new Guid(userId) });
             }
 
-            var gameRates = _context.GameRates.Where(g => g.GameId == gameId);
+            var gameRates = _context.GameRates.Where(g => g.GameId.ToString() == gameId);
 
             game.RatingCount = gameRates.Count();
             game.Rating = (gameRates.Sum(c => c.Rate) / game.RatingCount);
@@ -141,9 +142,9 @@ namespace BoardGameManager1.Services
         }
 
 
-        private async Task<Game> getGame(Guid id)
+        private async Task<Game> getGame(string id)
         {
-            var game = await _context.Games.FindAsync(id);
+            var game = await _context.Games.FindAsync(new Guid(id));
             if (game == null)
                 throw new NotFoundException("Game");
             return game;

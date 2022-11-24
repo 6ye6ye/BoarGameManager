@@ -2,10 +2,10 @@
 {
     public class NotFoundException : Exception
     {
-        public NotFoundException(string message)
-        : base(message)
+        public NotFoundException(string name)
+        : base(String.Format("not found:{0}", name))
         {
-            message = message + " not found";
+           
         }
     }
 }

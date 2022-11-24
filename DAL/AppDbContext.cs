@@ -34,6 +34,22 @@ namespace BoardGamesManager.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>(b =>
+            {
+                b.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.User)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<Role>(b =>
+            {
+                b.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.Role)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+            });
+
             modelBuilder.Entity<User>()
                .HasMany(m => m.PlayGamesPlayers)
                .WithOne(m => m.Account)
@@ -57,7 +73,7 @@ namespace BoardGamesManager.Data
             modelBuilder.Entity<Game>()
                .HasMany(m => m.GameParties)
                .WithOne(m => m.Game)
-               .OnDelete(DeleteBehavior.Restrict);
+               .OnDelete(DeleteBehavior.SetNull);
 
             //modelBuilder.Entity<UserFriend>()
             //    .HasOne(m => m.InRequestUser)
@@ -83,9 +99,9 @@ namespace BoardGamesManager.Data
             modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
 
 
-            modelBuilder.Entity<Game>()
-                    .HasIndex(p => new { p.Name })
-                    .IsUnique();
+            //modelBuilder.Entity<Game>()
+            //        .HasIndex(p => new { p.Name })
+            //        .IsUnique();
 
             modelBuilder.Entity<Game>(entity =>
             {
@@ -130,7 +146,7 @@ namespace BoardGamesManager.Data
                 UserName = "admin",
                 NormalizedEmail = "admin@gmail.com".Normalize(),
                 NormalizedUserName = "admin".Normalize(),
-
+                SecurityStamp = Guid.NewGuid().ToString()
                 // RoleId = adminRole.Id
             };
             var user = new User()
@@ -142,6 +158,7 @@ namespace BoardGamesManager.Data
                 UserName = "use",
                 NormalizedEmail = "user@gmail.com".Normalize(),
                 NormalizedUserName = "user".Normalize(),
+                SecurityStamp= Guid.NewGuid().ToString()
                 //   RoleId = userRole.Id
 
             };
@@ -228,6 +245,7 @@ namespace BoardGamesManager.Data
                 Date = DateTime.Now,
                 PartyCreatorId = userAdmin.Id,
                 UserGamePlaceId = userGamePlaces1.Id,
+                GameId=game.Id
             };
             var player1 = new Player()
             {

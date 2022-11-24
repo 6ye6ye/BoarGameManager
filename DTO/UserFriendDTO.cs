@@ -21,7 +21,7 @@ namespace DTO
     }
     public class UserFriendDTOAdd
     {
-        public Guid OutRequestUser { get; set; }
+        public string OutRequestUser { get; set; }
     }
     public class UserFriendDTOEdit
     {

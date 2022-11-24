@@ -35,9 +35,9 @@ namespace BoardGameManager1.Services
         #region ForloggedUsers
 
         //-------------------------------------------------------
-        public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(Guid gamePartyMemberId)
+        public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(string gamePartyMemberId)
         {
-            var gameParties = await _context.GamePartyMembers.FindAsync(gamePartyMemberId);
+            var gameParties = await _context.GamePartyMembers.FindAsync(new Guid(gamePartyMemberId));
             if (gameParties == null)
                 throw new NotFoundException("Record");
             return _mapper.Map<GamePartyMemberDTOGet>(gameParties);
@@ -73,9 +73,9 @@ namespace BoardGameManager1.Services
             return gamePartyMember.Id;
         }
 
-        public async Task DeleteGamePartyMember(Guid id)
+        public async Task DeleteGamePartyMember(string id)
         {
-            var gamePartyMember = await _context.GamePartyMembers.FindAsync(id);
+            var gamePartyMember = await _context.GamePartyMembers.FindAsync(new Guid(id));
             if (gamePartyMember == null)
                 throw new NotFoundException("Game");
             _context.GamePartyMembers.Remove(gamePartyMember);

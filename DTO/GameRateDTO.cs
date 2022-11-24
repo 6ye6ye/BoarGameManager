@@ -9,7 +9,7 @@
     }
     public class GameRateDTOPost
     {
-        public Guid GameId { get; set; }
+        public string GameId { get; set; }
         public int Rate { get; set; }
     }
 }

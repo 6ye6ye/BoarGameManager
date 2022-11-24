@@ -30,10 +30,9 @@ namespace BoardGameManager1.Services
             return _mapper.Map<List<GameRoleDTOGet>>(gameRole).AsEnumerable();
         }
 
-        public async Task<GameRoleDTOGet> GetGameRoleById(Guid id)
+        public async Task<GameRoleDTOGet> GetGameRoleById(string id)
         {
-            var gameRole = await _context.GameRoles
-                .FindAsync(id);
+            var gameRole = await _context.GameRoles.FindAsync(new Guid(id));
             //var user = await _context.Users.FindAsync(id);
             if (gameRole == null)
                 throw new NotFoundException("Game role");

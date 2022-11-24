@@ -93,9 +93,9 @@ namespace BoardGamePartyManager1.Services
         //    _context.SaveChanges();
         //}
 
-        public async Task DeleteGameParty(Guid id)
+        public async Task DeleteGameParty(string id)
         {
-            var gameParty = await _context.GameParties.FindAsync(id);
+            var gameParty = await _context.GameParties.FindAsync(new Guid(id));
             if (gameParty == null)
                 throw new NotFoundException("Game party");
             _context.GameParties.Remove(gameParty);
@@ -108,7 +108,7 @@ namespace BoardGamePartyManager1.Services
         }
 
 
-        public async Task EditGameParty(Guid id, GamePartyDTOEdit gamePartyDTO)
+        public async Task EditGameParty(string id, GamePartyDTOEdit gamePartyDTO)
         {
             var gameParty = await getGameParty(id);
             gameParty = _mapper.Map<GamePartyDTOEdit, GameParty>(gamePartyDTO, gameParty);
@@ -116,9 +116,9 @@ namespace BoardGamePartyManager1.Services
             await _context.SaveChangesAsync();
         }
 
-        private async Task<GameParty> getGameParty(Guid id)
+        private async Task<GameParty> getGameParty(string id)
         {
-            var gameParty = await _context.GameParties.FindAsync(id);
+            var gameParty = await _context.GameParties.FindAsync(new Guid(id));
             if (gameParty == null)
                 throw new NotFoundException("Game");
             return gameParty;

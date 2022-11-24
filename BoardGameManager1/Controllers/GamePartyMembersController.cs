@@ -62,7 +62,7 @@ namespace BoardGameManager1.Controllers
         // GET: api/GamePartyMembers/5
         [HttpGet("{id}")]
 
-        public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(Guid id)
+        public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(string id)
         {
 
             try
@@ -107,7 +107,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/GamePartyMembers/5
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteGamePartyMember(Guid id)
+        public async Task<IActionResult> DeleteGamePartyMember(string id)
         {
             try
             {

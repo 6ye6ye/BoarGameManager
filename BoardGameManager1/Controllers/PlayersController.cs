@@ -42,7 +42,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Players/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlayerDTOGet>> GetPlayer(Guid id)
+        public async Task<ActionResult<PlayerDTOGet>> GetPlayer(string id)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                player.CreatorId = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                player.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 return await _service.AddPlayerToCurrentUser(player);
 
             }

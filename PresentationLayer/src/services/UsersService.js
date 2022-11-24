@@ -9,6 +9,13 @@ class UsersService {
     async GetById(id) {
         return await axios.get(url + '/api/Users/'+id);
     }
+    async GetCurrent() {
+        return await axios.get(url + '/api/Users/Current');
+    }
+    async GetfirstTenUsers(id) {
+        return await axios.get(url + '/api/Users/search/' + id);
+    }
+
     async GetAllWithFilters(filter) {
         return await axios.get(url + '/api/Users/Filtered', {
             params: {

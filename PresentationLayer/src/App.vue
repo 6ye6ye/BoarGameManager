@@ -1,7 +1,7 @@
 <template>
     <AppHeader :userName="userName" />
 
-    <div class="container" id="app">
+    <div class="container " id="app">
         <router-view ></router-view>
     </div>
 </template>
@@ -29,4 +29,5 @@
   color: #2c3e50;
   margin-top: 60px;
 }
+ 
 </style>

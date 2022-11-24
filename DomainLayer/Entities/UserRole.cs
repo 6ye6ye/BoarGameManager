@@ -8,10 +8,10 @@ namespace BoardGameManager1.Entities
     {
        // public override string UserId { get; set; }
         //[ForeignKey("UserId")]
-        //public override virtual User User { get; set; }
+        public virtual User User { get; set; }
         
         ////public override string RoleId { get; set; }
         //[ForeignKey("RoleId")]
-        //public virtual Role? Role { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

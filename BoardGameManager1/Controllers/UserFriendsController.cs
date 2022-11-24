@@ -93,7 +93,7 @@ namespace BoardGameManager1.Controllers
             // _context.UserFriends.Add(userFriend);
             try
             {
-                return await _service.AddUserFriend(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), userFriend.OutRequestUser);
+                return await _service.AddUserFriend(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), new Guid(userFriend.OutRequestUser));
 
             }
             catch (Exception ex)
@@ -106,7 +106,7 @@ namespace BoardGameManager1.Controllers
         [HttpPut]
         [Route("Accept/{id}")]
         [Authorize]
-        public async Task<IActionResult> AcceptRequest(Guid id)
+        public async Task<IActionResult> AcceptRequest(string id)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace BoardGameManager1.Controllers
         [HttpPut]
         [Route("Ignore/{id}")]
         [Authorize]
-        public async Task<IActionResult> IgnoreRequest(Guid id)
+        public async Task<IActionResult> IgnoreRequest(string id)
         {
             if (ModelState.IsValid)
             {
@@ -153,7 +153,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/UserFriends/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserFriend(Guid id)
+        public async Task<IActionResult> DeleteUserFriend(string id)
         {
             try
             {

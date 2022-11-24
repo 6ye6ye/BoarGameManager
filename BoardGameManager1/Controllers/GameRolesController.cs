@@ -42,7 +42,7 @@ namespace BoardGameManager1.Controllers
         // GET: api/GameRoles/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GameRoleDTOGet>> GetGameRole(Guid id)
+        public async Task<ActionResult<GameRoleDTOGet>> GetGameRole(string id)
         {
             try
             {

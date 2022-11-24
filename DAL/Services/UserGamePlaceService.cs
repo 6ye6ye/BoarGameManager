@@ -29,9 +29,9 @@ namespace BoardUserGamePlaceManager1.Services
             return _mapper.Map<List<UserGamePlaceDTOGet>>(userGamePlaces).AsEnumerable();
         }
 
-        public async Task<UserGamePlaceDTOGet> GetUserGamePlaceById(int id)
+        public async Task<UserGamePlaceDTOGet> GetUserGamePlaceById(string id)
         {
-            var userGamePlace = await _context.UserGamePlaces.FindAsync(id);
+            var userGamePlace = await _context.UserGamePlaces.FindAsync(new Guid(id));
             if (userGamePlace == null)
             {
                 throw new NotFoundException("Game place");
@@ -67,9 +67,9 @@ namespace BoardUserGamePlaceManager1.Services
         }
 
 
-        public async Task DeleteUserGamePlace(Guid id)
+        public async Task DeleteUserGamePlace(string id)
         {
-            var userGamePlace = await _context.UserGamePlaces.FindAsync(id);
+            var userGamePlace = await _context.UserGamePlaces.FindAsync(new Guid(id));
             if (userGamePlace == null)
             {
                 throw new NotFoundException("Game place");
@@ -78,20 +78,20 @@ namespace BoardUserGamePlaceManager1.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task ChangeUserGamePlaceName(Guid id, string name)
+        public async Task ChangeUserGamePlaceName(string id, string name)
         {
             if (!UserGamePlaceExists(id))
             {
                 throw new NotFoundException("Game place");
             }
-            var gamePlace = await _context.UserGamePlaces.FindAsync(id);
+            var gamePlace = await _context.UserGamePlaces.FindAsync(new Guid(id));
             gamePlace.Name = name;
             _context.Entry(gamePlace).State = EntityState.Modified;
             _context.SaveChanges();
         }
-        private bool UserGamePlaceExists(Guid id)
+        private bool UserGamePlaceExists(string id)
         {
-            return _context.UserGamePlaces.Any(e => e.Id == id);
+            return _context.UserGamePlaces.Any(e => e.Id.ToString() == id);
         }
 
     }

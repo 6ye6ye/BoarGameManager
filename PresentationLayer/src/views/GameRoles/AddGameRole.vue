@@ -7,7 +7,7 @@
                     <input type="text" v-model="role.name" class="form-control" />
 
                     <div class="form-group">
-                        <button v-on:click="addGameRole()" type="button" class="btn btn-success ">Confirm</button>
+                        <button v-on:click="addGameRole()" type="button" class="btn btn-success ">Add</button>
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
         data() {
             return {
                 role: {
-                    gameId: this.$route.params.id * 1,
+                    gameId: this.$route.params.id,
                     name: ''
                 }
             }
@@ -34,6 +34,8 @@
                 //GamesService.AddGame(this.game)
                     .then(response => {
                         console.log(response.data);
+                        this.$emit('close');
+                        this.$emit('get-game-roles');
                      })
                     .catch(e => {
                         console.log(e);

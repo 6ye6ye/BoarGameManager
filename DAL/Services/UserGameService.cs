@@ -36,7 +36,7 @@ namespace BoardUserGameManager1.Services
             return _mapper.Map<List<UserGameDTOGet>>(userGames).AsEnumerable();
         }
 
-        public async Task<UserGameDTOGet> GetUserGameById(Guid id)
+        public async Task<UserGameDTOGet> GetUserGameById(string id)
         {
             var userGame = await getUserGame(id);
             return _mapper.Map<UserGameDTOGet>(userGame);
@@ -75,9 +75,9 @@ namespace BoardUserGameManager1.Services
             await _context.SaveChangesAsync();
         }
 
-        private async Task<UserGame> getUserGame(Guid id)
+        private async Task<UserGame> getUserGame(string id)
         {
-            var userGame = await _context.UserGames.FindAsync(id);
+            var userGame = await _context.UserGames.FindAsync(new Guid(id));
             if (userGame == null)
                 throw new NotFoundException("Game");
             return userGame;

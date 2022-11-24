@@ -2,7 +2,7 @@
     <h1>Game parties list</h1>
     <button type="button" class="btn btn-primary" @click="showModal">+</button>
   
-   <ModalWindow v-show="isModalVisible" @close="closeModal">
+   <ModalWindow v-if="isModalVisible" @close="closeModal">
         <template v-slot:body>
             <AddGamePartyView @close="closeModal" @get-game-parties="getGameParties" ></AddGamePartyView>
         </template>
@@ -96,6 +96,8 @@
             goToDelete(id) {
                 GamePartiesService.Delete(id).then(response => {
                     console.log(response.data);
+                    let i = this.gameParties.map(item => item.id).indexOf(id) 
+                    this.gameParties.splice(i, 1)
                 })
                     .catch(e => {
                         this.errorMesage = e.response.data;

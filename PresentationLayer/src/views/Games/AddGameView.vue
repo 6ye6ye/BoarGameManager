@@ -51,7 +51,7 @@
             <label class="form-label">ReleaseYear</label>
             <input type="number" v-model="game.releaseYear" class="form-control" />
         </div>
-        <ErrorMessage :errorMessage="errorMessage"/>
+        <ErrorMessage :errorMessage="errorMessage" />
         <button v-on:click="addGame()" type="button" class="btn btn-primary">Add</button>
 
     </div>
@@ -63,7 +63,7 @@
     import GamesService from "../../services/GameService";
     import ErrorMessage from "../ErrorMessage.vue";
 
-    
+
     export default {
         name: 'AddGameView',
         data() {
@@ -75,14 +75,14 @@
                     name: '',
                     nameRu: '',
                     nameEng: '',
-                    playersMinCount: 0,
-                    playersMaxCount: 0,
+                    playersMinCount: 1,
+                    playersMaxCount: 1,
                     minAge: 0,
                     minPartyTime: 0,
                     maxPartyTime: 0,
                     releaseYear: 2022
                 },
-                errorMessage:''
+                errorMessage: ''
             }
         },
         components: {
@@ -105,20 +105,22 @@
                                     console.log(response.data);
                                     return { ok: true }
                                 }
-                            case (400):
+                            default:
                                 {
-                                    this.errorMessage = response;
+                                    console.log(response.statusText);
+                                    this.errorMessage = response.data;
                                     console.log(response);
                                     return { ok: false }
                                 }
                         }
                     })
                     .catch(e => {
-                       
-                        if (e.status==400)
-                            this.errorMessage="Not valid input"
+
+                        if (e.status == 400)
+                            this.errorMessage = "Not valid input"
                         else
-                            this.errorMessage = e;
+
+                            this.errorMessage = e.response.data;
                     });
             },
 

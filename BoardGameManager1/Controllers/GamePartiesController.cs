@@ -95,7 +95,7 @@ namespace BoardGameManager1.Controllers
 
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchGame(Guid id, [FromBody] GamePartyDTOEdit gamePartyDTO)
+        public async Task<IActionResult> PatchGame(string id, [FromBody] GamePartyDTOEdit gamePartyDTO)
         {
             try
             {
@@ -131,7 +131,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/GameParties/5
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteGameParty(Guid id)
+        public async Task<IActionResult> DeleteGameParty(string id)
         {
             try
             {

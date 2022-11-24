@@ -54,7 +54,7 @@ namespace BoardGameManager1.Controllers
         // GET: api/UserGamePlaces/5
         [HttpGet("{id}")]
 
-        public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(int id)
+        public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(string id)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace BoardGameManager1.Controllers
         //  [Route("Current")]
         [HttpPatch("{id}")]
 
-        public async Task<IActionResult> ChangeUserGamePlaceName(Guid id, string name)
+        public async Task<IActionResult> ChangeUserGamePlaceName(string id, string name)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/UserGamePlaces/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserGamePlace(Guid id)
+        public async Task<IActionResult> DeleteUserGamePlace(string id)
         {
             try
             {

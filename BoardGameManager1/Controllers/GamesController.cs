@@ -36,7 +36,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _gameService.GetGames(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
+                return Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _gameService.GetGamesWithFilters(filter, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
+                return Ok(await _gameService.GetGamesWithFilters(filter, User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace BoardGameManager1.Controllers
         // GET: api/Games/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GameDTOGet>> GetGame(Guid id)
+        public async Task<ActionResult<GameDTOGet>> GetGame(string id)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace BoardGameManager1.Controllers
 
         [HttpPatch("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> PatchGame(Guid id, [FromBody] GameDTOEdit gameDTO)
+        public async Task<IActionResult> PatchGame(string id, [FromBody] GameDTOEdit gameDTO)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +129,10 @@ namespace BoardGameManager1.Controllers
                     var newId = await _gameService.AddGame(game);
                     return CreatedAtAction("GetGame", new { id = newId }, game);
                 }
+                catch (DoublicateException ex)
+                {
+                    return Conflict(ex.Message);
+                }
                 catch (Exception ex)
                 {
                     return BadRequest(ex.Message);
@@ -140,7 +144,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/Games/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> DeleteGame(Guid id)
+        public async Task<IActionResult> DeleteGame(string id)
         {
             try
             {
