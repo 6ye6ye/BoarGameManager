@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Enums;
+using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardUserManager1.Services;
+using DAL.Common.Filters;
+using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
 {
@@ -20,9 +24,9 @@ namespace BoardGameManager1.Controllers
             _service = new UserService(context, mapper);
         }
 
-        // GET: api/Users
+
         [HttpGet]
-        [Authorize]
+        [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetUsers()
         {
             try
@@ -32,14 +36,29 @@ namespace BoardGameManager1.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }     
+            }
         }
 
-        // GET: api/Users
+        [HttpGet]
+        [AllowAnonymous]
+        [AppAutorize(UserRoleEnum.Admin)]
+        [Route("Filtered")]
+        public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetUsersWithFilters([FromQuery] UsersFilter filter)
+        {
+            try
+            {
+                return Ok(await _service.GetUsersWithFilters(filter));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         [Route("search/{name}")]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetFirstTenUsersByName( string name)
+        public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetFirstTenUsersByName(string name)
         {
             try
             {
@@ -52,10 +71,10 @@ namespace BoardGameManager1.Controllers
 
         }
 
-        // GET: api/Users/5
+
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<ActionResult<UserDTOGet>> GetUser(string id)
+        public async Task<ActionResult<UserDTOGet>> GetUserById(Guid id)
         {
             var user = await _service.GetUserById(id);
 
@@ -66,62 +85,37 @@ namespace BoardGameManager1.Controllers
             }
 
             return user;
+            //}
+
+            //// POST: api/Users
+            //[HttpPost]
+            //public async Task<ActionResult<User>> PostUser(UserDTOAdd user)
+            //{
+            //    var newId = new UserService(_context, _mapper).AddUser(user);
+            //    return CreatedAtAction("GetUser", new { id = newId }, user);
+            //}
+
+
+
+            //// DELETE: api/Users/5
+            //[HttpDelete("{id}")]
+            //public async Task<IActionResult> DeleteUser(int id)
+            //{
+            //    var user = await _context.Users.FindAsync(id);
+            //    if (user == null)
+            //    {
+            //        return NotFound();
+            //    }
+
+            //    await new UserService(_context, _mapper).DeleteUser(user);
+
+            //    return NoContent();
+            //}
+
+            //private bool UserExists(string id)
+            //{
+            //    return _context.Users.Any(e => e.Id == id);
+            //}
         }
-
-        //// PUT: api/Users/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUser(string id, [FromBody] UserDTOEdit user)
-        //{
-       
-        //    try
-        //    {
-        //        //TODO
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UserExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Users
-        //[HttpPost]
-        //public async Task<ActionResult<User>> PostUser(UserDTOAdd user)
-        //{
-        //    var newId = new UserService(_context, _mapper).AddUser(user);
-        //    return CreatedAtAction("GetUser", new { id = newId }, user);
-        //}
-        
-
-        //TODOOOOOOO
-
-        //// DELETE: api/Users/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    await new UserService(_context, _mapper).DeleteUser(user);
-
-        //    return NoContent();
-        //}
-
-        //private bool UserExists(string id)
-        //{
-        //    return _context.Users.Any(e => e.Id == id);
-        //}
     }
 }

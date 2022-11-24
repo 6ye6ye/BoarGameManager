@@ -31,7 +31,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetUserFriendsByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetUserFriendsByUserId(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetUserFriendIncomingRequests(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetUserFriendIncomingRequests(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -59,7 +59,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetUserFriendOutRequests(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetUserFriendOutRequests(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -69,7 +69,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/UserFriends/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsById(string id)
+        public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsById(Guid id)
         {
             try
             {
@@ -88,13 +88,13 @@ namespace BoardGameManager1.Controllers
 
         // POST: api/UserFriends
         [HttpPost]
-        public async Task<ActionResult<int>> PostUserFriend(UserFriendDTOAdd userFriend)
+        public async Task<ActionResult<Guid>> PostUserFriend(UserFriendDTOAdd userFriend)
         {
             // _context.UserFriends.Add(userFriend);
             try
             {
-                return await _service.AddUserFriend(User.FindFirstValue(ClaimTypes.NameIdentifier),userFriend.OutRequestUser);
-               
+                return await _service.AddUserFriend(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), userFriend.OutRequestUser);
+
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@ namespace BoardGameManager1.Controllers
         [HttpPut]
         [Route("Accept/{id}")]
         [Authorize]
-        public async Task<IActionResult> AcceptRequest(int id)
+        public async Task<IActionResult> AcceptRequest(Guid id)
         {
             if (ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace BoardGameManager1.Controllers
         [HttpPut]
         [Route("Ignore/{id}")]
         [Authorize]
-        public async Task<IActionResult> IgnoreRequest(int id)
+        public async Task<IActionResult> IgnoreRequest(Guid id)
         {
             if (ModelState.IsValid)
             {
@@ -153,7 +153,7 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/UserFriends/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserFriend(int id)
+        public async Task<IActionResult> DeleteUserFriend(Guid id)
         {
             try
             {
@@ -168,29 +168,29 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-           
+
         }
 
         //TODOOOOO
-     //   [HttpDelete()]
-     ////   [Route("status")]
-     //   public async Task<IActionResult> ChangeFriendStatus(int id, [FromQuery] FriendStatus status)
-     //   {
-     //       var userFriend = await _context.UserFriends.FindAsync(id);
-     //       if (userFriend == null)
-     //       {
-     //           return NotFound();
-     //       }
+        //   [HttpDelete()]
+        ////   [Route("status")]
+        //   public async Task<IActionResult> ChangeFriendStatus(int id, [FromQuery] FriendStatus status)
+        //   {
+        //       var userFriend = await _context.UserFriends.FindAsync(id);
+        //       if (userFriend == null)
+        //       {
+        //           return NotFound();
+        //       }
 
-     //       _context.UserFriends.Remove(userFriend);
-     //       await _context.SaveChangesAsync();
+        //       _context.UserFriends.Remove(userFriend);
+        //       await _context.SaveChangesAsync();
 
-     //       return NoContent();
-     //   }
+        //       return NoContent();
+        //   }
 
-     //   private bool UserFriendExists(int id)
-     //   {
-     //       return _context.UserFriends.Any(e => e.Id == id);
-     //   }
+        //   private bool UserFriendExists(int id)
+        //   {
+        //       return _context.UserFriends.Any(e => e.Id == id);
+        //   }
     }
 }

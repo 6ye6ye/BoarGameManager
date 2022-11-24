@@ -15,7 +15,7 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  
+
     public class GamesController : ControllerBase
     {
         //private readonly AppDbContext _context;
@@ -26,7 +26,7 @@ namespace BoardGameManager1.Controllers
         {
             //_context = context;
             //_mapper = mapper;
-            _gameService=new  GameService(context, mapper);
+            _gameService = new GameService(context, mapper);
         }
 
         // GET: api/Games
@@ -36,9 +36,9 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return  Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _gameService.GetGames(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -46,11 +46,11 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("Filtered")]
-        public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGamesWithFilters( [FromQuery] GameFilter filter)
+        public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGamesWithFilters([FromQuery] GameFilter filter)
         {
             try
             {
-                return Ok(await _gameService.GetGamesWithFilters( filter, User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _gameService.GetGamesWithFilters(filter, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace BoardGameManager1.Controllers
         // GET: api/Games/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GameDTOGet>> GetGame(int id)
+        public async Task<ActionResult<GameDTOGet>> GetGame(Guid id)
         {
             try
             {
@@ -91,10 +91,10 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-      
+
         [HttpPatch("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> PatchGame(int id, [FromBody] GameDTOEdit gameDTO)
+        public async Task<IActionResult> PatchGame(Guid id, [FromBody] GameDTOEdit gameDTO)
         {
             if (ModelState.IsValid)
             {
@@ -118,14 +118,14 @@ namespace BoardGameManager1.Controllers
         // POST: api/Games
         [HttpPost]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<ActionResult<GameDTOGet>> PostGame( GameDTOAdd game)
+        public async Task<ActionResult<GameDTOGet>> PostGame(GameDTOAdd game)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     if (game.Image == null)
-                        game.Image="no-image-icon-6.png";
+                        game.Image = "no-image-icon-6.png";
                     var newId = await _gameService.AddGame(game);
                     return CreatedAtAction("GetGame", new { id = newId }, game);
                 }
@@ -140,7 +140,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/Games/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> DeleteGame(int id)
+        public async Task<IActionResult> DeleteGame(Guid id)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace BoardGameManager1.Controllers
             try
             {
                 // getting file original name
-                string FileName =  file.FileName;
+                string FileName = file.FileName;
 
                 // combining GUID to create unique name before saving in wwwroot
                 string uniqueFileName = Guid.NewGuid().ToString() + "_" + FileName;

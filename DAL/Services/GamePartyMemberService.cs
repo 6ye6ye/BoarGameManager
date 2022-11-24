@@ -18,15 +18,15 @@ namespace BoardGameManager1.Services
             _mapper = mapper;
         }
         #region ForAdmin
-       
-        public async Task<IEnumerable<GamePartyMemberDTOGet>> GetGamePartyMembers(int gamePartyId)
+
+        public async Task<IEnumerable<GamePartyMemberDTOGet>> GetGamePartyMembers(Guid gamePartyId)
         {
             var gameParties = await _context.GamePartyMembers
-                .Include(c=>c.GameParty.Game)
-                .Include(c=>c.GameRole)
-                .Include(c=>c.Player)
-                .Where(g=>g.GamePartyId== gamePartyId)
-                .Select( c => _mapper.Map<GamePartyMemberDTOGet>(c))
+                .Include(c => c.GameParty.Game)
+                .Include(c => c.GameRole)
+                .Include(c => c.Player)
+                .Where(g => g.GamePartyId == gamePartyId)
+                .Select(c => _mapper.Map<GamePartyMemberDTOGet>(c))
                 .ToListAsync();
             return gameParties.AsEnumerable();
         }
@@ -35,7 +35,7 @@ namespace BoardGameManager1.Services
         #region ForloggedUsers
 
         //-------------------------------------------------------
-        public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(int gamePartyMemberId)
+        public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(Guid gamePartyMemberId)
         {
             var gameParties = await _context.GamePartyMembers.FindAsync(gamePartyMemberId);
             if (gameParties == null)
@@ -43,7 +43,7 @@ namespace BoardGameManager1.Services
             return _mapper.Map<GamePartyMemberDTOGet>(gameParties);
         }
 
-        public async Task<IEnumerable<GamePartyMemberDTOGet>> GetCurrentUserGamePartiesMember(string userId)
+        public async Task<IEnumerable<GamePartyMemberDTOGet>> GetCurrentUserGamePartiesMember(Guid userId)
         {
             var gameParties = await _context.GamePartyMembers
                 .Where(m => m.Player.AccountId == userId)
@@ -52,8 +52,8 @@ namespace BoardGameManager1.Services
             return _mapper.Map<List<GamePartyMemberDTOGet>>(gameParties).AsEnumerable();
         }
 
-    
-        
+
+
         //public async Task<GamePartyDTOGet> GetGamePartyById(int id)
         //{
 
@@ -65,7 +65,7 @@ namespace BoardGameManager1.Services
         //    return _mapper.Map<GamePartyDTOGet>(gameParty);
         //}
 
-        public async Task<int> AddGamePartyMember(GamePartyMemberDTOAdd gamePartyMemberDTO)
+        public async Task<Guid> AddGamePartyMember(GamePartyMemberDTOAdd gamePartyMemberDTO)
         {
             var gamePartyMember = _mapper.Map<GamePartyMember>(gamePartyMemberDTO);
             _context.GamePartyMembers.Add(gamePartyMember);
@@ -73,7 +73,7 @@ namespace BoardGameManager1.Services
             return gamePartyMember.Id;
         }
 
-        public async Task DeleteGamePartyMember(int id)
+        public async Task DeleteGamePartyMember(Guid id)
         {
             var gamePartyMember = await _context.GamePartyMembers.FindAsync(id);
             if (gamePartyMember == null)
@@ -82,13 +82,13 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
         }
 
-        private bool GamePartyExists(int id)
+        private bool GamePartyExists(Guid id)
         {
             return _context.GameParties.Any(e => e.Id == id);
         }
         #endregion
 
-        private bool GamePartyMemberExists(int id)
+        private bool GamePartyMemberExists(Guid id)
         {
             return _context.GamePartyMembers.Any(e => e.Id == id);
         }

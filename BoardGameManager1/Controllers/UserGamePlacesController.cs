@@ -19,7 +19,7 @@ namespace BoardGameManager1.Controllers
 
         public UserGamePlacesController(AppDbContext context, IMapper mapper)
         {
-            _service = new UserGamePlaceService(context,mapper);
+            _service = new UserGamePlaceService(context, mapper);
         }
 
         //// GET: api/UserGamePlaces
@@ -53,7 +53,7 @@ namespace BoardGameManager1.Controllers
         //}
         // GET: api/UserGamePlaces/5
         [HttpGet("{id}")]
-     
+
         public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(int id)
         {
             try
@@ -70,21 +70,21 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-  
+
         [HttpGet]
         [Route("short")]
         public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGetShort>>> GetCurrentUserGamePlaces()
         {
             try
             {
-                var userGamePlace = await _service.GetCurrentUserGamePlaces(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var userGamePlace = await _service.GetCurrentUserGamePlaces(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return Ok(userGamePlace);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-          
+
         }
 
         //[Route("Current")]
@@ -104,15 +104,15 @@ namespace BoardGameManager1.Controllers
 
 
         // PUT: api/UserGamePlaces/5
-      //  [Route("Current")]
+        //  [Route("Current")]
         [HttpPatch("{id}")]
 
-        public async Task<IActionResult> ChangeUserGamePlaceName(int id, string name)
+        public async Task<IActionResult> ChangeUserGamePlaceName(Guid id, string name)
         {
             try
             {
                 await _service.ChangeUserGamePlaceName(id, name);
-                return NoContent(); 
+                return NoContent();
             }
             catch (NotFoundException ex)
             {
@@ -130,7 +130,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                var newId = await _service.AddUserGamePlace(gamePlace.Name, User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var newId = await _service.AddUserGamePlace(gamePlace.Name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return Ok();
             }
             catch (Exception ex)
@@ -141,8 +141,8 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/UserGamePlaces/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserGamePlace(int id)
-        {     
+        public async Task<IActionResult> DeleteUserGamePlace(Guid id)
+        {
             try
             {
                 await _service.DeleteUserGamePlace(id);
@@ -158,6 +158,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-     
+
     }
 }

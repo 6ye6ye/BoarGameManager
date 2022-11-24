@@ -10,8 +10,8 @@ namespace BoardUserFriendManager1.Services
 {
     public class UserFriendService
     {
-      
-        
+
+
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
@@ -23,22 +23,22 @@ namespace BoardUserFriendManager1.Services
         }
 
         //Get added friends
-        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendsByUserId(string userId)
+        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendsByUserId(Guid userId)
         {
             //TODO
             //Не получать информацию о себе
             var userFriends = await _context.UserFriends
-                .Where(u=>(u.InRequestUserId==userId|| u.OutRequestUserId==userId) && u.Status==FriendStatus.Added)
-                .Select(c=>new UserFriendDTOGet() { Id=c.Id,Friend=c.InRequestUserId==userId? _mapper.Map<UserDTOGetShort>(c.OutRequestUser): _mapper.Map<UserDTOGetShort> (c.InRequestUser)})
+                .Where(u => (u.InRequestUserId == userId || u.OutRequestUserId == userId) && u.Status == FriendStatus.Added)
+                .Select(c => new UserFriendDTOGet() { Id = c.Id, Friend = c.InRequestUserId == userId ? _mapper.Map<UserDTOGetShort>(c.OutRequestUser) : _mapper.Map<UserDTOGetShort>(c.InRequestUser) })
                 .ToListAsync();
 
             return userFriends;
-           // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
+            // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
         }
 
 
         //Get input request to add to friends
-        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendIncomingRequests(string userId)
+        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendIncomingRequests(Guid userId)
         {
             var userFriends = await _context.UserFriends
                .Where(u => u.OutRequestUserId == userId && u.Status == FriendStatus.Request)
@@ -50,7 +50,7 @@ namespace BoardUserFriendManager1.Services
         }
 
         //Get out request to add to friends (now not confirmed)
-        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendOutRequests(string userId)
+        public async Task<IEnumerable<UserFriendDTOGet>> GetUserFriendOutRequests(Guid userId)
         {
 
             var userFriends = await _context.UserFriends
@@ -60,23 +60,23 @@ namespace BoardUserFriendManager1.Services
                 .ToListAsync();
 
             return userFriends;
-           
+
             // return _mapper.Map<IEnumerable<UserFriendDTOGet>>(userFriends);
         }
 
-        public async Task<UserFriendDTOGet> GetUserFriendById(int id)
+        public async Task<UserFriendDTOGet> GetUserFriendById(Guid id)
         {
             var userFriend = await getUserById(id);
             return _mapper.Map<UserFriendDTOGet>(userFriend);
         }
 
 
-        public async Task<int> AddUserFriend(string userId, string outRequestUserId)
+        public async Task<Guid> AddUserFriend(Guid userId, Guid outRequestUserId)
         {
             var userFriend = await _context.UserFriends.FirstOrDefaultAsync(c => c.InRequestUserId == outRequestUserId && c.OutRequestUserId == userId);
             if (userFriend != null)
                 throw new DoublicateException("Сan't send request");
-             userFriend = new UserFriend()
+            userFriend = new UserFriend()
             {
                 InRequestUserId = userId,
                 OutRequestUserId = outRequestUserId,
@@ -86,8 +86,8 @@ namespace BoardUserFriendManager1.Services
             await _context.SaveChangesAsync();
             return userFriend.Id;
         }
-        
-        public async Task IgnoreUserFriend(int id)
+
+        public async Task IgnoreUserFriend(Guid id)
         {
             var userFriend = await _context.UserFriends.FindAsync(id);
             if (userFriend == null)
@@ -96,7 +96,7 @@ namespace BoardUserFriendManager1.Services
             _context.Entry(userFriend).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        public async Task AcceptUserFriend(int id)
+        public async Task AcceptUserFriend(Guid id)
         {
             var userFriend = await _context.UserFriends.FindAsync(id);
             if (userFriend == null)
@@ -121,7 +121,7 @@ namespace BoardUserFriendManager1.Services
         //    _context.SaveChanges();
         //}
 
-        public async Task DeleteUserFriend(int id)
+        public async Task DeleteUserFriend(Guid id)
         {
             var userFriend = await getUserById(id);
             _context.UserFriends.Remove(userFriend);
@@ -139,7 +139,7 @@ namespace BoardUserFriendManager1.Services
             _context.UserFriends.Update(userFriend);
             await _context.SaveChangesAsync();
         }
-        private async Task<UserFriend> getUserById(int id)
+        private async Task<UserFriend> getUserById(Guid id)
         {
             var userFriend = await _context.UserFriends.FindAsync(id);
             if (userFriend == null)

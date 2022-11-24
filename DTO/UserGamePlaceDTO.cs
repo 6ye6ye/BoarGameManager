@@ -2,14 +2,14 @@
 {
     public class UserGamePlaceDTOGet
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class UserGamePlaceDTOGetShort
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
     public class UserGamePlaceDTOAdd

@@ -2,8 +2,9 @@
 
 namespace BoardGameManager1.Entities
 {
-    public class Role : IdentityRole<string>
+    public class Role : IdentityRole<Guid>
     {
-        //public virtual ICollection<UserRole> UserRoles { get; set; }
+
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

@@ -19,6 +19,13 @@ export default class AccountService {
             url: url + '/API/Account/Role'
         });
     }
+    static async getCurrentUserName() {
+        return await axios({
+            method: 'get',
+            url: url + '/API/Account/userName'
+        });
+    }
+    
     static async register(login, email, password, passwordRepeat, name) {
 
         var rezult = await axios({
@@ -36,7 +43,7 @@ export default class AccountService {
         switch (rezult.status) {
             case (200):
                 {
-                    window.location.href = '/'
+                   // window.location.href = '/'
                     this.$router.push({ name: 'GamesView' })
                     return { ok: true }
                 }
@@ -48,19 +55,12 @@ export default class AccountService {
 
     static async logout() {
 
-        var rezult = await axios({
+        return await axios({
             method: 'post',
             url: url + '/API/Account/Logout',
         });
 
-        switch (rezult.status) {
-            case (200):
-                {
-                    return { ok: true }
-                }
-            case (400):
-                return { ok: false }
-        }
+
 
     }
 }

@@ -20,26 +20,25 @@ namespace BoardGameManager1.Controllers
         //private readonly IMapper _mapper;
         private readonly GamePartyMemberService _service;
 
-        public GamePartyMembersController(AppDbContext context,IMapper mapper)
+        public GamePartyMembersController(AppDbContext context, IMapper mapper)
         {
             //_context = context;
             //_mapper = mapper;
-            _service = new GamePartyMemberService(context,mapper);
+            _service = new GamePartyMemberService(context, mapper);
         }
 
         // GET: api/GamePartyMembers
 
         [HttpGet]
         [Route("gameParty/{id}")]
-        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId([FromRoute] int id)
+        public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId([FromRoute] Guid id)
         {
-            if (id == 0)
-                return BadRequest("Id exception");
+
             try
             {
                 return Ok(await _service.GetGamePartyMembers(id));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -52,7 +51,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetCurrentUserGamePartiesMember(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetCurrentUserGamePartiesMember(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -63,9 +62,9 @@ namespace BoardGameManager1.Controllers
         // GET: api/GamePartyMembers/5
         [HttpGet("{id}")]
 
-        public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(int id)
+        public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(Guid id)
         {
-           
+
             try
             {
                 var gameParty = await _service.GetGamePartyMemberById(id);
@@ -82,12 +81,12 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-       
+
 
         // POST: api/GamePartyMembers
         [HttpPost]
 
-        public async Task<ActionResult<int>> PostGamePartyMember(GamePartyMemberDTOAdd gamePartyMember)
+        public async Task<ActionResult<Guid>> PostGamePartyMember(GamePartyMemberDTOAdd gamePartyMember)
         {
             if (!ModelState.IsValid)
             {
@@ -95,8 +94,8 @@ namespace BoardGameManager1.Controllers
             }
             try
             {
-                return  await _service.AddGamePartyMember(gamePartyMember);
-                 
+                return await _service.AddGamePartyMember(gamePartyMember);
+
             }
 
             catch (Exception ex)
@@ -108,7 +107,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/GamePartyMembers/5
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteGamePartyMember(int id)
+        public async Task<IActionResult> DeleteGamePartyMember(Guid id)
         {
             try
             {
@@ -123,9 +122,9 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-           
+
         }
 
-      
+
     }
 }

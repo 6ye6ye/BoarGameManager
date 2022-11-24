@@ -26,7 +26,7 @@ namespace BoardGameManager1.Services
             return _mapper.Map<List<GameRateDTOGet>>(gameRole).AsEnumerable();
         }
 
-        public async Task<double> GetGameRate(int gameId)
+        public async Task<double> GetGameRate(Guid gameId)
         {
             var userGameRate = _context.GameRates.FirstOrDefault(g => g.GameId == gameId);
             if (userGameRate == null)
@@ -34,7 +34,7 @@ namespace BoardGameManager1.Services
             return userGameRate.Rate;
         }
 
-        public async Task<double> GetCurrentUserGameRate(int gameId, string userId)
+        public async Task<double> GetCurrentUserGameRate(Guid gameId, Guid userId)
         {
             var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
             if (userGameRate == null)
@@ -43,9 +43,9 @@ namespace BoardGameManager1.Services
         }
 
         //Return new game rating after edit
-        public async Task<double> AddCurrentUserGameRate(Game game, int rate, string userId)
+        public async Task<double> AddCurrentUserGameRate(Game game, int rate, Guid userId)
         {
-       
+
             var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == game.Id);
 
             _context.GameRates.Add(new GameRate() { GameId = game.Id, Rate = rate, UserId = userId });
@@ -55,8 +55,8 @@ namespace BoardGameManager1.Services
             return game.Rating;
         }
 
-       // Return new game rating after edit
-        public async Task<double> EditCurrentUserGameRate(int gameId, int rate, string userId)
+        // Return new game rating after edit
+        public async Task<double> EditCurrentUserGameRate(Guid gameId, int rate, Guid userId)
         {
             var game = await getGame(gameId);
             var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
@@ -84,7 +84,7 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
             return game.Rating;
         }
-        private async Task<Game> getGame(int id)
+        private async Task<Game> getGame(Guid id)
         {
             var game = await _context.Games.FindAsync(id);
             if (game == null)

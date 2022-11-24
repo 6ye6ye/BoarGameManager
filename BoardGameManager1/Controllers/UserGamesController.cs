@@ -17,7 +17,7 @@ namespace BoardGameManager1.Controllers
     {
         private readonly UserGameService _service;
 
-        public UserGamesController(AppDbContext context,IMapper mapper)
+        public UserGamesController(AppDbContext context, IMapper mapper)
         {
             _service = new UserGameService(context, mapper);
         }
@@ -29,7 +29,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetCurrentUserGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetCurrentUserGames(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -40,31 +40,31 @@ namespace BoardGameManager1.Controllers
 
         [HttpPost("{gameId}")]
 
-        public async Task<ActionResult<int>> PostCurrentUserGame(int gameId)
+        public async Task<ActionResult<Guid>> PostCurrentUserGame(Guid gameId)
         {
             try
             {
-                return await _service.AddCurrentUserGame(gameId, User.FindFirstValue(ClaimTypes.NameIdentifier));
-               // return CreatedAtAction("GetUserGame", new { id = newId }, userGame);
-                }
+                return await _service.AddCurrentUserGame(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                // return CreatedAtAction("GetUserGame", new { id = newId }, userGame);
+            }
             catch (DoublicateException ex)
             {
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
-            
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         // DELETE: api/UserGames/5
         [HttpDelete("{gameId}")]
-        public async Task<IActionResult> DeleteCurrentUserGame(int gameId)
+        public async Task<IActionResult> DeleteCurrentUserGame(Guid gameId)
         {
             try
             {
-                await _service.DeleteCurrentUserGame( User.FindFirstValue(ClaimTypes.NameIdentifier), gameId);
+                await _service.DeleteCurrentUserGame(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), gameId);
                 return Ok();
             }
             catch (NotFoundException ex)

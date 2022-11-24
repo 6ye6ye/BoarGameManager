@@ -19,12 +19,12 @@ namespace BoardGameManager1.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
-       
+
 
         public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context)
         {
             _accountService = new AccountService(mapper, userManager, signInManager, context);
-            
+
         }
 
         [HttpPost]
@@ -102,6 +102,14 @@ namespace BoardGameManager1.Controllers
         public string GetCurrentUserId()
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("userName")]
+        public string GetCurrentUserName()
+        {
+            return User.Identity.Name;
         }
     }
 }

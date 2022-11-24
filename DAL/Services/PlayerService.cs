@@ -20,22 +20,22 @@ namespace BoardPlayerManager1.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PlayerDTOGet>> GetPlayersForCurrentUser(string userId)
+        public async Task<IEnumerable<PlayerDTOGet>> GetPlayersForCurrentUser(Guid userId)
         {
             var userFriendsId = await _context.UserFriends
                 .Where(u => (u.InRequestUserId == userId || u.OutRequestUserId == userId) && u.Status == FriendStatus.Added)
-                .Select(c => c.InRequestUserId == userId ? c.OutRequestUser.Id : c.InRequestUser.Id )
+                .Select(c => c.InRequestUserId == userId ? c.OutRequestUser.Id : c.InRequestUser.Id)
                 .ToListAsync();
             var players = await _context.Players
-                 
-                .Where(p=>p.AccountId==userId||p.CreatorId==userId|| userFriendsId.Contains(p.AccountId))
-                .Select(p=> _mapper.Map<PlayerDTOGet>(p))
+
+                .Where(p => p.AccountId == userId || p.CreatorId == userId || userFriendsId.Any(f => f == p.AccountId))
+                .Select(p => _mapper.Map<PlayerDTOGet>(p))
                 .ToListAsync();
 
             return players.AsEnumerable();
         }
 
-        public async Task<PlayerDTOGet> GetPlayerById(int id)
+        public async Task<PlayerDTOGet> GetPlayerById(Guid id)
         {
             var player = await _context.Players.FindAsync(id);
             if (player == null)
@@ -43,7 +43,7 @@ namespace BoardPlayerManager1.Services
             return _mapper.Map<PlayerDTOGet>(player);
         }
 
-        public async Task<int> AddPlayerToCurrentUser(PlayerDTOAdd playerDto)
+        public async Task<Guid> AddPlayerToCurrentUser(PlayerDTOAdd playerDto)
         {
             var player = new Player() { CreatorId = playerDto.CreatorId, Name = playerDto.Name };
             _context.Players.Add(player);
@@ -51,7 +51,7 @@ namespace BoardPlayerManager1.Services
             return player.Id;
         }
 
-        public async Task DeletePlayer(int id)
+        public async Task DeletePlayer(Guid id)
         {
             var player = _context.Players.Find(id);
             if (player == null)

@@ -32,14 +32,14 @@ namespace BoardGameManager1.Controllers
 
         [HttpGet("{gameId}")]
         [AllowAnonymous]
-        public async Task<ActionResult<double>> GetGameRate(int gameId)
+        public async Task<ActionResult<double>> GetGameRate(Guid gameId)
         {
             try
             {
                 var gameRate = await _service.GetGameRate(gameId);
                 return gameRate;
             }
- 
+
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -49,14 +49,14 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         [Route("user-gameRate/{gameId}")]
         [Authorize]
-        public async Task<ActionResult<double>> GetCurrentUserGameRate(int gameId)
+        public async Task<ActionResult<double>> GetCurrentUserGameRate(Guid gameId)
         {
             try
             {
-                var gameRate = await _service.GetCurrentUserGameRate(gameId,User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var gameRate = await _service.GetCurrentUserGameRate(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
                 return gameRate;
             }
- 
+
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -87,7 +87,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch (NotFoundException ex)
             {

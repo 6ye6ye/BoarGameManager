@@ -22,15 +22,15 @@ namespace BoardGameManager1.Services
             _mapper = mapper;
         }
 
-        public  async Task<IEnumerable<GameDTOGetShort>> GetGamesShort()
+        public async Task<IEnumerable<GameDTOGetShort>> GetGamesShort()
         {
             var games = await _context.Games.Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
             return games.AsEnumerable();
         }
 
-        public async Task<IEnumerable<GameDTOGet>> GetGamesWithFilters(GameFilter filter, string userId)
+        public async Task<IEnumerable<GameDTOGet>> GetGamesWithFilters(GameFilter filter, Guid userId)
         {
-            var games =  _context.Games
+            var games = _context.Games
                     .Include(c => c.UserGames).AsQueryable();
             if (filter.ShowAdded == true)
                 games = games.Where(g => g.UserGames.Any(g => g.UserId == userId));
@@ -42,51 +42,51 @@ namespace BoardGameManager1.Services
                 games = games.Where(g => g.Rating >= filter.MinRate);
             if (filter.MaxRate != 10)
                 games = games.Where(g => g.Rating <= filter.MaxRate);
-
-
-
             var rezult = await games.Select(c => _mapper.Map<GameDTOGet>(c)).ToListAsync();
             return rezult.AsEnumerable();
-          
         }
 
-        public async Task<IEnumerable<GameDTOGet>> GetGames(string userId)
+        public async Task<IEnumerable<GameDTOGet>> GetGames(Guid userId)
         {
 
             var games = await _context.Games
-                     .Include(c => c.UserGames.Where(c=>c.UserId==userId))
+                     .Include(c => c.UserGames.Where(c => c.UserId == userId))
                      .Select(c => _mapper.Map<GameDTOGet>(c))
                      .ToListAsync();
             return games.AsEnumerable();
         }
-        public async Task<GameDTOGet> GetGameById(int id)
+
+        public async Task<GameDTOGet> GetGameById(Guid id)
         {
             var game = await getGame(id);
             return _mapper.Map<GameDTOGet>(game);
         }
 
-        public async Task<ActionResult<int>> AddGame(GameDTOAdd gameDTO)
+        public async Task<ActionResult<Guid>> AddGame(GameDTOAdd gameDTO)
         {
-            var game = _mapper.Map<Game>(gameDTO);
+            var game = await _context.Games.FirstOrDefaultAsync(g => g.Name == gameDTO.Name);
+            if (game != null)
+                throw new DoublicateException("Game name");
+            game = _mapper.Map<Game>(gameDTO);
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
             return game.Id;
         }
-        public async Task EditGame(int id,GameDTOEdit gameDTO)
+        public async Task EditGame(Guid id, GameDTOEdit gameDTO)
         {
             var game = await getGame(id);
             game = _mapper.Map<GameDTOEdit, Game>(gameDTO, game);
             _context.Entry(game).State = EntityState.Modified;
-            await _context.SaveChangesAsync();     
+            await _context.SaveChangesAsync();
         }
-        public async Task DeleteGame(int id)
+        public async Task DeleteGame(Guid id)
         {
             var game = await getGame(id);
             _context.Games.Remove(game);
             await _context.SaveChangesAsync();
         }
 
-     
+
         //public async Task<GameDTOEdit> EditGame(GameDTOEdit gameDTO)
         //{
         //    var game = _mapper.Map<Game>(gameDTO);
@@ -103,16 +103,16 @@ namespace BoardGameManager1.Services
         //}
 
 
-        public async Task<double> GetCurrentUserGameRate(int gameId,string userId)
+        public async Task<double> GetCurrentUserGameRate(Guid gameId, Guid userId)
         {
-           
-            var userGameRate= await _context.GameRates.FirstOrDefaultAsync(g => g.UserId == userId && g.GameId == gameId);
+
+            var userGameRate = await _context.GameRates.FirstOrDefaultAsync(g => g.UserId == userId && g.GameId == gameId);
             if (userGameRate == null)
                 throw new NotFoundException("Rate");
             return userGameRate.Rate;
         }
 
-        public async Task<double> PostCurrentUserGameRate(int gameId, int rate, string userId)
+        public async Task<double> PostCurrentUserGameRate(Guid gameId, int rate, Guid userId)
         {
             var game = await getGame(gameId);
             var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId == userId && g.GameId == gameId);
@@ -141,12 +141,12 @@ namespace BoardGameManager1.Services
         }
 
 
-        private async Task<Game> getGame(int id)
+        private async Task<Game> getGame(Guid id)
         {
             var game = await _context.Games.FindAsync(id);
             if (game == null)
                 throw new NotFoundException("Game");
-            return  game;
+            return game;
         }
     }
 }

@@ -28,16 +28,16 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/GameParties
 
-      
+
         // GET: api/GameParties/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<GamePartyDTOGet>> GetGameParty(int id)
+        public async Task<ActionResult<GamePartyDTOGet>> GetGameParty(Guid id)
         {
             try
             {
                 var gameParty = await _service.GetGamePartyById(id);
                 return gameParty;
-      
+
             }
             catch (NotFoundException ex)
             {
@@ -54,7 +54,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetGameParties(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetCurrentUserGamePartiesPlayer(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetCurrentUserGamePartiesPlayer(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -78,14 +78,14 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-    
+
         [HttpGet]
-        [Route ("created")]
+        [Route("created")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserCreatedGameParties()
         {
             try
             {
-                return Ok(await _service.GetCurrentUserCreatedGameParties(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetCurrentUserCreatedGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -93,9 +93,9 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-       
+
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchGame(int id, [FromBody] GamePartyDTOEdit gamePartyDTO)
+        public async Task<IActionResult> PatchGame(Guid id, [FromBody] GamePartyDTOEdit gamePartyDTO)
         {
             try
             {
@@ -115,12 +115,12 @@ namespace BoardGameManager1.Controllers
         // POST: api/GameParties
         [HttpPost]
 
-      
-        public async Task<ActionResult<int>> PostGameParty(GamePartyDTOAdd gameParty)
+
+        public async Task<ActionResult<Guid>> PostGameParty(GamePartyDTOAdd gameParty)
         {
             try
             {
-                return  await _service.AddGameParty(gameParty, User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return await _service.AddGameParty(gameParty, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch (Exception ex)
             {
@@ -130,8 +130,8 @@ namespace BoardGameManager1.Controllers
 
         // DELETE: api/GameParties/5
         [HttpDelete("{id}")]
- 
-        public async Task<IActionResult> DeleteGameParty(int id)
+
+        public async Task<IActionResult> DeleteGameParty(Guid id)
         {
             try
             {

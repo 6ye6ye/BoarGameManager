@@ -21,7 +21,7 @@ namespace BoardUserGameManager1.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GameDTOGet>> GetCurrentUserGames(string id)
+        public async Task<IEnumerable<GameDTOGet>> GetCurrentUserGames(Guid id)
         {
             var games = _context.UserGames
                 .Where(g => g.UserId == id)
@@ -36,18 +36,18 @@ namespace BoardUserGameManager1.Services
             return _mapper.Map<List<UserGameDTOGet>>(userGames).AsEnumerable();
         }
 
-        public async Task<UserGameDTOGet> GetUserGameById(int id)
+        public async Task<UserGameDTOGet> GetUserGameById(Guid id)
         {
             var userGame = await getUserGame(id);
             return _mapper.Map<UserGameDTOGet>(userGame);
         }
 
-        public async Task<int> AddCurrentUserGame(int gameId, string userId)
+        public async Task<Guid> AddCurrentUserGame(Guid gameId, Guid userId)
         {
             var userGame = await _context.UserGames.FirstOrDefaultAsync(g => g.UserId == userId && g.GameId == gameId);
             if (userGame != null)
                 throw new DoublicateException("Game");
-            userGame = new UserGame() { GameId= gameId, UserId = userId };
+            userGame = new UserGame() { GameId = gameId, UserId = userId };
             _context.UserGames.Add(userGame);
             await _context.SaveChangesAsync();
             return userGame.Id;
@@ -68,23 +68,23 @@ namespace BoardUserGameManager1.Services
         //    _context.SaveChanges();
         //}
 
-        public async Task DeleteCurrentUserGame(string userId, int gameId)
+        public async Task DeleteCurrentUserGame(Guid userId, Guid gameId)
         {
             var userGame = await getUserGame(userId, gameId);
             _context.UserGames.Remove(userGame);
             await _context.SaveChangesAsync();
         }
 
-        private async Task<UserGame> getUserGame(int id)
+        private async Task<UserGame> getUserGame(Guid id)
         {
             var userGame = await _context.UserGames.FindAsync(id);
             if (userGame == null)
                 throw new NotFoundException("Game");
             return userGame;
         }
-        private async Task<UserGame> getUserGame(string userId, int gameId)
+        private async Task<UserGame> getUserGame(Guid userId, Guid gameId)
         {
-            var userGame = await _context.UserGames.FirstAsync(u=>u.GameId==gameId&& u.UserId==userId);
+            var userGame = await _context.UserGames.FirstAsync(u => u.GameId == gameId && u.UserId == userId);
             if (userGame == null)
                 throw new NotFoundException("Game");
             return userGame;

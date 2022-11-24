@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoardGamesManager.Data
 {
-    public class AppDbContext : IdentityDbContext<User, Role,string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>,   IdentityRoleClaim<string>, IdentityUserToken<string>>
+    public class AppDbContext : IdentityDbContext<User, Role,Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,   IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
        // public DbSet<UserRole> UserRoles { get; set; } = default!;
         public DbSet<Game> Games { get; set; } = default!;
@@ -27,8 +27,8 @@ namespace BoardGamesManager.Data
          //   Database.EnsureCreated();
         }
 
-     
- 
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,7 +36,7 @@ namespace BoardGamesManager.Data
 
             modelBuilder.Entity<User>()
                .HasMany(m => m.PlayGamesPlayers)
-               .WithOne(m=>m.Account)
+               .WithOne(m => m.Account)
               .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<User>()
                .HasMany(m => m.CreatedPlayers)
@@ -81,7 +81,7 @@ namespace BoardGamesManager.Data
 
 
             modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
-         
+
 
             modelBuilder.Entity<Game>()
                     .HasIndex(p => new { p.Name })
@@ -109,21 +109,22 @@ namespace BoardGamesManager.Data
         {
             var adminRole = new Role()
             {
-
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 Name = UserRoleEnum.Admin.ToString(),
                 NormalizedName = UserRoleEnum.Admin.ToString().Normalize()
             };
             var userRole = new Role()
             {
-                Id = Guid.NewGuid().ToString(),
+                // Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 Name = UserRoleEnum.User.ToString(),
                 NormalizedName = UserRoleEnum.User.ToString().Normalize()
             };
 
             var userAdmin = new User()
             {
-                Id = Guid.NewGuid().ToString(),
+                //Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 Email = "admin@gmail.com",
                 PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                 UserName = "admin",
@@ -134,7 +135,8 @@ namespace BoardGamesManager.Data
             };
             var user = new User()
             {
-                Id = Guid.NewGuid().ToString(),
+                //Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                 Email = "user@gmail.com",
                 UserName = "use",
@@ -143,7 +145,7 @@ namespace BoardGamesManager.Data
                 //   RoleId = userRole.Id
 
             };
-          
+
             var userRole1 = new UserRole()
             {
                 RoleId = adminRole.Id,
@@ -158,8 +160,8 @@ namespace BoardGamesManager.Data
 
             var game = new Game()
             {
-                Id = 1,
-                Image = "",
+                Id = Guid.NewGuid(),
+                Image = "no-image-icon-6.png",
                 MaxPartyTime = 120,
                 MinPartyTime = 60,
                 MinAge = 10,
@@ -169,39 +171,39 @@ namespace BoardGamesManager.Data
                 PlayersMaxCount = 12,
                 PlayersMinCount = 4,
                 ReleaseYear = 2021,
-                Rating=0,
-                RatingCount=0
+                Rating = 0,
+                RatingCount = 0
             };
 
 
             var gameRole1 = new GameRole()
             {
-                Id = 1,
-                GameId = 1,
+                Id = Guid.NewGuid(),
+                GameId = game.Id,
                 Name = "Mafia"
             };
             var gameRole2 = new GameRole()
             {
-                Id = 2,
-                GameId = 1,
+                Id = Guid.NewGuid(),
+                GameId = game.Id,
                 Name = "Player"
             };
             var gameRole3 = new GameRole()
             {
-                Id = 3,
-                GameId = 1,
+                Id = Guid.NewGuid(),
+                GameId = game.Id,
                 Name = "Doctor"
             };
             var gameRole4 = new GameRole()
             {
-                Id = 4,
-                GameId = 1,
+                Id = Guid.NewGuid(),
+                GameId = game.Id,
                 Name = "Sheriff"
             };
 
             var userFried = new UserFriend()
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 InRequestUserId = userAdmin.Id,
                 OutRequestUserId = user.Id,
                 Status = FriendStatus.Added
@@ -209,56 +211,56 @@ namespace BoardGamesManager.Data
 
             var userGamePlaces1 = new UserGamePlace()
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 UserId = userAdmin.Id,
                 Name = "MyHome"
             };
             var userGamePlaces2 = new UserGamePlace()
             {
-                Id = 2,
+                Id = Guid.NewGuid(),
                 UserId = userAdmin.Id,
                 Name = "Work"
             };
 
             var gameParty = new GameParty()
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Date = DateTime.Now,
                 PartyCreatorId = userAdmin.Id,
-                UserGamePlaceId = 1,
+                UserGamePlaceId = userGamePlaces1.Id,
             };
             var player1 = new Player()
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 AccountId = userAdmin.Id,
                 CreatorId = null,
                 Name = userAdmin.UserName
             };
             var player2 = new Player()
             {
-                Id = 2,
+                Id = Guid.NewGuid(),
                 AccountId = user.Id,
                 CreatorId = null,
                 Name = user.UserName
             };
-            var gamePartyMember1 = new GamePartyMember()
-            {
-                Id = 1,
-                GamePartyId = 1,
-                GameRoleId = 1,
-                IsWinner = true,
-                Points = 0,
-                PlayerId = 1
-            };
-            var gamePartyMember2 = new GamePartyMember()
-            {
-                Id = 2,
-                GamePartyId = 1,
-                GameRoleId = 2,
-                IsWinner = false,
-                Points = 0,
-                PlayerId = 2
-            };
+            //var gamePartyMember1 = new GamePartyMember()
+            //{
+            //    Id = Guid.NewGuid(),
+            //    GamePartyId = 1,
+            //    GameRoleId = 1,
+            //    IsWinner = true,
+            //    Points = 0,
+            //    PlayerId = 1
+            //};
+            //var gamePartyMember2 = new GamePartyMember()
+            //{
+            //    Id = Guid.NewGuid(),
+            //    GamePartyId = 1,
+            //    GameRoleId = 2,
+            //    IsWinner = false,
+            //    Points = 0,
+            //    PlayerId = 2
+            //};
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { userAdmin, user });
@@ -269,7 +271,7 @@ namespace BoardGamesManager.Data
             modelBuilder.Entity<UserGamePlace>().HasData(new UserGamePlace[] { userGamePlaces1, userGamePlaces2 });
             modelBuilder.Entity<GameParty>().HasData(gameParty);
             modelBuilder.Entity<Player>().HasData(new Player[] { player1, player2 });
-            modelBuilder.Entity<GamePartyMember>().HasData(new GamePartyMember[] { gamePartyMember1, gamePartyMember2 });
+            //modelBuilder.Entity<GamePartyMember>().HasData(new GamePartyMember[] { gamePartyMember1, gamePartyMember2 });
 
         }
 

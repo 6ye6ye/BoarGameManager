@@ -1,19 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
-    [Index(nameof(AccountId), IsUnique = true)]
+  //  [Index(nameof(AccountId), IsUnique = true)]
     public class Player
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public string? AccountId { get; set; }
+        public Guid? AccountId { get; set; }
         public virtual User? Account { get; set; }
 
-        public string? CreatorId { get; set; }
+        public Guid? CreatorId { get; set; }
         public virtual User? Creator { get; set; }
 
         public virtual ICollection<GamePartyMember> GamePartiesMember { get; set; }
-     }
+    }
 }

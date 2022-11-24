@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BoardGameManager1.Migrations
+namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -24,41 +24,23 @@ namespace BoardGameManager1.Migrations
 
             modelBuilder.Entity("BoardGameManager1.Entities.GameRate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("GameRates", (string)null);
+                    b.ToTable("GameRates");
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.GameRole", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -66,41 +48,14 @@ namespace BoardGameManager1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
-
-                    b.ToTable("GameRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GameId = 1,
-                            Name = "Mafia"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GameId = 1,
-                            Name = "Player"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            GameId = 1,
-                            Name = "Doctor"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            GameId = 1,
-                            Name = "Sheriff"
-                        });
+                    b.ToTable("GameRoles");
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.Role", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -122,58 +77,28 @@ namespace BoardGameManager1.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "a4bd7343-8765-428a-b1b3-4805f68455c1",
-                            ConcurrencyStamp = "856cb092-e4ac-4a02-bb85-a9682ab98be8",
-                            Name = "Admin",
-                            NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = "9481d2f6-d7c5-496d-be66-695857dcedff",
-                            ConcurrencyStamp = "37e8143b-dcab-4e3c-9d1f-73899dd7ebbf",
-                            Name = "User",
-                            NormalizedName = "User"
-                        });
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.UserRole", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "354c37c4-5483-4fa8-9d67-310be1d4d9e4",
-                            RoleId = "a4bd7343-8765-428a-b1b3-4805f68455c1"
-                        },
-                        new
-                        {
-                            UserId = "af00a8a9-2a67-41a8-a5d3-559806dea287",
-                            RoleId = "9481d2f6-d7c5-496d-be66-695857dcedff"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.Game", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -189,8 +114,7 @@ namespace BoardGameManager1.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("NameEng")
                         .HasColumnType("nvarchar(max)");
@@ -202,8 +126,6 @@ namespace BoardGameManager1.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("PlayersMinCount")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
                         .HasColumnType("int");
 
                     b.Property<double>("Rating")
@@ -220,135 +142,45 @@ namespace BoardGameManager1.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Games", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Image = "",
-                            MaxPartyTime = 120,
-                            MinAge = 10,
-                            MinPartyTime = 60,
-                            Name = "Mafia Delux",
-                            NameEng = "Mafia",
-                            NameRu = "Мафия",
-                            PlayersMaxCount = 12,
-                            PlayersMinCount = 4,
-                            Rating = 0.0,
-                            RatingCount = 0,
-                            ReleaseYear = 2021
-                        });
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("DAL.Entities.GameParty", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PartyCreatorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("UserGamePlaceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("PartyCreatorId");
-
-                    b.HasIndex("UserGamePlaceId");
-
-                    b.ToTable("GameParties", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Date = new DateTime(2022, 11, 10, 15, 20, 13, 662, DateTimeKind.Local).AddTicks(1125),
-                            PartyCreatorId = "354c37c4-5483-4fa8-9d67-310be1d4d9e4",
-                            UserGamePlaceId = 1
-                        });
+                    b.ToTable("GameParties");
                 });
 
             modelBuilder.Entity("DAL.Entities.GamePartyMember", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("GamePartyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GameRoleId")
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsWinner")
                         .HasColumnType("bit");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GamePartyId");
-
-                    b.HasIndex("GameRoleId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("GamePartyMembers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            GamePartyId = 1,
-                            GameRoleId = 1,
-                            IsWinner = true,
-                            PlayerId = 1,
-                            Points = 0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            GamePartyId = 1,
-                            GameRoleId = 2,
-                            IsWinner = false,
-                            PlayerId = 2,
-                            Points = 0
-                        });
+                    b.ToTable("GamePartyMembers");
                 });
 
             modelBuilder.Entity("DAL.Entities.Player", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AccountId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -356,33 +188,14 @@ namespace BoardGameManager1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId")
-                        .IsUnique()
-                        .HasFilter("[AccountId] IS NOT NULL");
-
-                    b.HasIndex("CreatorId");
-
-                    b.ToTable("Players", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AccountId = "354c37c4-5483-4fa8-9d67-310be1d4d9e4",
-                            Name = "admin@gmail.com"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccountId = "af00a8a9-2a67-41a8-a5d3-559806dea287",
-                            Name = "user@gmail.com"
-                        });
+                    b.ToTable("Players");
                 });
 
             modelBuilder.Entity("DAL.Entities.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -442,143 +255,59 @@ namespace BoardGameManager1.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "354c37c4-5483-4fa8-9d67-310be1d4d9e4",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "676c673e-24b0-453b-8108-c34e3c5b7d03",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "admin@gmail.com",
-                            NormalizedUserName = "admin@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "a4f0e726-293a-4d43-8513-06fb1eeff74f",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
-                        },
-                        new
-                        {
-                            Id = "af00a8a9-2a67-41a8-a5d3-559806dea287",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "22310d8b-b63d-4e41-b9d3-3ff3b5cfb54a",
-                            Email = "user@gmail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "user@gmail.com",
-                            NormalizedUserName = "user@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "e732ff63-4baa-4ed4-a6bf-b9f435d65665",
-                            TwoFactorEnabled = false,
-                            UserName = "user@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("DAL.Entities.UserGame", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("UserId", "GameId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
-                    b.ToTable("UserGames", (string)null);
+                    b.ToTable("UserGames");
                 });
 
             modelBuilder.Entity("DAL.Entities.UserGamePlace", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId", "Name")
-                        .IsUnique();
-
-                    b.ToTable("UserGamePlaces", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "MyHome",
-                            UserId = "354c37c4-5483-4fa8-9d67-310be1d4d9e4"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Work",
-                            UserId = "354c37c4-5483-4fa8-9d67-310be1d4d9e4"
-                        });
+                    b.ToTable("UserGamePlaces");
                 });
 
             modelBuilder.Entity("DAL.UserFriend", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("InRequestUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("OutRequestUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OutRequestUserId");
-
-                    b.HasIndex("InRequestUserId", "OutRequestUserId")
-                        .IsUnique()
-                        .HasFilter("[InRequestUserId] IS NOT NULL AND [OutRequestUserId] IS NOT NULL");
-
-                    b.ToTable("UserFriends", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            InRequestUserId = "354c37c4-5483-4fa8-9d67-310be1d4d9e4",
-                            OutRequestUserId = "af00a8a9-2a67-41a8-a5d3-559806dea287",
-                            Status = 1
-                        });
+                    b.ToTable("UserFriends");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -592,9 +321,8 @@ namespace BoardGameManager1.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -603,7 +331,7 @@ namespace BoardGameManager1.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -617,9 +345,8 @@ namespace BoardGameManager1.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -628,7 +355,7 @@ namespace BoardGameManager1.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -639,9 +366,8 @@ namespace BoardGameManager1.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -650,10 +376,10 @@ namespace BoardGameManager1.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -667,34 +393,6 @@ namespace BoardGameManager1.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("BoardGameManager1.Entities.GameRate", b =>
-                {
-                    b.HasOne("DAL.Entities.Game", "Game")
-                        .WithMany("GameRates")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BoardGameManager1.Entities.GameRole", b =>
-                {
-                    b.HasOne("DAL.Entities.Game", null)
-                        .WithMany("GameRoles")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.UserRole", b =>
@@ -712,74 +410,6 @@ namespace BoardGameManager1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DAL.Entities.GameParty", b =>
-                {
-                    b.HasOne("DAL.Entities.Game", "Game")
-                        .WithMany("GameParties")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DAL.Entities.User", "PartyCreator")
-                        .WithMany("CreatedGames")
-                        .HasForeignKey("PartyCreatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.UserGamePlace", "UserGamePlace")
-                        .WithMany()
-                        .HasForeignKey("UserGamePlaceId");
-
-                    b.Navigation("Game");
-
-                    b.Navigation("PartyCreator");
-
-                    b.Navigation("UserGamePlace");
-                });
-
-            modelBuilder.Entity("DAL.Entities.GamePartyMember", b =>
-                {
-                    b.HasOne("DAL.Entities.GameParty", "GameParty")
-                        .WithMany("GamePartyMembers")
-                        .HasForeignKey("GamePartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BoardGameManager1.Entities.GameRole", "GameRole")
-                        .WithMany()
-                        .HasForeignKey("GameRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DAL.Entities.Player", "Player")
-                        .WithMany("GamePartiesMember")
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GameParty");
-
-                    b.Navigation("GameRole");
-
-                    b.Navigation("Player");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Player", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "Account")
-                        .WithMany("PlayGamesPlayers")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DAL.Entities.User", "Creator")
-                        .WithMany("CreatedPlayers")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Creator");
-                });
-
             modelBuilder.Entity("DAL.Entities.UserGame", b =>
                 {
                     b.HasOne("DAL.Entities.Game", "Game")
@@ -789,7 +419,7 @@ namespace BoardGameManager1.Migrations
                         .IsRequired();
 
                     b.HasOne("DAL.Entities.User", "User")
-                        .WithMany("Games")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -799,35 +429,7 @@ namespace BoardGameManager1.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DAL.Entities.UserGamePlace", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DAL.UserFriend", b =>
-                {
-                    b.HasOne("DAL.Entities.User", "InRequestUser")
-                        .WithMany("AcceptedFriends")
-                        .HasForeignKey("InRequestUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DAL.Entities.User", "OutRequestUser")
-                        .WithMany("AddedFriends")
-                        .HasForeignKey("OutRequestUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("InRequestUser");
-
-                    b.Navigation("OutRequestUser");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("BoardGameManager1.Entities.Role", null)
                         .WithMany()
@@ -836,7 +438,7 @@ namespace BoardGameManager1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.HasOne("DAL.Entities.User", null)
                         .WithMany()
@@ -845,7 +447,7 @@ namespace BoardGameManager1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.HasOne("DAL.Entities.User", null)
                         .WithMany()
@@ -854,47 +456,13 @@ namespace BoardGameManager1.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.HasOne("DAL.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DAL.Entities.Game", b =>
-                {
-                    b.Navigation("GameParties");
-
-                    b.Navigation("GameRates");
-
-                    b.Navigation("GameRoles");
-                });
-
-            modelBuilder.Entity("DAL.Entities.GameParty", b =>
-                {
-                    b.Navigation("GamePartyMembers");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Player", b =>
-                {
-                    b.Navigation("GamePartiesMember");
-                });
-
-            modelBuilder.Entity("DAL.Entities.User", b =>
-                {
-                    b.Navigation("AcceptedFriends");
-
-                    b.Navigation("AddedFriends");
-
-                    b.Navigation("CreatedGames");
-
-                    b.Navigation("CreatedPlayers");
-
-                    b.Navigation("Games");
-
-                    b.Navigation("PlayGamesPlayers");
                 });
 #pragma warning restore 612, 618
         }

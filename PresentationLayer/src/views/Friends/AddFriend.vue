@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import UserService from "../../services/UserService";
+    import UserService from "../../services/UsersService";
     import FriendsService from "../../services/FriendsService";
     import lodash from 'lodash';
     export default {

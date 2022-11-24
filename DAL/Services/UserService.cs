@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using BoardGameManager1.Entities;
 using BoardGamesManager.Data;
+using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
@@ -20,8 +22,8 @@ namespace BoardUserManager1.Services
 
         public async Task<IEnumerable<UserDTOGet>> GetUsers()
         {
-            var users =  await _context.Users
-                //.Include(u => u.Role)
+            var users = await _context.Users
+                .Include(u => u.Roles)
                 .ToListAsync();
             return _mapper.Map<List<UserDTOGet>>(users).AsEnumerable();
         }
@@ -30,21 +32,21 @@ namespace BoardUserManager1.Services
         public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName)
         {
             var users = await _context.Users
-                .Where(u=>u.UserName.StartsWith(userName))
+                .Where(u => u.UserName.StartsWith(userName))
                 .Take(10)
-                .Select(u=> _mapper.Map<UserDTOGetShort>(u))
+                .Select(u => _mapper.Map<UserDTOGetShort>(u))
                 .ToListAsync();
             return users.AsEnumerable();
         }
 
 
-        public async Task<UserDTOGet> GetUserById(string id)
+        public async Task<UserDTOGet> GetUserById(Guid id)
         {
             var user = await _context.Users
-               // .Include(u=>u.Role)
-                .FirstOrDefaultAsync(u=>u.Id==id);
-           //var user = await _context.Users.FindAsync(id);
-       
+                // .Include(u=>u.Role)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            //var user = await _context.Users.FindAsync(id);
+
             return _mapper.Map<UserDTOGet>(user);
         }
 
@@ -77,13 +79,33 @@ namespace BoardUserManager1.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task ChangeRole(User user,int roleId)
-        {
-            //TODO
-            //_context.Users.Remove(user);
-            //await _context.SaveChangesAsync();
-        }
 
+        public async Task<IEnumerable<UserDTOGet>> GetUsersWithFilters(UsersFilter filter)
+        {
+            var users = _context.Users.AsQueryable();
+
+            if (filter.Name != null)
+                users = users.Where(g => g.UserName.StartsWith(filter.Name));
+            if (filter.Email != null)
+                users = users.Where(g => g.Email.StartsWith(filter.Email));
+            if (filter.RoleId != null)
+                users = users.Where(g => g.Roles.Any(r => r.Id == filter.RoleId));
+            //    var usersRoles= _context.UserRoles.Where(r=>r.RoleId== filter.RoleId)
+            //    users = users.Join(usersRoles,
+            //        u=>u.Id,
+            //        r=>r.UserId,
+            //        (u, r) => new
+            //        {
+            //            u.Id,
+
+            //        }
+            //        ) Where(g => usersRoles.);
+            //}
+
+
+            var rezult = await users.Select(c => _mapper.Map<UserDTOGet>(c)).ToListAsync();
+            return rezult.AsEnumerable();
+        }
 
     }
 }

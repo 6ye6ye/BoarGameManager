@@ -12,12 +12,12 @@ namespace BoardGameManager1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class GameRolesController : ControllerBase
     {
         private readonly GameRolesService _service;
 
-        public GameRolesController(AppDbContext context,IMapper mapper)
+        public GameRolesController(AppDbContext context, IMapper mapper)
         {
 
             _service = new GameRolesService(context, mapper);
@@ -34,7 +34,7 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         [Route("game")]
         [AllowAnonymous]
-        public async Task<IEnumerable<GameRoleDTOGet>> GetGameRolesByGameId(int id)
+        public async Task<IEnumerable<GameRoleDTOGet>> GetGameRolesByGameId(Guid id)
         {
             return await _service.GetGameRolesByGameId(id);
         }
@@ -42,7 +42,7 @@ namespace BoardGameManager1.Controllers
         // GET: api/GameRoles/5
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GameRoleDTOGet>> GetGameRole(int id)
+        public async Task<ActionResult<GameRoleDTOGet>> GetGameRole(Guid id)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace BoardGameManager1.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-            }         
+            }
         }
 
         // POST: api/GameRoles
@@ -78,7 +78,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/GameRoles/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> DeleteGameRole(int id)
+        public async Task<IActionResult> DeleteGameRole(Guid id)
         {
             try
             {

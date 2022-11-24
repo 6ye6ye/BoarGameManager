@@ -114,8 +114,11 @@
                         }
                     })
                     .catch(e => {
-                        this.errorMessage = e;
-                        console.log(e);
+                       
+                        if (e.status==400)
+                            this.errorMessage="Not valid input"
+                        else
+                            this.errorMessage = e;
                     });
             },
 

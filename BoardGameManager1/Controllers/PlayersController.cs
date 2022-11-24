@@ -32,7 +32,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetPlayersForCurrentUser(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(await _service.GetPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace BoardGameManager1.Controllers
 
         // GET: api/Players/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PlayerDTOGet>> GetPlayer(int id)
+        public async Task<ActionResult<PlayerDTOGet>> GetPlayer(Guid id)
         {
             try
             {
@@ -52,18 +52,18 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        
+
         }
 
         [HttpPost]
 
-        public async Task<ActionResult<int>> PostPlayer(PlayerDTOAdd player)
+        public async Task<ActionResult<Guid>> PostPlayer(PlayerDTOAdd player)
         {
             try
             {
-                player.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                player.CreatorId = new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return await _service.AddPlayerToCurrentUser(player);
-                
+
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace BoardGameManager1.Controllers
         // DELETE: api/GameRoles/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> DeleteGameRole(int id)
+        public async Task<IActionResult> DeleteGameRole(Guid id)
         {
             try
             {

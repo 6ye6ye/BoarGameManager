@@ -11,6 +11,9 @@ import AddGamePartyView from '../views/GameParties/AddGamePartyView.vue';
 
 import FriendsView from '../views/Friends/FriendsView.vue';
 
+import UsersView from '../views/Users/UsersView.vue';
+import UserView from '../views/Users/UserView.vue';
+
 //Vue.use(Router)
 import {
     createWebHistory,
@@ -44,7 +47,6 @@ const routes = [
     {
         path: '/addGameParty',
         name: 'AddGamePartyView',
-
         component: AddGamePartyView
     },
     {
@@ -52,7 +54,6 @@ const routes = [
         name: 'GamePartyView',
         component: GamePartyView,
         params: true,
-
     },
     {
         path: '/login',
@@ -72,6 +73,17 @@ const routes = [
         path: '/friends',
         name: 'FriendsView',
         component: FriendsView
+    },
+    {
+        path: '/users',
+        name: 'UsersView',
+        component: UsersView
+
+    },
+    {
+        path: '/user',
+        name: 'UserView',
+        component: UserView
     },
     {
         path: "/:catchAll(.*)", // Unrecognized path automatically matches 404

@@ -51,18 +51,25 @@
         methods: {
             trylogin: function() {
                 AccountService.login(this.email, this.password, this.rememberMe).then(response => {
+                    console.log('setrole' + response.status)
                     switch (response.status) {
                         case (200):
                             {
                                 AccountService.getCurrentUserRole().then(response => {
-                                    console.log(response.data[0]);
-                                    localStorage.setItem('role', response.data[0]);
-                                 
-                                })
-                            localStorage.setItem('isAuth', 'true')
-                               
-                             this.$router.push({ name: 'GamesView' })
+                                    localStorage.setItem('role', response.data[0]); 
+                                });
+                        
+                                AccountService.getCurrentUserName().then(response => {
+                                    localStorage.setItem('userName', response.data)
+                                });
 
+                                console.log('setrole')
+                                localStorage.setItem('isAuth', 'true')
+                             //  window.location.href = '/'; 
+                              
+                                this.$router.push('/')
+                               
+                               
                             return { ok: true }
                             }
                         case (400):

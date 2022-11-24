@@ -5,7 +5,7 @@ namespace DTO
 {
     public class GameDTOGet
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Image { get; set; }
         public string Name { get; set; }
         public string NameRu { get; set; }
@@ -22,19 +22,15 @@ namespace DTO
     }
     public class GameDTOGetShort
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
     public class GameDTOAdd
     {
-        public string Image { get; set; }
+        public string? Image { get; set; }
         public string Name { get; set; }
         public string NameRu { get; set; }
         public string NameEng { get; set; }
-        
-        
-        //public float Rating { get; set; }
-        // public int VotesCount { get; set; }
         public int PlayersMinCount { get; set; }
         public int PlayersMaxCount { get; set; }
         public int MinAge { get; set; }
