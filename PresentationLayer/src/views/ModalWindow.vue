@@ -4,30 +4,18 @@
     <div class="modal-mask">
         <div class="modal-wrapper">
             <div class="modal-container">
-
-                <!--<div class="modal-header">
-                    <slot name="header">
-
-                    </slot>
-                </div>-->
-
                 <div class="modal-body">
-                    <slot  name="body" />
+                    <slot name="body" />
                 </div>
-
                 <div class="modal-footer">
-                    <!--<slot name="footer">-->
-
-                        <button class="modal-default-button" @click="$emit('close')">
-                            Close
-                        </button>
-                    <!--</slot>-->
+                    <button class="modal-default-button" @click="$emit('close')">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
 
 <script>
     export default {
@@ -81,15 +69,6 @@
         float: right;
     }
 
-    /*
- * The following styles are auto-applied to elements with
- * transition="modal" when their visibility is toggled
- * by Vue.js.
- *
- * You can easily play with the modal transition by editing
- * these styles.
- */
-
     .modal-enter {
         opacity: 0;
     }
@@ -103,5 +82,4 @@
             -webkit-transform: scale(1.1);
             transform: scale(1.1);
         }
-
 </style>

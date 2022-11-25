@@ -66,12 +66,13 @@ namespace BoardGameManager1.Services
         {
             var game = await _context.Games.FirstOrDefaultAsync(g => g.Name == gameDTO.Name);
             if (game != null)
-                throw new DoublicateException("Game name");
+                throw new DoublicateException(gameDTO.Name);
             game = _mapper.Map<Game>(gameDTO);
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
             return game.Id;
         }
+
         public async Task EditGame(string id, GameDTOEdit gameDTO)
         {
             var game = await getGame(id);
@@ -79,6 +80,7 @@ namespace BoardGameManager1.Services
             _context.Entry(game).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
         public async Task DeleteGame(string id)
         {
             var game = await getGame(id);
@@ -106,7 +108,7 @@ namespace BoardGameManager1.Services
         public async Task<double> GetCurrentUserGameRate(string gameId, string userId)
         {
 
-            var userGameRate = await _context.GameRates.FirstOrDefaultAsync(g => 
+            var userGameRate = await _context.GameRates.FirstOrDefaultAsync(g =>
                 g.UserId.ToString() == userId && g.GameId.ToString() == gameId);
             if (userGameRate == null)
                 throw new NotFoundException("Rate");

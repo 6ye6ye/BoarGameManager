@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserGamePlaceManager1.Services;
 using DTO;
@@ -21,6 +20,91 @@ namespace BoardGameManager1.Controllers
         {
             _service = new UserGamePlaceService(context, mapper);
         }
+
+  
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(string id)
+        {
+            try
+            {
+                return await _service.GetUserGamePlaceById(id);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("short")]
+        public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGetShort>>> GetCurrentUserGamePlaces()
+        {
+            try
+            {
+                var userGamePlace = await _service.GetCurrentUserGamePlaces(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok(userGamePlace);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> ChangeUserGamePlaceName(string id, string name)
+        {
+            try
+            {
+                await _service.ChangeUserGamePlaceName(id, name);
+                return NoContent();
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<UserGamePlaceDTOGetShort>> PostCurrentUserGamePlace([FromBody] UserGamePlaceDTOAdd gamePlace)
+        {
+            try
+            {
+                var newId = await _service.AddUserGamePlace(gamePlace.Name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUserGamePlace(string id)
+        {
+            try
+            {
+                await _service.DeleteUserGamePlace(id);
+                return NoContent();
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
         //// GET: api/UserGamePlaces
         //[HttpGet]
@@ -51,113 +135,5 @@ namespace BoardGameManager1.Controllers
         //        return BadRequest(ex.Message);
         //    }
         //}
-        // GET: api/UserGamePlaces/5
-        [HttpGet("{id}")]
-
-        public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(string id)
-        {
-            try
-            {
-                return await _service.GetUserGamePlaceById(id);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
-        [HttpGet]
-        [Route("short")]
-        public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGetShort>>> GetCurrentUserGamePlaces()
-        {
-            try
-            {
-                var userGamePlace = await _service.GetCurrentUserGamePlaces(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                return Ok(userGamePlace);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
-        //[Route("Current")]
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<UserGamePlaceDTOGet>> GetCurrentUserGamePlaceById(int id)
-        //{     
-        //    var userGamePlace = await _service.GetCurrentUserGamePlaceById(id, User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-        //    if (userGamePlace == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return userGamePlace;
-        //}
-
-
-
-        // PUT: api/UserGamePlaces/5
-        //  [Route("Current")]
-        [HttpPatch("{id}")]
-
-        public async Task<IActionResult> ChangeUserGamePlaceName(string id, string name)
-        {
-            try
-            {
-                await _service.ChangeUserGamePlaceName(id, name);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // POST: api/UserGamePlaces
-        [HttpPost]
-        public async Task<ActionResult<UserGamePlaceDTOGetShort>> PostCurrentUserGamePlace([FromBody] UserGamePlaceDTOAdd gamePlace)
-        {
-            try
-            {
-                var newId = await _service.AddUserGamePlace(gamePlace.Name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // DELETE: api/UserGamePlaces/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserGamePlace(string id)
-        {
-            try
-            {
-                await _service.DeleteUserGamePlace(id);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
     }
 }

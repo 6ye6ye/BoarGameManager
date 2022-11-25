@@ -1,8 +1,6 @@
 ﻿<template>
     <div class="mb-3">
         <h1>Games</h1>
-        <!--<button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game</button>-->
-        <!--<button v-on:click="getUserGames()" type="button" class="btn btn-danger">MyGames</button>-->
     </div>
     <ModalWindow v-show="isModalVisible" @close="closeModal">
         <template v-slot:body>
@@ -10,19 +8,11 @@
         </template>
     </ModalWindow>
 
-
     <div class="post">
-
         <div class="row row_filters">
-            <div class="col-sm-1">
-                <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">
-
-                    Add game
-                </button>
-            </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">Name</label>
-                <input type="text" v-model="filter.name" class="form-control" />
+                <input type="text" v-model="filter.name" placeholder="Input name" class="form-control" />
             </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">MinRate</label>
@@ -34,74 +24,73 @@
             </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">ReleaseYear</label>
-                <input type="number" v-model="filter.releaseYear" min="1900" max="2022" class="form-control" />
+                <input type="number" v-model="filter.releaseYear" min="1900" max="2022" placeholder="Input year" class="form-control" />
             </div>
             <div v-show="isAuth" class="col-sm-1 sub_filters  ">
                 <label class="form-label">my games</label>
                 <input class="form-check-input " type="checkbox" v-model="filter.showAdded" />
             </div>
             <div class="col-sm-1  sub_filters">
-                <button v-on:click="getGamesWithFilters()" type="button" class="form-control btn btn-info">Search</button>
+                <button v-on:click="getGamesWithFilters()" type="button" class="btn btn-info">Search</button>
+            </div>
+            <div class="col-sm-1">
+                <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">
+                    Add game
+                </button>
             </div>
         </div>
+
         <table id="gamesTable" class="table table-hover ">
             <thead>
                 <tr class="table-active">
-                    
-                    <th>Image</th>
-                    <th @click="sort('name')">Name</th>
-                    <th>Ru/Eng</th>
-                    <th class="nav-item" @click="sort('rate')">Rate</th>
-                    <th class="nav-item" @click="sort('playersMinCount')">Min player count</th>
-                    <th class="nav-item" @click="sort('playersMaxCount')">Max player count</th>
-                    <th class="nav-item" @click="sort('minAge')">Min age</th>
-                    <th class="th-sm" @click="sort('minPartyTime')">Min party time</th>
-                    <th class="th-sm" @click="sort('maxPartyTime')">Max party time</th>
-                    <th class="th-sm" @click="sort('releaseYear')">Release year</th>
-                    <th class="th-sm" @click="sort('addedToUserGames')">Added</th>
+                    <th @click="sort('name')" style="cursor: pointer;">Name ⇅</th>
+                    <th @click="sort('rating')" style="cursor: pointer;">Rate ⇅</th>
+                    <th @click="sort('playersMinCount')" style="cursor: pointer;">Min player count ⇅</th>
+                    <th @click="sort('playersMaxCount')" style="cursor: pointer;">Max player count ⇅</th>
+                    <th @click="sort('minAge')" style="cursor: pointer;">Min age ⇅</th>
+                    <th @click="sort('minPartyTime')" style="cursor: pointer;">Min party time ⇅</th>
+                    <th @click="sort('maxPartyTime')" style="cursor: pointer;">Max party time ⇅</th>
+                    <th @click="sort('releaseYear')" style="cursor: pointer;">Release year ⇅</th>
+                    <th @click="sort('addedToUserGames')">Added</th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-
-                <tr v-for="item in games" :key="item.Id">
-                
-                    <td>
-                        <img v-bind:src="item.image" width="50" height="80" />
-                    </td>
-
-                    <td>{{item.name }}</td>
-                    <td>{{item.nameRu}}|{{item.nameEng}}</td>
-                    <td>{{item.rating }}</td>
-                    <td>{{item.playersMinCount }}</td>
-                    <td>{{item.playersMaxCount }}</td>
-                    <td>{{item.minAge }}</td>
-                    <td>{{item.minPartyTime }}</td>
-                    <td>{{item.maxPartyTime }}</td>
-                    <td>{{item.releaseYear }}</td>
-                    <td v-show="isAuth">
-                        <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
-                    </td>
-                    <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
-
-                    <td><button v-show="isAdmin && !isMyGamesPage" v-on:click="delete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
-
-                    <td><button v-show="isMyGamesPage" v-on:click="deleteFromUserGames(item.id)" type="button" class="btn btn-danger">Delete</button></td>
-
-                </tr>
-            </tbody>
         </table>
 
+        <div class="mx-auto">
+            <div class=" d-flex justify-content-start card-strip" v-for="item in games" :key="item.Id">
+                <div>
+                    <img class="game-image" v-bind:src="item.image">
+                    <div v-if="isAuth">
+                        <label>Added to my games</label>
+                        <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
+                    </div>
+                    <button v-if="isAdmin && !isMyGamesPage" v-on:click="delete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                </div>
+                <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+                    <div class="row px-3 mb-2">
+                        <h4 class="mr-4">{{item.name }}</h4>
+                        <p class="mt-1 mr-4 extended-title">{{item.nameRu}}|{{item.nameEng}}</p>
+                    </div>
+                    <div>
+                        <p><span> {{item.releaseYear }}</span></p>
+                        <span> Min/max players: {{item.playersMinCount }}/{{item.playersMaxCount }} || </span>
+                        <span> Min/max players: {{item.playersMinCount }}/{{item.playersMaxCount }} || </span>
+                        <span> Min/max party time: {{item.minPartyTime }}/ {{item.maxPartyTime }} || </span>
+                        <span> Min. age: {{item.minAge }}</span>
+                    </div>
+                    <div>
+                        <star-rating v-model:rating="item.rating" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
 </template>
 
-
-
-
 <script>
-
+    import StarRating from 'vue-star-rating'
     import ModalWindow from "../ModalWindow.vue";
     import AddGameView from "../Games/AddGameView.vue";
     import GamesService from "../../services/GameService";
@@ -129,18 +118,21 @@
         },
         components: {
             ModalWindow,
-            AddGameView
+            AddGameView,
+            StarRating
         },
         created() {
             this.getGames();
             this.isAuth = localStorage.isAuth;
             this.isAdmin = localStorage.getItem('role') === "Admin"
         },
+        mounted() {
 
+            this.isAuth = localStorage.isAuth;
+            this.isAdmin = localStorage.getItem('role') === "Admin"
+        },
         methods: {
-
             sort: function (s) {
-
                 if (s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
                 }
@@ -152,7 +144,6 @@
                     if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                     return 0;
                 });
-
             },
             showModal() {
                 this.isModalVisible = true;
@@ -170,12 +161,9 @@
                         console.log(e);
                     });
             },
-
             getGamesWithFilters() {
                 GamesService.GetAllWithFilters(this.filter).then(response => {
                     this.games = response.data;
-                    //this.sortedGames = response.data;
-
                     console.log(response.data);
                 })
                     .catch(e => {
@@ -201,7 +189,7 @@
             delete(id) {
                 GamesService.Delete(id).then(response => {
                     console.log(response.data);
-                    let i = this.games.map(item => item.id).indexOf(id) // find index of your object
+                    let i = this.games.map(item => item.id).indexOf(id) 
                     this.games.splice(i, 1)
                 })
                     .catch(e => {
@@ -230,23 +218,59 @@
                         console.log(e);
                     });
             },
-
         },
     }
 </script>
 
 <style>
-    .row_filters {
-        align-content: center;
-        align-items: center;
-        padding-bottom: 10px;
+    body {
+        color: #616161;
+        overflow-x: hidden;
+        height: 100%;
+        background-color: #ECEFF1;
+        background-repeat: no-repeat;
+    }
+    .card-strip {
+        background-color: #fff;
+        padding: 25px;
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin: 20px auto;
+        border-radius: 3px;
+        box-shadow: 0px 8px 16px 0px #E0E0E0;
+    }
+    .extended-title {
+        color: #757575;
+        background-color: #E0E0E0;
+        padding: 1px 5px;
     }
 
-    .sub_filters {
-        align-content: center;
-        align-items: center;
-        padding-left: 5px;
-        padding-right: 5px;
-        margin: 0;
+    .game-image {
+        width: 100px;
+        height: 150px;
+    }
+
+    @media screen and (max-width: 1012px) {
+        .card-strip {
+            width: 100%;
+        }
+    }
+
+    @media screen and (max-width: 859px) {
+        .v-line {
+            display: none;
+        }
+
+        .price {
+            width: 100%;
+            margin-left: 95px;
+        }
+    }
+
+    @media screen and (max-width: 529px) {
+        .price {
+            margin-left: 0px;
+        }
     }
 </style>

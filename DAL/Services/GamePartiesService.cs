@@ -12,7 +12,6 @@ namespace BoardGamePartyManager1.Services
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-
         public GamePartiesService(AppDbContext context, IMapper mapper)
         {
             _context = context;
@@ -34,10 +33,9 @@ namespace BoardGamePartyManager1.Services
         public async Task<IEnumerable<GamePartyDTOGet>> GetCurrentUserGamePartiesPlayer(Guid id)
         {
             var gameParties = await _context.GameParties
-                 .Include(p => p.Game)
+                .Include(p => p.Game)
                 .Include(p => p.PartyCreator)
                 .Include(p => p.UserGamePlace)
-
                 .Where(c => c.GamePartyMembers.Any(c => c.Player.AccountId == id))
                 .ToListAsync();
             return _mapper.Map<List<GamePartyDTOGet>>(gameParties).AsEnumerable();
@@ -78,21 +76,6 @@ namespace BoardGamePartyManager1.Services
             return gameParty.Id;
         }
 
-        //public async Task<GamePartyDTOEdit> EditGameParty(GamePartyDTOEdit gamePartyDTO)
-        //{
-        //    var gameParty = _mapper.Map<GameParty>(gamePartyDTO);
-        //    _context.GameParties.Attach(gameParty);
-
-        //    _context.Entry(gameParty).Property(a => a.Image).IsModified = true;
-        //    _context.Entry(gameParty).Property(a => a.PlayersMinCount).IsModified = true;
-        //    _context.Entry(gameParty).Property(a => a.PlayersMaxCount).IsModified = true;
-
-        //    gameParty.ModifiedOn = DateTime.Now;
-        //    account.ModifiedBy = 1;
-
-        //    _context.SaveChanges();
-        //}
-
         public async Task DeleteGameParty(string id)
         {
             var gameParty = await _context.GameParties.FindAsync(new Guid(id));
@@ -106,7 +89,6 @@ namespace BoardGamePartyManager1.Services
         {
             return _context.GameParties.Any(e => e.Id == id);
         }
-
 
         public async Task EditGameParty(string id, GamePartyDTOEdit gamePartyDTO)
         {

@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.Enums;
-using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardUserFriendManager1.Services;
-using DAL;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -24,7 +20,6 @@ namespace BoardGameManager1.Controllers
             _service = new UserFriendService(context, mapper);
         }
 
-        // GET: api/UserFriends
         [HttpGet()]
         [Route("Friends")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsByCurrentUserId()
@@ -39,7 +34,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-
         [HttpGet()]
         [Route("IncomingRequests")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserIncomingRequestsByCurrentUserId()
@@ -53,6 +47,7 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet()]
         [Route("OutRequests")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserOutRequestsByCurrentUserId()
@@ -67,7 +62,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // GET: api/UserFriends/5
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsById(Guid id)
         {
@@ -86,11 +80,9 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // POST: api/UserFriends
         [HttpPost]
         public async Task<ActionResult<Guid>> PostUserFriend(UserFriendDTOAdd userFriend)
         {
-            // _context.UserFriends.Add(userFriend);
             try
             {
                 return await _service.AddUserFriend(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), new Guid(userFriend.OutRequestUser));
@@ -101,7 +93,6 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPut]
         [Route("Accept/{id}")]
@@ -151,7 +142,6 @@ namespace BoardGameManager1.Controllers
             return BadRequest("Is not valid");
         }
 
-        // DELETE: api/UserFriends/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserFriend(string id)
         {
@@ -170,27 +160,5 @@ namespace BoardGameManager1.Controllers
             }
 
         }
-
-        //TODOOOOO
-        //   [HttpDelete()]
-        ////   [Route("status")]
-        //   public async Task<IActionResult> ChangeFriendStatus(int id, [FromQuery] FriendStatus status)
-        //   {
-        //       var userFriend = await _context.UserFriends.FindAsync(id);
-        //       if (userFriend == null)
-        //       {
-        //           return NotFound();
-        //       }
-
-        //       _context.UserFriends.Remove(userFriend);
-        //       await _context.SaveChangesAsync();
-
-        //       return NoContent();
-        //   }
-
-        //   private bool UserFriendExists(int id)
-        //   {
-        //       return _context.UserFriends.Any(e => e.Id == id);
-        //   }
     }
 }

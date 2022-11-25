@@ -1,4 +1,5 @@
 <template>
+    <h2> Registration</h2>
     <form class="col-sm">
         <div>
             <label class="form-label">Login</label>
@@ -21,8 +22,8 @@
             <input type="password" v-model="passwordRepeat" class="form-control" />
         </div>
 
-        <p class="text-danger">faf {{errorMessage}}</p>
-        <button v-on:click="tryregister()" type="button" class="btn">Register</button>
+        <p class="text-danger">{{errorMessage}}</p>
+        <button v-on:click="tryregister()" type="button" class="btn btn-primary">Register</button>
 
     </form>
 </template>
@@ -47,8 +48,9 @@
         methods: {
             tryregister: function() {
                 AccountService.register(this.login, this.email, this.password, this.passwordRepeat, this.name).then(response => {
-
-                    console.log(response.data);
+                    window.location.reload()
+                    window.location.href = '/'; 
+                    console.log(response);
                 })
                     .catch(e => {
                         this.errorMessage = e.response.data;

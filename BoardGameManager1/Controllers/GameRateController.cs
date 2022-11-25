@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DTO;
@@ -15,19 +14,9 @@ namespace BoardGameManager1.Controllers
     {
         private readonly GameRateService _service;
 
-
         public GameRateController(AppDbContext context, IMapper mapper)
         {
             _service = new GameRateService(context, mapper);
-        }
-
-        // GET: api/GameRoles
-
-        [HttpGet]
-        [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IEnumerable<GameRateDTOGet>> GetGamesRates()
-        {
-            return await _service.GetGamesRates();
         }
 
         [HttpGet("{gameId}")]
@@ -39,13 +28,12 @@ namespace BoardGameManager1.Controllers
                 var gameRate = await _service.GetGameRate(gameId);
                 return gameRate;
             }
-
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        // GET: api/GameRoles/5
+
         [HttpGet]
         [Route("user-gameRate/{gameId}")]
         [Authorize]
@@ -63,24 +51,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        //[HttpPost]
-        //[Route("Rate")]
-        //[Authorize]
-        //public async Task<ActionResult<double>> PostCurrenUserRateGame(GameRateDTOPost gameRate)
-        //{
-        //    try
-        //    {
-        //        return await _service.AddCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
-        //    }
-        //    catch (NotFoundException ex)
-        //    {
-        //        return NotFound(ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
         [HttpPut]
         [Authorize]
         public async Task<ActionResult<double>> ChangeCurrentUserGameRate([FromBody] GameRateDTOPost gameRate)

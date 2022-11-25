@@ -4,7 +4,7 @@ var url = "https://localhost:5001"
 class GameRateService {
   
     async getCurrentUserGameRate(id) {
-        return await axios.get(url + '/api/GameRate/user-gameRate'+ id);
+        return await axios.get(url + '/api/GameRate/user-gameRate/'+ id);
     }
     async PutGameRate(gameId, rate) {
 

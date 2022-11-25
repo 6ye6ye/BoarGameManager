@@ -19,6 +19,7 @@
     "vue": "^3.2.45",
     "vue-persistedstate": "^1.2.5",
     "vue-router": "^4.0.3",
+    "vue-star-rating": "^2.1.0",
     "vue3-star-ratings": "^1.1.0",
     "vuex": "^4.1.0",
     "vuex-persister": "^1.0.0"

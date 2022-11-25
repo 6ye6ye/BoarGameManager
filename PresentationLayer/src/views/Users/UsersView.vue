@@ -3,20 +3,19 @@
     <div>
         <div class="row row_filters">
             <div class="col-sm-2 sub_filters">
-                <label class="form-label">Name</label>
-                <input type="text" v-model="filter.name" class="form-control" />
+                <label class="form-label">login</label>
+                <input type="text" v-model="filter.name" placeholder="Input login"  class="form-control" />
             </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">Role</label>
                 <select v-model="filter.roleId" class="form-select">
-
                     <option value=''>- All roles -</option>
                     <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
                 </select>
             </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">Email</label>
-                <input type="text" v-model="filter.email" class="form-control" />
+                <input type="text" v-model="filter.email" placeholder="Input email" class="form-control" />
             </div>
 
             <div class="col-sm-2  sub_filters">
@@ -26,7 +25,6 @@
         <table id="usersTable" class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th @click="sort('userName')">User name</th>
                     <th @click="sort('email')">Email</th>
                     <th @click="sort('role')">Role</th>
@@ -35,28 +33,20 @@
                 </tr>
             </thead>
             <tbody>
-
-                <tr v-for="item in users" :key="item.Id">
-                    <td>{{item.id}}</td>
-                    <td>{{item.userName }}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.role.name }}</td>
-                    <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
-
+                <tr v-for="user in users" :key="user.Id">
+                    <td>{{user.userName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.role.name}}</td>
+                    <td><button v-on:click="goToDetails(user.id)" type="button" class="btn btn-info">Details</button></td>
                 </tr>
             </tbody>
         </table>
-
     </div>
-
 </template>
 
 
 
-
 <script>
-
-
     import UsersService from "../../services/UsersService";
     import RolesService from "../../services/RolesService";
 
@@ -72,22 +62,18 @@
                 isAdmin: localStorage.role == 'Admin',
                 users: [],
                 roles: [],
-                currentSort: 'name',
+                currentSort: 'userName',
                 currentSortDir: 'asc',
-
             };
         },
         created() {
             this.getUsers();
             this.getUserRoles();
-
             this.isAuth = localStorage.isAuth;
             this.isAdmin = localStorage.getItem('role') === "Admin"
         },
-
         methods: {
             sort: function (s) {
-
                 if (s === this.currentSort) {
                     this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
                 }
@@ -99,12 +85,11 @@
                     if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
                     return 0;
                 });
-
             },
-
             getUsers() {
                 UsersService.GetAll().then(response => {
                     this.users = response.data;
+                    console.log(response.data);
      
                 })
                     .catch(e => {
@@ -119,38 +104,20 @@
                         console.log(e);
                     });
             },
-
             goToDetails(id) {
                 this.$router.push({ name: 'UserView', params: { id: id } })
             },
             getUsersWithFilters() {
                 UsersService.GetAllWithFilters(this.filter).then(response => {
                     this.users = response.data;
-                    //this.sortedGames = response.data;
-
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
                     });
             }
-
         },
     }
 </script>
 
 <style>
-    .row_filters {
-        align-content: center;
-        align-items: center;
-        padding-bottom: 10px;
-    }
-
-    .sub_filters {
-        align-content: center;
-        align-items: center;
-        padding-left: 5px;
-        padding-right: 5px;
-        margin: 0;
-    }
 </style>

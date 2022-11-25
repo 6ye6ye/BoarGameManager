@@ -1,9 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
-  //  [Index(nameof(AccountId), IsUnique = true)]
     public class Player
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

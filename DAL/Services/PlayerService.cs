@@ -2,11 +2,9 @@
 using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
-using BoardUserFriendManager1.Services;
 using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BoardPlayerManager1.Services
 {
@@ -28,10 +26,9 @@ namespace BoardPlayerManager1.Services
                 .ToListAsync();
             var players = await _context.Players
 
-                .Where(p => p.AccountId == userId || p.CreatorId == userId )
+                .Where(p => p.AccountId == userId || p.CreatorId == userId)
                 .Select(p => _mapper.Map<PlayerDTOGet>(p))
                 .ToListAsync();
-            //|| userFriendsId.Any(f => f == p.AccountId)
             return players.AsEnumerable();
         }
 
@@ -64,7 +61,6 @@ namespace BoardPlayerManager1.Services
             var player = new Player() { AccountId = user.Id, Name = user.UserName };
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
-
         }
     }
 }

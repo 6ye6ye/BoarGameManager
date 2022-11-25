@@ -16,8 +16,5 @@
     {
         public string Name { get; set; }
     }
-    //public class UserGamePlaceDTOEdit
-    //{
-    //    public string Name { get; set; }
-    //}
+
 }

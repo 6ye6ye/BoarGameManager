@@ -20,7 +20,6 @@ namespace BoardGameManager1.Services
 
         public AccountService(IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context)
         {
-
             _userManager = userManager;
             _signInManager = signInManager;
             _context = context;
@@ -37,13 +36,14 @@ namespace BoardGameManager1.Services
             var userRole = await _context.Roles.FirstOrDefaultAsync(e => e.Name == UserRoleEnum.User.ToString());
             if (userRole == null)
                 throw new NotFoundException("User role");
+           
             var user = _mapper.Map<User>(registerDTO);
             var Rezult = await _userManager.CreateAsync(user, registerDTO.Password);
             if (Rezult.Succeeded == false)
                 throw new Exception("Not registered");
+            
             await _signInManager.SignInAsync(user, false);
             var playerService = new PlayerService(_context, _mapper).AddPlayer(user);
-
         }
 
 

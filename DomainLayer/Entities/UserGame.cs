@@ -1,16 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace DAL.Entities
 {
-  //  [Index(nameof(UserId), nameof(GameId), IsUnique = true)]
+    [Index(nameof(UserId), nameof(GameId), IsUnique = true)]
     public class UserGame
     {
         [Key]

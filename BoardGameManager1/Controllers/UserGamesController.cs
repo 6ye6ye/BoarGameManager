@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserGameManager1.Services;
 using DTO;
@@ -22,9 +21,7 @@ namespace BoardGameManager1.Controllers
             _service = new UserGameService(context, mapper);
         }
 
-
         [HttpGet]
-        //[Route("Current")]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetCurrentUserGames()
         {
             try
@@ -37,15 +34,12 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-
         [HttpPost("{gameId}")]
-
         public async Task<ActionResult<Guid>> PostCurrentUserGame(Guid gameId)
         {
             try
             {
                 return await _service.AddCurrentUserGame(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                // return CreatedAtAction("GetUserGame", new { id = newId }, userGame);
             }
             catch (DoublicateException ex)
             {
@@ -58,7 +52,6 @@ namespace BoardGameManager1.Controllers
 
         }
 
-        // DELETE: api/UserGames/5
         [HttpDelete("{gameId}")]
         public async Task<IActionResult> DeleteCurrentUserGame(Guid gameId)
         {

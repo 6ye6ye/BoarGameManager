@@ -5,7 +5,6 @@
         public NotFoundException(string name)
         : base(String.Format("not found:{0}", name))
         {
-           
         }
     }
 }

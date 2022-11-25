@@ -1,7 +1,6 @@
 <template>
     <h3> Game roles</h3>
     <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">+</button>
-    <!--<button v-on:click="getUserGames()" type="button" class="btn btn-danger">MyGames</button>-->
 
     <ModalWindow v-show="isModalVisible" @close="closeModal">
         <template v-slot:body>
@@ -9,8 +8,7 @@
         </template>
     </ModalWindow>
 
-
-    <table class="table">
+    <table class="table" v-if="!gameRoles.length==0">
         <thead>
             <tr>
                 <th>Name</th>
@@ -18,20 +16,13 @@
             </tr>
         </thead>
         <tbody>
-
             <tr v-for="role in gameRoles" :key="role.Id">
                 <td> {{role.name}}</td>
                 <td v-show="isAdmin"> <button v-on:click="goToDelete(role.id)" type="button" class="btn btn-danger">Delete</button></td>
             </tr>
         </tbody>
     </table>
-
-    <!--<div v-show="isAdmin" v-on:click="seen = !seen" class="control">
-        <button class="btn btn-primary">Show add window</button>
-    </div>-->
-    <!--<div v-if="seen">
-        <AddGameRole />
-    </div>-->
+    <p v-if="gameRoles.length==0">- No game roles -</p>
 </template>
 
 <script>
@@ -75,7 +66,6 @@
                         console.log(e);
                     });
             },
-  
             goToDelete(id) {
                 GameRolesService.DeleteGameRole(id).then(response => {
                     console.log(response.data);

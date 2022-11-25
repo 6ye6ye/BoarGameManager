@@ -13,15 +13,11 @@ namespace BoardUserGamePlaceManager1.Services
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-
         public UserGamePlaceService(AppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-
-
-        //-------------------FOR ADMIN-----------------------
 
         public async Task<IEnumerable<UserGamePlaceDTOGet>> GetUserGamePlaces()
         {
@@ -39,15 +35,11 @@ namespace BoardUserGamePlaceManager1.Services
             return _mapper.Map<UserGamePlaceDTOGet>(userGamePlace);
         }
 
-
-        //----------------FOR logged users---------------------
-
         public async Task<IEnumerable<UserGamePlaceDTOGetShort>> GetCurrentUserGamePlaces(Guid userId)
         {
             var userGamePlaces = await _context.UserGamePlaces.Where(p => p.UserId == userId).ToListAsync();
             return _mapper.Map<List<UserGamePlaceDTOGetShort>>(userGamePlaces).AsEnumerable();
         }
-
 
         public async Task<UserGamePlaceDTOGetShort> GetCurrentUserGamePlaceById(Guid placeId, Guid userId)
         {
@@ -59,13 +51,12 @@ namespace BoardUserGamePlaceManager1.Services
         {
             var gamePlace = await _context.UserGamePlaces.FirstOrDefaultAsync(g => g.UserId == userId && g.Name == name);
             if (gamePlace != null)
-                throw new DoublicateException("Game place");
+                throw new DoublicateException(name);
             gamePlace = new UserGamePlace() { Name = name, UserId = userId };
             _context.UserGamePlaces.Add(gamePlace);
             await _context.SaveChangesAsync();
             return gamePlace.Id;
         }
-
 
         public async Task DeleteUserGamePlace(string id)
         {

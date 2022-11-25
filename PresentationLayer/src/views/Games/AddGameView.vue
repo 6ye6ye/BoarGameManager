@@ -1,5 +1,5 @@
 <template>
-    <h2>Новая игра</h2>
+    <h2>New game</h2>
     <div class="post">
         <div>
             <label class="form-label">Name</label>
@@ -13,62 +13,52 @@
             <label class="form-label">NameEng</label>
             <input type="text" v-model="game.nameEng" class="form-control" />
         </div>
-        <!--<div>
-            <label class="form-label">NameEng</label>
-            <input type="text" v-model="game.nameEng" class="form-control" />
-        </div>-->
-
         <div>
             <label class="form-label">Image</label>
-
             <input type="file"
-                   accept="image/*"
+                   accept="image/png, image/jpeg"
                    ref="file"
                    @change="selectImage()"
                    class="form-control" />
         </div>
         <div>
             <label class="form-label">PlayersMinCount</label>
-            <input type="number" v-model="game.playersMinCount" class="form-control" />
+            <input type="number" v-model="game.playersMinCount" min="1" max="50" class="form-control" />
         </div>
         <div>
             <label class="form-label">PlayersMaxCount</label>
-            <input type="number" v-model="game.playersMaxCount" class="form-control" />
+            <input type="number" v-model="game.playersMaxCount" min="1" max="50" class="form-control" />
         </div>
         <div>
             <label class="form-label">MinAge</label>
-            <input type="number" v-model="game.minAge" class="form-control" />
+            <input type="number" v-model="game.minAge" min="0" max="80" class="form-control" />
         </div>
         <div>
-            <label class="form-label">MinPartyTime</label>
-            <input type="number" v-model="game.minPartyTime" class="form-control" />
+            <label class="form-label">MinPartyTime(min)</label>
+            <input type="number" v-model="game.minPartyTime" min="1" max="1000" class="form-control" />
         </div>
         <div>
-            <label class="form-label">MaxPartyTime</label>
-            <input type="number" v-model="game.maxPartyTime" class="form-control" />
+            <label class="form-label">MaxPartyTime(min)</label>
+            <input type="number" v-model="game.maxPartyTime" min="1" max="1000" class="form-control" />
         </div>
         <div>
             <label class="form-label">ReleaseYear</label>
-            <input type="number" v-model="game.releaseYear" class="form-control" />
+            <input type="number" v-model="game.releaseYear" min="1900" max="2030" class="form-control" />
         </div>
         <ErrorMessage :errorMessage="errorMessage" />
         <button v-on:click="addGame()" type="button" class="btn btn-primary">Add</button>
-
     </div>
 
 </template>
 
 <script>
-
     import GamesService from "../../services/GameService";
     import ErrorMessage from "../ErrorMessage.vue";
-
 
     export default {
         name: 'AddGameView',
         data() {
             return {
-
                 imageFile: undefined,
                 game: {
                     image: '',
@@ -93,9 +83,7 @@
                 this.imageFile = this.$refs.file.files[0];
             },
             addGame: function () {
-
                 GamesService.Add(this.imageFile, this.game)
-                    //GamesService.AddGame(this.game)
                     .then(response => {
                         switch (response.status) {
                             case (200):
@@ -123,7 +111,6 @@
                             this.errorMessage = e.response.data;
                     });
             },
-
         }
     }
 

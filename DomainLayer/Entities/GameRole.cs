@@ -13,7 +13,5 @@ namespace BoardGameManager1.Entities
         [ForeignKey("GameId")]
         public virtual Game Game { get; set; }
         public string Name { get; set; }
-
-
     }
 }

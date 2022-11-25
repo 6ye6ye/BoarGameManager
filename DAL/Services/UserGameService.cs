@@ -4,16 +4,13 @@ using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
 namespace BoardUserGameManager1.Services
 {
     public class UserGameService
     {
-
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-
 
         public UserGameService(AppDbContext context, IMapper mapper)
         {
@@ -52,21 +49,6 @@ namespace BoardUserGameManager1.Services
             await _context.SaveChangesAsync();
             return userGame.Id;
         }
-
-        //public async Task<UserGameDTOEdit> EditUserGame(UserGameDTOEdit userGameDTO)
-        //{
-        //    var userGame = _mapper.Map<UserGame>(userGameDTO);
-        //    _context.UserGames.Attach(userGame);
-
-        //    _context.Entry(userGame).Property(a => a.Image).IsModified = true;
-        //    _context.Entry(userGame).Property(a => a.PlayersMinCount).IsModified = true;
-        //    _context.Entry(userGame).Property(a => a.PlayersMaxCount).IsModified = true;
-
-        //    userGame.ModifiedOn = DateTime.Now;
-        //    account.ModifiedBy = 1;
-
-        //    _context.SaveChanges();
-        //}
 
         public async Task DeleteCurrentUserGame(Guid userId, Guid gameId)
         {

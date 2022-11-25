@@ -1,11 +1,7 @@
-﻿using BoardGameManager1.Entities;
-using BoardGameManager1.Enums;
-using BoardGameManager1.Services;
+﻿using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +16,9 @@ namespace BoardGameManager1.Controllers
     {
         private readonly AccountService _accountService;
 
-
         public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context)
         {
             _accountService = new AccountService(mapper, userManager, signInManager, context);
-
         }
 
         [HttpPost]
@@ -47,10 +41,9 @@ namespace BoardGameManager1.Controllers
             }
             return BadRequest("Model isn't valid");
         }
-    
+
         [HttpPost]
         [Route("Login")]
-
         public async Task<IActionResult> Login([FromBody] AccountDTOLogin loginDTO)
         {
             if (ModelState.IsValid)
@@ -73,7 +66,6 @@ namespace BoardGameManager1.Controllers
         [Authorize]
         public async Task<IActionResult> Logout()
         {
-            //  await HttpContext.SignOutAsync();
             await _accountService.Logout();
             return Ok();
         }
@@ -94,7 +86,6 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpGet]

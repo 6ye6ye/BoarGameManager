@@ -4,11 +4,9 @@ using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Common.Filters;
-using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
@@ -18,18 +16,13 @@ namespace BoardGameManager1.Controllers
 
     public class GamesController : ControllerBase
     {
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly GameService _gameService;
 
         public GamesController(AppDbContext context, IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _gameService = new GameService(context, mapper);
         }
 
-        // GET: api/Games
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGames()
@@ -72,7 +65,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // GET: api/Games/5
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<GameDTOGet>> GetGame(string id)
@@ -115,7 +107,6 @@ namespace BoardGameManager1.Controllers
             return BadRequest("Is not valid");
         }
 
-        // POST: api/Games
         [HttpPost]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<GameDTOGet>> PostGame(GameDTOAdd game)
@@ -141,7 +132,6 @@ namespace BoardGameManager1.Controllers
             return BadRequest("Is not valid");
         }
 
-        // DELETE: api/Games/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGame(string id)
@@ -164,23 +154,13 @@ namespace BoardGameManager1.Controllers
         [HttpPost]
         [Route("image")]
         [AppAutorize(UserRoleEnum.Admin)]
-        //[AppAutorize(UserRoleEnum.Admin)]
         public string UploadImage([FromForm] IFormFile file)
         {
             try
             {
-                // getting file original name
-                string FileName = file.FileName;
-
-                // combining GUID to create unique name before saving in wwwroot
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + FileName;
-
-                // getting full path inside wwwroot/images
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                 var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
-
-                // copying file
                 file.CopyTo(new FileStream(imagePath, FileMode.Create));
-
                 return uniqueFileName;
             }
             catch (Exception ex)
@@ -188,24 +168,5 @@ namespace BoardGameManager1.Controllers
                 return ex.Message;
             }
         }
-
-        //[HttpPatch]
-        //[Route("UserRate")]
-        //public async Task<ActionResult<double>> GetCurrentUserGameRate([FromQuery] int gameId, int rate)
-        //{
-        //    try
-        //    {
-        //        return await _gameService.CurrentUserGameRate(gameId, User.FindFirstValue(ClaimTypes.NameIdentifier));
-        //    }
-        //    catch (NotFoundException ex)
-        //    {
-        //        return NotFound(ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
-
     }
 }

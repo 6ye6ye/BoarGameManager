@@ -8,7 +8,6 @@
         </template>
     </ModalWindow>
 
-    <!--<button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game party</button>-->
     <div class="post">
         <div class="row" style="margin-bottom: 10px;">
         </div>
@@ -16,7 +15,6 @@
         <table id="gamesTable" class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Date</th>
                     <th>Game</th>
                     <th>Place</th>
@@ -26,16 +24,11 @@
                 </tr>
             </thead>
             <tbody>
-
                 <tr v-for="item in gameParties" :key="item.Id">
-                    <td>{{item.id}}</td>
-
                     <td>{{item.date }}</td>
                     <td>{{item.game.name}}</td>
                     <td>{{item.userGamePlaceName }}</td>
                     <td>{{item.partyCreatorName }}</td>
-
-
                     <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
                     <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
 
@@ -43,12 +36,8 @@
             </tbody>
         </table>
     </div>
-
 </template>  
   
-
-
-
 <script>  
     import ModalWindow from "../ModalWindow.vue";
     import AddGamePartyView from "../GameParties/AddGamePartyView.vue";

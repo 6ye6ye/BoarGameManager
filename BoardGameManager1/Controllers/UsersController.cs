@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Enums;
-using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardUserManager1.Services;
-using DAL;
 using DAL.Common.Filters;
-using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +21,6 @@ namespace BoardGameManager1.Controllers
         {
             _service = new UserService(context, mapper);
         }
-
 
         [HttpGet]
         [AppAutorize(UserRoleEnum.Admin)]
@@ -69,9 +65,7 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
-
 
         [HttpGet("{id}")]
         [Authorize]
@@ -102,17 +96,6 @@ namespace BoardGameManager1.Controllers
 
             return user;
         }
-        //}
-
-        //// POST: api/Users
-        //[HttpPost]
-        //public async Task<ActionResult<User>> PostUser(UserDTOAdd user)
-        //{
-        //    var newId = new UserService(_context, _mapper).AddUser(user);
-        //    return CreatedAtAction("GetUser", new { id = newId }, user);
-        //}
-
-
 
         //// DELETE: api/Users/5
         //[HttpDelete("{id}")]
@@ -127,11 +110,6 @@ namespace BoardGameManager1.Controllers
         //    await new UserService(_context, _mapper).DeleteUser(user);
 
         //    return NoContent();
-        //}
-
-        //private bool UserExists(string id)
-        //{
-        //    return _context.Users.Any(e => e.Id == id);
         //}
 
     }

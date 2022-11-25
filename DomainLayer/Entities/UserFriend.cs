@@ -1,19 +1,12 @@
 ﻿using BoardGameManager1.Enums;
 using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
-  //  [Index(nameof(InRequestUserId), nameof(OutRequestUserId), IsUnique = true)]
-    public  class UserFriend
+    public class UserFriend
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -30,9 +23,3 @@ namespace DAL
 
     }
 }
-//     [ForeignKey("InRequestUserId")]
-
-//   [InverseProperty("AcceptedFriends")]
-
-//   [ForeignKey("OutRequestUserId")]
-//    [InverseProperty("AddedFriends")]

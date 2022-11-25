@@ -15,18 +15,13 @@ namespace BoardGameManager1.Controllers
     [Authorize]
     public class PlayersController : ControllerBase
     {
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly PlayerService _service;
 
         public PlayersController(AppDbContext context, IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _service = new PlayerService(context, mapper);
         }
 
-        // GET: api/Players
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDTOGet>>> GetPlayers()
         {
@@ -40,7 +35,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // GET: api/Players/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerDTOGet>> GetPlayer(string id)
         {
@@ -52,18 +46,15 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpPost]
-
         public async Task<ActionResult<Guid>> PostPlayer(PlayerDTOAdd player)
         {
             try
             {
                 player.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 return await _service.AddPlayerToCurrentUser(player);
-
             }
             catch (Exception ex)
             {
@@ -71,7 +62,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // DELETE: api/GameRoles/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGameRole(Guid id)

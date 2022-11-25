@@ -17,8 +17,7 @@ namespace BoardGameManager1.Services
             _context = context;
             _mapper = mapper;
         }
-        #region ForAdmin
-
+   
         public async Task<IEnumerable<GamePartyMemberDTOGet>> GetGamePartyMembers(Guid gamePartyId)
         {
             var gameParties = await _context.GamePartyMembers
@@ -30,11 +29,7 @@ namespace BoardGameManager1.Services
                 .ToListAsync();
             return gameParties.AsEnumerable();
         }
-        #endregion
-
-        #region ForloggedUsers
-
-        //-------------------------------------------------------
+   
         public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(string gamePartyMemberId)
         {
             var gameParties = await _context.GamePartyMembers.FindAsync(new Guid(gamePartyMemberId));
@@ -51,19 +46,6 @@ namespace BoardGameManager1.Services
                 .ToListAsync();
             return _mapper.Map<List<GamePartyMemberDTOGet>>(gameParties).AsEnumerable();
         }
-
-
-
-        //public async Task<GamePartyDTOGet> GetGamePartyById(int id)
-        //{
-
-        //    var gameParty = await _context.GameParties.FindAsync(id);
-        //    if (gameParty == null)
-        //    {
-        //        throw new NotFoundException("Game party not founded");
-        //    }
-        //    return _mapper.Map<GamePartyDTOGet>(gameParty);
-        //}
 
         public async Task<Guid> AddGamePartyMember(GamePartyMemberDTOAdd gamePartyMemberDTO)
         {
@@ -86,7 +68,6 @@ namespace BoardGameManager1.Services
         {
             return _context.GameParties.Any(e => e.Id == id);
         }
-        #endregion
 
         private bool GamePartyMemberExists(Guid id)
         {

@@ -1,66 +1,43 @@
 <template>
     <div class="container">
+        <div class="mx-auto">
+                <div>
+                    <img class="game-image" v-bind:src="game.image">
+                </div>
+                <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+                    <div class="row px-3 mb-2">
+                        <h4 class="dark-text mr-4">{{game.name }}</h4>
+                        <p class="mt-1 mr-4 extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
+                    </div>
+                    <div>
+                        <p><span> {{game.releaseYear }}</span></p>
+                        <span> Min/max players: {{game.playersMinCount }}/{{game.playersMaxCount }} || </span>
+                        <span> Min/max players: {{game.playersMinCount }}/{{game.playersMaxCount }} || </span>
+                        <span> Min/max party time: {{game.minPartyTime }}/ {{game.maxPartyTime }} || </span>
+                        <span> Min. age: {{game.minAge }}</span>
+                    </div>
+                    <div>
+                        <label>Game rate</label>
+                        <star-rating v-model:rating="game.rating" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
 
-        <div class="row">
-            <div>
-                <h2>{{game.name}}</h2>
-            </div>
-            <div>
+                        <label>My rate</label>
+                        <star-rating v-model:rating="myRate" :max-rating="10" class="d-flex justify-content-center"></star-rating>
+                        <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
 
-                <img v-bind:src="game.image" width="50" height="80" />
+                    </div>
             </div>
-
-             <div v-show="isAuth">
-                My rate
-                <vue3-star-ratings v-model="myRate" :step="1" :numberOfStars="10" :disableClick="true"/>
-                   <button  v-on:click="setGameRate()" type="button" class="btn btn-info">Save</button>
-
-             </div>
-            <div>
-                Rate
-                <p>{{game.rating}}/10 </p>
-            </div>
-            <div>
-                Min player count
-
-                <p>{{game.playersMinCount}}</p>
-            </div>
-            <div>
-                Max player count
-
-                <p>{{game.playersMaxCount}}</p>
-            </div>
-            <div>
-                Min age
-
-                <p>{{game.minAge}}</p>
-            </div>
-            <div>
-                Min party time
-                <p>{{game.minPartyTime}}</p>
-            </div>
-            <div>
-                Max party time
-                <p>{{game.maxPartyTime}}</p>
-            </div>
-            <div>
-                Max party time
-                <p>{{game.releaseYear}}</p>
-            </div>
-            <div>
-                <GameRoles />
-
-            </div>
+        </div>
+        <div class="mt-3">
+            <GameRoles  />
         </div>
     </div>
 </template>
 
 <script>
-
-    import vue3StarRatings from "vue3-star-ratings";
     import GamesService from "../../services/GameService";
     import GameRateService from "../../services/GameRateService";
     import GameRoles from "../GameRoles/GameRoles.vue";
+    import StarRating from 'vue-star-rating'
 
     export default {
         name: 'GameView',
@@ -78,9 +55,8 @@
         },
         components: {
             GameRoles,
-            vue3StarRatings
+            StarRating
         },
-
         methods: {
             getGame() {
                 GamesService.GetById(this.$route.params.id.toString()).then(response => {
@@ -102,17 +78,15 @@
             },
             getMyGameRate() {
                 GameRateService.getCurrentUserGameRate(this.gameId).then(response => {
-                    this.game.rating = response.data;
+                    this.myRate = response.data;
                     console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
                     });
             }
-
         }
     }
-
 </script>
 
 <style lang="scss" scoped>

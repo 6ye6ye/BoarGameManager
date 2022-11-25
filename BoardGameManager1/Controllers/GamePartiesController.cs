@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
-using BoardGameManager1.Enums;
 using BoardGamePartyManager1.Services;
 using BoardGamesManager.Data;
 using DTO;
@@ -15,21 +14,13 @@ namespace BoardGameManager1.Controllers
     [Authorize]
     public class GamePartiesController : ControllerBase
     {
-        //private readonly AppDbContext _context;
-        //private readonly IMapper _mapper;
         private readonly GamePartiesService _service;
 
         public GamePartiesController(AppDbContext context, IMapper mapper)
         {
-            //_context = context;
-            //_mapper = mapper;
             _service = new GamePartiesService(context, mapper);
         }
 
-        // GET: api/GameParties
-
-
-        // GET: api/GameParties/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GamePartyDTOGet>> GetGameParty(Guid id)
         {
@@ -37,7 +28,6 @@ namespace BoardGameManager1.Controllers
             {
                 var gameParty = await _service.GetGamePartyById(id);
                 return gameParty;
-
             }
             catch (NotFoundException ex)
             {
@@ -62,8 +52,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-
-
         [HttpGet]
         [Route("played")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserGamePartiesPlayer()
@@ -78,7 +66,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("created")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserCreatedGameParties()
@@ -92,7 +79,6 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchGame(string id, [FromBody] GamePartyDTOEdit gamePartyDTO)
@@ -112,10 +98,7 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // POST: api/GameParties
         [HttpPost]
-
-
         public async Task<ActionResult<Guid>> PostGameParty(GamePartyDTOAdd gameParty)
         {
             try
@@ -128,9 +111,7 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // DELETE: api/GameParties/5
         [HttpDelete("{id}")]
-
         public async Task<IActionResult> DeleteGameParty(string id)
         {
             try

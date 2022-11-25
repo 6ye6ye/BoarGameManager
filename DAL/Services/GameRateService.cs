@@ -13,7 +13,6 @@ namespace BoardGameManager1.Services
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-
         public GameRateService(AppDbContext context, IMapper mapper)
         {
             _context = context;
@@ -71,8 +70,6 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
             return await UpdateGameRate(game);
         }
-
-
 
         //Return new game rating after edit
         private async Task<double> UpdateGameRate(Game game)

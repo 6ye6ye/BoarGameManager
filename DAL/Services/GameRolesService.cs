@@ -24,6 +24,7 @@ namespace BoardGameManager1.Services
             var gameRole = await _context.GameRoles.ToListAsync();
             return _mapper.Map<List<GameRoleDTOGet>>(gameRole).AsEnumerable();
         }
+
         public async Task<IEnumerable<GameRoleDTOGet>> GetGameRolesByGameId(Guid id)
         {
             var gameRole = await _context.GameRoles.Where(g => g.GameId == id).ToListAsync();
@@ -38,6 +39,7 @@ namespace BoardGameManager1.Services
                 throw new NotFoundException("Game role");
             return _mapper.Map<GameRoleDTOGet>(gameRole);
         }
+
         public async Task<Guid> AddGameRole(GameRoleDTOAdd gameRoleDTO)
         {
             var gameRole = _mapper.Map<GameRole>(gameRoleDTO);
@@ -46,6 +48,7 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
             return gameRole.Id;
         }
+
         public async Task DeleteGameRole(Guid id)
         {
             var gameRole = _context.GameRoles.Find(id);

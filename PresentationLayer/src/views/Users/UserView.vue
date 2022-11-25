@@ -4,7 +4,7 @@
             <div>
                 <h2>{{}}</h2>
             </div>
-   
+
             <div>
                 Id
                 <p>{{user.id}} </p>
@@ -15,7 +15,6 @@
             </div>
             <div>
                 Email
-
                 <p>{{user.email}}</p>
             </div>
             <div>
@@ -43,15 +42,13 @@
         },
         created() {
             this.getGame();
-
         },
         methods: {
             getGame() {
                 if (this.$route.params.id != null) {
-                    this.userId=this.$route.params.id.toString()
+                    this.userId = this.$route.params.id.toString()
                     UsersService.GetById(this.$route.params.id.toString()).then(response => {
                         this.user = response.data;
-  
                     })
                         .catch(e => {
                             console.log(e);

@@ -5,7 +5,7 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-2">
-               <label>Date </label>
+                <label>Date </label>
             </dt>
             <dd class="col-sm-10">
                 <label>{{gameParty.date}}</label>
@@ -28,25 +28,17 @@
             <dd class="col-sm-10">
                 {{gameParty.partyCreatorName}}
             </dd>
-  
         </dl>
-
         <div>
-
-            <GamePartyMembers  :gameId="gameParty.game.id" :gamePartyId="id" />
-            <!--  <button сlass="show-add-member-modal-button" @click="showAddMemberModal">add member</button>-->
-            <!--  <GamePartyMembers ref="membermodal" :gameId="gameParty.game.id" :gamePartyId="id" />-->
+            <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="id" />
         </div>
     </div>
 </template>
 
 <script>
 
-
     import GamesPartyService from "../../services/GamePartiesService";
     import GamePartyMembers from "../GamePartiesMembers/GamePartiesMembers.vue";
- 
-
     export default {
         name: 'GamePartyView',
         data() {
@@ -61,9 +53,7 @@
         components: {
             GamePartyMembers,
         },
-
         methods: {
-           
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {
                     this.gameParty = response.data;
@@ -73,7 +63,6 @@
                         console.log(e);
                     });
             }
-
         }
     }
 

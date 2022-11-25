@@ -1,21 +1,14 @@
 ﻿<template>
-
-
-    <!-- <button v-on:click="goToAdd()" type="button" class="btn btn-primary">Add game</button>-->
-
     <div class="post">
-
         <div class="form-group ">
             <h2>Game party members list</h2>
             <button type="button" class="btn btn-primary" @click="showModal">+</button>
         </div>
-        <!--//  <button v-on:click="showGamePartyMemberAdd= !showGamePartyMemberAdd" class="btn btn-primary">Show add party member window</button>-->
         <ModalWindow v-show="isModalVisible" @close="closeModal">
             <template v-slot:body>
                 <AddGamePartyMemberView @close="closeModal" @get-game-party-members="getGamePartyMembers" :gameId="gameId" :gamePartyId="gamePartyId"></AddGamePartyMemberView>
             </template>
         </ModalWindow>
-
 
         <table id="gamePartyMembersTable" class="table">
             <thead>
@@ -30,7 +23,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 <tr v-for="item in gamePartyMembers" :key="item.Id">
                     <td>{{item.id}}</td>
                     <td>{{item.game.name}}</td>
@@ -43,17 +35,11 @@
             </tbody>
         </table>
     </div>
-
-    <!--<div v-if="showGamePartyMemberAdd">
-        <AddGamePartyMemberView :gameId="gameId" :gamePartyId="gamePartyId" />
-    </div>-->
 </template>
 
 
 
-
 <script>
-
     import ModalWindow from "../ModalWindow.vue";
     import AddGamePartyMemberView from "../GamePartiesMembers/AddGamePartyMember.vue";
     import GamePartyMemberService from "../../services/GamePartyMemberService";

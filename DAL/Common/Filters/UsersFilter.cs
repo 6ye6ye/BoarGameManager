@@ -1,11 +1,4 @@
-﻿using BoardGameManager1.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DAL.Common.Filters
+﻿namespace DAL.Common.Filters
 {
     public class UsersFilter
     {

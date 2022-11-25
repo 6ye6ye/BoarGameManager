@@ -2,23 +2,16 @@
 using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.Configure<PasswordHasherOptions>(options =>
     options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
 );
-builder.Services
-            .AddControllers()
-            .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
-
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
 builder.Services.AddEndpointsApiExplorer();
-
-
 
 var MyAllowSpecificOrigins = "AllowOrigin";
 builder.Services.AddCors(options =>
@@ -32,16 +25,15 @@ builder.Services.AddCors(options =>
                           .AllowCredentials();
                       });
 });
-
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found."), 
-        b => b.MigrationsAssembly("DAL")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found."),
+    b => b.MigrationsAssembly("DAL")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddIdentity<User,Role>(options => 
+builder.Services.AddIdentity<User, Role>(options =>
     options.SignIn.RequireConfirmedAccount = false)
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -63,10 +55,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
 });
 
-//builder.Services.AddHttpContextAccessor();
-//builder.Services.ConfigureApplicationCookie(options => {
-//    options.LoginPath = "/Auth/SignIn";
-//});
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -76,12 +64,8 @@ if (app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 app.UseRouting();
-//app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
-
-//app.UseCookiePolicy();
 app.MapControllers();
-
 app.Run();

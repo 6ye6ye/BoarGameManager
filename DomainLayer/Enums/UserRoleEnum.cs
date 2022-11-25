@@ -1,9 +1,8 @@
 ﻿namespace BoardGameManager1.Enums
 {
-   
-    public enum UserRoleEnum 
+    public enum UserRoleEnum
     {
-      Admin=1,
-      User=2
+        Admin = 1,
+        User = 2
     }
 }

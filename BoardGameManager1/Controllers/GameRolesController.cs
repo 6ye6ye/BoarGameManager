@@ -6,7 +6,6 @@ using BoardGamesManager.Data;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace BoardGameManager1.Controllers
 {
@@ -23,7 +22,6 @@ namespace BoardGameManager1.Controllers
             _service = new GameRolesService(context, mapper);
         }
 
-        // GET: api/GameRoles
         [HttpGet]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IEnumerable<GameRoleDTOGet>> GetGameRoles()
@@ -39,7 +37,6 @@ namespace BoardGameManager1.Controllers
             return await _service.GetGameRolesByGameId(id);
         }
 
-        // GET: api/GameRoles/5
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<GameRoleDTOGet>> GetGameRole(string id)
@@ -59,7 +56,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // POST: api/GameRoles
         [HttpPost]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<GameRoleDTOAdd>> PostGameRole(GameRoleDTOAdd gameRole)
@@ -75,7 +71,6 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        // DELETE: api/GameRoles/5
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGameRole(Guid id)

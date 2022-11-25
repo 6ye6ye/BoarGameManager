@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-
-namespace DTO
+﻿namespace DTO
 {
     public class GameDTOGet
     {

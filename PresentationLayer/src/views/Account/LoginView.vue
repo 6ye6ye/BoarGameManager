@@ -3,33 +3,26 @@
         <div>
             <label class="form-label">Login</label>
             <input type="email" v-model="email" class="form-control" />
-
         </div>
         <div>
             <label class="form-label" >Password</label>
             <input type="password"  v-model="password" class="form-control" />
-
         </div>
-
-
         <div class="row">
             <div class="col d-flex justify-content-center">
-
                 <div class="form-check">
                     <input class="form-check-input" v-model='rememberMe' type="checkbox"/>
                     <label class="form-check-label"> Remember me </label>
                 </div>
             </div>
-
-            <div class="col">
-                <a href="#!">Forgot password?</a>
-            </div>
         </div>
 
         <p class="text-danger"> {{errorMessage}}</p>
-        <button v-on:click="trylogin()" type="button" class="btn">Sign in</button>
+        <button v-on:click="trylogin()" type="button" class="btn btn-primary">Sign in</button>
         <div class="text-center">
-            <p>Not a member? <a href="#!">Register</a></p>
+            <p>Not a member?      
+                <router-link  to="/register"> Sing up</router-link>
+            </p>
         </div>
     </form>
 </template>
@@ -48,6 +41,7 @@
                 rememberMe: false
             }
         },
+        
         methods: {
             trylogin: function() {
                 AccountService.login(this.email, this.password, this.rememberMe).then(response => {
@@ -65,11 +59,9 @@
 
                                 console.log('setrole')
                                 localStorage.setItem('isAuth', 'true')
-                             //  window.location.href = '/'; 
-                              
-                                this.$router.push('/')
-                               
-                               
+                             
+                                window.location.reload()
+                                window.location.href = '/'; 
                             return { ok: true }
                             }
                         case (400):

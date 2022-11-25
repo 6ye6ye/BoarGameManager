@@ -13,35 +13,33 @@
         <button v-on:click="getIncomingRequests" type="button" class="btn btn-outline-primary">Incoming</button>
         <button v-on:click="getOutRequests" type="button" class="btn btn-outline-primary">Outgoing</button>
         </div>
-        <div class="post">
-            <div class="row" style="margin-bottom: 10px;">
-            </div>
-            <div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <!--  <th>FriendId</th>-->
-                            <th>Name</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr v-for="item in friends" :key="item.id">
-                            <td>{{item.id}}</td>
-                            <!-- <td>{{item.friend.id }}</td>-->
-                            <td>{{item.friend.userName }}</td>
-                            <td><button v-show="showButtonIgnore" v-on:click="goToIgnore(item.id)" type="button" class="btn btn-danger">Ignore</button></td>
-                            <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">{{btnDelText}}</button></td>
-
-                            <td><button v-show="showButtonAccept" v-on:click="goToAccept(item.id)" type="button" class="btn btn-danger">Accept</button></td>
-
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="post">
+        <div class="row" style="margin-bottom: 10px;">
         </div>
+        <div v-show="friends.length!=0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>login</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr v-for="item in friends" :key="item.id">
+                        <td>{{item.friend.userName }}</td>
+                        <td><button v-show="showButtonIgnore" v-on:click="goToIgnore(item.id)" type="button" class="btn btn-danger">Ignore</button></td>
+                        <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">{{btnDelText}}</button></td>
+
+                        <td><button v-show="showButtonAccept" v-on:click="goToAccept(item.id)" type="button" class="btn btn-danger">Accept</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+     
+    </div>
 </template>  
   
 <script>  
@@ -65,11 +63,9 @@
             ModalWindow,
             AddFriendView
         },
-
         created() {
             this.getFriends();
         },
-
         methods: {
             showModal() {
                 this.isModalVisible = true;

@@ -1,34 +1,16 @@
 ﻿<template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid .navbar">
-            <a class="navbar-brand" href="/">BoardGames</a>
-
-            <a class="nav-link" href="/">
-                Games
-            </a>
-            <a v-show="isAdmin" class="nav-link" href="/users">
-                Users
-            </a>
-            <a v-show="isAuth" class="nav-link" href="/myGameParties">
-                Game parties
-            </a>
-            <a v-show="isAuth" class="nav-link" href="/friends">
-                Friends
-            </a>
-            <a v-show="!isAuth" class="nav-link" href="/login">
-                Sing in
-            </a>
-            <a v-show="!isAuth" class="nav-link" href="/register">
-                Sing up
-            </a>
-            <a v-show="isAuth" class="nav-link" @click="logout" href="/">
-                Logout
-            </a>
-            <a v-show="isAuth" class="nav-link" href="/myAccount">
-                {{userName}}
-            </a>
+            <router-link class="navbar-brand" to="/">BoardGames</router-link>
+            <router-link class="nav-link" to="/">Games</router-link>
+            <router-link class="nav-link" v-show="isAdmin&&isAuth" to="/users">Users</router-link>
+            <router-link class="nav-link" v-show="isAuth" to="/myGameParties"> Game parties</router-link>
+            <router-link class="nav-link" v-show="isAuth" to="/friends">Friends</router-link>
+            <router-link class="nav-link" v-show="!isAuth" to="/login"> Sing in</router-link>
+            <router-link class="nav-link" v-show="!isAuth" to="/register"> Sing up</router-link>
+            <router-link class="nav-link" v-show="isAuth" @click="logout" to="/">Logout</router-link>
+            <router-link class="nav-link" v-show="isAuth"  to="/myAccount">  {{userName}}</router-link>
         </div>
-
     </nav>
 </template>
 
@@ -46,9 +28,10 @@
         },
         created: function () {
             this.isAdmin = localStorage.getItem('role') === "Admin"
-            this.userName = localStorage.getItem('userName'); 
+            this.userName = localStorage.getItem('userName');
             this.isAuth = localStorage.getItem('isAuth');
         },
+      
         methods: {
             logout: function () {
                 AccountService.logout().then(response => {
@@ -59,12 +42,11 @@
                     switch (response.status) {
                         case (200):
                             {
-                                this.isAuth = false;
                                 localStorage.setItem('userName', '');
                                 localStorage.setItem('role', '');
                                 localStorage.setItem('isAuth', 'false');
-                                //window.location.href = '/';
-                                this.$router.replace({ name: 'GamesView' })
+                                this.isAuth=false
+                                this.$router.push('/login')
                                 return { ok: true }
                             }
                         case (400):

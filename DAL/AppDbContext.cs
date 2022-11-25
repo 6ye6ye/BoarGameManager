@@ -8,9 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoardGamesManager.Data
 {
-    public class AppDbContext : IdentityDbContext<User, Role,Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,   IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
+    public class AppDbContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
-       // public DbSet<UserRole> UserRoles { get; set; } = default!;
         public DbSet<Game> Games { get; set; } = default!;
         public DbSet<GameRate> GameRates { get; set; } = default!;
         public DbSet<GameParty> GameParties { get; set; } = default!;
@@ -24,26 +23,20 @@ namespace BoardGamesManager.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options)
         {
-         //   Database.EnsureCreated();
+            //   Database.EnsureCreated();
         }
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>(b =>
-            {
+            modelBuilder.Entity<User>(b => {
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.User)
                     .HasForeignKey(ur => ur.UserId)
-                    .IsRequired();
-            });
+                    .IsRequired(); });
 
-            modelBuilder.Entity<Role>(b =>
-            {
+            modelBuilder.Entity<Role>(b => {
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.Role)
                     .HasForeignKey(ur => ur.RoleId)
@@ -59,7 +52,6 @@ namespace BoardGamesManager.Data
                .WithOne(m => m.Creator)
               .OnDelete(DeleteBehavior.Restrict);
 
-
             modelBuilder.Entity<User>()
                 .HasMany(m => m.AddedFriends)
                 .WithOne(m => m.OutRequestUser)
@@ -69,39 +61,12 @@ namespace BoardGamesManager.Data
                 .WithOne(m => m.InRequestUser)
                 .OnDelete(DeleteBehavior.Restrict);
 
-
             modelBuilder.Entity<Game>()
                .HasMany(m => m.GameParties)
                .WithOne(m => m.Game)
                .OnDelete(DeleteBehavior.SetNull);
 
-            //modelBuilder.Entity<UserFriend>()
-            //    .HasOne(m => m.InRequestUser)
-            //    .WithMany(t => t.AcceptedFriends)
-            // .OnDelete(DeleteBehavior.SetNull);
-            //modelBuilder.Entity<UserFriend>()
-            //    .HasOne(m => m.OutRequestUser)
-            //    .WithMany(t => t.AddedFriends)
-            // .OnDelete(DeleteBehavior.SetNull);
-
-            //modelBuilder.Entity<Player>()
-            //   .HasOne(m => m.Creator)
-            //   .WithMany(t => t.CreatedPlayers)
-            //   .HasForeignKey(m => m.CreatorId)
-            //   .OnDelete(DeleteBehavior.SetNull);
-            //modelBuilder.Entity<Player>()
-            //   .HasOne(m => m.Account)
-            //   .WithMany(t => t.PlayGamesPlayers)
-            //   .HasForeignKey(m => m.AccountId)
-            //.OnDelete(DeleteBehavior.SetNull);
-
-
             modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
-
-
-            //modelBuilder.Entity<Game>()
-            //        .HasIndex(p => new { p.Name })
-            //        .IsUnique();
 
             modelBuilder.Entity<Game>(entity =>
             {
@@ -158,7 +123,7 @@ namespace BoardGamesManager.Data
                 UserName = "use",
                 NormalizedEmail = "user@gmail.com".Normalize(),
                 NormalizedUserName = "user".Normalize(),
-                SecurityStamp= Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString()
                 //   RoleId = userRole.Id
 
             };
@@ -245,7 +210,7 @@ namespace BoardGamesManager.Data
                 Date = DateTime.Now,
                 PartyCreatorId = userAdmin.Id,
                 UserGamePlaceId = userGamePlaces1.Id,
-                GameId=game.Id
+                GameId = game.Id
             };
             var player1 = new Player()
             {
