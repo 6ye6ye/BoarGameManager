@@ -24,7 +24,7 @@ namespace BoardGameManager1.Services
 
         public async Task<IEnumerable<GameDTOGetShort>> GetGamesShort()
         {
-            var games = await _context.Games.Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
+            var games = await _context.Games.OrderByDescending(c => c.Name).Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
             return games.AsEnumerable();
         }
 

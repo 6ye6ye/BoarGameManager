@@ -29,9 +29,12 @@
                     <td>{{item.game.name}}</td>
                     <td>{{item.userGamePlaceName }}</td>
                     <td>{{item.partyCreatorName }}</td>
-                    <td><button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button></td>
-                    <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
-
+                    <td>
+                        <div>
+                            <button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button>
+                            <button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                        </div>
+                    </td>
                 </tr>
             </tbody>
         </table>

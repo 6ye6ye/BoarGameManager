@@ -15,6 +15,7 @@
     import ErrorMessage from "../ErrorMessage.vue";
     export default {
         name: 'AddGamePlace',
+        emits: ['close', 'get-game-places'],
         data() {
             return {
                 name: '',
@@ -30,7 +31,7 @@
                     .then(response => {
                         console.log(response.data)
                         this.$emit('close');
-                        this.$emit('get-user-game-places');
+                        this.$emit('get-game-places');
                     })
                     .catch(e => {
 

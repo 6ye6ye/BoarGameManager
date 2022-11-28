@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BoardGameManager1.Common.Exceptions;
 using BoardGamesManager.Data;
 using DAL.Common.Filters;
 using DAL.Entities;
@@ -28,10 +29,10 @@ namespace BoardUserManager1.Services
             return _mapper.Map<List<UserDTOGet>>(users).AsEnumerable();
         }
 
-        public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName)
+        public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName,Guid currentUserId)
         {
             var users = await _context.Users
-                .Where(u => u.UserName.StartsWith(userName))
+                .Where(u => u.UserName.StartsWith(userName)&&u.Id!= currentUserId)
                 .Take(10)
                 .Select(u => _mapper.Map<UserDTOGetShort>(u))
                 .ToListAsync();
@@ -47,8 +48,13 @@ namespace BoardUserManager1.Services
             return _mapper.Map<UserDTOGet>(user);
         }
 
-        public async Task DeleteUser(User user)
+        public async Task DeleteUser(Guid id)
         {
+            var user= await _context.Users.FindAsync(id);
+            if (user == null)
+                throw new NotFoundException("User");
+            _context.Players.Where(p => p.AccountId == id).ToList().ForEach(p=>p.AccountId=null);
+            _context.Players.Where(p => p.CreatorId == id).ToList().ForEach(p => p.CreatorId = null);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
         }

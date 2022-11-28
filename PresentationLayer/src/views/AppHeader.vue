@@ -16,7 +16,7 @@
 
 <script>
     import AccountService from "../services/AccountService";
-
+ 
     export default {
         name: "AppHeader",
         data() {
@@ -29,7 +29,7 @@
         created: function () {
             this.isAdmin = localStorage.getItem('role') === "Admin"
             this.userName = localStorage.getItem('userName');
-            this.isAuth = localStorage.getItem('isAuth');
+            this.isAuth = localStorage.getItem('isAuth')=='true';
         },
       
         methods: {

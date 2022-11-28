@@ -21,32 +21,5 @@ class GameRolesService {
     async DeleteGameRole(id) {
         return await axios.delete(url + '/api/GameRoles/' + id);
     }
-  
-    //upload(file) {
-    //    let formData = new FormData();
-
-    //    formData.append("file", file);
-
-    //    return await axios({
-    //        method: 'post',
-    //        url: url + '/api/Games',
-    //        data: {
-
-    //            image: game.image,
-    //            name: game.name,
-    //            nameRu: game.nameRu,
-    //            nameEng: game.nameEng,
-    //            playersMinCount: game.playersMinCount,
-    //            playersMaxCount: game.playersMaxCount,
-    //            minAge: game.minAge,
-    //            minPartyTime: game.minPartyTime,
-    //            maxPartyTime: game.maxPartyTime,
-    //            releaseYear: game.releaseYear
-    //        }
-    //    });
-    //}
-          
-
-    
 }
 export default new GameRolesService();  

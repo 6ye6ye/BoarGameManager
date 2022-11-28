@@ -23,7 +23,6 @@ class GamePartyMembersService {
                 gameRoleId: gameParty.gameRoleId,
                 points: gameParty.points,
                 isWinner: gameParty.isWinner
-
             }
         });
     }

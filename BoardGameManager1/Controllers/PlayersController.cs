@@ -22,6 +22,7 @@ namespace BoardGameManager1.Controllers
             _service = new PlayerService(context, mapper);
         }
 
+        //Get players list for current user
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDTOGet>>> GetPlayers()
         {

@@ -3,7 +3,7 @@
         <div class="col-md-4 mx-auto">
             <div class="form-group ">
                 <label class="control-label">Name</label>
-                <input type="text" v-model="name" class="form-control" />
+                <input type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
             </div>
             <div class="form-group">
                 <label class="control-label"></label>

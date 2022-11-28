@@ -27,7 +27,7 @@ class UsersService {
         )
     }
     async Delete(id) {
-        return await axios.delete(url + '/api/UserFriends/' + id);
+        return await axios.delete(url + '/api/Users/' + id);
     }
 }
 export default new UsersService()

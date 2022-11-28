@@ -5,3 +5,6 @@
 /BoardGameManager1/bin
 /PresentationLayer/obj
 /BoardGameManager1/obj/Debug
+/DomainLayer/obj
+/DTO/obj
+/DAL/obj

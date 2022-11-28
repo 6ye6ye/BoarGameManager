@@ -4,7 +4,12 @@
         <div class="row row_filters">
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">login</label>
-                <input type="text" v-model="filter.name" placeholder="Input login"  class="form-control" />
+                <input type="text" v-model="filter.name" placeholder="Input login" class="form-control" />
+            </div>
+
+            <div class="col-sm-2 sub_filters">
+                <label class="form-label">Email</label>
+                <input type="text" v-model="filter.email" placeholder="Input email" class="form-control" />
             </div>
             <div class="col-sm-2 sub_filters">
                 <label class="form-label">Role</label>
@@ -13,11 +18,6 @@
                     <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
                 </select>
             </div>
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">Email</label>
-                <input type="text" v-model="filter.email" placeholder="Input email" class="form-control" />
-            </div>
-
             <div class="col-sm-2  sub_filters">
                 <button v-on:click="getUsersWithFilters()" type="button" class="form-control btn btn-info">Search</button>
             </div>
@@ -33,11 +33,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="user in users" :key="user.Id">
+                <tr v-for="user in users" :key="user.id">
                     <td>{{user.userName}}</td>
                     <td>{{user.email}}</td>
                     <td>{{user.role.name}}</td>
-                    <td><button v-on:click="goToDetails(user.id)" type="button" class="btn btn-info">Details</button></td>
+                    <td>
+                        <div>
+                            <button v-on:click="goToDetails(user.id)" type="button" class="btn btn-info">Details</button>
+                            <button v-on:click="goToDelete(user.id)" type="button" class="btn btn-danger">Delete</button>
+                        </div>
+                    </td>
+                   
                 </tr>
             </tbody>
         </table>
@@ -90,7 +96,7 @@
                 UsersService.GetAll().then(response => {
                     this.users = response.data;
                     console.log(response.data);
-     
+
                 })
                     .catch(e => {
                         console.log(e);
@@ -106,6 +112,21 @@
             },
             goToDetails(id) {
                 this.$router.push({ name: 'UserView', params: { id: id } })
+            },
+            goToDelete(id) {
+
+                UsersService.Delete(id).then(response => {
+           
+                    if (response.status == 200) {
+                        let i = this.users.map(item => item.id).indexOf(id)
+                        this.users.splice(i, 1)
+                    }
+                    else
+                        console.log(response.request);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
             },
             getUsersWithFilters() {
                 UsersService.GetAllWithFilters(this.filter).then(response => {

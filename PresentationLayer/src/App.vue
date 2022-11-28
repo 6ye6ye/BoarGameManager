@@ -1,5 +1,5 @@
 <template>
-    <AppHeader  />
+    <AppHeader />
     <div class="container " id="app">
         <router-view></router-view>
     </div>
@@ -24,7 +24,16 @@
         color: #2c3e50;
         margin-top: 30px;
     }
+
     table {
         background-color: white
     }
+
+    input {
+        border: 2px solid currentcolor;
+    }
+
+        input:invalid {
+            border: 2px double red;
+        }
 </style>

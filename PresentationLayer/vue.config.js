@@ -24,12 +24,12 @@ module.exports = {
             cert: fs.readFileSync(certFilePath),
         },
         proxy:
-            'http://localhost:5001',
-        //{
-        //    '^/games': {
-        //        target: 'https://192.168.180.154:5002/'
-        //    }
-        //},
+      //      'http://localhost:5001',
+        {
+            '^/api': {
+                target: 'https://192.168.180.154:5001/'
+            }
+        },
         port: 5002
     }
 }

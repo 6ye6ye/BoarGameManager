@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="mx-auto">
-                <div>
+             <div>
                     <img class="game-image" v-bind:src="game.image">
-                </div>
+              </div>
                 <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
                     <div class="row px-3 mb-2">
                         <h4 class="dark-text mr-4">{{game.name }}</h4>
@@ -19,13 +19,13 @@
                     <div>
                         <label>Game rate</label>
                         <star-rating v-model:rating="game.rating" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
-
+                    </div>
+                    <div v-if="isAuth">
                         <label>My rate</label>
                         <star-rating v-model:rating="myRate" :max-rating="10" class="d-flex justify-content-center"></star-rating>
                         <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
-
                     </div>
-            </div>
+                </div>
         </div>
         <div class="mt-3">
             <GameRoles  />

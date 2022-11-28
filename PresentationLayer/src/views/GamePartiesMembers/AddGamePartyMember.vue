@@ -9,21 +9,21 @@
                         <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
                     </template>
                 </ModalWindow>
-                <select v-model="gamePartyMember.playerId" class="form-select">
-                    <option value=0>- Select  player -</option>
+                <select v-model="gamePartyMember.playerId" class="form-select" required>
+                    <option value="" selected disabled hidden>- Select  player -</option>
                     <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
                 </select>
             </div>
             <div class="form-group ">
-                <label class="control-label">Role</label><span class="required">*</span>
-                <select v-model="gamePartyMember.gameRoleId" class="form-select">
-                    <option value=0>- Select  game role -</option>
+                <label class="control-label">Role*</label>
+                <select v-model="gamePartyMember.gameRoleId" class="form-select" >
+                    <option value="" selected disabled hidden>- Select  game role -</option>
                     <option v-for="gameRole in gameRoles" v-bind:key="gameRole.id" v-bind:value="gameRole.id"> {{gameRole.name}}</option>
                 </select>
             </div>
             <div class="form-group ">
                 <label class="control-label">Points</label>
-                <input type="number" v-model="gamePartyMember.points" min="0" max="1000000" class="form-control" />
+                <input type="number" v-model="gamePartyMember.points" min="0" max="1000000" class="form-control" required />
             </div>
             <div class="form-group ">
                 <label class="control-label">Winner</label>
@@ -31,13 +31,15 @@
             </div>
             <div class="form-group">
                 <label class="control-label"></label>
-                <button v-on:click="addGamePartyMember()" type="button" class="btn btn-success ">Add</button>
+                <button type="button" @click="addGamePartyMember" class="btn btn-success ">Add</button>
             </div>
         </div>
+        <ErrorMessage :errorMessage="errMessage" />
     </div>
 </template>
 
 <script>
+    import ErrorMessage from "../ErrorMessage.vue";
     import PlayersService from "../../services/PlayersService";
     import GameRolesService from "../../services/GameRolesService";
     import GamePartyMemberService from "../../services/GamePartyMemberService";
@@ -46,17 +48,19 @@
     export default {
         name: 'AddGameRoleView',
         props: ['gamePartyId', 'gameId'],
+        emits: ['close', 'get-game-party-members'],
         data() {
 
             return {
+                errMesage:"",
                 isModalVisible: false,
                 show: false,
                 players: [],
                 gameRoles: [],
                 gamePartyMember: {
                     gamePartyId: this.gamePartyId,
-                    playerId: 0,
-                    gameRoleId: 0,
+                    playerId: "",
+                    gameRoleId: "",
                     points: 0,
                     isWinner: false
                 }
@@ -64,7 +68,8 @@
         },
         components: {
             AddPlayerView,
-            ModalWindow
+            ModalWindow,
+            ErrorMessage
         },
         created() {
             this.getGameRoles(this.gameId);
@@ -77,14 +82,17 @@
             closeModal() {
                 this.isModalVisible = false;
             },
-            addGamePartyMember: function () {
+            addGamePartyMember() {
+              
                 GamePartyMemberService.Add(this.gamePartyMember)
                     .then(response => {
-                        console.log(response.data);
-                        this.$emit('close');
-                        this.$emit('get-game-party-members');
+                        if (response.status == 200) {
+                            this.$emit('close');
+                            this.$emit('get-game-party-members');
+                        }
                     })
                     .catch(e => {
+                        this.errMesage = e.response;
                         console.log(e);
                     });
             },
@@ -94,6 +102,7 @@
                         this.gameRoles = response.data
                     })
                     .catch(e => {
+                        this.errMesage = e.response.data;
                         console.log(e);
                     });
             },
@@ -103,6 +112,7 @@
                         this.players = response.data
                     })
                     .catch(e => {
+                        this.errMesage = e.response.data;
                         console.log(e);
                     });
             },

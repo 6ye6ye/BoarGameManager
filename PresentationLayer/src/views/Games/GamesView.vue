@@ -51,7 +51,7 @@
                     <th @click="sort('minPartyTime')" style="cursor: pointer;">Min party time ⇅</th>
                     <th @click="sort('maxPartyTime')" style="cursor: pointer;">Max party time ⇅</th>
                     <th @click="sort('releaseYear')" style="cursor: pointer;">Release year ⇅</th>
-                    <th @click="sort('addedToUserGames')">Added</th>
+                    <th v-if="isAuth" @click="sort('addedToUserGames')" style="cursor: pointer;">Added</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -63,10 +63,10 @@
                 <div>
                     <img class="game-image" v-bind:src="item.image">
                     <div v-if="isAuth">
-                        <label>Added to my games</label>
+                        <label>Add to my games:</label>
                         <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
                     </div>
-                    <button v-if="isAdmin && !isMyGamesPage" v-on:click="delete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                    <button v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
                 </div>
                 <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
                     <div class="row px-3 mb-2">
@@ -97,6 +97,7 @@
     import UserGamesService from "../../services/UserGamesService";
     export default {
         name: 'GamesView',
+
         data() {
             return {
                 filter: {
@@ -186,11 +187,12 @@
             goToDetails(id) {
                 this.$router.push({ name: 'GameView', params: { id: id } })
             },
-            delete(id) {
+            goToDelete(id) {
                 GamesService.Delete(id).then(response => {
-                    console.log(response.data);
-                    let i = this.games.map(item => item.id).indexOf(id) 
-                    this.games.splice(i, 1)
+                    if (response.status == 200) {
+                        let i = this.games.map(item => item.id).indexOf(id)
+                        this.games.splice(i, 1)
+                    }
                 })
                     .catch(e => {
                         console.log(e);
@@ -203,17 +205,13 @@
                     this.deleteFromUserGames(id);
             },
             addUserGames(id) {
-                UserGamesService.Add(id).then(response => {
-                    console.log(response.data);
-                })
+                UserGamesService.Add(id).then()
                     .catch(e => {
                         console.log(e);
                     });
             },
             deleteFromUserGames(id) {
-                UserGamesService.Delete(id).then(response => {
-                    console.log(response.data);
-                })
+                UserGamesService.Delete(id).then()
                     .catch(e => {
                         console.log(e);
                     });
@@ -234,8 +232,7 @@
         background-color: #fff;
         padding: 25px;
         width: 100%;
-        padding-left: 0px;
-        padding-right: 0px;
+  
         margin: 20px auto;
         border-radius: 3px;
         box-shadow: 0px 8px 16px 0px #E0E0E0;
@@ -247,7 +244,7 @@
     }
 
     .game-image {
-        width: 100px;
+        width: 150px;
         height: 150px;
     }
 

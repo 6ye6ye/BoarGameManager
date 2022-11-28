@@ -28,7 +28,7 @@ namespace BoardGameManager1.Controllers
             if (ModelState.IsValid)
             {
                 if (registerDTO.PasswordRepeat != registerDTO.Password)
-                    return ValidationProblem("Passwords are not the same");
+                    return Conflict("Passwords are not the same");
                 try
                 {
                     await _accountService.Register(registerDTO);
@@ -36,10 +36,10 @@ namespace BoardGameManager1.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return Conflict(ex.Message);
                 }
             }
-            return BadRequest("Model isn't valid");
+            return Conflict("Model isn't valid");
         }
 
         [HttpPost]

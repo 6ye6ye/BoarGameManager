@@ -28,7 +28,7 @@ export default class AccountService {
     
     static async register(login, email, password, passwordRepeat, name) {
 
-        var rezult = await axios({
+         return await axios({
             method: 'post',
             url: url + '/API/Account/Register',
             data: {
@@ -39,17 +39,6 @@ export default class AccountService {
                 name: name
             }
         });
-
-        switch (rezult.status) {
-            case (200):
-                {
-                   // window.location.href = '/'
-                    this.$router.push({ name: 'GamesView' })
-                    return { ok: true }
-                }
-            case (400):
-                return { ok: false }
-        }
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using BoardUserManager1.Services;
@@ -59,7 +60,7 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                return Ok(await _service.GetFirstTenUsers(name));
+                return Ok(await _service.GetFirstTenUsers(name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
             }
             catch (Exception ex)
             {
@@ -97,20 +98,24 @@ namespace BoardGameManager1.Controllers
             return user;
         }
 
-        //// DELETE: api/Users/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUser(int id)
-        //{
-        //    var user = await _context.Users.FindAsync(id);
-        //    if (user == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    await new UserService(_context, _mapper).DeleteUser(user);
-
-        //    return NoContent();
-        //}
+        // DELETE: api/Users/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            try
+            {
+                await _service.DeleteUser(id);
+                return Ok();
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return Conflict(ex.Message);
+            }
+        }
 
     }
 }

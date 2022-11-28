@@ -4,7 +4,7 @@
             <h2>Game party members list</h2>
             <button type="button" class="btn btn-primary" @click="showModal">+</button>
         </div>
-        <ModalWindow v-show="isModalVisible" @close="closeModal">
+        <ModalWindow v-if="isModalVisible" @close="closeModal">
             <template v-slot:body>
                 <AddGamePartyMemberView @close="closeModal" @get-game-party-members="getGamePartyMembers" :gameId="gameId" :gamePartyId="gamePartyId"></AddGamePartyMemberView>
             </template>
@@ -13,8 +13,6 @@
         <table id="gamePartyMembersTable" class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Game</th>
                     <th>Player</th>
                     <th>Game role</th>
                     <th>Points</th>
@@ -24,8 +22,6 @@
             </thead>
             <tbody>
                 <tr v-for="item in gamePartyMembers" :key="item.Id">
-                    <td>{{item.id}}</td>
-                    <td>{{item.game.name}}</td>
                     <td>{{item.player.name }}</td>
                     <td>{{item.gameRole.name }}</td>
                     <td>{{item.points }}</td>

@@ -33,17 +33,27 @@ namespace BoardGameManager1.Services
         }
         public async Task Register(AccountDTORegister registerDTO)
         {
-            var userRole = await _context.Roles.FirstOrDefaultAsync(e => e.Name == UserRoleEnum.User.ToString());
-            if (userRole == null)
-                throw new NotFoundException("User role");
+            //var userRole = await _context.Roles.FirstOrDefaultAsync(e => e.Name == UserRoleEnum.User.ToString());
+            //if (userRole == null)
+            //    throw new NotFoundException("User role");
            
             var user = _mapper.Map<User>(registerDTO);
-            var Rezult = await _userManager.CreateAsync(user, registerDTO.Password);
-            if (Rezult.Succeeded == false)
-                throw new Exception("Not registered");
+            var result = await _userManager.CreateAsync(user, registerDTO.Password);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, UserRoleEnum.User.ToString());
+                await _signInManager.SignInAsync(user, false);
+                var playerService = new PlayerService(_context, _mapper).AddPlayer(user);
+            }
+            else 
+            {
+                string errMesage = "";
+                foreach (var ex in result.Errors)
+                    errMesage += ex.Description+"\n";
+                throw new Exception(errMesage);
+            }
             
-            await _signInManager.SignInAsync(user, false);
-            var playerService = new PlayerService(_context, _mapper).AddPlayer(user);
+       
         }
 
 

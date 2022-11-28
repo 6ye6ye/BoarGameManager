@@ -68,27 +68,63 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cdb63d90-a48f-4f49-98ae-ed6da9b0dfe0"),
-                            GameId = new Guid("7df9f52c-31bb-493c-ad42-99b24ba6a539"),
+                            Id = new Guid("69fb1f04-7c8f-47a2-82ec-ff3c16655755"),
+                            GameId = new Guid("c35daf38-46df-4367-b693-6b7e65f7c0e1"),
                             Name = "Mafia"
                         },
                         new
                         {
-                            Id = new Guid("28d54e59-c1ac-4054-bb11-aff6c8a3c93a"),
-                            GameId = new Guid("7df9f52c-31bb-493c-ad42-99b24ba6a539"),
+                            Id = new Guid("4b4c45e8-a6e1-430a-bc63-d599d580b0cc"),
+                            GameId = new Guid("c35daf38-46df-4367-b693-6b7e65f7c0e1"),
                             Name = "Player"
                         },
                         new
                         {
-                            Id = new Guid("a17d0dbb-43bf-4d93-8c5c-1138bdde42f8"),
-                            GameId = new Guid("7df9f52c-31bb-493c-ad42-99b24ba6a539"),
+                            Id = new Guid("bca4b1a3-40ef-49fa-b77a-8b5b0421e1a3"),
+                            GameId = new Guid("c35daf38-46df-4367-b693-6b7e65f7c0e1"),
                             Name = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("41945b37-f493-4976-b1e1-f925d845789d"),
-                            GameId = new Guid("7df9f52c-31bb-493c-ad42-99b24ba6a539"),
+                            Id = new Guid("32b2d516-b29b-4514-a52e-9afdc9860b31"),
+                            GameId = new Guid("c35daf38-46df-4367-b693-6b7e65f7c0e1"),
                             Name = "Sheriff"
+                        },
+                        new
+                        {
+                            Id = new Guid("e606b6c5-7708-4b10-9884-12f7cafcf28c"),
+                            GameId = new Guid("98139978-7216-4679-9a76-f5522896f0d3"),
+                            Name = "Ork"
+                        },
+                        new
+                        {
+                            Id = new Guid("3afae0f4-309c-4669-abe1-cf0e7c35691c"),
+                            GameId = new Guid("98139978-7216-4679-9a76-f5522896f0d3"),
+                            Name = "Eldar"
+                        },
+                        new
+                        {
+                            Id = new Guid("55351ab2-130e-4477-931f-ca036d84b051"),
+                            GameId = new Guid("98139978-7216-4679-9a76-f5522896f0d3"),
+                            Name = "Chaos Space Marine"
+                        },
+                        new
+                        {
+                            Id = new Guid("4ccd92cf-b937-48ec-96e1-28b4c37c9fce"),
+                            GameId = new Guid("98139978-7216-4679-9a76-f5522896f0d3"),
+                            Name = "Emperor's Space Marine"
+                        },
+                        new
+                        {
+                            Id = new Guid("d402ab6b-ecc0-4ea6-8045-c55bf002dd03"),
+                            GameId = new Guid("11b96ab6-ad79-4a7f-93a0-8f4135383d95"),
+                            Name = "Empire"
+                        },
+                        new
+                        {
+                            Id = new Guid("ae46e1c2-9367-46c9-b997-09015a7fab86"),
+                            GameId = new Guid("11b96ab6-ad79-4a7f-93a0-8f4135383d95"),
+                            Name = "Rebels"
                         });
                 });
 
@@ -122,15 +158,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("41b00840-ac57-44a9-ba17-c1a38feb4f66"),
-                            ConcurrencyStamp = "9660f6f4-4ef2-4f9d-b5a4-aa512957aaa1",
+                            Id = new Guid("b805cb8c-dea2-45ba-a914-6cdabb219a2a"),
+                            ConcurrencyStamp = "685a5308-183e-4850-b81a-c2bf5fb7ce78",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("b80a3cd3-f1b1-49bb-9792-2319b8949557"),
-                            ConcurrencyStamp = "4437d247-9fcc-4e57-b7d9-84274f07c257",
+                            Id = new Guid("17afe30a-1b54-45ad-94dd-1d011d05e32f"),
+                            ConcurrencyStamp = "e31af249-76de-406f-afee-1c6f7085e7b1",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -153,13 +189,13 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe"),
-                            RoleId = new Guid("41b00840-ac57-44a9-ba17-c1a38feb4f66")
+                            UserId = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5"),
+                            RoleId = new Guid("b805cb8c-dea2-45ba-a914-6cdabb219a2a")
                         },
                         new
                         {
-                            UserId = new Guid("fcae68f8-447e-43f8-8343-a44ad8d8288e"),
-                            RoleId = new Guid("b80a3cd3-f1b1-49bb-9792-2319b8949557")
+                            UserId = new Guid("3609ff48-f92e-4ec5-be1a-799c6f1fe837"),
+                            RoleId = new Guid("17afe30a-1b54-45ad-94dd-1d011d05e32f")
                         });
                 });
 
@@ -219,7 +255,7 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7df9f52c-31bb-493c-ad42-99b24ba6a539"),
+                            Id = new Guid("c35daf38-46df-4367-b693-6b7e65f7c0e1"),
                             Image = "no-image-icon-6.png",
                             MaxPartyTime = 120,
                             MinAge = 10,
@@ -232,6 +268,38 @@ namespace DAL.Migrations
                             Rating = 0.0,
                             RatingCount = 0,
                             ReleaseYear = 2021
+                        },
+                        new
+                        {
+                            Id = new Guid("98139978-7216-4679-9a76-f5522896f0d3"),
+                            Image = "forbiddenStars.jpg",
+                            MaxPartyTime = 120,
+                            MinAge = 14,
+                            MinPartyTime = 60,
+                            Name = "Forbidden Stars",
+                            NameEng = "Forbidden Stars",
+                            NameRu = "Запретные звезды",
+                            PlayersMaxCount = 4,
+                            PlayersMinCount = 2,
+                            Rating = 0.0,
+                            RatingCount = 0,
+                            ReleaseYear = 2015
+                        },
+                        new
+                        {
+                            Id = new Guid("11b96ab6-ad79-4a7f-93a0-8f4135383d95"),
+                            Image = "StarWarsRebellion.jpg",
+                            MaxPartyTime = 240,
+                            MinAge = 14,
+                            MinPartyTime = 180,
+                            Name = "Star Wars: Rebellion",
+                            NameEng = "Star Wars: Rebellion",
+                            NameRu = "Звездные войны: Восстание",
+                            PlayersMaxCount = 4,
+                            PlayersMinCount = 2,
+                            Rating = 0.0,
+                            RatingCount = 0,
+                            ReleaseYear = 2016
                         });
                 });
 
@@ -266,11 +334,11 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4fd52939-3cae-471d-bb36-b66e8c8faab5"),
-                            Date = new DateTime(2022, 11, 24, 14, 3, 50, 225, DateTimeKind.Local).AddTicks(8241),
-                            GameId = new Guid("7df9f52c-31bb-493c-ad42-99b24ba6a539"),
-                            PartyCreatorId = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe"),
-                            UserGamePlaceId = new Guid("8d04ffc6-43fd-49e8-b63d-562cb826a9fe")
+                            Id = new Guid("7b554636-243c-4075-80c6-0a00985ee3f7"),
+                            Date = new DateTime(2022, 11, 28, 16, 0, 23, 850, DateTimeKind.Local).AddTicks(7490),
+                            GameId = new Guid("c35daf38-46df-4367-b693-6b7e65f7c0e1"),
+                            PartyCreatorId = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5"),
+                            UserGamePlaceId = new Guid("2a61e6cb-8e3f-4693-b629-ca68fd6a8534")
                         });
                 });
 
@@ -283,7 +351,7 @@ namespace DAL.Migrations
                     b.Property<Guid>("GamePartyId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GameRoleId")
+                    b.Property<Guid?>("GameRoleId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsWinner")
@@ -333,14 +401,14 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aeddcba3-4211-44ec-8a43-d2e74e0c31d8"),
-                            AccountId = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe"),
+                            Id = new Guid("fc493618-7900-4ffb-8a60-32697eb7177b"),
+                            AccountId = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5"),
                             Name = "admin"
                         },
                         new
                         {
-                            Id = new Guid("b3af6add-b12d-471c-9db0-f5bddd4e9a0c"),
-                            AccountId = new Guid("fcae68f8-447e-43f8-8343-a44ad8d8288e"),
+                            Id = new Guid("d2677cbb-3a6f-4b60-9cbc-05b209418c29"),
+                            AccountId = new Guid("3609ff48-f92e-4ec5-be1a-799c6f1fe837"),
                             Name = "use"
                         });
                 });
@@ -413,9 +481,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe"),
+                            Id = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6f71d685-e9a2-418c-895b-a94750c81a0d",
+                            ConcurrencyStamp = "32acb8ba-5e50-419c-b7b5-564effbc06ca",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -423,15 +491,15 @@ namespace DAL.Migrations
                             NormalizedUserName = "admin",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "656f1900-24ba-4302-a496-8b27213bcba4",
+                            SecurityStamp = "dcee7aae-cff0-4c65-833b-de82bf4b5dfb",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = new Guid("fcae68f8-447e-43f8-8343-a44ad8d8288e"),
+                            Id = new Guid("3609ff48-f92e-4ec5-be1a-799c6f1fe837"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "356ca530-5983-4da3-8e13-36525ea3175c",
+                            ConcurrencyStamp = "61ad3865-03f8-44b7-baf1-3f7e56c9d9eb",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -439,7 +507,7 @@ namespace DAL.Migrations
                             NormalizedUserName = "user",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d93c02c8-60e1-4541-978d-b621463333ca",
+                            SecurityStamp = "b7c0e57b-cbda-4e56-a29b-da98486996ac",
                             TwoFactorEnabled = false,
                             UserName = "use"
                         });
@@ -461,7 +529,8 @@ namespace DAL.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "GameId")
+                        .IsUnique();
 
                     b.ToTable("UserGames");
                 });
@@ -477,28 +546,28 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid?>("UserId")
-                        .IsRequired()
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId", "Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("UserGamePlaces");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8d04ffc6-43fd-49e8-b63d-562cb826a9fe"),
+                            Id = new Guid("2a61e6cb-8e3f-4693-b629-ca68fd6a8534"),
                             Name = "MyHome",
-                            UserId = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe")
+                            UserId = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5")
                         },
                         new
                         {
-                            Id = new Guid("3159f8e1-8dc6-4169-85e4-09f74a44e3c7"),
+                            Id = new Guid("cc3465cc-46cd-44b3-b93d-174dc7f58b18"),
                             Name = "Work",
-                            UserId = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe")
+                            UserId = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5")
                         });
                 });
 
@@ -530,9 +599,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7c90d75d-ccf2-40d4-b171-5445e3e3668b"),
-                            InRequestUserId = new Guid("e1eef61a-d16a-439a-829b-426b8625cbbe"),
-                            OutRequestUserId = new Guid("fcae68f8-447e-43f8-8343-a44ad8d8288e"),
+                            Id = new Guid("a78fd598-383c-4206-bc9b-d8d09d5e3bf2"),
+                            InRequestUserId = new Guid("5a135049-efc7-4d03-8046-d0d7a3ae55a5"),
+                            OutRequestUserId = new Guid("3609ff48-f92e-4ec5-be1a-799c6f1fe837"),
                             Status = 1
                         });
                 });
@@ -683,11 +752,13 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.Entities.User", "PartyCreator")
                         .WithMany("CreatedGames")
-                        .HasForeignKey("PartyCreatorId");
+                        .HasForeignKey("PartyCreatorId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("DAL.Entities.UserGamePlace", "UserGamePlace")
-                        .WithMany()
-                        .HasForeignKey("UserGamePlaceId");
+                        .WithMany("GameParties")
+                        .HasForeignKey("UserGamePlaceId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Game");
 
@@ -705,10 +776,9 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("BoardGameManager1.Entities.GameRole", "GameRole")
-                        .WithMany()
+                        .WithMany("GamePartyMembers")
                         .HasForeignKey("GameRoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("DAL.Entities.Player", "Player")
                         .WithMany("GamePartiesMember")
@@ -763,9 +833,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -825,6 +893,11 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BoardGameManager1.Entities.GameRole", b =>
+                {
+                    b.Navigation("GamePartyMembers");
+                });
+
             modelBuilder.Entity("BoardGameManager1.Entities.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -866,6 +939,11 @@ namespace DAL.Migrations
                     b.Navigation("PlayGamesPlayers");
 
                     b.Navigation("UserRoles");
+                });
+
+            modelBuilder.Entity("DAL.Entities.UserGamePlace", b =>
+                {
+                    b.Navigation("GameParties");
                 });
 #pragma warning restore 612, 618
         }

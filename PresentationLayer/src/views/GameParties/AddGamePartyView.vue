@@ -10,41 +10,43 @@
 
         <ModalWindow v-show="isModalVisible" @close="closeModal">
             <template v-slot:body>
-                <AddGamePlace @close="closeModal" @get-user-game-places="getUserGamePlaces"></AddGamePlace>
+                <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
             </template>
         </ModalWindow>
 
-        <select v-model="gameParty.userGamePlaceId" class="form-select">
-            <option value=0>- Select game place -</option>
+        <select v-model="gameParty.userGamePlaceId" class="form-select" required>
+
             <option v-for="place in userGamePlaces" v-bind:key="place.id" v-bind:value="place.id"> {{place.name}}</option>
+            <option value=0 disabled selected hidden>- Select game place -</option>
         </select>
     </div>
 
     <div class="form-group ">
         <label class="control-label">Game</label><span class="required">*</span>
-        <select v-model="gameParty.gameId" class="form-select">
-            <option value=0>- Select  game -</option>
+        <select v-model="gameParty.gameId" class="form-select" required>
             <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id"> {{game.name}}</option>
+            <option value=0 disabled selected hidden>- Select  game -</option>
         </select>
     </div>
-    <p> {{errorMessage}}</p>
-    <button v-on:click="addGameParty()" type="button" class="btn btn-primary">Add</button>
+    <ErrorMessage :errorMessage="errMessage" />
+    <button type="button" @click="addGameParty" class="btn btn-primary">Add</button>
 </template>
 
 
 
 <script>
     import ModalWindow from "../ModalWindow.vue";
-
+    import ErrorMessage from "../ErrorMessage.vue";
     import AddGamePlace from "../../views/GamePlaces/AddGamePlace.vue";
     import GamePartiesService from "../../services/GamePartiesService";
     import GameService from "../../services/GameService";
     import GamePlaceService from "../../services/GamePlaceService";
     export default {
         name: 'AddGamePartyView',
+        emits: ['close', 'get-game-parties'],
         data() {
             return {
-                errorMesage: '',
+                errMessage: "",
                 isModalVisible: false,
                 showGamePlaceAdd: false,
                 games: [],
@@ -58,7 +60,8 @@
         },
         components: {
             AddGamePlace,
-            ModalWindow
+            ModalWindow,
+            ErrorMessage
         },
         created() {
             this.getGames();
@@ -74,32 +77,32 @@
             getGames: function () {
                 GameService.GetAllShort().then(response => {
                     this.games = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
-                        this.errorMesage = e.response.data;
+                        this.errMesage = e.response.data;
                         console.log(e);
                     })
             },
             getUserGamePlaces: function () {
                 GamePlaceService.GetGamePlaces().then(response => {
                     this.userGamePlaces = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
-                        this.errorMesage = e.response.data;
+                        this.errMesage = e.response.data;
                         console.log(e);
                     })
             },
-            addGameParty: function () {
+            addGameParty() {
                 GamePartiesService.Add(this.gameParty)
                     .then(response => {
-                        this.$emit('close');
-                        this.$emit('get-game-parties');
-                        console.log(response.data);
+                        if (response.status == 200) {
+                            this.$emit('close');
+                            this.$emit('get-game-parties');
+                        }
+
                     })
                     .catch(e => {
-                        this.errorMesage = e.response.data;
+                        this.errMesage = e.response.data;
                         console.log(e);
                     });
             },

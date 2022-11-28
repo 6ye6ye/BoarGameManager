@@ -1,30 +1,30 @@
 <template>
     <h2> Registration</h2>
-    <form class="col-sm">
+    <form class="col-sm" >
         <div>
             <label class="form-label">Login</label>
-            <input type="text" v-model="login" class="form-control" />
+            <input type="text" v-model="login" minlength="3" maxlength="50" class="form-control" required />
         </div>
         <div>
             <label class="form-label">Email address</label>
-            <input type="email" v-model="email" class="form-control" />
+            <input type="email" v-model="email" class="form-control" minlength="3" maxlength="100" required />
         </div>
         <div>
             <label class="form-label">Name</label>
-            <input type="text" v-model="name" class="form-control" />
+            <input type="text" v-model="name" class="form-control" minlength="3" maxlength="100" required />
         </div>
         <div>
             <label class="form-label" for="form2Example2">Password</label>
-            <input type="password" v-model="password" class="form-control" />
+            <input type="password" v-model="password" class="form-control" minlength="6" maxlength="100" required />
         </div>
         <div>
             <label class="form-label" for="form2Example2">Password repeat</label>
-            <input type="password" v-model="passwordRepeat" class="form-control" />
+            <input type="password" v-model="passwordRepeat" class="form-control" minlength="6" maxlength="100" required />
         </div>
 
         <p class="text-danger">{{errorMessage}}</p>
-        <button v-on:click="tryregister()" type="button" class="btn btn-primary">Register</button>
-
+        <!--  <button type="submit" class="btn btn-primary">Register</button>-->
+        <button type="button" value="Register" @click="tryRegister" class="btn btn-primary"/>
     </form>
 </template>
 
@@ -34,27 +34,40 @@
 
     export default {
         name: 'RegisterView',
+
         data() {
             return {
                 errorMessage: '',
-                login:'',
+                login: '',
                 email: '',
                 password: '',
                 passwordRepeat: '',
-                name:''
+                name: ''
 
             }
         },
         methods: {
-            tryregister: function() {
+            tryRegister: function () {
                 AccountService.register(this.login, this.email, this.password, this.passwordRepeat, this.name).then(response => {
+                    AccountService.getCurrentUserRole().then(response => {
+                        localStorage.setItem('role', response.data[0]);
+                    });
+
+                    AccountService.getCurrentUserName().then(response => {
+                        localStorage.setItem('userName', response.data)
+                    });
+                    console.log('setrole')
+                    localStorage.setItem('isAuth', 'true')
                     window.location.reload()
                     window.location.href = '/'; 
                     console.log(response);
                 })
                     .catch(e => {
-                        this.errorMessage = e.response.data;
-                        console.log(e);
+                        if (e.response) {
+                            this.errorMessage = e.response.data;
+                            console.log(e.response.data);
+                        }
+
                     });
             },
 

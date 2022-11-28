@@ -10,8 +10,11 @@ namespace BoardGameManager1.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid GameId { get; set; }
+
         [ForeignKey("GameId")]
         public virtual Game Game { get; set; }
         public string Name { get; set; }
+
+        public virtual ICollection<GamePartyMember> GamePartyMembers { get; set; }
     }
 }

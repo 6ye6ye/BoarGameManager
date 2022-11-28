@@ -66,6 +66,20 @@ namespace BoardGamesManager.Data
                .WithOne(m => m.Game)
                .OnDelete(DeleteBehavior.SetNull);
 
+            modelBuilder.Entity<GameRole>()
+                .HasMany(m => m.GamePartyMembers)
+                .WithOne(m => m.GameRole)
+                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<UserGamePlace>()
+               .HasMany(m => m.GameParties)
+               .WithOne(m => m.UserGamePlace)
+               .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<User>()
+              .HasMany(m => m.CreatedGames)
+              .WithOne(m => m.PartyCreator)
+              .OnDelete(DeleteBehavior.SetNull);
+
             modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
 
             modelBuilder.Entity<Game>(entity =>
@@ -104,7 +118,6 @@ namespace BoardGamesManager.Data
 
             var userAdmin = new User()
             {
-                //Id = Guid.NewGuid().ToString(),
                 Id = Guid.NewGuid(),
                 Email = "admin@gmail.com",
                 PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
@@ -112,11 +125,9 @@ namespace BoardGamesManager.Data
                 NormalizedEmail = "admin@gmail.com".Normalize(),
                 NormalizedUserName = "admin".Normalize(),
                 SecurityStamp = Guid.NewGuid().ToString()
-                // RoleId = adminRole.Id
             };
             var user = new User()
             {
-                //Id = Guid.NewGuid().ToString(),
                 Id = Guid.NewGuid(),
                 PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                 Email = "user@gmail.com",
@@ -124,8 +135,6 @@ namespace BoardGamesManager.Data
                 NormalizedEmail = "user@gmail.com".Normalize(),
                 NormalizedUserName = "user".Normalize(),
                 SecurityStamp = Guid.NewGuid().ToString()
-                //   RoleId = userRole.Id
-
             };
 
             var userRole1 = new UserRole()
@@ -140,7 +149,7 @@ namespace BoardGamesManager.Data
             };
 
 
-            var game = new Game()
+            var game1 = new Game()
             {
                 Id = Guid.NewGuid(),
                 Image = "no-image-icon-6.png",
@@ -156,32 +165,104 @@ namespace BoardGamesManager.Data
                 Rating = 0,
                 RatingCount = 0
             };
+            var game2 = new Game()
+            {
+                Id = Guid.NewGuid(),
+                Image = "forbiddenStars.jpg",
+                MaxPartyTime = 120,
+                MinPartyTime = 60,
+                MinAge = 14,
+                Name = "Forbidden Stars",
+                NameEng = "Forbidden Stars",
+                NameRu = "Запретные звезды",
+                PlayersMaxCount = 4,
+                PlayersMinCount = 2,
+                ReleaseYear = 2015,
+                Rating = 0,
+                RatingCount = 0
+            };
+            var game3 = new Game()
+            {
+                Id = Guid.NewGuid(),
+                Image = "StarWarsRebellion.jpg",
+                MaxPartyTime = 240,
+                MinPartyTime = 180,
+                MinAge = 14,
+                Name = "Star Wars: Rebellion",
+                NameEng = "Star Wars: Rebellion",
+                NameRu = "Звездные войны: Восстание",
+                PlayersMaxCount = 4,
+                PlayersMinCount = 2,
+                ReleaseYear = 2016,
+                Rating = 0,
+                RatingCount = 0
+            };
 
 
             var gameRole1 = new GameRole()
             {
                 Id = Guid.NewGuid(),
-                GameId = game.Id,
+                GameId = game1.Id,
                 Name = "Mafia"
             };
             var gameRole2 = new GameRole()
             {
                 Id = Guid.NewGuid(),
-                GameId = game.Id,
+                GameId = game1.Id,
                 Name = "Player"
             };
             var gameRole3 = new GameRole()
             {
                 Id = Guid.NewGuid(),
-                GameId = game.Id,
+                GameId = game1.Id,
                 Name = "Doctor"
             };
             var gameRole4 = new GameRole()
             {
                 Id = Guid.NewGuid(),
-                GameId = game.Id,
+                GameId = game1.Id,
                 Name = "Sheriff"
             };
+
+
+            var gameRole2_1 = new GameRole()
+            {
+                Id = Guid.NewGuid(),
+                GameId = game2.Id,
+                Name = "Ork"
+            };
+            var gameRole2_2 = new GameRole()
+            {
+                Id = Guid.NewGuid(),
+                GameId = game2.Id,
+                Name = "Eldar"
+            };
+            var gameRole2_3 = new GameRole()
+            {
+                Id = Guid.NewGuid(),
+                GameId = game2.Id,
+                Name = "Chaos Space Marine"
+            };
+            var gameRole2_4 = new GameRole()
+            {
+                Id = Guid.NewGuid(),
+                GameId = game2.Id,
+                Name = "Emperor's Space Marine"
+            };
+
+            var gameRole3_1 = new GameRole()
+            {
+                Id = Guid.NewGuid(),
+                GameId = game3.Id,
+                Name = "Empire"
+            };
+            var gameRole3_2 = new GameRole()
+            {
+                Id = Guid.NewGuid(),
+                GameId = game3.Id,
+                Name = "Rebels"
+            };
+       
 
             var userFried = new UserFriend()
             {
@@ -210,7 +291,7 @@ namespace BoardGamesManager.Data
                 Date = DateTime.Now,
                 PartyCreatorId = userAdmin.Id,
                 UserGamePlaceId = userGamePlaces1.Id,
-                GameId = game.Id
+                GameId = game1.Id
             };
             var player1 = new Player()
             {
@@ -226,30 +307,17 @@ namespace BoardGamesManager.Data
                 CreatorId = null,
                 Name = user.UserName
             };
-            //var gamePartyMember1 = new GamePartyMember()
-            //{
-            //    Id = Guid.NewGuid(),
-            //    GamePartyId = 1,
-            //    GameRoleId = 1,
-            //    IsWinner = true,
-            //    Points = 0,
-            //    PlayerId = 1
-            //};
-            //var gamePartyMember2 = new GamePartyMember()
-            //{
-            //    Id = Guid.NewGuid(),
-            //    GamePartyId = 1,
-            //    GameRoleId = 2,
-            //    IsWinner = false,
-            //    Points = 0,
-            //    PlayerId = 2
-            //};
+    
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
             modelBuilder.Entity<User>().HasData(new User[] { userAdmin, user });
             modelBuilder.Entity<UserRole>().HasData(new UserRole[] { userRole1, userRole2 });
-            modelBuilder.Entity<Game>().HasData(game);
-            modelBuilder.Entity<GameRole>().HasData(new GameRole[] { gameRole1, gameRole2, gameRole3, gameRole4 });
+            modelBuilder.Entity<Game>().HasData(game1,game2,game3);
+            modelBuilder.Entity<GameRole>().HasData(new GameRole[] { 
+                gameRole1, gameRole2, gameRole3, gameRole4,
+                gameRole2_1,gameRole2_2,gameRole2_3,gameRole2_4,
+                gameRole3_1,gameRole3_2
+            });
             modelBuilder.Entity<UserFriend>().HasData(userFried);
             modelBuilder.Entity<UserGamePlace>().HasData(new UserGamePlace[] { userGamePlaces1, userGamePlaces2 });
             modelBuilder.Entity<GameParty>().HasData(gameParty);
