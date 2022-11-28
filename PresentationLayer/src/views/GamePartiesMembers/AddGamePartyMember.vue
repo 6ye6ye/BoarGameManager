@@ -4,7 +4,7 @@
             <div class="form-group ">
                 <label class="control-label">Player</label><span class="required">*</span>
                 <button type="button" class="btn btn-primary" @click="showModal">+</button>
-                <ModalWindow v-show="isModalVisible" @close="closeModal">
+                <ModalWindow v-if="isModalVisible" @close="closeModal">
                     <template v-slot:body>
                         <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
                     </template>
@@ -16,7 +16,7 @@
             </div>
             <div class="form-group ">
                 <label class="control-label">Role*</label>
-                <select v-model="gamePartyMember.gameRoleId" class="form-select" >
+                <select v-model="gamePartyMember.gameRoleId" class="form-select">
                     <option value="" selected disabled hidden>- Select  game role -</option>
                     <option v-for="gameRole in gameRoles" v-bind:key="gameRole.id" v-bind:value="gameRole.id"> {{gameRole.name}}</option>
                 </select>
@@ -34,7 +34,7 @@
                 <button type="button" @click="addGamePartyMember" class="btn btn-success ">Add</button>
             </div>
         </div>
-        <ErrorMessage :errorMessage="errMessage" />
+        <p class="text-danger"> {{errorMessage}}</p>
     </div>
 </template>
 
@@ -52,7 +52,7 @@
         data() {
 
             return {
-                errMesage:"",
+                errorMessage:"",
                 isModalVisible: false,
                 show: false,
                 players: [],
@@ -92,7 +92,7 @@
                         }
                     })
                     .catch(e => {
-                        this.errMesage = e.response;
+                        this.errorMessage = e.response;
                         console.log(e);
                     });
             },
@@ -102,7 +102,7 @@
                         this.gameRoles = response.data
                     })
                     .catch(e => {
-                        this.errMesage = e.response.data;
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     });
             },
@@ -112,7 +112,7 @@
                         this.players = response.data
                     })
                     .catch(e => {
-                        this.errMesage = e.response.data;
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     });
             },

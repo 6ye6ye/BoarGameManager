@@ -81,7 +81,7 @@
                         <span> Min. age: {{item.minAge }}</span>
                     </div>
                     <div>
-                        <star-rating v-model:rating="item.rating" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
+                        <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
                     </div>
                 </div>
             </div>

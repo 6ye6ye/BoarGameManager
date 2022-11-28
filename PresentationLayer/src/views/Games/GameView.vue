@@ -2,12 +2,12 @@
     <div class="container">
         <div class="mx-auto">
              <div>
-                    <img class="game-image" v-bind:src="game.image">
+                    <img class="game-image" :src="game.image">
               </div>
                 <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
-                    <div class="row px-3 mb-2">
+                    <div class="row ">
                         <h4 class="dark-text mr-4">{{game.name }}</h4>
-                        <p class="mt-1 mr-4 extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
+                        <p class="extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
                     </div>
                     <div>
                         <p><span> {{game.releaseYear }}</span></p>
@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <label>Game rate</label>
-                        <star-rating v-model:rating="game.rating" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
+                        <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
                     </div>
                     <div v-if="isAuth">
                         <label>My rate</label>
@@ -45,7 +45,7 @@
             return {
                 myRate:0,
                 gameId: this.$route.params.id.toString(),
-                game: undefined,
+                game: '',
                 isAuth: localStorage.getItem('isAuth'),
             }
         },

@@ -76,9 +76,11 @@
 
             goToIgnore(id) {
                 FriendsService.Ignore(id).then(response => {
-                    let i = this.friends.map(item => item.id).indexOf(id) // find index of your object
-                    this.friends.splice(i, 1);
-                    console.log(response.data);
+                    if (response.status == 200) {
+                        let i = this.friends.map(item => item.id).indexOf(id) 
+                        this.friends.splice(i, 1);
+                      
+                    }
                 })
                     .catch(e => {
                         console.log(e);
@@ -86,9 +88,11 @@
             },
             goToAccept(id) {
                 FriendsService.AcceptRequest(id).then(response => {
-                    let i = this.friends.map(item => item.id).indexOf(id) // find index of your object
-                    this.friends.splice(i, 1);
-                    console.log(response.data);
+                    if (response.status == 200) {
+                        let i = this.friends.map(item => item.id).indexOf(id) 
+                        this.friends.splice(i, 1);
+                     
+                    }
                 })
                     .catch(e => {
                         console.log(e);
@@ -133,9 +137,10 @@
             },
             goToDelete(id) {
                 FriendsService.Delete(id).then(response => {
-                    console.log(response.data);
-                    let i = this.friends.map(item => item.id).indexOf(id) // find index of your object
-                    this.friends.splice(i, 1)
+                    if (response.status == 200) {
+                        let i = this.friends.map(item => item.id).indexOf(id)
+                        this.friends.splice(i, 1)
+                    }
                 })
                     .catch(e => {
                         console.log(e);

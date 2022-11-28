@@ -2,10 +2,6 @@
     <div class="container">
         <div class="row">
             <div>
-                <h2>{{}}</h2>
-            </div>
-
-            <div>
                 Id
                 <p>{{user.id}} </p>
             </div>
@@ -20,10 +16,6 @@
             <div>
                 Role
                 <p>{{user.role.name}}</p>
-            </div>
-
-            <div>
-                <GameRoles />
             </div>
         </div>
     </div>
@@ -41,13 +33,13 @@
             }
         },
         created() {
-            this.getGame();
+            this.getUser();
         },
         methods: {
-            getGame() {
+            getUser() {
                 if (this.$route.params.id != null) {
                     this.userId = this.$route.params.id.toString()
-                    UsersService.GetById(this.$route.params.id.toString()).then(response => {
+                    UsersService.GetById(userId).then(response => {
                         this.user = response.data;
                     })
                         .catch(e => {

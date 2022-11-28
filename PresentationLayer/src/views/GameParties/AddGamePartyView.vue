@@ -8,7 +8,7 @@
         <label class="control-label">Game place</label><span class="required">*</span>
         <button type="button" class="btn btn-primary" @click="showModal">+</button>
 
-        <ModalWindow v-show="isModalVisible" @close="closeModal">
+        <ModalWindow v-if="isModalVisible" @close="closeModal">
             <template v-slot:body>
                 <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
             </template>
@@ -28,7 +28,7 @@
             <option value=0 disabled selected hidden>- Select  game -</option>
         </select>
     </div>
-    <ErrorMessage :errorMessage="errMessage" />
+    <p class="text-danger"> {{errorMessage}}</p>
     <button type="button" @click="addGameParty" class="btn btn-primary">Add</button>
 </template>
 
@@ -36,7 +36,7 @@
 
 <script>
     import ModalWindow from "../ModalWindow.vue";
-    import ErrorMessage from "../ErrorMessage.vue";
+    //import ErrorMessage from "../ErrorMessage.vue";
     import AddGamePlace from "../../views/GamePlaces/AddGamePlace.vue";
     import GamePartiesService from "../../services/GamePartiesService";
     import GameService from "../../services/GameService";
@@ -46,7 +46,7 @@
         emits: ['close', 'get-game-parties'],
         data() {
             return {
-                errMessage: "",
+                errorMessage: '',
                 isModalVisible: false,
                 showGamePlaceAdd: false,
                 games: [],
@@ -61,7 +61,7 @@
         components: {
             AddGamePlace,
             ModalWindow,
-            ErrorMessage
+          //  ErrorMessage
         },
         created() {
             this.getGames();
@@ -79,7 +79,7 @@
                     this.games = response.data;
                 })
                     .catch(e => {
-                        this.errMesage = e.response.data;
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     })
             },
@@ -88,7 +88,7 @@
                     this.userGamePlaces = response.data;
                 })
                     .catch(e => {
-                        this.errMesage = e.response.data;
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     })
             },
@@ -102,7 +102,7 @@
 
                     })
                     .catch(e => {
-                        this.errMesage = e.response.data;
+                        this.errorMessage = e.response.data;
                         console.log(e);
                     });
             },

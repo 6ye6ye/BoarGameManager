@@ -23,8 +23,7 @@
         </div>
 
         <p class="text-danger">{{errorMessage}}</p>
-        <!--  <button type="submit" class="btn btn-primary">Register</button>-->
-        <button type="button" value="Register" @click="tryRegister" class="btn btn-primary"/>
+        <button type="button" value="Register" @click="tryRegister" class="btn btn-primary"> Register </button>
     </form>
 </template>
 

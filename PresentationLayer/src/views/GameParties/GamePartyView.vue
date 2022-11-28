@@ -57,7 +57,7 @@
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {
                     this.gameParty = response.data;
-                    console.log(response.data);
+                 
                 })
                     .catch(e => {
                         console.log(e);
