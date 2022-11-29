@@ -32,7 +32,10 @@ namespace BoardUserManager1.Services
         public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName,Guid currentUserId)
         {
             var users = await _context.Users
-                .Where(u => u.UserName.StartsWith(userName)&&u.Id!= currentUserId)
+                
+                .Where(u => u.UserName.StartsWith(userName)
+                    && u.Id!= currentUserId)
+
                 .Take(10)
                 .Select(u => _mapper.Map<UserDTOGetShort>(u))
                 .ToListAsync();

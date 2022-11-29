@@ -1,27 +1,28 @@
 ﻿<template>
-    <form ref="form" class="col-sm" method="post">
+    <form ref="form" class="col-sm" @submit.prevent="trylogin" method="post">
         <div>
             <label class="form-label">Login</label>
             <input type="text" v-model="userName" class="form-control" required />
         </div>
         <div>
-            <label class="form-label" >Password</label>
-            <input type="password"  v-model="password" class="form-control" required/>
+            <label class="form-label">Password</label>
+            <input type="password" v-model="password" class="form-control" required />
         </div>
         <div class="row">
             <div class="col d-flex justify-content-center">
                 <div class="form-check">
-                    <input class="form-check-input" v-model='rememberMe' type="checkbox"/>
+                    <input class="form-check-input" v-model='rememberMe' type="checkbox" />
                     <label class="form-check-label"> Remember me </label>
                 </div>
             </div>
         </div>
 
         <p class="text-danger"> {{errorMessage}}</p>
-        <button v-on:click="trylogin" type="button" class="btn btn-primary" >Sign in</button>
+        <button type="submit" class="btn btn-primary">Sign in</button>
         <div class="text-center">
-            <p>Not a member?      
-                <router-link  to="/register"> Sing up</router-link>
+            <p>
+                Not a member?
+                <router-link to="/register"> Sing up</router-link>
             </p>
         </div>
     </form>
@@ -41,16 +42,15 @@
                 rememberMe: false
             }
         },
-        
+        computed: {
+            isValid() {
+                return this.userName && this.password
+                }
+            },
         methods: {
-           
-            trylogin: function () {
-              
-                //console.log(this.$refs.form.validate())
-                //if (this.$refs['form'].valid == true) {
-               //     console.log('true')
+            async trylogin () {
+                if (!this.isValid) return false
                     AccountService.login(this.userName, this.password, this.rememberMe).then(response => {
-
                         switch (response.status) {
                             case (200):
                                 {
@@ -61,10 +61,10 @@
                                     AccountService.getCurrentUserName().then(response => {
                                         localStorage.setItem('userName', response.data)
                                     });
-                                    console.log('setrole')
                                     localStorage.setItem('isAuth', 'true')
                                     window.location.reload()
                                     window.location.href = '/';
+                                  //  this.$router.push('/').go('/');
                                     return { ok: true }
                                 }
                             case (400):
@@ -73,15 +73,10 @@
                                     return { ok: false }
                                 }
                         }
-                        console.log(response.data);
                     })
                         .catch(e => {
                             this.errorMessage = e.response.data;
-
                         });
-               // }
-               // else 
-               //     console.log('false')
             },
 
         }

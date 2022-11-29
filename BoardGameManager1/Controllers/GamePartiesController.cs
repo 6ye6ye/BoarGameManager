@@ -117,7 +117,7 @@ namespace BoardGameManager1.Controllers
             try
             {
                 await _service.DeleteGameParty(id);
-                return NoContent();
+                return Ok();
             }
             catch (NotFoundException ex)
             {

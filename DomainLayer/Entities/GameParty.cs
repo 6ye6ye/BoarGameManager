@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DomainLayer;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
-    public class GameParty
+    public class GameParty : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
         public DateTime Date { get; set; }
         public Guid? UserGamePlaceId { get; set; }
         public Guid? PartyCreatorId { get; set; }

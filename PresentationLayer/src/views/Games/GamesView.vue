@@ -156,7 +156,6 @@
                 GamesService.GetAll().then(response => {
                     this.games = response.data;
                     this.isMyGamesPage = false;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
@@ -165,7 +164,6 @@
             getGamesWithFilters() {
                 GamesService.GetAllWithFilters(this.filter).then(response => {
                     this.games = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
@@ -175,7 +173,6 @@
                 UserGamesService.GetUserGames().then(response => {
                     this.games = response.data;
                     this.isMyGamesPage = true;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);

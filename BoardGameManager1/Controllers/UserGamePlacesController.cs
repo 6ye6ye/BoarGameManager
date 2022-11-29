@@ -61,7 +61,7 @@ namespace BoardGameManager1.Controllers
             try
             {
                 await _service.ChangeUserGamePlaceName(id, name);
-                return NoContent();
+                return Ok();
             }
             catch (NotFoundException ex)
             {
@@ -93,7 +93,7 @@ namespace BoardGameManager1.Controllers
             try
             {
                 await _service.DeleteUserGamePlace(id);
-                return NoContent();
+                return Ok();
             }
             catch (NotFoundException ex)
             {

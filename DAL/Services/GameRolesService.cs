@@ -42,8 +42,10 @@ namespace BoardGameManager1.Services
 
         public async Task<Guid> AddGameRole(GameRoleDTOAdd gameRoleDTO)
         {
-            var gameRole = _mapper.Map<GameRole>(gameRoleDTO);
-
+            var gameRole = await _context.GameRoles.FirstOrDefaultAsync(g => g.GameId == gameRoleDTO.GameId && g.Name == gameRoleDTO.Name);
+            if (gameRole != null)
+                throw new DoublicateException(gameRoleDTO.Name);
+             gameRole = _mapper.Map<GameRole>(gameRoleDTO);
             _context.GameRoles.Add(gameRole);
             await _context.SaveChangesAsync();
             return gameRole.Id;

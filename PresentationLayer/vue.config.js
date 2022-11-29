@@ -26,7 +26,7 @@ module.exports = {
         proxy:
       //      'http://localhost:5001',
         {
-            '^/api': {
+            '^/': {
                 target: 'https://192.168.180.154:5001/'
             }
         },

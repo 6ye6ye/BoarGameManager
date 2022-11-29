@@ -104,8 +104,7 @@
                     this.header = 'Friends';
                     this.showButtonAccept = false;
                     this.showButtonIgnore = false;
-                    this.btnDelText='Delete',
-                    console.log(response.data);
+                    this.btnDelText = 'Delete';
                 })
                     .catch(e => {
                         console.log(e);

@@ -25,9 +25,10 @@
             addPlayer: function () {
                 PlayersService.AddPlayer(this.name)
                     .then(response => {
-                        console.log(response.data);
-                        this.$emit('close');
-                        this.$emit('get-players');
+                        if (response.status == 200) {
+                            this.$emit('close');
+                            this.$emit('get-players');
+                        }
                     })
                     .catch(e => {
                         console.log(e);

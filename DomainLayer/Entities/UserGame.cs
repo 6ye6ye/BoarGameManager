@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DomainLayer;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
     [Index(nameof(UserId), nameof(GameId), IsUnique = true)]
-    public class UserGame
+    public class UserGame : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public Guid GameId { get; set; }
 

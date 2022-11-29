@@ -63,15 +63,5 @@ namespace BoardGameManager1.Services
             _context.GamePartyMembers.Remove(gamePartyMember);
             await _context.SaveChangesAsync();
         }
-
-        private bool GamePartyExists(Guid id)
-        {
-            return _context.GameParties.Any(e => e.Id == id);
-        }
-
-        private bool GamePartyMemberExists(Guid id)
-        {
-            return _context.GamePartyMembers.Any(e => e.Id == id);
-        }
     }
 }

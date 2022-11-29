@@ -61,7 +61,6 @@
             getGame() {
                 GamesService.GetById(this.$route.params.id.toString()).then(response => {
                     this.game = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
@@ -70,7 +69,6 @@
             setGameRate() {
                 GameRateService.PutGameRate(this.gameId,this.myRate).then(response => {
                     this.game.rating = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
@@ -79,7 +77,6 @@
             getMyGameRate() {
                 GameRateService.getCurrentUserGameRate(this.gameId).then(response => {
                     this.myRate = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);

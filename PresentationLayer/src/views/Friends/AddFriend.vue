@@ -15,7 +15,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
                     <tr v-for="item in users" :key="item.id">
                         <td>{{item.userName }}</td>
                         <td><button v-on:click="goToAdd(item.id)" type="button" class="btn btn-info">+</button></td>
@@ -52,9 +51,10 @@
             goToAdd: function (id) {
                 FriendsService.AddFriend(id)
                     .then(response => {
-                        console.log(response.data);
-                        let i = this.users.map(item => item.id).indexOf(id)
-                        this.users.splice(i, 1)
+                        if (response.status == 200) {
+                            let i = this.users.map(item => item.id).indexOf(id)
+                            this.users.splice(i, 1)
+                        }
                     })
                     .catch(e => {
                         console.log(e);
@@ -64,9 +64,10 @@
             goToAccept: function (id) {
                 FriendsService.AddFriend(id)
                     .then(response => {
-                        console.log(response.data);
-                        let i = this.users.map(item => item.id).indexOf(id)
-                        this.users.splice(i, 1)
+                        if (response.status == 200) {
+                            let i = this.users.map(item => item.id).indexOf(id)
+                            this.users.splice(i, 1)
+                        }
                     })
                     .catch(e => {
                         console.log(e);
@@ -76,9 +77,10 @@
             goToDelete: function (id) {
                 FriendsService.Delete(id)
                     .then(response => {
-                        console.log(response.data);
-                        let i = this.users.map(item => item.id).indexOf(id)
-                        this.users.splice(i, 1)
+                        if (response.status == 200) {
+                            let i = this.users.map(item => item.id).indexOf(id)
+                            this.users.splice(i, 1)
+                        }
                     })
                     .catch(e => {
                         console.log(e);

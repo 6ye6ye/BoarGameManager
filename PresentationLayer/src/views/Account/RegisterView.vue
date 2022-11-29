@@ -1,29 +1,32 @@
 <template>
-    <h2> Registration</h2>
-    <form class="col-sm" >
-        <div>
-            <label class="form-label">Login</label>
-            <input type="text" v-model="login" minlength="3" maxlength="50" class="form-control" required />
-        </div>
-        <div>
-            <label class="form-label">Email address</label>
-            <input type="email" v-model="email" class="form-control" minlength="3" maxlength="100" required />
-        </div>
-        <div>
-            <label class="form-label">Name</label>
-            <input type="text" v-model="name" class="form-control" minlength="3" maxlength="100" required />
-        </div>
-        <div>
-            <label class="form-label" for="form2Example2">Password</label>
-            <input type="password" v-model="password" class="form-control" minlength="6" maxlength="100" required />
-        </div>
-        <div>
-            <label class="form-label" for="form2Example2">Password repeat</label>
-            <input type="password" v-model="passwordRepeat" class="form-control" minlength="6" maxlength="100" required />
-        </div>
+    <form ref="form" class="col-sm" @submit.prevent="tryRegister" method="post">
 
-        <p class="text-danger">{{errorMessage}}</p>
-        <button type="button" value="Register" @click="tryRegister" class="btn btn-primary"> Register </button>
+        <h2> Registration</h2>
+        <div class="col-sm">
+            <div>
+                <label class="form-label">Login</label>
+                <input type="text" v-model="login" minlength="3" maxlength="50" class="form-control" required />
+            </div>
+            <div>
+                <label class="form-label">Email address</label>
+                <input type="email" v-model="email" class="form-control" minlength="3" maxlength="100" required />
+            </div>
+            <div>
+                <label class="form-label">Name</label>
+                <input type="text" v-model="name" class="form-control" minlength="3" maxlength="100" required />
+            </div>
+            <div>
+                <label class="form-label" for="form2Example2">Password</label>
+                <input type="password" v-model="password" class="form-control" minlength="6" maxlength="100" required />
+            </div>
+            <div>
+                <label class="form-label" for="form2Example2">Password repeat</label>
+                <input type="password" v-model="passwordRepeat" class="form-control" minlength="6" maxlength="100" required />
+            </div>
+
+            <p class="text-danger">{{errorMessage}}</p>
+            <button type="submit" value="Register"  class="btn btn-primary"> Register </button>
+        </div>
     </form>
 </template>
 
@@ -45,28 +48,32 @@
 
             }
         },
+        computed: {
+            isValid() {
+                return this.login && this.email && this.password && this.passwordRepeat && this.name
+            }
+        },
         methods: {
-            tryRegister: function () {
+            async tryRegister() {
+                if (!this.isValid) return false
                 AccountService.register(this.login, this.email, this.password, this.passwordRepeat, this.name).then(response => {
-                    AccountService.getCurrentUserRole().then(response => {
-                        localStorage.setItem('role', response.data[0]);
-                    });
+                    if (response.status == 200) {
+                        AccountService.getCurrentUserRole().then(response => {
+                            localStorage.setItem('role', response.data[0]);
+                        });
 
-                    AccountService.getCurrentUserName().then(response => {
-                        localStorage.setItem('userName', response.data)
-                    });
-                    console.log('setrole')
-                    localStorage.setItem('isAuth', 'true')
-                    window.location.reload()
-                    window.location.href = '/'; 
-                    console.log(response);
+                        AccountService.getCurrentUserName().then(response => {
+                            localStorage.setItem('userName', response.data)
+                        });
+                        localStorage.setItem('isAuth', 'true')
+                        window.location.reload()
+                        window.location.href = '/';
+                    }
                 })
                     .catch(e => {
                         if (e.response) {
                             this.errorMessage = e.response.data;
-                            console.log(e.response.data);
                         }
-
                     });
             },
 

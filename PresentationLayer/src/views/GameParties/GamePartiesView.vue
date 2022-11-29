@@ -31,8 +31,8 @@
                     <td>{{item.partyCreatorName }}</td>
                     <td>
                         <div>
-                            <button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button>
-                            <button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                             <button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button>
+                             <button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -55,6 +55,12 @@
                 gameParties: [],
             };
         },
+        computed: {
+            url(id) {
+               return 'gameParty'+id;
+            }
+        },
+
         components: {
             ModalWindow,
             AddGamePartyView
@@ -72,7 +78,6 @@
             getGameParties() {
                  GamePartiesService.GetAll().then(response => {
                      this.gameParties = response.data;
-                    console.log(response.data);
                 })
                      .catch(e => {
                          this.errorMesage = e.response.data;
@@ -87,9 +92,10 @@
             },
             goToDelete(id) {
                 GamePartiesService.Delete(id).then(response => {
-                    console.log(response.data);
-                    let i = this.gameParties.map(item => item.id).indexOf(id) 
-                    this.gameParties.splice(i, 1)
+                    if (response.status == 200) {
+                        let i = this.gameParties.map(item => item.id).indexOf(id)
+                        this.gameParties.splice(i, 1)
+                    }
                 })
                     .catch(e => {
                         this.errorMesage = e.response.data;

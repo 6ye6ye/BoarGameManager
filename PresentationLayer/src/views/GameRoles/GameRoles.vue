@@ -60,7 +60,6 @@
             getGameRoles() {
                 GameRolesService.GetGameRolesByGame(this.gameId).then(response => {
                     this.gameRoles = response.data;
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
@@ -68,9 +67,10 @@
             },
             goToDelete(id) {
                 GameRolesService.DeleteGameRole(id).then(response => {
-                    console.log(response.data);
-                    let i = this.gameRoles.map(item => item.id).indexOf(id) // find index of your object
-                    this.gameRoles.splice(i, 1)
+                    if (response.status == 200) {
+                        let i = this.gameRoles.map(item => item.id).indexOf(id) 
+                        this.gameRoles.splice(i, 1)
+                    }
                 })
                     .catch(e => {
                         console.log(e);

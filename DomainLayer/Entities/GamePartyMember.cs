@@ -1,14 +1,12 @@
 ﻿using BoardGameManager1.Entities;
+using DomainLayer;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
-    public class GamePartyMember
+    public class GamePartyMember : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
         public Guid GamePartyId { get; set; }
         public Guid PlayerId { get; set; }
         public Guid? GameRoleId { get; set; }

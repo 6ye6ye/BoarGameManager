@@ -1,4 +1,5 @@
 ﻿using BoardGameManager1.Entities;
+using DomainLayer;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,11 +7,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DAL.Entities
 {
     [Index(nameof(Name), IsUnique = true)]
-    public class Game
+    public class Game: BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
         public string? Image { get; set; }
         public string Name { get; set; }
         public string? NameRu { get; set; }

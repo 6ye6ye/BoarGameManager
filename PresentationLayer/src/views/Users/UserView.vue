@@ -27,7 +27,15 @@
         name: 'UserView',
         data() {
             return {
-                user: undefined,
+                user: {
+                    id: '',
+                    userName: '',
+                    email: '',
+                    role: {
+                        id:'',
+                        name:''
+                    }
+                },
                 userId: '',
                 isAuth: localStorage.getItem('isAuth'),
             }
@@ -39,7 +47,7 @@
             getUser() {
                 if (this.$route.params.id != null) {
                     this.userId = this.$route.params.id.toString()
-                    UsersService.GetById(userId).then(response => {
+                    UsersService.GetById(this.userId).then(response => {
                         this.user = response.data;
                     })
                         .catch(e => {
@@ -49,7 +57,6 @@
                 else
                     UsersService.GetCurrent().then(response => {
                         this.user = response.data;
-                        console.log(response.data);
                     })
                         .catch(e => {
                             console.log(e);

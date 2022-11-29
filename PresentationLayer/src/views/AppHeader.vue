@@ -35,10 +35,6 @@
         methods: {
             logout: function () {
                 AccountService.logout().then(response => {
-                    console.log(response);
-
-                    console.log("logout");
-                    AccountService.logout();
                     switch (response.status) {
                         case (200):
                             {
@@ -55,7 +51,6 @@
                                 return { ok: false }
                             }
                     }
-                    console.log(response.data);
                 })
                     .catch(e => {
                         this.errorMessage = e.response.data;

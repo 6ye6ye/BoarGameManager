@@ -1,15 +1,13 @@
 ﻿using DAL.Entities;
+using DomainLayer;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BoardGameManager1.Entities
 {
-    public class GameRate
+    public class GameRate : BaseEntity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid Id { get; set; }
-        public int Rate { get; set; }
+         public int Rate { get; set; }
         public Guid GameId { get; set; }
         public virtual Game Game { get; set; }
         public Guid UserId { get; set; }

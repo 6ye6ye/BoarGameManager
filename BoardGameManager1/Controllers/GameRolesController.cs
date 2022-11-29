@@ -62,12 +62,11 @@ namespace BoardGameManager1.Controllers
         {
             try
             {
-                var id = await _service.AddGameRole(gameRole);
-                return CreatedAtAction("GetGameRole", new { id = id }, gameRole);
+                return Ok(await _service.AddGameRole(gameRole));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 

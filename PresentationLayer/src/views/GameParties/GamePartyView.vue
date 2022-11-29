@@ -8,7 +8,7 @@
                 <label>Date </label>
             </dt>
             <dd class="col-sm-10">
-                <label>{{gameParty.date}}</label>
+                <label for="gameParty.date">@{{gameParty.date}}</label>
             </dd>
             <dt class="col-sm-2">
                 <label>Game </label>
@@ -44,7 +44,15 @@
         data() {
             return {
                 id: this.$route.params.id,
-                gameParty: undefined,
+                gameParty: {
+                    date: '',
+                    game: {
+                        name:'',
+                        id: ''
+                    },
+                    userGamePlaceName: '',
+                    partyCreatorName: ''
+                },
             }
         },
         created() {
@@ -53,6 +61,7 @@
         components: {
             GamePartyMembers,
         },
+        
         methods: {
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {

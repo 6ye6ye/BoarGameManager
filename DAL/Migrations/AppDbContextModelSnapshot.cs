@@ -43,7 +43,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("GameRates");
+                    b.ToTable("GameRates", (string)null);
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.GameRole", b =>
@@ -63,7 +63,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("GameRoles");
+                    b.ToTable("GameRoles", (string)null);
 
                     b.HasData(
                         new
@@ -250,7 +250,7 @@ namespace DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
 
                     b.HasData(
                         new
@@ -329,7 +329,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserGamePlaceId");
 
-                    b.ToTable("GameParties");
+                    b.ToTable("GameParties", (string)null);
 
                     b.HasData(
                         new
@@ -371,7 +371,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("GamePartyMembers");
+                    b.ToTable("GamePartyMembers", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Player", b =>
@@ -396,7 +396,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
 
                     b.HasData(
                         new
@@ -532,7 +532,7 @@ namespace DAL.Migrations
                     b.HasIndex("UserId", "GameId")
                         .IsUnique();
 
-                    b.ToTable("UserGames");
+                    b.ToTable("UserGames", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.UserGamePlace", b =>
@@ -554,7 +554,7 @@ namespace DAL.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("UserGamePlaces");
+                    b.ToTable("UserGamePlaces", (string)null);
 
                     b.HasData(
                         new
@@ -594,7 +594,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("OutRequestUserId");
 
-                    b.ToTable("UserFriends");
+                    b.ToTable("UserFriends", (string)null);
 
                     b.HasData(
                         new
