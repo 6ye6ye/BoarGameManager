@@ -83,7 +83,21 @@ namespace BoardGameManager1.Services
 
         public async Task DeleteGame(string id)
         {
+
+            
+           
+
             var game = await getGame(id);
+            if (game.Image!= "no-image-icon-6.png")
+            {
+               
+                string Path = "../BoardGameManager1/wwwroot/images/" + game.Image;
+                FileInfo file = new FileInfo(Path);
+                if (file.Exists)
+                {
+                    File.Delete(Path);
+                }
+            }
             _context.Games.Remove(game);
             await _context.SaveChangesAsync();
         }

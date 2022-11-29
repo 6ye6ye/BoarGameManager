@@ -1,5 +1,5 @@
 <template>
-    <form ref="form" class="col-sm" @submit.prevent="addGameParty" method="post">
+    <form ref="form" class="col-sm" @submit.prevent="addGame" method="post">
         <h2>New game</h2>
         <hr>
         <div>
@@ -32,7 +32,7 @@
         </div>
         <div>
             <label class="form-label">MinAge</label>
-            <input type="number" v-model="game.minAge" min="0" max="80" class="form-control" required />
+            <input type="number" v-model="game.minAge" min="1" max="80" class="form-control" required />
         </div>
         <div>
             <label class="form-label">MinPartyTime(min)</label>
@@ -67,12 +67,12 @@
                     name: '',
                     nameRu: '',
                     nameEng: '',
-                    playersMinCount: 1,
-                    playersMaxCount: 1,
-                    minAge: 0,
-                    minPartyTime: 0,
-                    maxPartyTime: 0,
-                    releaseYear: 2022
+                    playersMinCount:'',
+                    playersMaxCount: '',
+                    minAge: '',
+                    minPartyTime: '',
+                    maxPartyTime: '',
+                    releaseYear: ''
                 },
                 errorMessage: ''
             }

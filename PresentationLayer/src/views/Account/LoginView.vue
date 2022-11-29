@@ -13,7 +13,7 @@
                 <div class="form-check">
                     <input class="form-check-input" v-model='rememberMe' type="checkbox" />
                     <label class="form-check-label"> Remember me </label>
-                </div>
+                </div> 
             </div>
         </div>
 
