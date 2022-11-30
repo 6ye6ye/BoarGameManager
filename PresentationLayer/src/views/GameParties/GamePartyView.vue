@@ -8,7 +8,7 @@
                 <label>Date </label>
             </dt>
             <dd class="col-sm-10">
-                <label for="gameParty.date">@{{gameParty.date}}</label>
+                <label for="gameParty.date">{{gameParty.date}}</label>
             </dd>
             <dt class="col-sm-2">
                 <label>Game </label>
@@ -30,13 +30,13 @@
             </dd>
         </dl>
         <div>
-            <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="id" />
+            <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="id" :isCreator="isCreator" />
         </div>
     </div>
 </template>
 
 <script>
-
+    import UsersService from "../../services/UsersService";
     import GamesPartyService from "../../services/GamePartiesService";
     import GamePartyMembers from "../GamePartiesMembers/GamePartiesMembers.vue";
     export default {
@@ -51,18 +51,30 @@
                         id: ''
                     },
                     userGamePlaceName: '',
+                    partyCreatorId: '',
                     partyCreatorName: ''
                 },
+                isCreator: false
             }
         },
         created() {
             this.getGameParty();
+            this.checkIsCreator();
         },
         components: {
             GamePartyMembers,
         },
         
         methods: {
+            checkIsCreator() {
+                UsersService.GetCurrent().then(response => {
+                    this.isCreator = this.gameParty.partyCreatorId == response.data.id
+                    console.log(response.data);
+                })
+                    .catch(e => {
+                        console.log(e);
+                    });
+            },
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {
                     this.gameParty = response.data;

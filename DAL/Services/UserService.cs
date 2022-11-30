@@ -5,6 +5,7 @@ using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BoardUserManager1.Services
 {
@@ -29,13 +30,16 @@ namespace BoardUserManager1.Services
             return _mapper.Map<List<UserDTOGet>>(users).AsEnumerable();
         }
 
-        public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName,Guid currentUserId)
+        public async Task<IEnumerable<UserDTOGetShort>> GetFirstTenUsers(string userName, Guid currentUserId)
         {
             var users = await _context.Users
-                
-                .Where(u => u.UserName.StartsWith(userName)
-                    && u.Id!= currentUserId)
 
+                .Where(u => u.UserName.StartsWith(userName)
+                    && u.Id != currentUserId)
+                .Include(u => u.AcceptedFriends)
+                .Include(u => u.AddedFriends)
+                .Where(u => u.AcceptedFriends.Count() == 0 || u.AcceptedFriends.Any(c => c.OutRequestUserId != currentUserId))
+                .Where(u => u.AddedFriends.Count() == 0 || u.AddedFriends.Any(c => c.InRequestUserId != currentUserId))
                 .Take(10)
                 .Select(u => _mapper.Map<UserDTOGetShort>(u))
                 .ToListAsync();
@@ -53,10 +57,10 @@ namespace BoardUserManager1.Services
 
         public async Task DeleteUser(Guid id)
         {
-            var user= await _context.Users.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
                 throw new NotFoundException("User");
-            _context.Players.Where(p => p.AccountId == id).ToList().ForEach(p=>p.AccountId=null);
+            _context.Players.Where(p => p.AccountId == id).ToList().ForEach(p => p.AccountId = null);
             _context.Players.Where(p => p.CreatorId == id).ToList().ForEach(p => p.CreatorId = null);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();

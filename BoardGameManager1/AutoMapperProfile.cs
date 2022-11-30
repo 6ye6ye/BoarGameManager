@@ -25,6 +25,7 @@ namespace BoardGameManager1
             //----Game party map
             CreateMap<GameParty, GamePartyDTOGet>()
                  .ForMember(dest => dest.PartyCreatorName, opt => opt.MapFrom(src => src.PartyCreator.UserName))
+                 .ForMember(dest => dest.PartyCreatorId, opt => opt.MapFrom(src => src.PartyCreator.Id))
                  .ForMember(dest => dest.UserGamePlaceName, opt => opt.MapFrom(src => src.UserGamePlace.Name))
                  .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToShortDateString()));
             CreateMap<GamePartyDTOAdd, GameParty>();

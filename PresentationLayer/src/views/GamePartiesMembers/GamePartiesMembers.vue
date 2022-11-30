@@ -2,7 +2,7 @@
     <div class="post">
         <div class="form-group ">
             <h2>Game party members list</h2>
-            <button type="button" class="btn btn-primary" @click="showModal">+</button>
+            <button v-if="isCreator" type="button" class="btn btn-primary" @click="showModal">+</button>
         </div>
         <ModalWindow v-if="isModalVisible" @close="closeModal">
             <template v-slot:body>
@@ -26,7 +26,7 @@
                     <td>{{item.gameRole.name }}</td>
                     <td>{{item.points }}</td>
                     <td>{{item.isWinner }}</td>
-                    <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
+                    <td  v-if="isCreator"><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button></td>
                 </tr>
             </tbody>
         </table>
@@ -41,7 +41,7 @@
     import GamePartyMemberService from "../../services/GamePartyMemberService";
     export default {
         name: 'GamePartyMembresView',
-        props: ['gamePartyId', 'gameId'],
+        props: ['gamePartyId', 'gameId','isCreator'],
         data() {
             return {
                 addModal: 'AddGamePartyMemberView',

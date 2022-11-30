@@ -6,6 +6,7 @@
         public string Date { get; set; }
         public GameDTOGetShort Game { get; set; }
         public string UserGamePlaceName { get; set; }
+        public string PartyCreatorId { get; set; }
         public string PartyCreatorName { get; set; }
     }
     public class GamePartyDTOAdd

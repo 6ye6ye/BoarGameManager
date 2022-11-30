@@ -32,6 +32,7 @@ namespace BoardGamePartyManager1.Services
         //Get current  game parties where current user will be player
         public async Task<IEnumerable<GamePartyDTOGet>> GetCurrentUserGamePartiesPlayer(Guid id)
         {
+
             var gameParties = await _context.GameParties
                 .Include(p => p.Game)
                 .Include(p => p.PartyCreator)
