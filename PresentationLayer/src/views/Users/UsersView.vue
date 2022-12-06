@@ -1,37 +1,40 @@
-<template>
-    <h1>Users list</h1>
-    <div>
-        <div class="row row_filters">
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">login</label>
-                <input type="text" v-model="filter.name" placeholder="Input login" class="form-control" />
-            </div>
-
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">Email</label>
-                <input type="text" v-model="filter.email" placeholder="Input email" class="form-control" />
-            </div>
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">Role</label>
-                <select v-model="filter.roleId" class="form-select">
-                    <option value=''>- All roles -</option>
-                    <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
-                </select>
-            </div>
-            <div class="col-sm-2  sub_filters">
-                <button v-on:click="getUsersWithFilters()" type="button" class="form-control btn btn-info">Search</button>
-            </div>
-        </div>
-        <table id="usersTable" class="table">
+﻿<template>
+    <div class="container-white">
+        <table class="table ">
             <thead>
-                <tr>
-                    <th @click="sort('userName')">User name</th>
-                    <th @click="sort('email')">Email</th>
-                    <th @click="sort('role')">Role</th>
+                <tr class="filter">
+                    <th>
+                        <label class="form-label">login</label>
+                        <input type="text" v-model="filter.name" placeholder="Input login" class="form-control" />
+                    </th>
+                    <th>
+                        <label class="form-label">Email</label>
+                        <input type="text" v-model="filter.email" placeholder="Input email" class="form-control" />
+                    </th>
+                    <th>
+                        <label class="form-label">Role</label>
+                        <select v-model="filter.roleId" class="form-select">
+                            <option value=''>- All roles -</option>
+                            <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
+                        </select>
+                    </th>
+                                        <th>
+                        <button v-on:click="getUsersWithFilters()" type="button" class="form-control btn btn-info">Search</button>
+                    </th>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <thead>
+                <tr class="filter">
+                    <th @click="sort('userName')" style="cursor: pointer;">Login⇅</th>
+                    <th @click="sort('email')" style="cursor: pointer;">Email⇅</th>
+                    <th >Role</th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
+
             <tbody>
                 <tr v-for="user in users" :key="user.id">
                     <td>{{user.userName}}</td>
@@ -43,7 +46,7 @@
                             <button v-on:click="goToDelete(user.id)" type="button" class="btn btn-danger">Delete</button>
                         </div>
                     </td>
-                   
+
                 </tr>
             </tbody>
         </table>
@@ -62,7 +65,7 @@
             return {
                 filter: {
                     name: '',
-                    roleId: '',
+               
                     email: ''
                 },
                 isAdmin: localStorage.role == 'Admin',
@@ -114,7 +117,7 @@
             goToDelete(id) {
 
                 UsersService.Delete(id).then(response => {
-           
+
                     if (response.status == 200) {
                         let i = this.users.map(item => item.id).indexOf(id)
                         this.users.splice(i, 1)

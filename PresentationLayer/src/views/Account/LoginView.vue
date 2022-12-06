@@ -1,29 +1,32 @@
 ﻿<template>
-    <form ref="form" class="col-sm" @submit.prevent="trylogin" method="post">
-        <div>
-            <label class="form-label">Login</label>
-            <input type="text" v-model="userName" class="form-control" required />
-        </div>
-        <div>
-            <label class="form-label">Password</label>
-            <input type="password" v-model="password" class="form-control" required />
-        </div>
-        <div class="row">
-            <div class="col d-flex justify-content-center">
-                <div class="form-check">
-                    <input class="form-check-input" v-model='rememberMe' type="checkbox" />
-                    <label class="form-check-label"> Remember me </label>
-                </div> 
+   
+    <form ref="form" class="row d-flex justify-content-center" @submit.prevent="trylogin" method="post">
+        <h2> Authorization</h2>
+        <div class="col-md-4">
+            <div>
+                <label class="form-label">Login</label>
+                <input type="text" v-model="userName" class="form-control" required />
             </div>
-        </div>
-
-        <p class="text-danger"> {{errorMessage}}</p>
-        <button type="submit" class="btn btn-primary">Sign in</button>
-        <div class="text-center">
-            <p>
-                Not a member?
-                <router-link to="/register"> Sing up</router-link>
-            </p>
+            <div >
+                <label class="form-label">Password</label>
+                <input type="password" v-model="password" class="form-control" required />
+            </div>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <div class="form-check">
+                        <input class="form-check-input" v-model='rememberMe' type="checkbox" />
+                        <label class="form-check-label"> Remember me </label>
+                    </div>
+                </div>
+            </div>
+            <p class="text-danger"> {{errorMessage}}</p>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+            <div class="text-center">
+                <p>
+                    Not a member?
+                    <router-link to="/register"> Sing up</router-link>
+                </p>
+            </div>
         </div>
     </form>
 </template>

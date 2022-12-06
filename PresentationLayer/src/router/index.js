@@ -14,6 +14,9 @@ import FriendsView from '../views/Friends/FriendsView.vue';
 import UsersView from '../views/Users/UsersView.vue';
 import UserView from '../views/Users/UserView.vue';
 
+import PlayersView from '../views/Players/PlayersView.vue';
+import GamePlacesView from '../views/GamePlaces/GamePlacesView.vue';
+
 
 import {
     createWebHistory,
@@ -69,6 +72,16 @@ const routes = [
         component: FriendsView
     },
     {
+        path: '/players',
+        name: 'PlayersView',
+        component: PlayersView
+    },
+    {
+        path: '/gamePlaces',
+        name: 'GamePlacesView',
+        component: GamePlacesView
+    },
+    {
         path: '/users',
         name: 'UsersView',
         component: UsersView
@@ -95,12 +108,11 @@ const routes = [
         name: 'PageNotExist',
         component: () => import('@/views/PageNotExist.vue')
     }
-
 ];
 
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(),
     routes,
 });
 

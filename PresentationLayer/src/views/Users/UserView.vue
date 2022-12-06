@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-white">
         <div class="row">
             <div>
                 Id

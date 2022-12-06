@@ -23,11 +23,10 @@ module.exports = {
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
         },
-        proxy:
-      //      'http://localhost:5001/',
-        {
-            '^/': {
-                target: 'https://192.168.180.154:5001/'
+        proxy: {
+            '^/api': {
+                target: 'http://localhost:5001',
+                changeOrigin: true
             }
         },
         port: 5002

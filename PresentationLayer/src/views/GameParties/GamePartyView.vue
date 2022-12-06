@@ -1,36 +1,38 @@
 ﻿<template>
-    <div class="container">
+    <div class="container-white">
+        <div class="container">
 
-        <h4>Game party</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                <label>Date </label>
-            </dt>
-            <dd class="col-sm-10">
-                <label for="gameParty.date">{{gameParty.date}}</label>
-            </dd>
-            <dt class="col-sm-2">
-                <label>Game </label>
-            </dt>
-            <dd class="col-sm-10">
-                <label>{{gameParty.game.name}}</label>
-            </dd>
-            <dt class="col-sm-2">
-                <label>Place </label>
-            </dt>
-            <dd class="col-sm-10">
-                {{gameParty.userGamePlaceName}}
-            </dd>
-            <dt class="col-sm-2">
-                <label>Party creator </label>
-            </dt>
-            <dd class="col-sm-10">
-                {{gameParty.partyCreatorName}}
-            </dd>
-        </dl>
-        <div>
-            <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="id" :isCreator="isCreator" />
+            <h4>Game party</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    <label>Date </label>
+                </dt>
+                <dd class="col-sm-10">
+                    <label for="gameParty.date">{{gameParty.date}}</label>
+                </dd>
+                <dt class="col-sm-2">
+                    <label>Game </label>
+                </dt>
+                <dd class="col-sm-10">
+                    <label>{{gameParty.game.name}}</label>
+                </dd>
+                <dt class="col-sm-2">
+                    <label>Place </label>
+                </dt>
+                <dd class="col-sm-10">
+                    {{gameParty.userGamePlaceName}}
+                </dd>
+                <dt class="col-sm-2">
+                    <label>Party creator </label>
+                </dt>
+                <dd class="col-sm-10">
+                    {{gameParty.partyCreatorName}}
+                </dd>
+            </dl>
+            <div>
+                <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="id" :isCreator="isCreator" />
+            </div>
         </div>
     </div>
 </template>
@@ -47,7 +49,7 @@
                 gameParty: {
                     date: '',
                     game: {
-                        name:'',
+                        name: '',
                         id: ''
                     },
                     userGamePlaceName: '',
@@ -64,7 +66,7 @@
         components: {
             GamePartyMembers,
         },
-        
+
         methods: {
             checkIsCreator() {
                 UsersService.GetCurrent().then(response => {
@@ -78,7 +80,7 @@
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {
                     this.gameParty = response.data;
-                 
+
                 })
                     .catch(e => {
                         console.log(e);

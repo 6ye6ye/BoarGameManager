@@ -35,7 +35,19 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpGet]
+        [Route("created")]
+        public async Task<ActionResult<IEnumerable<PlayerDTOGetShort>>> GetCreatedPlayers()
+        {
+            try
+            {
+                return Ok(await _service.GetCreatedPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerDTOGet>> GetPlayer(string id)
         {

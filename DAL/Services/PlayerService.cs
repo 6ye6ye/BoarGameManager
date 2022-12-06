@@ -27,12 +27,20 @@ namespace BoardPlayerManager1.Services
                 .ToListAsync();
             var players = await _context.Players
 
-                .Where(p => p.AccountId == userId || p.CreatorId == userId || (p.AccountId!=null&&userFriendsId.Contains((Guid)p.AccountId)))
+                .Where(p => p.AccountId == userId || p.CreatorId == userId || (p.AccountId != null && userFriendsId.Contains((Guid)p.AccountId)))
                 .Select(p => _mapper.Map<PlayerDTOGet>(p))
                 .ToListAsync();
             return players.AsEnumerable();
         }
 
+        public async Task<IEnumerable<PlayerDTOGetShort>> GetCreatedPlayersForCurrentUser(Guid userId)
+        {
+            var players = await _context.Players
+                .Where(p =>  p.CreatorId == userId)
+                .Select(p => _mapper.Map<PlayerDTOGetShort>(p))
+                .ToListAsync();
+            return players.AsEnumerable();
+        }
         public async Task<PlayerDTOGet> GetPlayerById(string id)
         {
             var player = await _context.Players.FindAsync(new Guid(id));

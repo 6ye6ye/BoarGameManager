@@ -1,8 +1,8 @@
 <template>
-    <form ref="form" class="col-sm" @submit.prevent="tryRegister" method="post">
+    <form ref="form" class="row d-flex justify-content-center" @submit.prevent="tryRegister" method="post">
 
         <h2> Registration</h2>
-        <div class="col-sm">
+        <div class="col-md-4">
             <div>
                 <label class="form-label">Login</label>
                 <input type="text" v-model="login" minlength="3" maxlength="50" class="form-control" required />
@@ -25,7 +25,7 @@
             </div>
 
             <p class="text-danger">{{errorMessage}}</p>
-            <button type="submit" value="Register"  class="btn btn-primary"> Register </button>
+            <button type="submit" value="Register" class="btn btn-primary"> Register </button>
         </div>
     </form>
 </template>

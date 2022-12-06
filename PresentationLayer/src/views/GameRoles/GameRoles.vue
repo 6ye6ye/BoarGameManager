@@ -1,28 +1,37 @@
 <template>
-    <h3> Game roles</h3>
-    <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">+</button>
+    <div class="container-white">
+        <h3 class="d-inline"> Game roles</h3>
+        <button v-if="isAuth&&isAdmin" type="button" class=" d-inline btn btn-primary" @click="showModal">+</button>
 
-    <ModalWindow v-show="isModalVisible" @close="closeModal">
-        <template v-slot:body>
-            <AddGameRole @close="closeModal" @get-game-roles="getGameRoles"></AddGameRole>
-        </template>
-    </ModalWindow>
+        <div class="d-flex justify-content-center row ">
+            <div class="col-md-4">
 
-    <table class="table" v-if="!gameRoles.length==0">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="role in gameRoles" :key="role.Id">
-                <td> {{role.name}}</td>
-                <td v-show="isAdmin"> <button v-on:click="goToDelete(role.id)" type="button" class="btn btn-danger">Delete</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <p v-if="gameRoles.length==0">- No game roles -</p>
+                <ModalWindow v-show="isModalVisible" @close="closeModal">
+                    <template v-slot:body>
+                        <AddGameRole @close="closeModal" @get-game-roles="getGameRoles"></AddGameRole>
+                    </template>
+                </ModalWindow>
+                <div class="d-flex justify-content-center">
+                    <table v-if="!gameRoles.length==0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="role in gameRoles" :key="role.Id">
+                                <td> {{role.name}}</td>
+                                <td v-show="isAdmin"> <button v-on:click="goToDelete(role.id)" type="button" class="btn btn-danger">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p v-if="gameRoles.length==0">- No game roles -</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -68,7 +77,7 @@
             goToDelete(id) {
                 GameRolesService.DeleteGameRole(id).then(response => {
                     if (response.status == 200) {
-                        let i = this.gameRoles.map(item => item.id).indexOf(id) 
+                        let i = this.gameRoles.map(item => item.id).indexOf(id)
                         this.gameRoles.splice(i, 1)
                     }
                 })
@@ -80,5 +89,5 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style>
 </style>

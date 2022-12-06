@@ -1,64 +1,66 @@
 ﻿<template>
-    <div class="mb-3">
-        <h1>Games</h1>
-    </div>
+    
     <ModalWindow v-show="isModalVisible" @close="closeModal">
         <template v-slot:body>
             <AddGameView @close="closeModal" @get-games="getGames"></AddGameView>
         </template>
     </ModalWindow>
 
-    <div class="post">
-        <div class="row row_filters">
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">Name</label>
-                <input type="text" v-model="filter.name" placeholder="Input name" class="form-control" />
-            </div>
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">MinRate</label>
-                <input type="number" v-model="filter.minRate" min="0" max="10" class="form-control" />
-            </div>
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">MaxRate</label>
-                <input type="number" v-model="filter.maxRate" min="0" max="10" class="form-control" />
-            </div>
-            <div class="col-sm-2 sub_filters">
-                <label class="form-label">ReleaseYear</label>
-                <input type="number" v-model="filter.releaseYear" min="1900" max="2022" placeholder="Input year" class="form-control" />
-            </div>
-            <div v-show="isAuth" class="col-sm-1 sub_filters  ">
-                <label class="form-label">my games</label>
-                <input class="form-check-input " type="checkbox" v-model="filter.showAdded" />
-            </div>
-            <div class="col-sm-1  sub_filters">
-                <button v-on:click="getGamesWithFilters()" type="button" class="btn btn-info">Search</button>
-            </div>
-            <div class="col-sm-1">
-                <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">
-                    Add game
-                </button>
-            </div>
-        </div>
-
-        <table id="gamesTable" class="table table-hover ">
+        <table class="table">
             <thead>
-                <tr class="table-active">
-                    <th @click="sort('name')" style="cursor: pointer;">Name ⇅</th>
-                    <th @click="sort('rating')" style="cursor: pointer;">Rate ⇅</th>
-                    <th @click="sort('playersMinCount')" style="cursor: pointer;">Min player count ⇅</th>
-                    <th @click="sort('playersMaxCount')" style="cursor: pointer;">Max player count ⇅</th>
-                    <th @click="sort('minAge')" style="cursor: pointer;">Min age ⇅</th>
-                    <th @click="sort('minPartyTime')" style="cursor: pointer;">Min party time ⇅</th>
-                    <th @click="sort('maxPartyTime')" style="cursor: pointer;">Max party time ⇅</th>
-                    <th @click="sort('releaseYear')" style="cursor: pointer;">Release year ⇅</th>
-                    <th v-if="isAuth" @click="sort('addedToUserGames')" style="cursor: pointer;">Added</th>
-                    <th></th>
-                    <th></th>
+                <tr class="table filter">
+                    <th>
+                        <label class="form-label">Name</label>
+                        <input type="text" v-model="filter.name" placeholder="Input name" class="form-control" />
+                    </th>
+                    <th>
+                        <label class="form-label">MinRate</label>
+                        <input type="number" v-model="filter.minRate" min="0" max="10" class="form-control" />
+                    </th>
+                    <th>
+                        <label class="form-label">MaxRate</label>
+                        <input type="number" v-model="filter.maxRate" min="0" max="10" class="form-control" />
+                    </th>
+                    <th>
+                        <label class="form-label">ReleaseYear</label>
+                        <input type="number" v-model="filter.releaseYear" min="1900" max="2022" placeholder="Input year" class="form-control" />
+                    </th>
+                    <th>
+                        <label class="form-label">My games</label>
+                        <select v-model="filter.showAdded" class="form-select">
+                            <option value='false'>- All -</option>
+                            <option value='true'>my games</option>
+                        </select>
+                    </th>
+                    <th>
+                        <button v-on:click="getGamesWithFilters()" type="button" class="btn btn-info ">Search</button>
+                    </th>
+                    <th>
+                        <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showModal">+</button>
+                    </th>
                 </tr>
             </thead>
         </table>
+        <div class="post">
+            <table class="table ">
+                <thead>
+                    <tr class="table filter">
+                        <th @click="sort('name')" style="cursor: pointer;">Name ⇅</th>
+                        <th @click="sort('rating')" style="cursor: pointer;">Rate ⇅</th>
+                        <th @click="sort('playersMinCount')" style="cursor: pointer;">Min player count ⇅</th>
+                        <th @click="sort('playersMaxCount')" style="cursor: pointer;">Max player count ⇅</th>
+                        <th @click="sort('minAge')" style="cursor: pointer;">Min age ⇅</th>
+                        <th @click="sort('minPartyTime')" style="cursor: pointer;">Min party time ⇅</th>
+                        <th @click="sort('maxPartyTime')" style="cursor: pointer;">Max party time ⇅</th>
+                        <th @click="sort('releaseYear')" style="cursor: pointer;">Release year ⇅</th>
+                        <th v-if="isAuth" @click="sort('addedToUserGames')" style="cursor: pointer;">Added</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
 
-        <div class="mx-auto">
+
             <div class=" d-flex justify-content-start card-strip" v-for="item in games" :key="item.Id">
                 <div>
                     <img class="game-image" v-bind:src="item.image">
@@ -86,7 +88,7 @@
                 </div>
             </div>
         </div>
-    </div>
+  
 </template>
 
 <script>
@@ -225,19 +227,23 @@
         background-color: #ECEFF1;
         background-repeat: no-repeat;
     }
+  
+    .info{
+        margin:20px;
+    }
     .card-strip {
         background-color: #fff;
         padding: 25px;
         width: 100%;
-  
         margin: 20px auto;
         border-radius: 3px;
         box-shadow: 0px 8px 16px 0px #E0E0E0;
     }
+
     .extended-title {
         color: #757575;
         background-color: #E0E0E0;
-        padding: 1px 5px;
+     
     }
 
     .game-image {

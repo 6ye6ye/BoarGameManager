@@ -6,6 +6,9 @@ class PlayersService {
     async GetPlayersForUser() {
         return await axios.get(url + '/api/Players');
     }
+    async GetCreatedPlayers() {
+        return await axios.get(url + '/api/Players/created');
+    }
     async AddPlayer(name) {
 
         return await axios({

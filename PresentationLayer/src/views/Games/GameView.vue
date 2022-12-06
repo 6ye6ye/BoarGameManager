@@ -1,36 +1,68 @@
 <template>
-    <div class="container">
+    <div class="container-white" >
         <div class="mx-auto">
-             <div>
-                    <img class="game-image" :src="game.image">
-              </div>
-                <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
-                    <div class="row ">
-                        <h4 class="dark-text mr-4">{{game.name }}</h4>
-                        <p class="extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
-                    </div>
-                    <div>
-                        <p><span> {{game.releaseYear }}</span></p>
-                        <span> Min/max players: {{game.playersMinCount }}/{{game.playersMaxCount }} || </span>
-                        <span> Min/max players: {{game.playersMinCount }}/{{game.playersMaxCount }} || </span>
-                        <span> Min/max party time: {{game.minPartyTime }}/ {{game.maxPartyTime }} || </span>
-                        <span> Min. age: {{game.minAge }}</span>
-                    </div>
-                    <div>
+            <div>
+                <img class="game-image" :src="game.image">
+            </div>
+            <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+                <h4 class="dark-text ">{{game.name }}</h4>
+                <p class="extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
+                <p><span> {{game.releaseYear }}</span></p>
+                <dl class="row ">
+                    <dt class="col-sm-2">
+                        <label>Min/max players:</label>
+                    </dt>
+                    <dd class="col-sm-10">
+                        {{game.playersMinCount }}/{{game.playersMaxCount }}
+                    </dd>
+                    <dt class="col-sm-2">
+                        <label>Min/max players:</label>
+                    </dt>
+                    <dd class="col-sm-10">
+                        {{game.playersMinCount }}/{{game.playersMaxCount }}
+                    </dd>
+                    <dt class="col-sm-2">
+                        <label> Min/max party time:</label>
+                    </dt>
+                    <dd class="col-sm-10">
+                        {{game.minPartyTime }}/ {{game.maxPartyTime }}
+                    </dd>
+                    <dt class="col-sm-2">
+                        <label> Min. age:</label>
+                    </dt>
+                    <dd class="col-sm-10">
+                        {{game.minAge }}
+                    </dd>
+                    <dt class="col-sm-2">
                         <label>Game rate</label>
-                        <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
-                    </div>
-                    <div v-if="isAuth">
+                    </dt>
+                    <dd class="col-sm-10">
+                        <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true"></star-rating>
+                    </dd>
+                    <dt class="col-sm-2">
                         <label>My rate</label>
-                        <star-rating v-model:rating="myRate" :max-rating="10" class="d-flex justify-content-center"></star-rating>
+                    </dt>
+                    <dd class="col-sm-10">
+                        <star-rating v-model:rating="myRate" :max-rating="10"></star-rating>
                         <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
-                    </div>
+                    </dd>
+                </dl>
+
+                <div>
+                    <label>Game rate</label>
+                    <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
                 </div>
+                <div v-if="isAuth">
+                    <label>My rate</label>
+                    <star-rating v-model:rating="myRate" :max-rating="10" class="d-flex justify-content-center"></star-rating>
+                    <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
+                </div>
+            </div>
         </div>
         <div class="mt-3">
-            <GameRoles  />
+            <GameRoles />
         </div>
-    </div>
+        </div>
 </template>
 
 <script>
