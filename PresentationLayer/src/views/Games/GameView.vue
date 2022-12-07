@@ -1,14 +1,21 @@
 <template>
     <div class="container-white" >
-        <div class="mx-auto">
+        <div class="pt-4">
             <div>
                 <img class="game-image" :src="game.image">
             </div>
-            <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+            <div  v-on:click="goToDetails(item.id)" style="cursor: pointer;">
                 <h4 class="dark-text ">{{game.name }}</h4>
                 <p class="extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
-                <p><span> {{game.releaseYear }}</span></p>
-                <dl class="row ">
+               
+                <dl class=" d-flex row ">
+                    <dt class="col-sm-2">
+                        <label>Release year:</label>
+                    </dt>
+                    <dd class="col-sm-10">
+                        {{game.releaseYear }}
+                    </dd>
+                  
                     <dt class="col-sm-2">
                         <label>Min/max players:</label>
                     </dt>
@@ -34,29 +41,20 @@
                         {{game.minAge }}
                     </dd>
                     <dt class="col-sm-2">
-                        <label>Game rate</label>
+                        <label>Game rate:</label>
                     </dt>
                     <dd class="col-sm-10">
                         <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true"></star-rating>
                     </dd>
-                    <dt class="col-sm-2">
-                        <label>My rate</label>
+                    <dt v-if="isAuth" class="col-sm-2">
+                        <label>My rate:  </label>
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd v-if="isAuth" class="col-sm-10">
                         <star-rating v-model:rating="myRate" :max-rating="10"></star-rating>
                         <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
                     </dd>
                 </dl>
 
-                <div>
-                    <label>Game rate</label>
-                    <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
-                </div>
-                <div v-if="isAuth">
-                    <label>My rate</label>
-                    <star-rating v-model:rating="myRate" :max-rating="10" class="d-flex justify-content-center"></star-rating>
-                    <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
-                </div>
             </div>
         </div>
         <div class="mt-3">
@@ -118,6 +116,15 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style>
+    dd {
+        text-align: left;
+        align-items: start;
+    }
 
+    dt {
+        text-align: right;
+        align-items: start;
+    }
+   
 </style>

@@ -1,6 +1,6 @@
 <template>
     <AppHeader />
-    <div class="container" id="app">
+    <div  id="app">
         <router-view></router-view>
     </div>
 </template>
@@ -45,7 +45,7 @@
         padding: 0px 0px 20px 0px;
         height: auto !important;
         margin-bottom: 30px;
-    }
+     }
     .container-white {
         background-color: white;
         box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
@@ -59,4 +59,5 @@
         margin-left:0px;
         margin-right:0px;
     }
+    
 </style>

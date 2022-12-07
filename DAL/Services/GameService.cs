@@ -48,9 +48,20 @@ namespace BoardGameManager1.Services
 
         public async Task<IEnumerable<GameDTOGet>> GetGames(string userId)
         {
+            var games = await _context.Games
+                     .Include(c => c.UserGames.Where(c => c.UserId.ToString() == userId))
+                     .Select(c => _mapper.Map<GameDTOGet>(c))
+                     .ToListAsync();
+            return games.AsEnumerable();
+        }
+
+        public async Task<IEnumerable<GameDTOGet>> GetTopTenGames(string userId)
+        {
 
             var games = await _context.Games
                      .Include(c => c.UserGames.Where(c => c.UserId.ToString() == userId))
+                     .OrderByDescending(c=>c.Rating)
+                     .Take(10)
                      .Select(c => _mapper.Map<GameDTOGet>(c))
                      .ToListAsync();
             return games.AsEnumerable();
@@ -73,10 +84,9 @@ namespace BoardGameManager1.Services
             return game.Id;
         }
 
-        public async Task EditGame(string id, GameDTOEdit gameDTO)
+        public async Task EditGame(GameDTOEdit gameDTO)
         {
-            var game = await getGame(id);
-            game = _mapper.Map<GameDTOEdit, Game>(gameDTO, game);
+           var game = _mapper.Map<Game>(gameDTO);
             _context.Entry(game).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }

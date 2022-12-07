@@ -4,6 +4,7 @@ using BoardGameManager1.Enums;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Common.Filters;
+using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,21 @@ namespace BoardGameManager1.Controllers
             try
             {
                 return Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("top")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<GameDTOGetShort>>> GetTopTenGames()
+        {
+            try
+            {
+                return Ok(await _gameService.GetTopTenGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
             }
             catch (Exception ex)
             {
@@ -84,15 +100,15 @@ namespace BoardGameManager1.Controllers
             }
         }
 
-        [HttpPatch("{id}")]
+        [HttpPut]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> PatchGame(string id, [FromBody] GameDTOEdit gameDTO)
+        public async Task<IActionResult> PutGame( GameDTOEdit gameDTO)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _gameService.EditGame(id, gameDTO);
+                    await _gameService.EditGame(gameDTO);
                     return Ok();
                 }
                 catch (NotFoundException ex)

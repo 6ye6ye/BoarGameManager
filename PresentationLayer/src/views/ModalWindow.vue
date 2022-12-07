@@ -5,7 +5,7 @@
                 <div class="modal-body">
                     <slot name="body" />
                 </div>
-                <div class="modal-footer">
+                <div>
                     <button class="modal-default-button" @click="$emit('close')">
                         Close
                     </button>
@@ -26,20 +26,22 @@
     };
 </script>
 <style>
+
     .modal-mask {
-        position: fixed;
+        position: absolute;
         z-index: 9998;
         top: 0;
         left: 0;
+        padding:20px 0px 20px 0px;
         width: 100%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
         display: table;
         transition: opacity 0.3s ease;
     }
 
     .modal-wrapper {
-        display: table-cell;
+        display: flex;
+        flex-direction: column;
         vertical-align: middle;
     }
 

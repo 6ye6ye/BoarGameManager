@@ -37,15 +37,16 @@
     }
     public class GameDTOEdit
     {
-        public string? Image { get; set; }
-        public string? Name { get; set; }
-        public string? NameRu { get; set; }
-        public string? NameEng { get; set; }
-        public int? PlayersMinCount { get; set; }
-        public int? PlayersMaxCount { get; set; }
-        public int? MinAge { get; set; }
-        public int? MinPartyTime { get; set; }
-        public int? MaxPartyTime { get; set; }
-        public int? ReleaseYear { get; set; }
+        public Guid Id { get; set; }
+        public string Image { get; set; }
+        public string Name { get; set; }
+        public string NameRu { get; set; }
+        public string NameEng { get; set; }
+        public int PlayersMinCount { get; set; }
+        public int PlayersMaxCount { get; set; }
+        public int MinAge { get; set; }
+        public int MinPartyTime { get; set; }
+        public int MaxPartyTime { get; set; }
+        public int ReleaseYear { get; set; }
     }
 }
