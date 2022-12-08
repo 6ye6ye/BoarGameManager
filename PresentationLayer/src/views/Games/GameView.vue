@@ -1,13 +1,13 @@
 <template>
-    <div class="container-white" >
+    <div class="container container-white">
         <div class="pt-4">
             <div>
                 <img class="game-image" :src="game.image">
             </div>
-            <div  v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+            <div v-on:click="goToDetails(item.id)" style="cursor: pointer;">
                 <h4 class="dark-text ">{{game.name }}</h4>
                 <p class="extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
-               
+
                 <dl class=" d-flex row ">
                     <dt class="col-sm-2">
                         <label>Release year:</label>
@@ -15,7 +15,7 @@
                     <dd class="col-sm-10">
                         {{game.releaseYear }}
                     </dd>
-                  
+
                     <dt class="col-sm-2">
                         <label>Min/max players:</label>
                     </dt>
@@ -60,7 +60,7 @@
         <div class="mt-3">
             <GameRoles />
         </div>
-        </div>
+    </div>
 </template>
 
 <script>

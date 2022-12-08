@@ -1,5 +1,5 @@
 <template>
-    <div class="container-white row">
+    <div class="container container-white ">
 
         <ModalWindow v-show="isModalVisible" @close="closeModal">
             <template v-slot:body>

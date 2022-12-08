@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="container-white">
+    <div class="container container-white">
         <table class="table ">
             <thead>
                 <tr class="filter">
@@ -18,7 +18,7 @@
                             <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
                         </select>
                     </th>
-                                        <th>
+                    <th>
                         <button v-on:click="getUsersWithFilters()" type="button" class="form-control btn btn-info">Search</button>
                     </th>
                     <th>
@@ -29,7 +29,7 @@
                 <tr class="filter">
                     <th @click="sort('userName')" style="cursor: pointer;">Login⇅</th>
                     <th @click="sort('email')" style="cursor: pointer;">Email⇅</th>
-                    <th >Role</th>
+                    <th>Role</th>
                     <th></th>
                     <th></th>
                 </tr>

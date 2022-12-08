@@ -1,5 +1,5 @@
 <template>
-    <div class="container-white">
+    <div class="container container-white">
         <h1 class="d-inline">Game places</h1>
         <button type="button" class="d-inline btn btn-primary" @click="showModal">+</button>
 
@@ -31,7 +31,7 @@
                 </tbody>
             </table>
         </div>
-        </div>
+    </div>
 </template>  
   
 <script>  

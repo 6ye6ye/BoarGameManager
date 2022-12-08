@@ -1,6 +1,6 @@
 <template>
-    <div class="container-white">
-       
+    <div class="container container-white">
+
         <h1 class="d-inline">Players</h1>
         <button type="button" class="d-inline btn btn-primary" @click="showModal">+</button>
 

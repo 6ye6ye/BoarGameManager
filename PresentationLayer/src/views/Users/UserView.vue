@@ -1,10 +1,6 @@
 <template>
-    <div class="container-white">
+    <div class="container container-white">
         <div class="row">
-            <div>
-                Id
-                <p>{{user.id}} </p>
-            </div>
             <div>
                 Login
                 <p>{{user.userName}}</p>
