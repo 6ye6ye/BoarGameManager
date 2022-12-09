@@ -1,13 +1,14 @@
 <template>
     <div class="row ">
-        <div class="col-md-4 mx-auto">
+        <div class=" mx-auto">
+            <h2>Add new player</h2>
             <div class="form-group ">
                 <label class="control-label">Name</label>
                 <input type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
             </div>
             <div class="form-group">
                 <label class="control-label"></label>
-                <button v-on:click="addPlayer()" type="button" class="btn btn-success ">Add</button>
+                <button v-on:click="addPlayer()" type="button" class="button-submit btn btn-success ">Add</button>
             </div>
         </div>
     </div>

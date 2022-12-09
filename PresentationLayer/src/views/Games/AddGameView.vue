@@ -15,6 +15,14 @@
             <input type="text" v-model="game.nameEng" minlength="3" maxlength="100" class="form-control" required />
         </div>
         <div>
+            <label class="form-label">Game info short</label>
+            <input type="text" v-model="game.gameInfoShort" minlength="3" maxlength="100" class="form-control" required />
+        </div>
+        <div>
+            <label class="form-label">Game info</label>
+            <input type="text" v-model="game.gameInfo" minlength="3" maxlength="100" class="form-control" required />
+        </div>
+        <div>
             <label class="form-label">Image</label>
             <input type="file"
                    accept="image/png, image/jpeg"
@@ -67,6 +75,8 @@
                     name: '',
                     nameRu: '',
                     nameEng: '',
+                    gameInfoShort: '',
+                    gameInfo: '',
                     playersMinCount:'',
                     playersMaxCount: '',
                     minAge: '',
@@ -82,6 +92,8 @@
                 return this.game.name
                     && this.game.nameRu
                     && this.game.nameEng
+                    && this.game.gameInfoShort
+                    && this.game.gameInfo
                     && this.game.playersMinCount
                     && this.game.playersMaxCount
                     && this.game.minAge

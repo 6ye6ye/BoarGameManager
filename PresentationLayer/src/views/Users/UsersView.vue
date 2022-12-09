@@ -19,7 +19,8 @@
                         </select>
                     </th>
                     <th>
-                        <button v-on:click="getUsersWithFilters()" type="button" class="form-control btn btn-info">Search</button>
+                        <img class="icon" type="button"  v-on:click="getUsersWithFilters()" :src="require('/src/assets/icon-search.png')" />
+                       <!-- <button  v-on:click="getUsersWithFilters()" type="button" class="form-control btn btn-info">Search</button>-->
                     </th>
                     <th>
                     </th>
@@ -42,8 +43,11 @@
                     <td>{{user.role.name}}</td>
                     <td>
                         <div>
-                            <button v-on:click="goToDetails(user.id)" type="button" class="btn btn-info">Details</button>
-                            <button v-on:click="goToDelete(user.id)" type="button" class="btn btn-danger">Delete</button>
+                            <img class="icon" v-on:click="goToDetails(user.id)" type="button" :src="require('/src/assets/icon-details.png')" />
+                            <img class="icon" v-on:click="goToDelete(user.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
+
+                            <!--<button v-on:click="goToDetails(user.id)" type="button" class="btn btn-info">Details</button>
+                            <button v-on:click="goToDelete(user.id)" type="button" class="btn btn-danger">Delete</button>-->
                         </div>
                     </td>
 

@@ -2,13 +2,16 @@
     <div class="modal-mask">
         <div class="modal-wrapper">
             <div class="modal-container">
+        
+             
+                <button class="modal-default-button button-close" @click="$emit('close')">
+                    x
+                </button>
                 <div class="modal-body">
                     <slot name="body" />
                 </div>
-                <div>
-                    <button class="modal-default-button" @click="$emit('close')">
-                        Close
-                    </button>
+                <div class="mt-2">
+                    <slot name="button" />
                 </div>
             </div>
         </div>
@@ -17,7 +20,6 @@
 
 <script>
     export default {
-
         methods: {
             close() {
                 this.$emit('close');
@@ -28,14 +30,19 @@
 <style>
 
     .modal-mask {
-        position: absolute;
+        position: fixed;
         z-index: 9998;
         top: 0;
         left: 0;
         padding:20px 0px 20px 0px;
+        margin-bottom:20px;
         width: 100%;
         height: 100%;
-        display: table;
+        display: flex;
+        justify-content:center;
+       
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
         transition: opacity 0.3s ease;
     }
 
@@ -48,7 +55,7 @@
     .modal-container {
         width: 600px;
         margin: 0px auto;
-        padding: 20px 30px;
+        padding: 10px ;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -68,18 +75,11 @@
     .modal-default-button {
         float: right;
     }
-
-    .modal-enter {
-        opacity: 0;
+    .button-submit {
+       margin-top:10px;
     }
 
-    .modal-leave-active {
-        opacity: 0;
+    .button-close{
+        margin:0 auto;
     }
-
-        .modal-enter .modal-container,
-        .modal-leave-active .modal-container {
-            -webkit-transform: scale(1.1);
-            transform: scale(1.1);
-        }
 </style>

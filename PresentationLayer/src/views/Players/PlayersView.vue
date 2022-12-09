@@ -1,9 +1,9 @@
 <template>
     <div class="container container-white">
+        <h2 class="d-inline">Players</h2>
+        <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
 
-        <h1 class="d-inline">Players</h1>
-        <button type="button" class="d-inline btn btn-primary" @click="showModal">+</button>
-
+    
         <ModalWindow v-if="isModalVisible" @close="closeModal">
             <template v-slot:body>
                 <AddPlayerView @close="closeModal" @get-players="getCreatedPlayers"></AddPlayerView>
@@ -14,9 +14,10 @@
             <div class="row" style="margin-bottom: 10px;">
             </div>
             <p>{{errorMessage}}</p>
-            <table class="table">
+
+            <table v-if="players.length!=0" class="table">
                 <thead>
-                    <tr>
+                    <tr class="filter">
                         <th>Name</th>
                         <th></th>
                         <th></th>
@@ -31,6 +32,9 @@
                     </tr>
                 </tbody>
             </table>
+            <p v-else>
+                No created players
+            </p>
         </div>
     </div>
 </template>  

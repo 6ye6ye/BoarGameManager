@@ -1,18 +1,17 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGamePlace" method="post">
 
-        <div class="form-control border bg-light">
+ 
             <h2>Game place</h2>
-            <hr>
+
             <div class="row">
                 <label class="control-label">Name:</label>
                 <input type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
-                <!--<button v-on:click="addGamePlace()" type="button" class="btn btn-primary">Add</button>-->
             </div>
-            <hr>
-            <button type="submit" class="btn btn-primary">Add</button>
+     
+            <button  type="submit" class="button-submit btn btn-primary">Add</button>
             <p class="text-danger"> {{errorMessage}}</p>
-        </div>
+      
     </form>
 </template>
 

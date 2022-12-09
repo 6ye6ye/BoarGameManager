@@ -13,6 +13,8 @@ namespace DAL.Entities
         public string Name { get; set; }
         public string? NameRu { get; set; }
         public string? NameEng { get; set; }
+        public string? GameInfoShort { get; set; }
+        public string? GameInfo { get; set; }
         public double Rating { get; set; }
         public int RatingCount { get; set; }
         public int PlayersMinCount { get; set; }

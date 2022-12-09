@@ -3,7 +3,7 @@
 
         <ModalWindow v-show="isModalVisible" @close="closeModal">
             <template v-slot:body>
-                <AddFriendView @close="closeModal" @get-players="getFriends"></AddFriendView>
+                <AddFriendView  ></AddFriendView>
             </template>
         </ModalWindow>
 
@@ -16,7 +16,7 @@
         </div>
         <div>
             <h2 class="d-inline">{{header}}</h2>
-            <button v-show="showButtonAddFriend" type="button" class="d-inline btn btn-primary" @click="showModal">+</button>
+            <img class="icon" v-show="showButtonAddFriend" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
         </div>
         <div class="post">
             <div class="row" style="margin-bottom: 10px;">
@@ -24,7 +24,7 @@
             <div v-show="friends.length!=0">
                 <table class="table">
                     <thead>
-                        <tr>
+                        <tr class="filter">
                             <th>Login</th>
                             <th></th>
                             <th></th>
@@ -34,9 +34,15 @@
                     <tbody>
                         <tr v-for="item in friends" :key="item.id">
                             <td>{{item.friend.userName }}</td>
-                            <td><button v-show="showButtonsConfirm" v-on:click="goToIgnore(item.id)" type="button" class="btn btn-secondary">Ignore</button></td>
-                            <td><button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">{{btnDelText}}</button></td>
-                            <td><button v-show="showButtonsConfirm" v-on:click="goToAccept(item.id)" type="button" class="btn btn-success">Accept</button></td>
+                            <td>
+                                <img class="icon" v-show="showButtonsConfirm" v-on:click="goToAccept(item.id)" type="button" :src="require('/src/assets/icon-accept.png')" />
+                             </td>
+                            <td>
+                                <img class="icon" v-show="showButtonsConfirm" v-on:click="goToIgnore(item.id)" type="button" :src="require('/src/assets/icon-ignore.png')" />
+                            </td>
+                            <td>
+                                <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
+                             </td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,6 +83,9 @@
             },
             closeModal() {
                 this.isModalVisible = false;
+                if (this.needToUpdate == true) { 
+                    this.getFriends();
+                }
             },
 
             goToIgnore(id) {

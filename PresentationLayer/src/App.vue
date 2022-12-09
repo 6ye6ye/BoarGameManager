@@ -42,7 +42,7 @@
             border: 2px double red;
         }
     .container {
-        padding: 0px 0px 20px 0px;
+        padding: 0px 0px 20px 20px;
         height: auto !important;
         margin-bottom: 30px;
      }
@@ -59,5 +59,16 @@
         margin-left:0px;
         margin-right:0px;
     }
-    
+
+    .icon{
+        width:30px;
+        height:30px;
+    }
+
+    .extended-title {
+        color: #757575;
+        margin-top: 20px;
+        background-color: #E0E0E0;
+    }
+
 </style>

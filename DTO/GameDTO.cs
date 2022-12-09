@@ -12,6 +12,8 @@
         public int PlayersMinCount { get; set; }
         public int PlayersMaxCount { get; set; }
         public int MinAge { get; set; }
+        public string GameInfoShort { get; set; }
+        public string? GameInfo { get; set; }
         public int MinPartyTime { get; set; }
         public int MaxPartyTime { get; set; }
         public int ReleaseYear { get; set; }
@@ -28,6 +30,8 @@
         public string Name { get; set; }
         public string NameRu { get; set; }
         public string NameEng { get; set; }
+        public string GameInfoShort { get; set; }
+        public string? GameInfo { get; set; }
         public int PlayersMinCount { get; set; }
         public int PlayersMaxCount { get; set; }
         public int MinAge { get; set; }
@@ -42,6 +46,8 @@
         public string Name { get; set; }
         public string NameRu { get; set; }
         public string NameEng { get; set; }
+        public string GameInfoShort { get; set; }
+        public string GameInfo { get; set; }
         public int PlayersMinCount { get; set; }
         public int PlayersMaxCount { get; set; }
         public int MinAge { get; set; }

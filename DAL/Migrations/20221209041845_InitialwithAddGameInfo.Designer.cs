@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221128095943_AddSeeds")]
-    partial class AddSeeds
+    [Migration("20221209041845_InitialwithAddGameInfo")]
+    partial class InitialwithAddGameInfo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,62 +70,62 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("dce5bf83-137a-4ba2-883a-00d0fb05219c"),
-                            GameId = new Guid("5e92e4de-47cd-4ff6-8326-0d57fc560229"),
+                            Id = new Guid("0dd5bf03-cd7a-4661-a0c0-65970f79bc1f"),
+                            GameId = new Guid("63cc2b4d-34f0-4240-879c-dd15a8104b55"),
                             Name = "Mafia"
                         },
                         new
                         {
-                            Id = new Guid("823c95c6-b1ce-4800-8afa-be5870eb1348"),
-                            GameId = new Guid("5e92e4de-47cd-4ff6-8326-0d57fc560229"),
+                            Id = new Guid("e979d263-befa-432d-874f-8ec2c1506e03"),
+                            GameId = new Guid("63cc2b4d-34f0-4240-879c-dd15a8104b55"),
                             Name = "Player"
                         },
                         new
                         {
-                            Id = new Guid("e7d99955-ed27-4034-8327-16bc93b1ec48"),
-                            GameId = new Guid("5e92e4de-47cd-4ff6-8326-0d57fc560229"),
+                            Id = new Guid("89bba2d1-2ac4-4a4c-bc6b-778101785c3b"),
+                            GameId = new Guid("63cc2b4d-34f0-4240-879c-dd15a8104b55"),
                             Name = "Doctor"
                         },
                         new
                         {
-                            Id = new Guid("e27b2464-2d7e-4d29-98df-ff63be1becf2"),
-                            GameId = new Guid("5e92e4de-47cd-4ff6-8326-0d57fc560229"),
+                            Id = new Guid("3ebb401e-8697-4956-9259-13e5d0e54c7a"),
+                            GameId = new Guid("63cc2b4d-34f0-4240-879c-dd15a8104b55"),
                             Name = "Sheriff"
                         },
                         new
                         {
-                            Id = new Guid("189405e5-d054-4117-ba80-9ad6c8fc41c5"),
-                            GameId = new Guid("3cbf8290-33a5-4a0a-a222-ed8f1e881cb9"),
+                            Id = new Guid("74adf251-6dd6-4348-a328-cc47ef9b50d3"),
+                            GameId = new Guid("955fa3d0-0b2c-4251-8244-b8c09360a254"),
                             Name = "Ork"
                         },
                         new
                         {
-                            Id = new Guid("9fb56489-e959-4cc8-9e17-a71d24f97ae4"),
-                            GameId = new Guid("3cbf8290-33a5-4a0a-a222-ed8f1e881cb9"),
+                            Id = new Guid("9757c39c-55ea-472c-9c87-aab354edcf10"),
+                            GameId = new Guid("955fa3d0-0b2c-4251-8244-b8c09360a254"),
                             Name = "Eldar"
                         },
                         new
                         {
-                            Id = new Guid("16088ed3-8e50-4832-89cc-926fcadb4307"),
-                            GameId = new Guid("3cbf8290-33a5-4a0a-a222-ed8f1e881cb9"),
+                            Id = new Guid("220f20cf-4d2b-41e4-9bc9-54a6f34c1594"),
+                            GameId = new Guid("955fa3d0-0b2c-4251-8244-b8c09360a254"),
                             Name = "Chaos Space Marine"
                         },
                         new
                         {
-                            Id = new Guid("8d58e1cc-758a-4b09-8116-4992a1f2a72b"),
-                            GameId = new Guid("3cbf8290-33a5-4a0a-a222-ed8f1e881cb9"),
+                            Id = new Guid("186e9cf5-50ff-4416-8c73-28484cf416f1"),
+                            GameId = new Guid("955fa3d0-0b2c-4251-8244-b8c09360a254"),
                             Name = "Emperor's Space Marine"
                         },
                         new
                         {
-                            Id = new Guid("b0a0b795-d9dd-42eb-8e7c-0e69315b2805"),
-                            GameId = new Guid("ea2b391a-7505-4ed9-a33b-88849ca33606"),
+                            Id = new Guid("552f8cde-5a5b-463a-9716-5a0d41e3e3ba"),
+                            GameId = new Guid("9f07f524-eee0-468d-9e50-4c26c614d79c"),
                             Name = "Empire"
                         },
                         new
                         {
-                            Id = new Guid("1b6c842d-722b-4074-9ee6-3538cf04216d"),
-                            GameId = new Guid("ea2b391a-7505-4ed9-a33b-88849ca33606"),
+                            Id = new Guid("8321a22d-ece5-49e3-bd4d-0f6367b55d9c"),
+                            GameId = new Guid("9f07f524-eee0-468d-9e50-4c26c614d79c"),
                             Name = "Rebels"
                         });
                 });
@@ -160,15 +160,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4dbfbf8b-3282-45b9-bb70-3ce505fe76ca"),
-                            ConcurrencyStamp = "9fc38d83-e240-422b-bdc5-67ae492050b6",
+                            Id = new Guid("052aa42e-dcd5-42ec-9371-49968f750cd0"),
+                            ConcurrencyStamp = "3a4685e5-3840-4b15-8fa2-0fdbf2479d4e",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("04b8eff8-6e00-469b-890b-7b32a4283042"),
-                            ConcurrencyStamp = "32ef12b6-5674-4af9-89e8-6e9333a6212a",
+                            Id = new Guid("d44e1604-bd00-4f24-8697-8845c06a79e3"),
+                            ConcurrencyStamp = "248d0688-99ab-483d-9367-2e066c1dd823",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -191,13 +191,13 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df"),
-                            RoleId = new Guid("4dbfbf8b-3282-45b9-bb70-3ce505fe76ca")
+                            UserId = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043"),
+                            RoleId = new Guid("052aa42e-dcd5-42ec-9371-49968f750cd0")
                         },
                         new
                         {
-                            UserId = new Guid("c47af41b-3025-4680-926c-3285b1ad707d"),
-                            RoleId = new Guid("04b8eff8-6e00-469b-890b-7b32a4283042")
+                            UserId = new Guid("232c8238-74a6-40d1-8fa8-4bd595c57b70"),
+                            RoleId = new Guid("d44e1604-bd00-4f24-8697-8845c06a79e3")
                         });
                 });
 
@@ -206,6 +206,12 @@ namespace DAL.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("GameInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GameInfoShort")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
@@ -257,7 +263,8 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5e92e4de-47cd-4ff6-8326-0d57fc560229"),
+                            Id = new Guid("63cc2b4d-34f0-4240-879c-dd15a8104b55"),
+                            GameInfoShort = "Вы любите детективы?\r\n                Тогда эта увлекательная психологическая пошаговая ролевая игра с детективным\r\n                сюжетом для вас.\\r\\n\\r\\nОна отлично подходит для игры в домашнем кругу,\r\n                для весёлой компании на различных вечеринках и даже в дороге поможет интересно \r\n                провести время.",
                             Image = "no-image-icon-6.png",
                             MaxPartyTime = 120,
                             MinAge = 10,
@@ -273,7 +280,9 @@ namespace DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3cbf8290-33a5-4a0a-a222-ed8f1e881cb9"),
+                            Id = new Guid("955fa3d0-0b2c-4251-8244-b8c09360a254"),
+                            GameInfo = "Forbidden Stars — стратегическая игра, события которой разворачиваются в мире \r\n                «Вархаммера 40 000». За контроль над игровым полем, составляемым каждый раз из квадратов \r\n                звёздных систем с планетами и космическим пространством, борются эльдары, орки, космодесант Хаоса и \r\n                космодесант, верный Императору. \\n\r\n                    Перед началом партии игроки по очереди добавляют по квадрату звёздной системы на стол, пока не будет сформировано игровое поле, \r\n                а затем расставляют свои стартовые войска и космические флоты, а также выкладывают жетоны целей. \r\n                Конфигурация игрового поля влияет на связи между системами. Сообщению между смежными системами может \r\n                мешать варп-шторм, который представлен жетоном-полоской. Во время партии варп-шторм движется: в конце \r\n                каждого раунда игроки перемещают полоску. Победа достаётся игроку, которому удалось первым установить \r\n                контроль над нужными системами и собрать все свои жетоны целей.\\n\r\n                                Каждый раунд игроки раздают приказы, выкладывая соответствующие жетоны рубашкой вверх \r\n                в системы. Жетоны могут накрывать друг друга и образовывать стопки. Приказы в каждой стопке применяются\r\n                от верхнего к нижнему. Всего в игре четыре вида приказов: мобилизация позволяет наращивать боевую мощь \r\n                за счёт новых войск и космических кораблей, а также возводить новые постройки для развития и защиты планет; \r\n                планирование — добирать карты, которыми можно влиять на исход боёв или увеличивать эффективность последующих\r\n                приказов, а также вредить противникам; администрирование — собирать ресурсы с подконтрольных планет и\r\n                использовать свойство своей фракции; передислокация — перемещать космические корабли и перебрасывать войска\r\n                с планеты на планету.\\n\r\n                                Во время боя игрок бросает некоторое количество кубиков за свои участвующие боевые единицы. \r\n                Выпавшие символы задают уровни нападения, обороны и боевого духа. Также противники могут удивить друг друга, сыграв карты боя, которые не только усиливают эти параметры войск, но и позволяют применить особые эффекты, позволяющие уничтожить как можно больше сил противника, \r\n                уйти в глухую оборону и т.д. Листы боевых единиц и карты боя у каждой фракции свои.",
+                            GameInfoShort = "Forbidden Stars — стратегическая игра, события которой разворачиваются в\r\n                мире «Вархаммера 40 000». За контроль над игровым полем, составляемым каждый раз из\r\n                квадратов звёздных систем с планетами и космическим пространством, борются эльдары, орки, \r\n                космодесант Хаоса и космодесант, верный Императору. ",
                             Image = "forbiddenStars.jpg",
                             MaxPartyTime = 120,
                             MinAge = 14,
@@ -289,7 +298,9 @@ namespace DAL.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ea2b391a-7505-4ed9-a33b-88849ca33606"),
+                            Id = new Guid("9f07f524-eee0-468d-9e50-4c26c614d79c"),
+                            GameInfo = "Игра Star Wars: Rebellion основана на классической кинотрилогии («Эпизод IV: Новая надежда», «Эпизод V: Империя наносит ответный удар», «Эпизод VI: Возвращение джедая»). Игрокам предлагают разыграть партию между Империей и повстанцами, силы и методы которых сильно разнятся. Карта, на которой разворачивается гражданская война, \r\n                огромна, поделена на регионы и насчитывает 32 звёздные системы.\\n\r\n                В распоряжении Империи два верных и мощных союзника — армия и флот, — и для победы \r\n                ей нужно обнаружить и уничтожить базу сопротивления. Повстанцы же вынуждены проводить\r\n                точечные удары из подполья, и чтобы выиграть гражданскую войну — им нужно, добиваясь\r\n                маленьких целей, привлечь на свою сторону как можно больше граждан и вдохновить их на \r\n                открытое восстание. При этом важную роль в конфликте играют лидеры: игроки начинают\r\n                партию с несколькими лидерами, во время партии получают новых и развивают их. ",
+                            GameInfoShort = "Звёздные Войны: Восстание (Star Wars: Rebellion) – игра, которая основана на классической кинотрилогии Звездных войн. Игрокам предлагают разыграть партию между Империей и повстанцами, \r\n                силы и методы которых сильно разнятся.",
                             Image = "StarWarsRebellion.jpg",
                             MaxPartyTime = 240,
                             MinAge = 14,
@@ -336,11 +347,11 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("376b4ee8-766a-4747-b40b-94f36f11b6e6"),
-                            Date = new DateTime(2022, 11, 28, 15, 59, 43, 668, DateTimeKind.Local).AddTicks(5251),
-                            GameId = new Guid("5e92e4de-47cd-4ff6-8326-0d57fc560229"),
-                            PartyCreatorId = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df"),
-                            UserGamePlaceId = new Guid("fb17b5fe-971b-440f-8bc0-54bf4c8e2617")
+                            Id = new Guid("d28731d3-9861-4ba8-8d27-2ad0178ebaf2"),
+                            Date = new DateTime(2022, 12, 9, 10, 18, 45, 708, DateTimeKind.Local).AddTicks(139),
+                            GameId = new Guid("63cc2b4d-34f0-4240-879c-dd15a8104b55"),
+                            PartyCreatorId = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043"),
+                            UserGamePlaceId = new Guid("fc85bc3f-3475-4669-8cc9-3a98cbfcbcb4")
                         });
                 });
 
@@ -403,14 +414,14 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("93ad4030-c2fb-4f57-83e4-a729751fe6a4"),
-                            AccountId = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df"),
+                            Id = new Guid("6787ed8d-73c8-4540-ad02-d069fbafa964"),
+                            AccountId = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043"),
                             Name = "admin"
                         },
                         new
                         {
-                            Id = new Guid("a8982c86-0c9c-43fd-9fc3-da344da52e55"),
-                            AccountId = new Guid("c47af41b-3025-4680-926c-3285b1ad707d"),
+                            Id = new Guid("bc6dc3c2-5560-411a-b0f3-4eb3c8466765"),
+                            AccountId = new Guid("232c8238-74a6-40d1-8fa8-4bd595c57b70"),
                             Name = "use"
                         });
                 });
@@ -483,9 +494,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df"),
+                            Id = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b08fe337-08fb-47cf-ad98-bedaca048ff5",
+                            ConcurrencyStamp = "3df7b6cb-2374-4b49-8965-9f2d36f1dc03",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -493,15 +504,15 @@ namespace DAL.Migrations
                             NormalizedUserName = "admin",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4fe4c8f-0df9-4d85-8a23-1797d324b707",
+                            SecurityStamp = "7eeb29b8-f159-4ac9-931d-cb11a30e4390",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = new Guid("c47af41b-3025-4680-926c-3285b1ad707d"),
+                            Id = new Guid("232c8238-74a6-40d1-8fa8-4bd595c57b70"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "21299ca4-c9e7-4f83-9299-e9213908c712",
+                            ConcurrencyStamp = "b2ceda99-398c-40cf-a81b-7d3c7045af5c",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -509,7 +520,7 @@ namespace DAL.Migrations
                             NormalizedUserName = "user",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "bc25d6ab-cc8f-4dc3-9e52-dbeea91a0a8e",
+                            SecurityStamp = "795cee52-04d3-4163-9b93-f90eaf7ae631",
                             TwoFactorEnabled = false,
                             UserName = "use"
                         });
@@ -561,15 +572,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fb17b5fe-971b-440f-8bc0-54bf4c8e2617"),
+                            Id = new Guid("fc85bc3f-3475-4669-8cc9-3a98cbfcbcb4"),
                             Name = "MyHome",
-                            UserId = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df")
+                            UserId = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043")
                         },
                         new
                         {
-                            Id = new Guid("37565d0e-05c9-44ee-8e28-966355d388e5"),
+                            Id = new Guid("d20ac8bb-b8b1-4d5d-bcd2-558f746d8a2f"),
                             Name = "Work",
-                            UserId = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df")
+                            UserId = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043")
                         });
                 });
 
@@ -601,9 +612,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("74763513-a0ac-4551-b122-cf4e121d7ae0"),
-                            InRequestUserId = new Guid("85fa4b0a-14c4-4014-9371-21dc6213d1df"),
-                            OutRequestUserId = new Guid("c47af41b-3025-4680-926c-3285b1ad707d"),
+                            Id = new Guid("24a8e07c-ce8a-4e9d-9c31-2fccd0af202a"),
+                            InRequestUserId = new Guid("32defc01-26c0-4ac1-b54c-fd99812ba043"),
+                            OutRequestUserId = new Guid("232c8238-74a6-40d1-8fa8-4bd595c57b70"),
                             Status = 1
                         });
                 });

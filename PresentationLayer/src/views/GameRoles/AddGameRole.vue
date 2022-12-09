@@ -1,13 +1,11 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGameRole" method="post">
         <div class="row ">
-            <div class="col-md-4 mx-auto">
+            <div class=" mx-auto">
                 <h2>Game role</h2>
-                <hr>
-                <label class="form-label">Name</label>
-                <input type="text" v-model="role.name" minlength="1" maxlength="50" class="form-control" required />
+              
+                <input placeholder="Input role name" type="text" v-model="role.name" minlength="1" maxlength="50" class="form-control" required />
             </div>
-            <hr>
             <button type="submit" class="btn btn-success ">Add</button>
             <p class="text-danger"> {{errorMessage}}</p>
         </div>

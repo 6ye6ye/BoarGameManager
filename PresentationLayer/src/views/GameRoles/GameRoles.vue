@@ -5,7 +5,7 @@
         </template>
     </ModalWindow>
 
-    <div class="row ">
+    <div class="row justify-content-center ">
         <div class="col-md-4">
             <div class="mb-2">
                 <h3 class="d-inline"> Game roles</h3>
@@ -14,7 +14,7 @@
             <ul v-if="!gameRoles.length==0">
                 <li v-for="role in gameRoles" :key="role.Id">
                     {{role.name}}
-                    <button v-on:click="goToDelete(role.id)" v-if="isAdmin" type="button" class="btn btn-danger">Delete</button>
+                    <img v-if="isAdmin" class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                 </li>
             </ul>
             <p v-if="gameRoles.length==0">- No game roles -</p>

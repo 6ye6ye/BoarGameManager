@@ -4,18 +4,18 @@
         <div class="container ">
             <ModalWindow v-show="isModalAddVisible" @close="closeAddModal">
                 <template v-slot:body>
-                    <AddGameView @close="closeAddModal" @get-games="getGames"></AddGameView>
+                    <AddGameView @get-games="getGames"></AddGameView>
                 </template>
             </ModalWindow>
             <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
                 <template v-slot:body>
-                    <EditGameView @close="closeEditModal" :gameId="currentId" @get-games="getGames"></EditGameView>
+                    <EditGameView :gameId="currentId" @get-games="getGames"></EditGameView>
                 </template>
             </ModalWindow>
 
             <table class="table">
                 <thead>
-                    <tr class="table filter">
+                    <tr class="d-flex align-items-end table filter ">
                         <th>
                             <label class="form-label">Name</label>
                             <input type="text" v-model="filter.name" placeholder="Input name" class="form-control" />
@@ -40,11 +40,11 @@
                             </select>
                         </th>
                         <th>
-                            <button v-on:click="getGamesWithFilters()" type="button" class="btn btn-info ">Search</button>
-                        </th>
+                            <img class="icon"  v-on:click="getGamesWithFilters()" type="button" :src="require('/src/assets/icon-search.png')" />
+                         </th>
                         <th>
-                            <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showAddModal">+</button>
-                        </th>
+                            <img class="icon" v-if="isAuth&&isAdmin" type="button"  @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
+                         </th>
                     </tr>
                 </thead>
             </table>
@@ -67,19 +67,19 @@
                     </thead>
                 </table>
 
-                <div class=" d-flex justify-content-start card-strip" v-for="item in games" :key="item.Id">
+                <div class="d-flex justify-content-start card-strip" v-for="item in games" :key="item.Id">
                     <div>
                         <img class="game-image" v-bind:src="item.image">
                         <div v-if="isAuth">
                             <label>Add to my games:</label>
                             <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
                         </div>
-                        <div class="row">
-                            <button v-if="isAuth&&isAdmin" type="button" class="btn btn-primary" @click="showEditModal(item.id)">Edit</button>
-                            <button v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
-                        </div>
+                       
+                            <img class="icon" v-if="isAuth&&isAdmin" v-on:click="goToDetails(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
+                            <img class="icon" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button"  :src="require('/src/assets/icon-remove.png')" />
+                      
                     </div>
-                    <div class="info w-100" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+                    <div class="info w-100 col" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
                         <div class="row px-3 mb-2">
                             <h4 class="mr-4">{{item.name }}</h4>
                             <p class="mt-1 mr-4 extended-title">{{item.nameRu}}|{{item.nameEng}}</p>
@@ -91,17 +91,18 @@
                             <span> Min/max party time: {{item.minPartyTime }}/ {{item.maxPartyTime }} || </span>
                             <span> Min. age: {{item.minAge }}</span>
                         </div>
-                        <div>
-                            <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
-                        </div>
+
+                        <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
+                        <span class="text-left">  {{item.gameInfoShort }}</span>
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="container sidenav container-white">
             <h3>Top 10 games</h3>
             <ol>
-                <li v-for="item in topGames" :key="item.Id">
+                <li v-on:click="goToDetails(item.id)" v-for="item in topGames" :key="item.Id">
                     {{item.name}}
                 </li>
             </ol>
@@ -134,7 +135,7 @@
                 isModalAddVisible: false,
                 isMyGamesPage: false,
                 games: [],
-                topGames:[],
+                topGames: [],
                 currentId: '',
                 currentSort: 'name',
                 currentSortDir: 'asc'
@@ -174,7 +175,7 @@
                 this.isModalAddVisible = true;
             },
             closeAddModal() {
-                this.isModalVisible = false;
+                this.isModalAddVisible = false;
             },
             showEditModal(id) {
                 this.currentId = id;
@@ -289,10 +290,6 @@
         box-shadow: 0px 8px 16px 0px #E0E0E0;
     }
 
-    .extended-title {
-        color: #757575;
-        background-color: #E0E0E0;
-    }
 
     .game-image {
         width: 150px;

@@ -8,52 +8,41 @@
                 <h4 class="dark-text ">{{game.name }}</h4>
                 <p class="extended-title">{{game.nameRu}}|{{game.nameEng}}</p>
 
-                <dl class=" d-flex row ">
-                    <dt class="col-sm-2">
+                <div class="  row align-items-center ">
+                    <div>
                         <label>Release year:</label>
-                    </dt>
-                    <dd class="col-sm-10">
                         {{game.releaseYear }}
-                    </dd>
-
-                    <dt class="col-sm-2">
+                    </div>
+                    <div>
                         <label>Min/max players:</label>
-                    </dt>
-                    <dd class="col-sm-10">
                         {{game.playersMinCount }}/{{game.playersMaxCount }}
-                    </dd>
-                    <dt class="col-sm-2">
+                    </div>
+                    <div>
                         <label>Min/max players:</label>
-                    </dt>
-                    <dd class="col-sm-10">
                         {{game.playersMinCount }}/{{game.playersMaxCount }}
-                    </dd>
-                    <dt class="col-sm-2">
+                    </div>
+                    <div>
                         <label> Min/max party time:</label>
-                    </dt>
-                    <dd class="col-sm-10">
                         {{game.minPartyTime }}/ {{game.maxPartyTime }}
-                    </dd>
-                    <dt class="col-sm-2">
+                    </div>
+                    <div>
                         <label> Min. age:</label>
-                    </dt>
-                    <dd class="col-sm-10">
                         {{game.minAge }}
-                    </dd>
-                    <dt class="col-sm-2">
+                    </div>
+                    <div>
                         <label>Game rate:</label>
-                    </dt>
-                    <dd class="col-sm-10">
-                        <star-rating v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true"></star-rating>
-                    </dd>
-                    <dt v-if="isAuth" class="col-sm-2">
+                        <star-rating class="d-flex flex-nowrap justify-content-center" style="display:block" v-model:rating="game.rating" :rating="0.01" :max-rating="10" :read-only="true"></star-rating>
+                    </div>
+                    <div v-if="isAuth">
                         <label>My rate:  </label>
-                    </dt>
-                    <dd v-if="isAuth" class="col-sm-10">
-                        <star-rating v-model:rating="myRate" :max-rating="10"></star-rating>
-                        <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save rating</button>
-                    </dd>
-                </dl>
+                        <star-rating class="justify-content-center" v-model:rating="myRate" :max-rating="10"></star-rating>
+                        <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save </button>
+                    </div>
+                    <p class="extended-title">Info</p>
+                    <div>
+                        <p>{{game.gameInfo }}</p>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -73,7 +62,7 @@
         name: 'GameView',
         data() {
             return {
-                myRate:0,
+                myRate: 0,
                 gameId: this.$route.params.id.toString(),
                 game: '',
                 isAuth: localStorage.getItem('isAuth'),
@@ -81,7 +70,9 @@
         },
         created() {
             this.getGame();
-            this.getMyGameRate();
+            if (this.isAuth) {
+                this.getMyGameRate();
+            }
         },
         components: {
             GameRoles,
@@ -97,7 +88,7 @@
                     });
             },
             setGameRate() {
-                GameRateService.PutGameRate(this.gameId,this.myRate).then(response => {
+                GameRateService.PutGameRate(this.gameId, this.myRate).then(response => {
                     this.game.rating = response.data;
                 })
                     .catch(e => {
@@ -126,5 +117,4 @@
         text-align: right;
         align-items: start;
     }
-   
 </style>

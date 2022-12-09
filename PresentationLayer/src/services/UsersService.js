@@ -12,8 +12,8 @@ class UsersService {
     async GetCurrent() {
         return await axios.get(url + '/api/Users/Current');
     }
-    async GetfirstTenUsers(id) {
-        return await axios.get(url + '/api/Users/search/' + id);
+    async GetfirstTenUsers(name) {
+        return await axios.get(url + '/api/Users/search/' + name);
     }
 
     async GetAllWithFilters(filter) {

@@ -15,30 +15,11 @@ class GameService {
                 maxRate: filter.maxRate,
                 showAdded: filter.showAdded
             }
-        }
-        )
+        })
     }
     async GetTopTenGames() {
         return await axios.get(url + '/api/Games/top');
     }
-    //async GetAllWithFilters(gameFilter) {
-    //    return await axios({
-    //        method: 'get',
-    //        url: url + '/api/Games/Filtered',
-
-    //        data: {
-              
-    //                Name: gameFilter.name,
-    //                PlayersMinCount: gameFilter.minRate,
-    //                PlayersMaxCount: gameFilter.maxRate,
-    //                //minAge: game.minAge,
-    //                // minPartyTime: game.minPartyTime,
-    //                //  maxPartyTime: game.maxPartyTime,
-    //                ReleaseYear: gameFilter.releaseYear
-              
-    //        }
-    //    });
-    //}
     
     async GetUserGames() {
         return await axios.get(url + '/api/Games');
@@ -62,13 +43,14 @@ class GameService {
         return await axios({
             method: 'post',
             url: url + '/api/Games',
-
             data: {
                 id: game.id,
                 image: patch,
                 name: game.name,
                 nameRu: game.nameRu,
                 nameEng: game.nameEng,
+                gameInfoShort: game.gameInfoShort,
+                gameInfo: game.gameInfo,
                 playersMinCount: game.playersMinCount,
                 playersMaxCount: game.playersMaxCount,
                 minAge: game.minAge,
@@ -86,6 +68,8 @@ class GameService {
             name: game.name,
             nameRu: game.nameRu,
             nameEng: game.nameEng,
+            gameInfoShort: game.gameInfoShort,
+            gameInfo: game.gameInfo,
             playersMinCount: game.playersMinCount,
             playersMaxCount: game.playersMaxCount,
             minAge: game.minAge,
@@ -93,30 +77,11 @@ class GameService {
             maxPartyTime: game.maxPartyTime,
             releaseYear: game.releaseYear
         });
-        //return  await axios({
-        //    method: 'put',
-        //    url: url + '/api/Games',
-        //    data: {
-        //        id: game.id,
-        //        image: patch,
-        //        name: game.name,
-        //        nameRu: game.nameRu,
-        //        nameEng: game.nameEng,
-        //        playersMinCount: game.playersMinCount,
-        //        playersMaxCount: game.playersMaxCount,
-        //        minAge: game.minAge,
-        //        minPartyTime: game.minPartyTime,
-        //        maxPartyTime: game.maxPartyTime,
-        //        releaseYear: game.releaseYear
-        //    } 
-        //});
     }
+
     async Delete(id) {
         return await axios.delete(url + '/api/Games/' + id);
     }
-
-        
-
     
 }
 export default new GameService();  

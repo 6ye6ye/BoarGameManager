@@ -1,7 +1,7 @@
 <template>
     <div class="container container-white">
         <h1 class="d-inline">Game places</h1>
-        <button type="button" class="d-inline btn btn-primary" @click="showModal">+</button>
+        <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
 
         <ModalWindow v-if="isModalVisible" @close="closeModal">
             <template v-slot:body>
@@ -13,9 +13,9 @@
             <div class="row" style="margin-bottom: 10px;">
             </div>
             <p>{{errorMessage}}</p>
-            <table class="table">
+            <table v-if="gamePlaces.length!=0" class="table ">
                 <thead>
-                    <tr>
+                    <tr class="filter">
                         <th>Name</th>
                         <th></th>
                         <th></th>
@@ -25,11 +25,15 @@
                     <tr v-for="item in gamePlaces" :key="item.Id">
                         <td>{{item.name }}</td>
                         <td>
-                            <button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                            <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                         </td>
+
                     </tr>
                 </tbody>
             </table>
+            <p v-else>
+                No created game places
+            </p>
         </div>
     </div>
 </template>  

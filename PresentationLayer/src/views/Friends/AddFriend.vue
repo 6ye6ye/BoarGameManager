@@ -1,28 +1,32 @@
 <template>
-    <div class="form-control border bg-light">
+    <form ref="form" class="col-sm" @submit.prevent="sendRequest" method="post">
         <h2>Add friend</h2>
-        <div class="row">
+        <div class="col-sm">
             <label class="control-label">User name:</label>
-            <input type="text" v-model="userName" class="form-control" />
-            <button v-on:click="getFirstTenUsers()" type="button" class="btn btn-primary">Search</button>
+            <input type="text" v-model="userName" class="form-control" required />
+            <button v-on:click="getFirstTenUsers()" type="button" class="btn btn-primary  mt-2">Search</button>
+
+            <div v-show="users.length!=0">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>login</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in users" :key="item.id">
+                            <td>{{item.userName }}</td>
+                            <td><button type="submit" v-on:click="sendRequest(item.id)" class="btn btn-info">+</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-show="users.length==0">
+              <p> No users (without friends, incoming/outgoing requests)</p>
+            </div>
         </div>
-        <div v-show="users.length!=0">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>login</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in users" :key="item.id">
-                        <td>{{item.userName }}</td>
-                        <td><button v-on:click="goToAdd(item.id)" type="button" class="btn btn-info">+</button></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -37,8 +41,14 @@
                 userName: ''
             }
         },
+        computed: {
+            isValid() {
+                return this.userName
+            }
+        },
         methods: {
             getFirstTenUsers: lodash.throttle(function () {
+                if (!this.isValid) return false
                 UserService.GetfirstTenUsers(this.userName)
                     .then(response => {
                         this.users = response.data;
@@ -47,8 +57,7 @@
                         console.log(e);
                     });
             }, 1000),
-
-            goToAdd: function (id) {
+            sendRequest: function (id) {
                 FriendsService.AddFriend(id)
                     .then(response => {
                         if (response.status == 200) {
@@ -59,33 +68,8 @@
                     .catch(e => {
                         console.log(e);
                     });
+            },
 
-            },
-            goToAccept: function (id) {
-                FriendsService.AddFriend(id)
-                    .then(response => {
-                        if (response.status == 200) {
-                            let i = this.users.map(item => item.id).indexOf(id)
-                            this.users.splice(i, 1)
-                        }
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-
-            },
-            goToDelete: function (id) {
-                FriendsService.Delete(id)
-                    .then(response => {
-                        if (response.status == 200) {
-                            let i = this.users.map(item => item.id).indexOf(id)
-                            this.users.splice(i, 1)
-                        }
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    });
-            },
         }
     }
 

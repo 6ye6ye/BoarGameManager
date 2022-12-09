@@ -2,7 +2,7 @@
     <div class="container container-white ">
         <div>
             <h1 class="d-inline">Game parties list</h1>
-            <button type="button" class="d-inline btn btn-primary" @click="showModal">+</button>
+            <img class="icon" type="button"  @click="showModal" :src="require('/src/assets/icon-add.png')" />
         </div>
         <ModalWindow v-if="isModalVisible" @close="closeModal">
             <template v-slot:body>
@@ -16,7 +16,7 @@
             <p>{{errorMessage}}</p>
             <table id="gamesTable" class="table">
                 <thead>
-                    <tr>
+                    <tr class="filter">
                         <th>Date</th>
                         <th>Game</th>
                         <th>Place</th>
@@ -33,8 +33,8 @@
                         <td>{{item.partyCreatorName }}</td>
                         <td>
                             <div>
-                                <button v-on:click="goToDetails(item.id)" type="button" class="btn btn-info">Details</button>
-                                <button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                                <img class="icon" v-on:click="goToDetails(item.id)" type="button" :src="require('/src/assets/icon-details.png')" />
+                                <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                             </div>
                         </td>
                     </tr>

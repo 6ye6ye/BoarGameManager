@@ -1,8 +1,8 @@
 ﻿<template>
     <div class="container container-white">
 
-        <h4>Game party</h4>
-        <hr />
+        <h1>Game party</h1>
+        <p class="extended-title">Info</p>
         <dl class="row">
             <dt class="col-sm-2">
                 <label>Date </label>
