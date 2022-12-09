@@ -29,6 +29,7 @@
     }
 
     table {
+        margin-bottom:0px;
         background-color: white
     }
     .filter {

@@ -69,7 +69,7 @@
             return {
                 filter: {
                     name: '',
-               
+                    roleId:'',
                     email: ''
                 },
                 isAdmin: localStorage.role == 'Admin',

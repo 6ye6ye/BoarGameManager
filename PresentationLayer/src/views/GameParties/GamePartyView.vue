@@ -3,37 +3,35 @@
 
         <h1>Game party</h1>
         <p class="extended-title">Info</p>
-        <dl class="row">
-            <dt class="col-sm-2">
+        <div class="row align-items-center">
+            <div>
                 <label>Date </label>
-            </dt>
-            <dd class="col-sm-10">
+
+
                 <label for="gameParty.date">{{gameParty.date}}</label>
-            </dd>
-            <dt class="col-sm-2">
+            </div>
+            <div>
                 <label>Game </label>
-            </dt>
-            <dd class="col-sm-10">
+
                 <label>{{gameParty.game.name}}</label>
-            </dd>
-            <dt class="col-sm-2">
+            </div>
+            <div>
                 <label>Place </label>
-            </dt>
-            <dd class="col-sm-10">
+
                 {{gameParty.userGamePlaceName}}
-            </dd>
-            <dt class="col-sm-2">
+            </div>
+            <div>
                 <label>Party creator </label>
-            </dt>
-            <dd class="col-sm-10">
+
                 {{gameParty.partyCreatorName}}
-            </dd>
-        </dl>
+            </div>
+
+        </div>
         <div>
             <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="id" :isCreator="isCreator" />
         </div>
     </div>
-  
+
 </template>
 
 <script>
@@ -60,17 +58,14 @@
         },
         created() {
             this.getGameParty();
-            this.checkIsCreator();
         },
         components: {
             GamePartyMembers,
         },
-
         methods: {
             checkIsCreator() {
                 UsersService.GetCurrent().then(response => {
                     this.isCreator = this.gameParty.partyCreatorId == response.data.id
-                    console.log(response.data);
                 })
                     .catch(e => {
                         console.log(e);
@@ -79,7 +74,7 @@
             getGameParty() {
                 GamesPartyService.GetById(this.id).then(response => {
                     this.gameParty = response.data;
-
+                    this.checkIsCreator();
                 })
                     .catch(e => {
                         console.log(e);

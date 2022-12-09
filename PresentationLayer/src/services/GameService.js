@@ -21,9 +21,7 @@ class GameService {
         return await axios.get(url + '/api/Games/top');
     }
     
-    async GetUserGames() {
-        return await axios.get(url + '/api/Games');
-    }
+
     async GetAllShort() {
         return await axios.get(url + '/api/Games/short');
     }

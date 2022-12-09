@@ -11,7 +11,6 @@ class GamePartiesService {
         return await axios.get(url + '/api/GameParties/'+id);
     }
     async Add(gameParty) {
-
         return  await axios({
             method: 'post',
             url: url + '/api/GameParties',

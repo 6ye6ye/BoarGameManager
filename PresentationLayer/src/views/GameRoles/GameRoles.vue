@@ -14,7 +14,7 @@
             <ul v-if="!gameRoles.length==0">
                 <li v-for="role in gameRoles" :key="role.Id">
                     {{role.name}}
-                    <img v-if="isAdmin" class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
+                    <img v-if="isAdmin" class="icon" v-on:click="goToDelete(role.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                 </li>
             </ul>
             <p v-if="gameRoles.length==0">- No game roles -</p>

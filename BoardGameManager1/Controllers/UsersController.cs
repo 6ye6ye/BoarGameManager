@@ -88,13 +88,10 @@ namespace BoardGameManager1.Controllers
         public async Task<ActionResult<UserDTOGet>> GetCurrentUser()
         {
             var user = await _service.GetUserById(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
-
             if (user == null)
             {
                 return NotFound();
             }
-
             return user;
         }
 

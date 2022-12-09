@@ -1,10 +1,7 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGamePartyMember" method="post">
-
         <div class="row ">
-            <div class="col-md-4 mx-auto">
                 <h2>Game party member</h2>
-                <hr>
                 <div class="form-group ">
                     <label class="control-label">Player</label><span class="required">*</span>
                     <button type="button" class="btn btn-primary" @click="showModal">+</button>
@@ -33,12 +30,9 @@
                     <label class="control-label">Winner</label>
                     <input type="checkbox" v-model="gamePartyMember.isWinner" />
                 </div>
-                <hr>
-                <!--<button type="button" @click="addGamePartyMember" class="btn btn-success ">Add</button>-->
                 <button type="submit" class="btn btn-primary">Add</button>
             </div>
             <p class="text-danger"> {{errorMessage}}</p>
-        </div>
     </form>
 </template>
 

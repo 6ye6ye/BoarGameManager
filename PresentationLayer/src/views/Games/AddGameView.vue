@@ -16,11 +16,11 @@
         </div>
         <div>
             <label class="form-label">Game info short</label>
-            <input type="text" v-model="game.gameInfoShort" minlength="3" maxlength="100" class="form-control" required />
+            <input type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" class="form-control" required />
         </div>
         <div>
             <label class="form-label">Game info</label>
-            <input type="text" v-model="game.gameInfo" minlength="3" maxlength="100" class="form-control" required />
+            <input type="text" v-model="game.gameInfo" minlength="1" maxlength="2000" class="form-control" required />
         </div>
         <div>
             <label class="form-label">Image</label>
