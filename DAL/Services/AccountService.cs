@@ -33,10 +33,6 @@ namespace BoardGameManager1.Services
         }
         public async Task Register(AccountDTORegister registerDTO)
         {
-            //var userRole = await _context.Roles.FirstOrDefaultAsync(e => e.Name == UserRoleEnum.User.ToString());
-            //if (userRole == null)
-            //    throw new NotFoundException("User role");
-           
             var user = _mapper.Map<User>(registerDTO);
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded)
@@ -52,14 +48,22 @@ namespace BoardGameManager1.Services
                     errMesage += ex.Description+"\n";
                 throw new Exception(errMesage);
             }
-            
-       
         }
 
 
         public async Task<SignInResult> PasswordSignIn(AccountDTOLogin loginDTO)
         {
             var result = await _signInManager.PasswordSignInAsync(loginDTO.Login, loginDTO.Password, loginDTO.RememberMe, false);
+            return result;
+        }
+
+        public async Task<IdentityResult> ChangePassword(AccountDTOChangePassword changePasswordDTO, string id)
+        {
+            var user = await _context.Users.FindAsync(new Guid(id));
+            if (user == null)
+                throw new NotFoundException("User");
+            string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, code, changePasswordDTO.PasswordNew);
             return result;
         }
 

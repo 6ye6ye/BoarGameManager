@@ -1,6 +1,5 @@
 <template>
     <form ref="form" class="row d-flex justify-content-center" @submit.prevent="tryRegister" method="post">
-
         <h2> Registration</h2>
         <div class="col-md-4">
             <div>
@@ -16,14 +15,13 @@
                 <input type="text" v-model="name" class="form-control" minlength="3" maxlength="100" required />
             </div>
             <div>
-                <label class="form-label" for="form2Example2">Password</label>
+                <label class="form-label" >Password</label>
                 <input type="password" v-model="password" class="form-control" minlength="6" maxlength="100" required />
             </div>
             <div>
-                <label class="form-label" for="form2Example2">Password repeat</label>
+                <label class="form-label" >Password repeat</label>
                 <input type="password" v-model="passwordRepeat" class="form-control" minlength="6" maxlength="100" required />
             </div>
-
             <p class="text-danger">{{errorMessage}}</p>
             <button type="submit" value="Register" class="btn btn-primary"> Register </button>
         </div>
@@ -36,7 +34,6 @@
 
     export default {
         name: 'RegisterView',
-
         data() {
             return {
                 errorMessage: '',
@@ -45,7 +42,6 @@
                 password: '',
                 passwordRepeat: '',
                 name: ''
-
             }
         },
         computed: {
@@ -76,12 +72,8 @@
                         }
                     });
             },
-
         }
     }
-
-
-
 </script>
 
 <style lang="scss" scoped>

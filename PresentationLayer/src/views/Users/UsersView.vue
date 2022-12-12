@@ -45,7 +45,6 @@
                         <div>
                             <img class="icon" v-on:click="goToDetails(user.id)" type="button" :src="require('/src/assets/icon-details.png')" />
                             <img class="icon" v-on:click="goToDelete(user.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
-
                             <!--<button v-on:click="goToDetails(user.id)" type="button" class="btn btn-info">Details</button>
                             <button v-on:click="goToDelete(user.id)" type="button" class="btn btn-danger">Delete</button>-->
                         </div>

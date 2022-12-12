@@ -27,7 +27,7 @@
                     <tr v-for="item in players" :key="item.Id">
                         <td>{{item.name }}</td>
                         <td>
-                            <button v-on:click="goToDelete(item.id)" type="button" class="btn btn-danger">Delete</button>
+                            <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                         </td>
                     </tr>
                 </tbody>

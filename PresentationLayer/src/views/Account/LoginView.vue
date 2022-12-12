@@ -1,5 +1,4 @@
 ﻿<template>
-   
     <form ref="form" class="row d-flex justify-content-center" @submit.prevent="trylogin" method="post">
         <h2> Authorization</h2>
         <div class="col-md-4">
@@ -31,10 +30,8 @@
     </form>
 </template>
 
-
 <script>
     import AccountService from "../../services/AccountService";
-
     export default {
         name: 'LoginView',
         data() {
@@ -67,7 +64,6 @@
                                     localStorage.setItem('isAuth', 'true')
                                     window.location.reload()
                                     window.location.href = '/';
-                                  //  this.$router.push('/').go('/');
                                     return { ok: true }
                                 }
                             case (400):
@@ -81,12 +77,8 @@
                             this.errorMessage = e.response.data;
                         });
             },
-
         }
     }
-
-    
-
 </script>
 
 <style lang="scss" scoped>

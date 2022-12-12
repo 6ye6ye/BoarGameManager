@@ -14,4 +14,10 @@
         public string Password { get; set; }
         public bool RememberMe { get; set; }
     }
+    public class AccountDTOChangePassword
+    {
+        public string PasswordNew { get; set; }
+        public string PasswordNewRepeat { get; set; }
+    }
+    
 }

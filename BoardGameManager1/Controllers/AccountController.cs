@@ -41,7 +41,25 @@ namespace BoardGameManager1.Controllers
             }
             return Conflict("Model isn't valid");
         }
-
+        
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] AccountDTOChangePassword changePasswordDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _accountService.ChangePassword(changePasswordDTO, GetCurrentUser());
+                if (result.Succeeded)
+                {
+                    return Ok("Succeeded");
+                }
+                else
+                {
+                    return Conflict("Password not changed");
+                }
+            }
+            return Conflict("Model isn't valid");
+        }
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] AccountDTOLogin loginDTO)
@@ -78,7 +96,7 @@ namespace BoardGameManager1.Controllers
             {
                 if (User.Identities.Any())
                 {
-                    return Ok(await _accountService.GetUserRoles(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    return Ok(await _accountService.GetUserRoles(GetCurrentUser()));
                 }
                 return BadRequest("Need sign in");
             }
@@ -102,6 +120,11 @@ namespace BoardGameManager1.Controllers
         public string GetCurrentUserName()
         {
             return User.Identity.Name;
+        }
+
+        private string GetCurrentUser()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

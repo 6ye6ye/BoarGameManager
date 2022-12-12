@@ -1,5 +1,10 @@
 <template>
     <div class="container container-white">
+        <ModalWindow v-show="isModalVisible" @close="closeModal">
+            <template v-slot:body>
+                <ChangePassword @close="closeModal"></ChangePassword>
+            </template>
+        </ModalWindow>
         <div class="row">
             <div>
                 Login
@@ -13,12 +18,17 @@
                 Role
                 <p>{{user.role.name}}</p>
             </div>
+
         </div>
+        <button v-on:click="showModal" type="button"  class="btn btn-primary"> Change password </button>
+
     </div>
 </template>
 
 <script>
     import UsersService from "../../services/UsersService";
+    import ChangePassword from "../Account/ChangePassword.vue";
+    import ModalWindow from "../ModalWindow.vue";
     export default {
         name: 'UserView',
         data() {
@@ -28,13 +38,18 @@
                     userName: '',
                     email: '',
                     role: {
-                        id:'',
-                        name:''
+                        id: '',
+                        name: ''
                     }
                 },
                 userId: '',
+                isModalVisible: false,
                 isAuth: localStorage.getItem('isAuth'),
             }
+        },
+        components: {
+            ChangePassword,
+            ModalWindow
         },
         created() {
             this.getUser();
@@ -57,6 +72,12 @@
                         .catch(e => {
                             console.log(e);
                         });
+            },
+            showModal() {
+                this.isModalVisible = true;
+            },
+            closeModal() {
+                this.isModalVisible = false;
             },
         }
     }

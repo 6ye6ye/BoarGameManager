@@ -3,10 +3,10 @@
         <div class="row ">
             <div class=" mx-auto">
                 <h2>Game role</h2>
-              
                 <input placeholder="Input role name" type="text" v-model="role.name" minlength="1" maxlength="50" class="form-control" required />
+          
+                <button type="submit" class="button-submit btn btn-success ">Add</button>
             </div>
-            <button type="submit" class="btn btn-success ">Add</button>
             <p class="text-danger"> {{errorMessage}}</p>
         </div>
     </form>

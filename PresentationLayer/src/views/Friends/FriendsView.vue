@@ -87,7 +87,6 @@
                     this.getFriends();
                 }
             },
-
             goToIgnore(id) {
                 FriendsService.Ignore(id).then(response => {
                     if (response.status == 200) {

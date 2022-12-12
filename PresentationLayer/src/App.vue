@@ -43,8 +43,9 @@
             border: 2px double red;
         }
     .container {
-        padding: 0px 0px 20px 20px;
+        padding: 0px 0px 20px 0px;
         height: auto !important;
+        
         margin-bottom: 30px;
      }
     .container-white {
@@ -52,7 +53,6 @@
         box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
         -webkit-box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
         -moz-box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
-        padding: 0px;
         height: 100%;
         margin-bottom: 30px;
     }

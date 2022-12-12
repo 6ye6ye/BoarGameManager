@@ -13,6 +13,16 @@ export default class AccountService {
             }
         });
     }
+    static async ChangePassword( passwordNew, passwordNewRepeat) {
+        return await axios({
+            method: 'post',
+            url: url + '/API/Account/ChangePassword',
+            data: {
+                passwordNew: passwordNew,
+                passwordNewRepeat: passwordNewRepeat
+            }
+        });
+    }
     static async getCurrentUserRole() {
         return await axios({
             method: 'get',
@@ -27,7 +37,6 @@ export default class AccountService {
     }
     
     static async register(login, email, password, passwordRepeat, name) {
-
          return await axios({
             method: 'post',
             url: url + '/API/Account/Register',

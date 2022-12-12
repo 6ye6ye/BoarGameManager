@@ -57,7 +57,6 @@ namespace BoardGameManager1.Services
 
         public async Task<IEnumerable<GameDTOGet>> GetTopTenGames(string userId)
         {
-
             var games = await _context.Games
                      .Include(c => c.UserGames.Where(c => c.UserId.ToString() == userId))
                      .OrderByDescending(c=>c.Rating)
@@ -66,6 +65,7 @@ namespace BoardGameManager1.Services
                      .ToListAsync();
             return games.AsEnumerable();
         }
+
 
         public async Task<GameDTOGet> GetGameById(string id)
         {

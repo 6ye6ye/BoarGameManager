@@ -52,6 +52,7 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet]
         [AllowAnonymous]
         [Route("Filtered")]
@@ -66,6 +67,7 @@ namespace BoardGameManager1.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet]
         [Route("short")]
         [AllowAnonymous]

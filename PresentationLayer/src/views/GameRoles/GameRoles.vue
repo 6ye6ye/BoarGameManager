@@ -4,13 +4,13 @@
             <AddGameRole @close="closeModal" @get-game-roles="getGameRoles"></AddGameRole>
         </template>
     </ModalWindow>
-
+    <div class="extended-title">
+        <p class="d-inline"> Game roles</p>
+        <img class="icon" v-if="isAuth&&isAdmin"  type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
+    </div>
     <div class="row justify-content-center ">
         <div class="col-md-4">
-            <div class="mb-2">
-                <h3 class="d-inline"> Game roles</h3>
-                <button v-if="isAuth&&isAdmin" type="button" class=" d-inline btn btn-primary" @click="showModal">+</button>
-            </div>
+
             <ul v-if="!gameRoles.length==0">
                 <li v-for="role in gameRoles" :key="role.Id">
                     {{role.name}}

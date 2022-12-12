@@ -1,7 +1,7 @@
 <template>
     <div class="row ">
         <div class=" mx-auto">
-            <h2>Add new player</h2>
+          
             <div class="form-group ">
                 <label class="control-label">Name</label>
                 <input type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
