@@ -27,14 +27,7 @@ namespace BoardGameManager1.Controllers
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetUsers()
         {
-            try
-            {
                 return Ok(await _service.GetUsers());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpGet]
@@ -43,14 +36,7 @@ namespace BoardGameManager1.Controllers
         [Route("Filtered")]
         public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetUsersWithFilters([FromQuery] UsersFilter filter)
         {
-            try
-            {
                 return Ok(await _service.GetUsersWithFilters(filter));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpGet]
@@ -58,14 +44,7 @@ namespace BoardGameManager1.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<UserDTOGet>>> GetFirstTenUsersByName(string name)
         {
-            try
-            {
                 return Ok(await _service.GetFirstTenUsers(name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpGet("{id}")]
@@ -73,15 +52,13 @@ namespace BoardGameManager1.Controllers
         public async Task<ActionResult<UserDTOGet>> GetUserById(Guid id)
         {
             var user = await _service.GetUserById(id);
-
-
             if (user == null)
             {
                 return NotFound();
             }
-
             return user;
         }
+
         [HttpGet]
         [Route("Current")]
         [Authorize]
@@ -95,24 +72,11 @@ namespace BoardGameManager1.Controllers
             return user;
         }
 
-        // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            try
-            {
                 await _service.DeleteUser(id);
                 return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return Conflict(ex.Message);
-            }
         }
-
     }
 }

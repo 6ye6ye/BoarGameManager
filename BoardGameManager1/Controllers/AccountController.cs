@@ -1,10 +1,12 @@
-﻿using BoardGameManager1.Services;
+﻿using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace BoardGameManager1.Controllers
@@ -15,9 +17,11 @@ namespace BoardGameManager1.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly ILogger _logger;
 
-        public AccountController(AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context)
+        public AccountController(ILogger<AccountController> logger, AutoMapper.IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, AppDbContext context)
         {
+            _logger = logger;
             _accountService = new AccountService(mapper, userManager, signInManager, context);
         }
 
@@ -29,19 +33,12 @@ namespace BoardGameManager1.Controllers
             {
                 if (registerDTO.PasswordRepeat != registerDTO.Password)
                     return Conflict("Passwords are not the same");
-                try
-                {
-                    await _accountService.Register(registerDTO);
-                    return Ok();
-                }
-                catch (Exception ex)
-                {
-                    return Conflict(ex.Message);
-                }
+                await _accountService.Register(registerDTO);
+                return Ok();
             }
             return Conflict("Model isn't valid");
         }
-        
+
         [HttpPost]
         [Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword([FromBody] AccountDTOChangePassword changePasswordDTO)
@@ -69,6 +66,7 @@ namespace BoardGameManager1.Controllers
                 var result = await _accountService.PasswordSignIn(loginDTO);
                 if (result.Succeeded)
                 {
+
                     return Ok("Succeeded");
                 }
                 else
@@ -92,18 +90,11 @@ namespace BoardGameManager1.Controllers
         [Route("Role")]
         public async Task<ActionResult<IList<string>>> GetUserRole()
         {
-            try
+            if (User.Identities.Any())
             {
-                if (User.Identities.Any())
-                {
-                    return Ok(await _accountService.GetUserRoles(GetCurrentUser()));
-                }
-                return BadRequest("Need sign in");
+                return Ok(await _accountService.GetUserRoles(GetCurrentUser()));
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest("Need sign in");
         }
 
         [HttpGet]

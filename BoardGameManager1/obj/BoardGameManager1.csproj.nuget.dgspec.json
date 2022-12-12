@@ -95,6 +95,18 @@
               "target": "Package",
               "version": "[7.0.0, )"
             },
+            "NLog": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
+            "NLog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.2.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.2, )"

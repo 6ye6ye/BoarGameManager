@@ -1,8 +1,16 @@
 ﻿using BoardGameManager1.Entities;
+using BoardGameManager1.Extensions;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using NLog;
+using NLog.Web;
+using ILogger = NLog.ILogger;
+
+
+//var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +20,11 @@ builder.Services.Configure<PasswordHasherOptions>(options =>
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Host.UseNLog();
+
 
 var MyAllowSpecificOrigins = "AllowOrigin";
 builder.Services.AddCors(options =>
@@ -54,9 +67,15 @@ builder.Services.Configure<IdentityOptions>(options =>
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
     options.User.RequireUniqueEmail = true;
 });
+NLog.Logger Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+
+
+
 
 
 var app = builder.Build();
+
+app.AddGlobalErrorHandler();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -64,6 +83,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 app.UseRouting();
+
 app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();

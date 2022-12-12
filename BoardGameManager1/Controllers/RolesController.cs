@@ -24,20 +24,8 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RoleDTOGet>>> GetRoles()
         {
-            try
-            {
                 var roles = await _service.GetRoles();
                 return Ok(roles);
-
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
     }
 }

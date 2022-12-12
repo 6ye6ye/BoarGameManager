@@ -28,14 +28,9 @@ namespace BoardGameManager1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGames()
         {
-            try
-            {
-                return Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            return Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
         }
 
         [HttpGet]
@@ -43,14 +38,7 @@ namespace BoardGameManager1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGetShort>>> GetTopTenGames()
         {
-            try
-            {
-                return Ok(await _gameService.GetTopTenGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _gameService.GetTopTenGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         [HttpGet]
@@ -58,14 +46,7 @@ namespace BoardGameManager1.Controllers
         [Route("Filtered")]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGamesWithFilters([FromQuery] GameFilter filter)
         {
-            try
-            {
-                return Ok(await _gameService.GetGamesWithFilters(filter, User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _gameService.GetGamesWithFilters(filter, User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         [HttpGet]
@@ -73,54 +54,26 @@ namespace BoardGameManager1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGetShort>>> GetGamesShort()
         {
-            try
-            {
-                return Ok(await _gameService.GetGamesShort());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _gameService.GetGamesShort());
         }
 
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<GameDTOGet>> GetGame(string id)
         {
-            try
-            {
-                var game = await _gameService.GetGameById(id);
-                return Ok(game);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            var game = await _gameService.GetGameById(id);
+            return Ok(game);
         }
 
         [HttpPut]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> PutGame( GameDTOEdit gameDTO)
+        public async Task<IActionResult> PutGame(GameDTOEdit gameDTO)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _gameService.EditGame(gameDTO);
-                    return Ok();
-                }
-                catch (NotFoundException ex)
-                {
-                    return NotFound(ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                await _gameService.EditGame(gameDTO);
+                return Ok();
             }
             return BadRequest("Is not valid");
         }
@@ -131,23 +84,11 @@ namespace BoardGameManager1.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    if (game.Image == null)
-                        game.Image = "no-image-icon-6.png";
-                    return Ok( await _gameService.AddGame(game));
-                    
-                }
-                catch (DoublicateException ex)
-                {
-                    return Conflict(ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                if (game.Image == null)
+                    game.Image = "no-image-icon-6.png";
+                return Ok(await _gameService.AddGame(game));
             }
-            return BadRequest("Is not valid");
+            return ValidationProblem("Is not valid");
         }
 
         [HttpDelete("{id}")]
@@ -174,17 +115,10 @@ namespace BoardGameManager1.Controllers
         [AppAutorize(UserRoleEnum.Admin)]
         public string UploadImage([FromForm] IFormFile file)
         {
-            try
-            {
-                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
-                file.CopyTo(new FileStream(imagePath, FileMode.Create));
-                return uniqueFileName;
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
+            file.CopyTo(new FileStream(imagePath, FileMode.Create));
+            return uniqueFileName;
         }
     }
 }

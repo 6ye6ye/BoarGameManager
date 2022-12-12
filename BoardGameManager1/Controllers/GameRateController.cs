@@ -23,15 +23,8 @@ namespace BoardGameManager1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<double>> GetGameRate(Guid gameId)
         {
-            try
-            {
-                var gameRate = await _service.GetGameRate(gameId);
-                return gameRate;
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var gameRate = await _service.GetGameRate(gameId);
+            return gameRate;
         }
 
         [HttpGet]
@@ -39,34 +32,15 @@ namespace BoardGameManager1.Controllers
         [Authorize]
         public async Task<ActionResult<double>> GetCurrentUserGameRate(Guid gameId)
         {
-            try
-            {
-                var gameRate = await _service.GetCurrentUserGameRate(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                return gameRate;
-            }
-
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var gameRate = await _service.GetCurrentUserGameRate(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return gameRate;
         }
 
         [HttpPut]
         [Authorize]
         public async Task<ActionResult<double>> ChangeCurrentUserGameRate([FromBody] GameRateDTOPost gameRate)
         {
-            try
-            {
-                return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return await _service.EditCurrentUserGameRate(gameRate.GameId, gameRate.Rate, User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }

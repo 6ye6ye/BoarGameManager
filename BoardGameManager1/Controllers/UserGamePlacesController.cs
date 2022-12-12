@@ -21,88 +21,40 @@ namespace BoardGameManager1.Controllers
             _service = new UserGamePlaceService(context, mapper);
         }
 
-  
+
         [HttpGet("{id}")]
         public async Task<ActionResult<UserGamePlaceDTOGet>> GetUserGamePlaceById(string id)
         {
-            try
-            {
-                return await _service.GetUserGamePlaceById(id);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return await _service.GetUserGamePlaceById(id);
         }
 
         [HttpGet]
         [Route("short")]
         public async Task<ActionResult<IEnumerable<UserGamePlaceDTOGetShort>>> GetCurrentUserGamePlaces()
         {
-            try
-            {
-                var userGamePlace = await _service.GetCurrentUserGamePlaces(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                return Ok(userGamePlace);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            var userGamePlace = await _service.GetCurrentUserGamePlaces(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok(userGamePlace);
         }
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> ChangeUserGamePlaceName(string id, string name)
         {
-            try
-            {
-                await _service.ChangeUserGamePlaceName(id, name);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.ChangeUserGamePlaceName(id, name);
+            return Ok();
         }
 
         [HttpPost]
         public async Task<ActionResult<UserGamePlaceDTOGetShort>> PostCurrentUserGamePlace([FromBody] UserGamePlaceDTOAdd gamePlace)
         {
-            try
-            {
-                var newId = await _service.AddUserGamePlace(gamePlace.Name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var newId = await _service.AddUserGamePlace(gamePlace.Name, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserGamePlace(string id)
         {
-            try
-            {
-                await _service.DeleteUserGamePlace(id);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.DeleteUserGamePlace(id);
+            return Ok();
         }
 
 

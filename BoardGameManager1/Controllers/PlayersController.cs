@@ -26,72 +26,33 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDTOGet>>> GetPlayers()
         {
-            try
-            {
-                return Ok(await _service.GetPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
         [HttpGet]
         [Route("created")]
         public async Task<ActionResult<IEnumerable<PlayerDTOGetShort>>> GetCreatedPlayers()
         {
-            try
-            {
-                return Ok(await _service.GetCreatedPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetCreatedPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerDTOGet>> GetPlayer(string id)
         {
-            try
-            {
-                return Ok(await _service.GetPlayerById(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetPlayerById(id));
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> PostPlayer(PlayerDTOAdd player)
         {
-            try
-            {
-                player.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                return await _service.AddPlayerToCurrentUser(player);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            player.CreatorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return await _service.AddPlayerToCurrentUser(player);
         }
 
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGameRole(Guid id)
         {
-            try
-            {
-                await _service.DeletePlayer(id);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.DeletePlayer(id);
+            return Ok();
         }
 
     }

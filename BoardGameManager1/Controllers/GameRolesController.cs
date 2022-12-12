@@ -18,7 +18,6 @@ namespace BoardGameManager1.Controllers
 
         public GameRolesController(AppDbContext context, IMapper mapper)
         {
-
             _service = new GameRolesService(context, mapper);
         }
 
@@ -41,52 +40,23 @@ namespace BoardGameManager1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<GameRoleDTOGet>> GetGameRole(string id)
         {
-            try
-            {
-                var gameRole = await _service.GetGameRoleById(id);
-                return gameRole;
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var gameRole = await _service.GetGameRoleById(id);
+            return gameRole;
         }
 
         [HttpPost]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<ActionResult<GameRoleDTOAdd>> PostGameRole(GameRoleDTOAdd gameRole)
         {
-            try
-            {
-                return Ok(await _service.AddGameRole(gameRole));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.AddGameRole(gameRole));
         }
 
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGameRole(Guid id)
         {
-            try
-            {
-                await _service.DeleteGameRole(id);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.DeleteGameRole(id);
+            return Ok();
         }
     }
 }

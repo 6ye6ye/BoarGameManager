@@ -24,111 +24,48 @@ namespace BoardGameManager1.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<GamePartyDTOGet>> GetGameParty(Guid id)
         {
-            try
-            {
-                var gameParty = await _service.GetGamePartyById(id);
-                return gameParty;
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var gameParty = await _service.GetGamePartyById(id);
+            return gameParty;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetGameParties()
         {
-            try
-            {
-                return Ok(await _service.GetGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpGet]
         [Route("played")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserGamePartiesPlayer()
         {
-            try
-            {
-                return Ok(await _service.GetCurrentUserGamePartiesPlayer(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetCurrentUserGamePartiesPlayer(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpGet]
         [Route("created")]
         public async Task<ActionResult<IEnumerable<GamePartyDTOGet>>> GetCurrentUserCreatedGameParties()
         {
-            try
-            {
-                return Ok(await _service.GetCurrentUserCreatedGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetCurrentUserCreatedGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchGame(string id, [FromBody] GamePartyDTOEdit gamePartyDTO)
         {
-            try
-            {
-                await _service.EditGameParty(id, gamePartyDTO);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.EditGameParty(id, gamePartyDTO);
+            return Ok();
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> PostGameParty(GamePartyDTOAdd gameParty)
         {
-            try
-            {
-                return await _service.AddGameParty(gameParty, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return await _service.AddGameParty(gameParty, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGameParty(string id)
         {
-            try
-            {
-                await _service.DeleteGameParty(id);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.DeleteGameParty(id);
+            return Ok();
         }
-
-
     }
 }

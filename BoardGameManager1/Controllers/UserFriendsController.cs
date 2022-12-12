@@ -24,74 +24,34 @@ namespace BoardGameManager1.Controllers
         [Route("Friends")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsByCurrentUserId()
         {
-            try
-            {
-                return Ok(await _service.GetUserFriendsByUserId(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetUserFriendsByUserId(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpGet()]
         [Route("IncomingRequests")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserIncomingRequestsByCurrentUserId()
         {
-            try
-            {
-                return Ok(await _service.GetUserFriendIncomingRequests(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetUserFriendIncomingRequests(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpGet()]
         [Route("OutRequests")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserOutRequestsByCurrentUserId()
         {
-            try
-            {
-                return Ok(await _service.GetUserFriendOutRequests(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetUserFriendOutRequests(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<UserFriendDTOGet>>> GetUserFriendsById(Guid id)
         {
-            try
-            {
-                var userFriend = await _service.GetUserFriendsByUserId(id);
-                return Ok(userFriend);
-            }
-            catch (NotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var userFriend = await _service.GetUserFriendsByUserId(id);
+            return Ok(userFriend);
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> PostUserFriend(UserFriendDTOAdd userFriend)
         {
-            try
-            {
-                return await _service.AddUserFriend(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), new Guid(userFriend.OutRequestUser));
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return await _service.AddUserFriend(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), new Guid(userFriend.OutRequestUser));
         }
 
         [HttpPut]
@@ -101,19 +61,9 @@ namespace BoardGameManager1.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _service.AcceptUserFriend(id);
-                    return Ok();
-                }
-                catch (NotFoundException ex)
-                {
-                    return NotFound(ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                await _service.AcceptUserFriend(id);
+                return Ok();
+
             }
             return BadRequest("Is not valid");
         }
@@ -125,19 +75,8 @@ namespace BoardGameManager1.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _service.IgnoreUserFriend(id);
-                    return Ok();
-                }
-                catch (NotFoundException ex)
-                {
-                    return NotFound(ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
-                }
+                await _service.IgnoreUserFriend(id);
+                return Ok();
             }
             return BadRequest("Is not valid");
         }
@@ -145,20 +84,8 @@ namespace BoardGameManager1.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserFriend(string id)
         {
-            try
-            {
-                await _service.DeleteUserFriend(id);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            await _service.DeleteUserFriend(id);
+            return Ok();
         }
     }
 }

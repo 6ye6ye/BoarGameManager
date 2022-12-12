@@ -24,50 +24,20 @@ namespace BoardGameManager1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetCurrentUserGames()
         {
-            try
-            {
-                return Ok(await _service.GetCurrentUserGames(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetCurrentUserGames(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpPost("{gameId}")]
         public async Task<ActionResult<Guid>> PostCurrentUserGame(Guid gameId)
         {
-            try
-            {
-                return await _service.AddCurrentUserGame(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-            }
-            catch (DoublicateException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            return await _service.AddCurrentUserGame(gameId, new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)));
         }
 
         [HttpDelete("{gameId}")]
         public async Task<IActionResult> DeleteCurrentUserGame(Guid gameId)
         {
-            try
-            {
-                await _service.DeleteCurrentUserGame(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), gameId);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.DeleteCurrentUserGame(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier)), gameId);
+            return Ok();
         }
     }
 }

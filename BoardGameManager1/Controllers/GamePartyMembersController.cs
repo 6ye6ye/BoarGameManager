@@ -25,15 +25,7 @@ namespace BoardGameManager1.Controllers
         [Route("gameParty/{id}")]
         public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetGamePartyMembersByGameId([FromRoute] Guid id)
         {
-
-            try
-            {
-                return Ok(await _service.GetGamePartyMembers(id));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetGamePartyMembers(id));
         }
 
         [HttpGet]
@@ -41,33 +33,14 @@ namespace BoardGameManager1.Controllers
         [Authorize]
         public async Task<ActionResult<IEnumerable<GamePartyMemberDTOGet>>> GetCurrentUserGamePartiesMember()
         {
-            try
-            {
-                return Ok(await _service.GetCurrentUserGamePartiesMember(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _service.GetCurrentUserGamePartiesMember(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(string id)
         {
-            try
-            {
-                var gameParty = await _service.GetGamePartyMemberById(id);
-                return Ok(gameParty);
-
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var gameParty = await _service.GetGamePartyMemberById(id);
+            return Ok(gameParty);
         }
 
         [HttpPost]
@@ -77,34 +50,14 @@ namespace BoardGameManager1.Controllers
             {
                 return BadRequest("Not valid input");
             }
-            try
-            {
-                return await _service.AddGamePartyMember(gamePartyMember);
-
-            }
-
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return await _service.AddGamePartyMember(gamePartyMember);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGamePartyMember(string id)
         {
-            try
-            {
-                await _service.DeleteGamePartyMember(id);
-                return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await _service.DeleteGamePartyMember(id);
+            return Ok();
         }
     }
 }
