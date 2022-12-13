@@ -42,6 +42,7 @@ namespace BoardGameManager1.Extensions
             if (exceptionType == typeof(NotFoundException))
             {
                 status = HttpStatusCode.NotFound;
+                logger.LogError(message, stackTrace);
             }
 
             else if (exceptionType == typeof(DoublicateException))
@@ -51,21 +52,25 @@ namespace BoardGameManager1.Extensions
             else if (exceptionType == typeof(NotImplementedException))
             {
                 status = HttpStatusCode.NotImplemented;
+                logger.LogError(message, stackTrace);
             }
             else if (exceptionType == typeof(UnauthorizedAccessException))
             {
                 status = HttpStatusCode.Unauthorized;
+                logger.LogError(message, stackTrace);
             }
             else if (exceptionType == typeof(KeyNotFoundException))
             {
                 status = HttpStatusCode.Unauthorized;
+                logger.LogError(message, stackTrace);
             }
             else
             {
                 status = HttpStatusCode.InternalServerError;
+                logger.LogError(message, stackTrace);
             }
-            logger.LogError(message, stackTrace);
-            context.Response.ContentType = "application/json";
+            
+       
             context.Response.StatusCode = (int)status;
             return context.Response.WriteAsync(message);
         }
