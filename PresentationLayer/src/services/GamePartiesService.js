@@ -23,6 +23,16 @@ class GamePartiesService {
             } 
         });
     }
+
+    async Edit(gameParty) {
+        return await axios.put(url + '/api/GameParties', {
+            id: gameParty.id,
+            date: gameParty.date,
+            userGamePlaceId: gameParty.userGamePlace.id,
+            gameId: gameParty.game.id,
+        });
+    }
+
     async Delete(id) {
         return await axios.delete(url + '/api/GameParties/' + id);
     }

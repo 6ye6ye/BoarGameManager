@@ -48,7 +48,20 @@
             return {
                 addModal: 'AddGamePartyMemberView',
                 isModalVisible: false,
-                gamePartyMembers: [],
+                gamePartyMembers: [{
+                    id: '',
+                    gameRole: {
+                        id: '',
+                        name:'',
+                    },
+                    points: '',
+                    isWinner:'false',
+
+                    player: {
+                        id: '',
+                        name:'',
+                    },
+                }],
             };
         },
         components: {

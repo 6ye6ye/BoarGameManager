@@ -22,18 +22,27 @@ namespace BoardGameManager1.Controllers
             _service = new PlayerService(context, mapper);
         }
 
-        //Get players list for current user
         [HttpGet]
+        [Route("current")]
         public async Task<ActionResult<IEnumerable<PlayerDTOGet>>> GetPlayers()
         {
             return Ok(await _service.GetPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
+
         [HttpGet]
         [Route("created")]
         public async Task<ActionResult<IEnumerable<PlayerDTOGetShort>>> GetCreatedPlayers()
         {
             return Ok(await _service.GetCreatedPlayersForCurrentUser(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
+
+        [HttpGet]
+        [Route("short/{id}")]
+        public async Task<ActionResult<PlayerDTOGetShort>> GetCreatedPlayers(string id)
+        {
+            return Ok(await _service.GetPlayerShortById(new Guid(id)));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerDTOGet>> GetPlayer(string id)
         {
@@ -47,6 +56,13 @@ namespace BoardGameManager1.Controllers
             return await _service.AddPlayerToCurrentUser(player);
         }
 
+        [HttpPut]
+        public async Task<ActionResult> PutPlayer(PlayerDTOEdit player)
+        {
+            await _service.EditPlayerName(player);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGameRole(Guid id)
@@ -54,6 +70,5 @@ namespace BoardGameManager1.Controllers
             await _service.DeletePlayer(id);
             return Ok();
         }
-
     }
 }

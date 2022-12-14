@@ -3,13 +3,20 @@
         <h1 class="d-inline">Game places</h1>
         <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
 
-        <ModalWindow v-if="isModalVisible" @close="closeModal">
+        <ModalWindow v-if="isModalAddVisible" @close="closeAddModal">
             <template v-slot:body>
-                <AddGamePlaceView @close="closeModal" @get-game-places="getGamePlaces"></AddGamePlaceView>
+                <AddGamePlaceView @close="closeAddModal" @get-game-places="getGamePlaces"></AddGamePlaceView>
             </template>
         </ModalWindow>
 
-        <div class="post">
+
+        <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+            <template v-slot:body>
+                <EditGamePlaceView :gamePlaceId="currentId" @close="closeEditModal" @get-game-places="getGamePlaces"></EditGamePlaceView>
+            </template>
+        </ModalWindow>
+
+
             <div class="row" style="margin-bottom: 10px;">
             </div>
             <p>{{errorMessage}}</p>
@@ -25,9 +32,9 @@
                     <tr v-for="item in gamePlaces" :key="item.Id">
                         <td>{{item.name }}</td>
                         <td>
+                            <img class="icon" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
                             <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                         </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -35,12 +42,13 @@
                 No created game places
             </p>
         </div>
-    </div>
+  
 </template>  
   
 <script>  
     import ModalWindow from "../ModalWindow.vue";
     import AddGamePlaceView from "../GamePlaces/AddGamePlace.vue";
+    import EditGamePlaceView from "../GamePlaces/EditGamePlace.vue";
     import GamePlaceService from "../../services/GamePlaceService";  
     export default {
         name: 'GamePlacesView',
@@ -49,6 +57,9 @@
                 isModalVisible: false,
                 errorMessage:'',
                 gamePlaces: [],
+                isModalAddVisible: false,
+                isModalEditVisible: false,
+                currentId: '',
             };
         },
         computed: {
@@ -59,17 +70,25 @@
 
         components: {
             ModalWindow,
-            AddGamePlaceView
+            AddGamePlaceView,
+            EditGamePlaceView
         },
         created() {
             this.getGamePlaces();
         },
         methods: {
-            showModal() {
-                this.isModalVisible = true;
+            showAddModal() {
+                this.isModalAddVisible = true;
             },
-            closeModal() {
-                this.isModalVisible = false;
+            closeAddModal() {
+                this.isModalAddVisible = false;
+            },
+            showEditModal(id) {
+                this.currentId = id;
+                this.isModalEditVisible = true;
+            },
+            closeEditModal() {
+                this.isModalEditVisible = false;
             },
             getGamePlaces() {
                 GamePlaceService.GetGamePlaces().then(response => {

@@ -1,20 +1,23 @@
 <template>
     <div class="container container-white">
         <h2 class="d-inline">Players</h2>
-        <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
+        <img class="icon" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
 
-    
-        <ModalWindow v-if="isModalVisible" @close="closeModal">
+
+        <ModalWindow v-if="isModalAddVisible" @close="closeAddModal">
             <template v-slot:body>
-                <AddPlayerView @close="closeModal" @get-players="getCreatedPlayers"></AddPlayerView>
+                <AddPlayerView @close="closeAddModal" @get-players="getCreatedPlayers"></AddPlayerView>
             </template>
         </ModalWindow>
 
-        <div class="post">
-            <div class="row" style="margin-bottom: 10px;">
-            </div>
-            <p>{{errorMessage}}</p>
+        <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+            <template v-slot:body>
+                <EditPlayerView :playerId="currentId" @get-players="getCreatedPlayers" @close="closeEditModal"></EditPlayerView>
+            </template>
+        </ModalWindow>
 
+      
+            <p>{{errorMessage}}</p>
             <table v-if="players.length!=0" class="table">
                 <thead>
                     <tr class="filter">
@@ -27,7 +30,8 @@
                     <tr v-for="item in players" :key="item.Id">
                         <td>{{item.name }}</td>
                         <td>
-                            <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
+                            <img class="icon" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
+                            <img class="icon" @click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                         </td>
                     </tr>
                 </tbody>
@@ -36,20 +40,23 @@
                 No created players
             </p>
         </div>
-    </div>
+
 </template>  
   
 <script>  
     import ModalWindow from "../ModalWindow.vue";
     import AddPlayerView from "../Players/AddPlayerView.vue";
+    import EditPlayerView from "../Players/EditPlayerView.vue";
     import PlayersService from "../../services/PlayersService";  
     export default {
         name: 'PlayersView',
         data() {
             return {
-                isModalVisible: false,
+                isModalAddVisible: false,
+                isModalEditVisible: false,
                 errorMessage:'',
                 players: [],
+                currentId: '',
             };
         },
         computed: {
@@ -57,20 +64,27 @@
                return 'players'+id;
             }
         },
-
         components: {
             ModalWindow,
-            AddPlayerView
+            AddPlayerView,
+            EditPlayerView
         },
         created() {
             this.getCreatedPlayers();
         },
         methods: {
-            showModal() {
-                this.isModalVisible = true;
+            showAddModal() {
+                this.isModalAddVisible = true;
             },
-            closeModal() {
-                this.isModalVisible = false;
+            closeAddModal() {
+                this.isModalAddVisible = false;
+            },
+            showEditModal(id) {
+                this.currentId = id;
+                this.isModalEditVisible = true;
+            },
+            closeEditModal() {
+                this.isModalEditVisible = false;
             },
             getCreatedPlayers() {
                 PlayersService.GetCreatedPlayers().then(response => {

@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Entities;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using DTO;
@@ -25,14 +26,20 @@ namespace BoardUserGamePlaceManager1.Services
             return _mapper.Map<List<UserGamePlaceDTOGet>>(userGamePlaces).AsEnumerable();
         }
 
-        public async Task<UserGamePlaceDTOGet> GetUserGamePlaceById(string id)
+
+        public async Task<UserGamePlaceDTOGet> GetUserGamePlaceById(Guid id)
         {
-            var userGamePlace = await _context.UserGamePlaces.FindAsync(new Guid(id));
+            var userGamePlace = await GetById(id);
             if (userGamePlace == null)
-            {
                 throw new NotFoundException("Game place");
-            }
             return _mapper.Map<UserGamePlaceDTOGet>(userGamePlace);
+        }
+
+        public async Task<UserGamePlaceDTOGetShort> GetUserGamePlaceShortById(Guid id)
+        {
+            var userGamePlace = await GetById(id);
+
+            return _mapper.Map<UserGamePlaceDTOGetShort>(userGamePlace);
         }
 
         public async Task<IEnumerable<UserGamePlaceDTOGetShort>> GetCurrentUserGamePlaces(Guid userId)
@@ -58,31 +65,32 @@ namespace BoardUserGamePlaceManager1.Services
             return gamePlace.Id;
         }
 
-        public async Task DeleteUserGamePlace(string id)
+        public async Task DeleteUserGamePlace(Guid id)
         {
-            var userGamePlace = await _context.UserGamePlaces.FindAsync(new Guid(id));
-            if (userGamePlace == null)
-            {
-                throw new NotFoundException("Game place");
-            }
+            var userGamePlace = await GetById(id);
             _context.UserGamePlaces.Remove(userGamePlace);
             await _context.SaveChangesAsync();
         }
 
-        public async Task ChangeUserGamePlaceName(string id, string name)
+        public async Task EditUserGamePlace(UserGamePlaceDTOEdit userGamePlaceDTo)
         {
-            if (!UserGamePlaceExists(id))
-            {
-                throw new NotFoundException("Game place");
-            }
-            var gamePlace = await _context.UserGamePlaces.FindAsync(new Guid(id));
-            gamePlace.Name = name;
+            var gamePlace = await GetById(userGamePlaceDTo.Id);
+            gamePlace = _mapper.Map(userGamePlaceDTo, gamePlace);
             _context.Entry(gamePlace).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        private bool UserGamePlaceExists(string id)
+
+        private bool UserGamePlaceExists(Guid id)
         {
-            return _context.UserGamePlaces.Any(e => e.Id.ToString() == id);
+            return _context.UserGamePlaces.Any(e => e.Id == id);
+        }
+
+        private async Task<UserGamePlace> GetById(Guid id)
+        {
+            var gamePlace= await _context.UserGamePlaces.FindAsync( id);
+            if (gamePlace == null)
+                throw new NotFoundException("Game place");
+            return gamePlace;
         }
 
     }

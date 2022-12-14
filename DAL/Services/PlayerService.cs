@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
+using BoardGameManager1.Entities;
 using BoardGameManager1.Enums;
 using BoardGamesManager.Data;
 using DAL.Entities;
@@ -36,11 +37,18 @@ namespace BoardPlayerManager1.Services
         public async Task<IEnumerable<PlayerDTOGetShort>> GetCreatedPlayersForCurrentUser(Guid userId)
         {
             var players = await _context.Players
-                .Where(p =>  p.CreatorId == userId)
+                .Where(p => p.CreatorId == userId)
                 .Select(p => _mapper.Map<PlayerDTOGetShort>(p))
                 .ToListAsync();
             return players.AsEnumerable();
         }
+
+        public async Task<PlayerDTOGetShort> GetPlayerShortById(Guid id)
+        {
+            var player = await _context.Players.FindAsync(id);
+            return _mapper.Map<PlayerDTOGetShort>(player);
+        }
+
         public async Task<PlayerDTOGet> GetPlayerById(string id)
         {
             var player = await _context.Players.FindAsync(new Guid(id));
@@ -55,6 +63,14 @@ namespace BoardPlayerManager1.Services
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
             return player.Id;
+        }
+
+        public async Task EditPlayerName(PlayerDTOEdit playerDto)
+        {
+            var player = await _context.Players.FindAsync(playerDto.Id);
+             player = _mapper.Map<PlayerDTOEdit,Player> (playerDto, player);
+            _context.Entry(player).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeletePlayer(Guid id)

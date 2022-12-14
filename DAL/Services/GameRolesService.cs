@@ -2,6 +2,7 @@
 using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Entities;
 using BoardGamesManager.Data;
+using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,6 +50,13 @@ namespace BoardGameManager1.Services
             _context.GameRoles.Add(gameRole);
             await _context.SaveChangesAsync();
             return gameRole.Id;
+        }
+
+        public async Task EditGameRole(GameRoleDTOEdit gameRoleDTO)
+        {
+            var gameRole = _mapper.Map<GameRole>(gameRoleDTO);
+            _context.Entry(gameRole).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteGameRole(Guid id)

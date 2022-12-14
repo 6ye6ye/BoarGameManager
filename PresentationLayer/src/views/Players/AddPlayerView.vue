@@ -1,17 +1,14 @@
 <template>
-    <div class="row ">
-        <div class=" mx-auto">
-          
-            <div class="form-group ">
-                <label class="control-label">Name</label>
-                <input type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
+    <form ref="form" class="col-sm" @submit.prevent="addPlayer" method="post">
+        <div class="row ">
+            <div class=" mx-auto">
+                <h2>Player</h2>
+                <input placeholder="Input name" type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
+                <button type="submit" class="button-submit btn btn-success ">Add</button>
             </div>
-            <div class="form-group">
-                <label class="control-label"></label>
-                <button v-on:click="addPlayer()" type="button" class="button-submit btn btn-success ">Add</button>
-            </div>
+            <p class="text-danger"> {{errorMessage}}</p>
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
@@ -22,8 +19,14 @@
                 name:''      
             }
         },
+        computed: {
+            isValid() {
+                return this.name
+            }
+        },
         methods: {
-            addPlayer: function () {
+            async addPlayer() {
+                if (!this.isValid) return false
                 PlayersService.AddPlayer(this.name)
                     .then(response => {
                         if (response.status == 200) {

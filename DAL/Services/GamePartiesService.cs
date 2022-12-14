@@ -91,17 +91,17 @@ namespace BoardGamePartyManager1.Services
             return _context.GameParties.Any(e => e.Id == id);
         }
 
-        public async Task EditGameParty(string id, GamePartyDTOEdit gamePartyDTO)
+        public async Task EditGameParty(GamePartyDTOEdit gamePartyDTO)
         {
-            var gameParty = await getGameParty(id);
+            var gameParty = await getGameParty(gamePartyDTO.Id);
             gameParty = _mapper.Map<GamePartyDTOEdit, GameParty>(gamePartyDTO, gameParty);
             _context.Entry(gameParty).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        private async Task<GameParty> getGameParty(string id)
+        private async Task<GameParty> getGameParty(Guid id)
         {
-            var gameParty = await _context.GameParties.FindAsync(new Guid(id));
+            var gameParty = await _context.GameParties.FindAsync(id);
             if (gameParty == null)
                 throw new NotFoundException("Game");
             return gameParty;

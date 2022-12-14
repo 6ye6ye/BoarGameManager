@@ -1,4 +1,5 @@
-﻿using BoardGameManager1.Common.Exceptions;
+﻿using AutoMapper;
+using BoardGameManager1.Common.Exceptions;
 using DAL.Common;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
@@ -34,43 +35,59 @@ namespace BoardGameManager1.Extensions
         {
             HttpStatusCode status;
             var stackTrace = string.Empty;
-            string message;
-
             var exceptionType = exception.GetType();
             stackTrace = exception.StackTrace;
-            message = exception.Message;
-            if (exceptionType == typeof(NotFoundException))
-            {
-                status = HttpStatusCode.NotFound;
-                logger.LogError(message, stackTrace);
-            }
 
-            else if (exceptionType == typeof(DoublicateException))
+            string message = exception.Message;
+            switch (exceptionType.Name)
             {
-                status = HttpStatusCode.Conflict;
+                case nameof(NotFoundException):
+                    {
+                        status = HttpStatusCode.NotFound;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
+                case nameof(DoublicateException):
+                    {
+                        status = HttpStatusCode.Conflict;
+                        break;
+                    }
+                case nameof(AutoMapperMappingException):
+                    {
+                        message = "Mapper Error";
+                        status = HttpStatusCode.Conflict;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
+                case nameof(NotImplementedException):
+                    {
+                        status = HttpStatusCode.NotImplemented;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
+                case nameof(KeyNotFoundException):
+                    {
+                        status = HttpStatusCode.Unauthorized;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
+                case nameof(UnauthorizedAccessException):
+                    {
+                        message = "Unauthorized";
+                        status = HttpStatusCode.Unauthorized;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
+                default:
+                    {
+                        status = HttpStatusCode.InternalServerError;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
             }
-            else if (exceptionType == typeof(NotImplementedException))
-            {
-                status = HttpStatusCode.NotImplemented;
-                logger.LogError(message, stackTrace);
-            }
-            else if (exceptionType == typeof(UnauthorizedAccessException))
-            {
-                status = HttpStatusCode.Unauthorized;
-                logger.LogError(message, stackTrace);
-            }
-            else if (exceptionType == typeof(KeyNotFoundException))
-            {
-                status = HttpStatusCode.Unauthorized;
-                logger.LogError(message, stackTrace);
-            }
-            else
-            {
-                status = HttpStatusCode.InternalServerError;
-                logger.LogError(message, stackTrace);
-            }
-            
-       
+   
+             
+
             context.Response.StatusCode = (int)status;
             return context.Response.WriteAsync(message);
         }

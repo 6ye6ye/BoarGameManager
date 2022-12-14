@@ -6,8 +6,12 @@ class GameRolesService {
     async GetGameRolesByGame(id) {
         return await axios.get(url + '/api/GameRoles/game', { params: { id: id } });
     }
-    async AddGameRole(gameRole) {
 
+    async GetGameRoleById(id) {
+        return await axios.get(url + '/api/GameRoles/' + id);
+    }
+
+    async AddGameRole(gameRole) {
         return await axios({
             method: 'post',
             url: url + '/api/GameRoles',
@@ -18,6 +22,15 @@ class GameRolesService {
             }
         });
     }
+
+    async Edit(gameRole) {
+        return await axios.put(url + '/api/GameRoles', {
+            id: gameRole.id,
+            name: gameRole.name,
+            gameId: gameRole.gameId
+        });
+    }
+
     async DeleteGameRole(id) {
         return await axios.delete(url + '/api/GameRoles/' + id);
     }

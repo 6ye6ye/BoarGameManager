@@ -50,7 +50,7 @@
         </div>
 
         <hr>
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" class="btn btn-primary">Save</button>
         <p class="text-danger"> {{errorMessage}}</p>
     </form>
 </template>

@@ -9,7 +9,7 @@
             </ModalWindow>
             <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
                 <template v-slot:body>
-                    <EditGameView :gameId="currentId" @get-games="getGames" @close="closeEditModal" ></EditGameView>
+                    <EditGameView :gameId="currentId" @get-games="getGames" @close="closeEditModal"></EditGameView>
                 </template>
             </ModalWindow>
 
@@ -40,11 +40,11 @@
                             </select>
                         </th>
                         <th class="align-bottom">
-                            <img class="icon"  v-on:click="getGamesWithFilters()" type="button" :src="require('/src/assets/icon-search.png')" />
-                         </th>
+                            <img class="icon" v-on:click="getGamesWithFilters()" type="button" :src="require('/src/assets/icon-search.png')" />
+                        </th>
                         <th class="align-bottom">
-                            <img class="icon" v-if="isAuth&&isAdmin" type="button"  @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
-                         </th>
+                            <img class="icon" v-if="isAuth&&isAdmin" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
+                        </th>
                     </tr>
                 </thead>
             </table>
@@ -74,10 +74,8 @@
                             <label>Add to my games:</label>
                             <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
                         </div>
-                       
-                            <img class="icon" v-if="isAuth&&isAdmin" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
-                            <img class="icon" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button"  :src="require('/src/assets/icon-remove.png')" />
-                      
+                        <img class="icon" v-if="isAuth&&isAdmin" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
+                        <img class="icon" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                     </div>
                     <div class="info w-100 col" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
                         <div class="row px-3 mb-2">

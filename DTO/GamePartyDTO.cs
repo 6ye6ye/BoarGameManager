@@ -5,7 +5,7 @@
         public Guid Id { get; set; }
         public string Date { get; set; }
         public GameDTOGetShort Game { get; set; }
-        public string UserGamePlaceName { get; set; }
+        public UserGamePlaceDTOGetShort UserGamePlace{ get; set; }
         public string PartyCreatorId { get; set; }
         public string PartyCreatorName { get; set; }
     }
@@ -18,8 +18,9 @@
     }
     public class GamePartyDTOEdit
     {
+        public Guid Id { get; set; }
         public DateTime Date { get; set; }
-        public string? UserGamePlaceId { get; set; }
-
+        public string UserGamePlaceId { get; set; }
+        public string GameId { get; set; }
     }
 }

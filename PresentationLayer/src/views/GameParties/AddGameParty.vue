@@ -31,8 +31,7 @@
             </select>
         </div>
         <p class="text-danger"> {{errorMessage}}</p>
-        <!--<button type="button" @click="addGameParty" class="btn btn-primary">Add</button>-->
-
+      
         <button type="submit" class="btn btn-primary">Add</button>
     </form>
 </template>

@@ -26,8 +26,7 @@ namespace BoardGameManager1
             CreateMap<GameParty, GamePartyDTOGet>()
                  .ForMember(dest => dest.PartyCreatorName, opt => opt.MapFrom(src => src.PartyCreator.UserName))
                  .ForMember(dest => dest.PartyCreatorId, opt => opt.MapFrom(src => src.PartyCreator.Id))
-                 .ForMember(dest => dest.UserGamePlaceName, opt => opt.MapFrom(src => src.UserGamePlace.Name))
-                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToShortDateString()));
+                 .ForMember(dest => dest.Date, opt => opt.MapFrom(src => src.Date.ToString("yyyy-MM-dd")));
             CreateMap<GamePartyDTOAdd, GameParty>();
             CreateMap<GamePartyDTOEdit, GameParty>();
             CreateMap<GameParty, GameDTOGetShort>()
@@ -46,11 +45,13 @@ namespace BoardGameManager1
             CreateMap<GameRole, GameRoleDTOGet>();
             CreateMap<GameRole, GameRoleDTOGetShort>();
             CreateMap<GameRoleDTOAdd, GameRole>();
+            CreateMap<GameRoleDTOEdit, GameRole>();
 
             //----Game rate map
             CreateMap<GameRate, GameRateDTOGet>();
 
             //----Player map
+            CreateMap<PlayerDTOEdit, Player>();
             CreateMap<Player, PlayerDTOGet>();
             CreateMap<Player, PlayerDTOGetShort>();
 
@@ -77,6 +78,8 @@ namespace BoardGameManager1
             CreateMap<UserGameDTOAdd, UserGame>();
 
             //----User game place map
+
+            CreateMap<UserGamePlaceDTOEdit, UserGamePlace>();
             CreateMap<UserGamePlace, UserGamePlaceDTOGet>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));
             CreateMap<UserGamePlace, UserGamePlaceDTOGetShort>();

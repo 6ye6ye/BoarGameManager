@@ -7,7 +7,7 @@ import GameView from '../views/Games/GameView.vue';
 
 import GamePartiesView from '../views/GameParties/GamePartiesView.vue';
 import GamePartyView from '../views/GameParties/GamePartyView.vue';
-import AddGamePartyView from '../views/GameParties/AddGamePartyView.vue';
+import AddGamePartyView from '../views/GameParties/AddGameParty.vue';
 
 import FriendsView from '../views/Friends/FriendsView.vue';
 

@@ -29,7 +29,7 @@
                     <tr v-for="item in gameParties" :key="item.Id">
                         <td>{{item.date }}</td>
                         <td>{{item.game.name}}</td>
-                        <td>{{item.userGamePlaceName }}</td>
+                        <td>{{item.userGamePlace.name }}</td>
                         <td>{{item.partyCreatorName }}</td>
                         <td>
                             <div>
@@ -46,7 +46,7 @@
   
 <script>  
     import ModalWindow from "../ModalWindow.vue";
-    import AddGamePartyView from "../GameParties/AddGamePartyView.vue";
+    import AddGamePartyView from "../GameParties/AddGameParty.vue";
     import GamePartiesService from "../../services/GamePartiesService";  
     export default {
         name: 'GamePartiesView',

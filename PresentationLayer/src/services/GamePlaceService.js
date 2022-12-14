@@ -4,7 +4,13 @@ var url = "https://localhost:5001"
 class GamePlaceService {
 
     async GetGamePlaces() {
-        return await axios.get(url + '/api/UserGamePlaces/short');
+        return await axios.get(url + '/api/UserGamePlaces/current/short');
+    }
+    async GetGamePlaceById(id) {
+        return await axios.get(url + '/api/UserGamePlaces/' + id);
+    }
+    async GetGamePlaceShortById(id) {
+        return await axios.get(url + '/api/UserGamePlaces/short/'+id);
     }
     async AddGamePlace(name) {
 
@@ -14,6 +20,12 @@ class GamePlaceService {
             data: {
                 name: name
             }
+        });
+    }
+    async Edit(gamePlace) {
+        return await axios.put(url + '/api/UserGamePlaces', {
+            id: gamePlace.id,
+            name: gamePlace.name,
         });
     }
     async DeleteGamePlace(id) {

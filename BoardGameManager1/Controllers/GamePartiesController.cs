@@ -48,10 +48,10 @@ namespace BoardGameManager1.Controllers
             return Ok(await _service.GetCurrentUserCreatedGameParties(new Guid(User.FindFirstValue(ClaimTypes.NameIdentifier))));
         }
 
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchGame(string id, [FromBody] GamePartyDTOEdit gamePartyDTO)
+        [HttpPut]
+        public async Task<IActionResult> PatchGame( [FromBody] GamePartyDTOEdit gamePartyDTO)
         {
-            await _service.EditGameParty(id, gamePartyDTO);
+            await _service.EditGameParty(gamePartyDTO);
             return Ok();
         }
 

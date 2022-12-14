@@ -51,6 +51,14 @@ namespace BoardGameManager1.Controllers
             return Ok(await _service.AddGameRole(gameRole));
         }
 
+        [HttpPut]
+        [AppAutorize(UserRoleEnum.Admin)]
+        public async Task<ActionResult<GameRoleDTOEdit>> PutGameRole(GameRoleDTOEdit gameRole)
+        {
+            await _service.EditGameRole(gameRole);
+            return Ok();
+        }
+
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
         public async Task<IActionResult> DeleteGameRole(Guid id)
