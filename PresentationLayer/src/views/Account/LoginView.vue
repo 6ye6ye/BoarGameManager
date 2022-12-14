@@ -23,7 +23,7 @@
             <div class="text-center">
                 <p>
                     Not a member?
-                    <router-link to="/register"> Sing up</router-link>
+                    <router-link to="/register"> Sign up</router-link>
                 </p>
             </div>
         </div>

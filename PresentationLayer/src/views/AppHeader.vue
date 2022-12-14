@@ -10,8 +10,8 @@
             <router-link class="nav-link" v-show="isAuth" to="/players">Players</router-link>
             <router-link class="nav-link" v-show="isAuth" to="/gamePlaces">GamePlaces</router-link>
        
-            <router-link class="nav-link" v-show="!isAuth" to="/login"> Sing in</router-link>
-            <router-link class="nav-link" v-show="!isAuth" to="/register"> Sing up</router-link>
+            <router-link class="nav-link" v-show="!isAuth" to="/login"> Sign in</router-link>
+            <router-link class="nav-link" v-show="!isAuth" to="/register"> Sign up</router-link>
             <router-link class="nav-link" v-show="isAuth" @click="logout" to="/">Logout</router-link>
             <router-link class="nav-link" v-show="isAuth" to="/myAccount">  {{userName}}</router-link>
         </div>
