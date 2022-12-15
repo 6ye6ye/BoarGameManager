@@ -109,7 +109,7 @@
                     })
             },
             getUserGamePlaces: function () {
-                GamePlaceService.GetGamePlaces().then(response => {
+                GamePlaceService.GetCurrentUserGamePlaces().then(response => {
                     this.userGamePlaces = response.data;
                 })
                     .catch(e => {

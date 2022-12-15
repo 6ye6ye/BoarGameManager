@@ -18,15 +18,15 @@
         </div>
         <div>
             <label class="form-label">Game info short</label>
-            <input type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" class="form-control" required />
+            <input type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" rows="3" class="form-control"  required />
         </div>
         <div>
             <label class="form-label">Game info</label>
-            <input type="text" v-model="game.gameInfo" maxlength="2000" class="form-control"  />
+            <textarea type="text" v-model="game.gameInfo" maxlength="2000" rows="3"  class="form-control"  />
         </div>
         <div>
             <label class="form-label">PlayersMinCount</label>
-            <input type="number" v-model="game.playersMinCount" min="1" max="50" class="form-control" required />
+            <textarea type="number" v-model="game.playersMinCount" min="1" max="50" class="form-control" required />
         </div>
         <div>
             <label class="form-label">PlayersMaxCount</label>

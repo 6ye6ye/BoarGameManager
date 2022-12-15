@@ -35,7 +35,7 @@ const routes = [
         component: AddGameView
     },
     {
-        path: '/game:id',
+        path: '/game/:id',
         name: 'GameView',
         component: GameView,
         params: true
@@ -51,7 +51,7 @@ const routes = [
         component: AddGamePartyView
     },
     {
-        path: '/gameParty:id',
+        path: '/gameParty/:id',
         name: 'GamePartyView',
         component: GamePartyView,
         params: true,
@@ -88,7 +88,7 @@ const routes = [
 
     },
     {
-        path: '/user:id',
+        path: '/user/:id',
         name: 'UserView',
         component: UserView,
         params: true,

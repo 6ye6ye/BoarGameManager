@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
 using BoardGamesManager.Data;
+using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
 using Microsoft.EntityFrameworkCore;
@@ -18,16 +19,22 @@ namespace BoardGamePartyManager1.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GamePartyDTOGet>> GetGameParties(Guid userId)
+        public async Task<IEnumerable<GamePartyDTOGet>> GetGamePartiesByUser(Guid userId)
         {
-            var gamePartys = await _context.GameParties
-                .Include(p => p.Game)
-                .Include(p => p.PartyCreator)
-                .Include(p => p.UserGamePlace)
-                .Where(c => c.GamePartyMembers.Any(c => c.Player.AccountId == userId) || c.PartyCreatorId == userId)
+            var gameParties =  await GetGamePartiesQueryableByUser(userId)
+                .Select(c=> _mapper.Map<GamePartyDTOGet>(c))
                 .ToListAsync();
-            return _mapper.Map<List<GamePartyDTOGet>>(gamePartys).AsEnumerable();
+            return  gameParties.AsEnumerable();
         }
+
+        public async Task<IEnumerable<GamePartyDTOGet>> GetGamePartiesByUserWithFilter(GamePartiesFilter filter, Guid userId)
+        {
+            var gameParties = GetGamePartiesQueryableByUser(userId);
+            return await FilterGameParties(filter, userId, gameParties)
+                .Select(c => _mapper.Map<GamePartyDTOGet>(c)).ToListAsync();
+         
+        }
+
 
         //Get current  game parties where current user will be player
         public async Task<IEnumerable<GamePartyDTOGet>> GetCurrentUserGamePartiesPlayer(Guid id)
@@ -105,6 +112,35 @@ namespace BoardGamePartyManager1.Services
             if (gameParty == null)
                 throw new NotFoundException("Game");
             return gameParty;
+        }
+
+
+        private IQueryable<GameParty> GetGamePartiesQueryableByUser(Guid userId)
+        {
+            return  _context.GameParties
+                .Include(p => p.Game)
+                .Include(p => p.PartyCreator)
+                .Include(p => p.UserGamePlace)
+                .Where(c => c.GamePartyMembers.Any(c => c.Player.AccountId == userId) || c.PartyCreatorId == userId);
+        }
+
+        private IQueryable<GameParty> FilterGameParties(GamePartiesFilter filter, Guid userId, IQueryable<GameParty> gameParties)
+        {
+            if (filter.PlayerId !=null)
+                gameParties = gameParties.Where(g => g.GamePartyMembers.Any(g => g.PlayerId == filter.PlayerId));
+            if (filter.GamePlaceId != null)
+                gameParties = gameParties.Where(g => g.UserGamePlaceId == filter.GamePlaceId);
+            if (filter.GameName != null)
+                gameParties = gameParties.Where(g => g.Game.Name.StartsWith(filter.GameName));
+            if (filter.Created == true)
+                gameParties = gameParties.Where(g => g.PartyCreatorId==userId);
+            else if (filter.Created == false)
+                gameParties = gameParties.Where(g => g.PartyCreatorId != userId);
+            if (filter.StartDate != null)
+                gameParties = gameParties.Where(g => g.Date >= filter.StartDate);
+            if (filter.EndDate != null)
+                gameParties = gameParties.Where(g => g.Date <= filter.EndDate);
+            return gameParties;
         }
     }
 }

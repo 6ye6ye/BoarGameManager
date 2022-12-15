@@ -3,7 +3,7 @@ axios.defaults.withCredentials = true;
 var url = "https://localhost:5001"
 class GamePlaceService {
 
-    async GetGamePlaces() {
+    async GetCurrentUserGamePlaces() {
         return await axios.get(url + '/api/UserGamePlaces/current/short');
     }
     async GetGamePlaceById(id) {

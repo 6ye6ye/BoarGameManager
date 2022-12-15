@@ -27,7 +27,6 @@ namespace BoardPlayerManager1.Services
                 .Select(c => c.InRequestUserId == userId ? c.OutRequestUser.Id : c.InRequestUser.Id)
                 .ToListAsync();
             var players = await _context.Players
-
                 .Where(p => p.AccountId == userId || p.CreatorId == userId || (p.AccountId != null && userFriendsId.Contains((Guid)p.AccountId)))
                 .Select(p => _mapper.Map<PlayerDTOGet>(p))
                 .ToListAsync();

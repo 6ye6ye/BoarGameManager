@@ -1,6 +1,6 @@
 <template>
     <div class="container container-white">
-        <h1 class="d-inline">Game places</h1>
+        <h2 class="d-inline">Game places</h2>
         <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
 
         <ModalWindow v-if="isModalAddVisible" @close="closeAddModal">
@@ -91,7 +91,7 @@
                 this.isModalEditVisible = false;
             },
             getGamePlaces() {
-                GamePlaceService.GetGamePlaces().then(response => {
+                GamePlaceService.GetCurrentUserGamePlaces().then(response => {
                      this.gamePlaces = response.data;
                 })
                      .catch(e => {

@@ -16,7 +16,8 @@
     export default {
         data() {
             return {
-                name:''      
+                name: '',
+                errorMessage:''
             }
         },
         computed: {

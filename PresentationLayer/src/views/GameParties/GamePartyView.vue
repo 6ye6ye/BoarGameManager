@@ -7,7 +7,7 @@
         </ModalWindow>
         <h1>Game party</h1>
         <div class="extended-title">
-            <p>Info</p>
+            <p class="d-inline">Info</p>
             <img class="icon" @click="showEditModal()" type="button" :src="require('/src/assets/icon-edit.png')" />
         </div>
         <div class="row align-items-center">
@@ -44,7 +44,6 @@
         name: 'GamePartyView',
         data() {
             return {
-                
                 gameParty: {
                     id: this.$route.params.id.toString(),
                     date: '',

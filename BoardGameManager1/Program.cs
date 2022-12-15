@@ -4,27 +4,22 @@ using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
-using NLog;
 using NLog.Web;
-using ILogger = NLog.ILogger;
-
-
-//var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<PasswordHasherOptions>(options =>
     options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
 );
+
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
 builder.Services.AddEndpointsApiExplorer();
-
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorizationCore();
 builder.Logging.ClearProviders();
-builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
-
 
 var MyAllowSpecificOrigins = "AllowOrigin";
 builder.Services.AddCors(options =>
@@ -43,10 +38,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found."),
     b => b.MigrationsAssembly("DAL")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddIdentity<User, Role>(options =>
-    options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -67,25 +59,32 @@ builder.Services.Configure<IdentityOptions>(options =>
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._";
     options.User.RequireUniqueEmail = true;
 });
-NLog.Logger Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-
-
-
-
+builder.Services.AddIdentity<User, Role>(options =>
+    options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders()
+    
+    ;
 
 var app = builder.Build();
-
 app.AddGlobalErrorHandler();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseStaticFiles();
-app.UseRouting();
 
+app.UseStaticFiles();
+app.UseHttpLogging();
 app.UseCors(MyAllowSpecificOrigins);
-app.UseAuthentication();
+app.UseAuthentication(); 
+app.UseRouting();
 app.UseAuthorization();
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
+
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.Run();

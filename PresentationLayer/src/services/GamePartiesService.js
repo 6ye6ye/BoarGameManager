@@ -10,6 +10,20 @@ class GamePartiesService {
     async GetById(id) {
         return await axios.get(url + '/api/GameParties/'+id);
     }
+
+    async GetAllWithFilters(filter) {
+        return await axios.get(url + '/api/GameParties/filtered', {
+            params: {
+                gameName: filter.gameName,
+                startDate: filter.startDate,
+                endDate: filter.endDate,
+                gamePlaceId: filter.gamePlaceId,
+                playerId: filter.playerId,
+                created: filter.created
+            }
+        })
+    }
+
     async Add(gameParty) {
         return  await axios({
             method: 'post',

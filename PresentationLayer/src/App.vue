@@ -35,10 +35,19 @@
     .filter {
         border: 1px solid;
         background-color: #edededd3;
+      
     }
-    input {
-        border: 2px solid currentcolor;
-    }
+        .filter.flex {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        input {
+            border: 2px solid currentcolor;
+        }
         input:invalid {
             border: 2px double red;
         }
