@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Entities;
+using BoardGameManager1.Parser.GameParser;
 using DAL;
 using DAL.Entities;
 using DTO;
@@ -14,7 +15,10 @@ namespace BoardGameManager1
             CreateMap<AccountDTORegister, User>()
                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Login));
 
-            //----Game map
+            //----Game mapGameDTO
+            CreateMap<Game, TesseraGame>();
+            CreateMap<TesseraGame, Game>();
+            CreateMap<Game, GameDTOGetShortWithImage>();
             CreateMap<Game, GameDTOGetShort>();
             CreateMap<Game, GameDTOGet>()
                   .ForMember(dest => dest.Image, opt => opt.MapFrom(src => "https://localhost:5001/images/" + src.Image))

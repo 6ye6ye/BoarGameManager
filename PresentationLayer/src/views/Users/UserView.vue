@@ -1,27 +1,41 @@
 <template>
-    <div class="container container-white">
-        <ModalWindow v-show="isModalVisible" @close="closeModal">
-            <template v-slot:body>
-                <ChangePassword @close="closeModal"></ChangePassword>
-            </template>
-        </ModalWindow>
-        <div class="row">
-            <div>
-                Login
-                <p>{{user.userName}}</p>
-            </div>
-            <div>
-                Email
-                <p>{{user.email}}</p>
-            </div>
-            <div>
-                Role
-                <p>{{user.role.name}}</p>
-            </div>
 
+    <div class="d-flex container">
+        <div class="container container-white user-info ">
+            <ModalWindow v-show="isModalVisible" @close="closeModal">
+                <template v-slot:body>
+                    <ChangePassword @close="closeModal"></ChangePassword>
+                </template>
+            </ModalWindow>
+            <div class="title">
+                <h3>User info</h3>
+            </div>
+            <div class="row">
+                <div>
+                    Login
+                    <p>{{user.userName}}</p>
+                </div>
+                <div>
+                    Email
+                    <p>{{user.email}}</p>
+                </div>
+                <div>
+                    Role
+                    <p>{{user.role.name}}</p>
+                </div>
+
+            </div>
+            <button v-on:click="showModal" type="button" class="btn btn-primary"> Change password </button>
         </div>
-        <button v-on:click="showModal" type="button"  class="btn btn-primary"> Change password </button>
-
+        <div class="container container-white">
+                <h3>Statistic</h3>
+    
+            <p class="title">Played games</p>
+            <div class="row">
+            </div>
+            <p class="title">Friends</p>
+            <p class="title">More played games</p>
+        </div>
     </div>
 </template>
 

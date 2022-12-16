@@ -22,15 +22,14 @@ namespace BoardGameManager1.Controllers
         public GamesController(AppDbContext context, IMapper mapper)
         {
             _gameService = new GameService(context, mapper);
+          
         }
 
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGames()
         {
-
             return Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
-
         }
 
         [HttpGet]
@@ -56,6 +55,15 @@ namespace BoardGameManager1.Controllers
         {
             return Ok(await _gameService.GetGamesShort());
         }
+
+
+        //[HttpGet]
+        //[Route("short-with-image")]
+        //[AllowAnonymous]
+        //public async Task<ActionResult<IEnumerable<GameDTOGetShortWithImage>>> GetGamesShortWithImage()
+        //{
+        //    return Ok(await _gameService.GetGamesShortWithImage());
+        //}
 
         [HttpGet("{id}")]
         [AllowAnonymous]

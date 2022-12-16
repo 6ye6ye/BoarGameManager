@@ -75,10 +75,35 @@
         height:30px;
     }
 
+    .title {
+        color: #4f4f4f;
+        background-color: #E0E0E0;
+        margin-bottom: 20px;
+    }
+
     .extended-title {
         color: #757575;
         margin-top: 20px;
         background-color: #E0E0E0;
+    }
+
+    .sidenav {
+        height: 100%;
+        width: 20%;
+        margin-left: 20px;
+        margin-right: 20px;
+        display: inline;
+        overflow-x: hidden;
+        padding-top: 20px;
+    }
+
+    .user-info {
+        height: 100%;
+        max-width: 30%;
+        margin-left: 20px;
+        margin-right: 20px;
+        display: inline;
+        overflow-x: hidden;
     }
 
 </style>

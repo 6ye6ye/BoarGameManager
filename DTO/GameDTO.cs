@@ -22,6 +22,14 @@
     public class GameDTOGetShort
     {
         public Guid Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class GameDTOGetShortWithImage
+    {
+        public Guid Id { get; set; }
+        public string Image { get; set; }
         public string Name { get; set; }
     }
     public class GameDTOAdd

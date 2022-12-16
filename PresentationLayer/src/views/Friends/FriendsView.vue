@@ -1,5 +1,5 @@
 <template>
-    <div class="container container-white ">
+    <div class="container ">
 
         <ModalWindow v-show="isModalVisible" @close="closeModal">
             <template v-slot:body>
@@ -14,6 +14,7 @@
                 <button v-on:click="getOutRequests" type="button" class="btn ">Outgoing</button>
             </div>
         </div>
+        <div class="container-white ">
         <div>
             <h2 class="d-inline">{{header}}</h2>
             <img class="icon" v-show="showButtonAddFriend" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
@@ -36,13 +37,13 @@
                             <td>{{item.friend.userName }}</td>
                             <td>
                                 <img class="icon" v-show="showButtonsConfirm" v-on:click="goToAccept(item.id)" type="button" :src="require('/src/assets/icon-accept.png')" />
-                             </td>
+                            </td>
                             <td>
                                 <img class="icon" v-show="showButtonsConfirm" v-on:click="goToIgnore(item.id)" type="button" :src="require('/src/assets/icon-ignore.png')" />
                             </td>
                             <td>
                                 <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
-                             </td>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -50,6 +51,7 @@
             <div v-show="friends.length==0">
                 <p>No users</p>
             </div>
+        </div>
         </div>
     </div>
 </template>  

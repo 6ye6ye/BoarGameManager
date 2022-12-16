@@ -1,6 +1,5 @@
 ﻿<template>
     <div class="d-flex">
-
         <div class="container ">
             <ModalWindow v-show="isModalAddVisible" @close="closeAddModal">
                 <template v-slot:body>
@@ -268,26 +267,17 @@
         margin: 20px;
     }
 
-    .sidenav {
-        height: 100%;
-        width: 20%;
-        margin-left: 20px;
-        margin-right: 20px;
-        display: inline;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
+
 
 
     .card-strip {
         background-color: #fff;
-        padding: 25px;
+   /*     padding: 25px;*/
         width: 100%;
         margin: 20px auto;
         border-radius: 3px;
         box-shadow: 0px 8px 16px 0px #E0E0E0;
     }
-
 
     .game-image {
         width: 150px;

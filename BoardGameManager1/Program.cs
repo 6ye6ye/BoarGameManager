@@ -1,5 +1,7 @@
-﻿using BoardGameManager1.Entities;
+﻿using BoardGameManager1;
+using BoardGameManager1.Entities;
 using BoardGameManager1.Extensions;
+using BoardGameManager1.Parser.GameParser;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -72,11 +74,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                           .AddCookie(options =>
-                           {
-                               options.LoginPath = new PathString("/Account/Login");
-                           });
+
+builder.Services.AddScoped<IGameParser, TesseraGameParser>();
 
 var app = builder.Build();
 app.AddGlobalErrorHandler();
