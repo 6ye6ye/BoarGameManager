@@ -2,6 +2,7 @@
 using BoardGameManager1.Common.Exceptions;
 using DAL.Common;
 using Microsoft.AspNetCore.Diagnostics;
+using System;
 using System.Net;
 using System.Text.Json;
 
@@ -37,7 +38,7 @@ namespace BoardGameManager1.Extensions
             var stackTrace = string.Empty;
             var exceptionType = exception.GetType();
             stackTrace = exception.StackTrace;
-
+            
             string message = exception.Message;
             switch (exceptionType.Name)
             {
@@ -85,8 +86,6 @@ namespace BoardGameManager1.Extensions
                         break;
                     }
             }
-   
-             
 
             context.Response.StatusCode = (int)status;
             return context.Response.WriteAsync(message);

@@ -1,38 +1,39 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGamePartyMember" method="post">
         <div class="row ">
-                <h2>Game party member</h2>
-                <div class="form-group ">
-                    <label class="control-label">Player</label><span class="required">*</span>
-                    <button type="button" class="btn btn-primary" @click="showModal">+</button>
-                    <ModalWindow v-if="isModalVisible" @close="closeModal">
-                        <template v-slot:body>
-                            <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
-                        </template>
-                    </ModalWindow>
-                    <select v-model="gamePartyMember.playerId" class="form-select" required>
-                        <option label="- Select  player -" value="" disabled hidden></option>
-                        <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group ">
-                    <label class="control-label">Role*</label>
-                    <select v-model="gamePartyMember.gameRoleId" class="form-select" required>
-                        <option label="- Select  game role -" value="" disabled hidden></option>
-                        <option v-for="gameRole in gameRoles" v-bind:key="gameRole.id" v-bind:value="gameRole.id"> {{gameRole.name}}</option>
-                    </select>
-                </div>
-                <div class="form-group ">
-                    <label class="control-label">Points</label>
-                    <input type="number" v-model="gamePartyMember.points" min="-1000000" max="1000000" class="form-control" required />
-                </div>
-                <div class="form-group ">
-                    <label class="control-label">Winner</label>
-                    <input type="checkbox" v-model="gamePartyMember.isWinner" />
-                </div>
-                <button type="submit" class="btn btn-primary">Add</button>
+            <h2>Game party member</h2>
+            <div class="form-group ">
+                <label class="control-label d-inline">Player</label><span class="required">*</span>
+                <img class="icon"  type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
+                <ModalWindow v-if="isModalVisible" @close="closeModal">
+                    <template v-slot:body>
+                        <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
+                    </template>
+                </ModalWindow>
+                <select v-model="gamePartyMember.playerId" class="form-select" required>
+                    <option label="- Select  player -" value="" disabled hidden></option>
+                    <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
+                </select>
             </div>
-            <p class="text-danger"> {{errorMessage}}</p>
+            <div class="form-group ">
+                <label class="control-label">Role*</label>
+                <select v-model="gamePartyMember.gameRoleId" class="form-select" required>
+                    <option label="- Select  game role -" value="" disabled hidden></option>
+                    <option v-for="gameRole in gameRoles" v-bind:key="gameRole.id" v-bind:value="gameRole.id"> {{gameRole.name}}</option>
+                </select>
+            </div>
+            <div class="form-group ">
+                <label class="control-label">Points</label>
+                <input type="number" v-model="gamePartyMember.points" min="-1000000" max="1000000" class="form-control" required />
+            </div>
+            <div class="form-group ">
+                <label class="control-label">Winner</label>
+                <input type="checkbox" v-model="gamePartyMember.isWinner" />
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary">Add</button>
+        <p class="text-danger"> {{errorMessage}}</p>
     </form>
 </template>
 

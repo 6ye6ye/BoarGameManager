@@ -157,7 +157,6 @@ namespace BoardGamesManager.Data
                 UserId = user.Id
             };
 
-
             var game1 = new Game()
             {
                 Id = Guid.NewGuid(),

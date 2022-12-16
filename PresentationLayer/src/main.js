@@ -6,5 +6,8 @@ const cors = require('cors');
 
 import ModalWindow from './views/ModalWindow.vue';
 
-createApp(App).component('modal-window', ModalWindow).use(router).use(cors).mount('#app')   
+createApp(App).component('modal-window', ModalWindow)
+    .use(router)
+    .use(cors)
+    .use(require('vue-cookies')).mount('#app')   
 

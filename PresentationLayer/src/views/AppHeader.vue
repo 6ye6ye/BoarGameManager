@@ -21,16 +21,20 @@
 <script>
     import AccountService from "../services/AccountService";
  
+
     export default {
         name: "AppHeader",
         data() {
             return {
                 isAuth: false,
                 isAdmin: false,
-                userName: ''
+                userName: '',
+                cookie:''
             };
         },
         created: function () {
+            var is = this.$cookies.isKey('.AspNetCore.Identity.Application');
+            this.cookie = is;
             this.isAdmin = localStorage.getItem('role') === "Admin"
             this.userName = localStorage.getItem('userName');
             this.isAuth = localStorage.getItem('isAuth')=='true';

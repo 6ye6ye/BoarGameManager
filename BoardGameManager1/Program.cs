@@ -2,6 +2,7 @@
 using BoardGameManager1.Extensions;
 using BoardGamesManager.Data;
 using DAL.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog.Web;
@@ -12,14 +13,18 @@ builder.Services.Configure<PasswordHasherOptions>(options =>
     options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2
 );
 
-builder.Services.AddControllers()
-    .AddApplicationPart(typeof(IServiceCollectionExtensions).Assembly);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddAuthentication();
-builder.Services.AddAuthorizationCore();
+builder.Services.AddControllers();
+
 builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
+
+
+builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found."),
+    b => b.MigrationsAssembly("DAL")));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var MyAllowSpecificOrigins = "AllowOrigin";
 builder.Services.AddCors(options =>
@@ -33,12 +38,6 @@ builder.Services.AddCors(options =>
                           .AllowCredentials();
                       });
 });
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found."),
-    b => b.MigrationsAssembly("DAL")));
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -62,9 +61,22 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddIdentity<User, Role>(options =>
     options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders()
-    
-    ;
+    .AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                           .AddCookie(options =>
+                           {
+                               options.LoginPath = new PathString("/Account/Login");
+                           });
 
 var app = builder.Build();
 app.AddGlobalErrorHandler();
@@ -80,8 +92,6 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication(); 
 app.UseRouting();
 app.UseAuthorization();
-app.MapControllers().RequireAuthorization();
-
 
 app.UseEndpoints(endpoints =>
 {
