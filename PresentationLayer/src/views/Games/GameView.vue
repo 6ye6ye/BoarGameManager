@@ -35,8 +35,8 @@
                     </div>
                     <div v-if="isAuth">
                         <label>My rate:  </label>
-                        <star-rating class="justify-content-center" v-model:rating="myRate" :max-rating="10"></star-rating>
-                        <button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save </button>
+                        <star-rating v-on:click="setGameRate()" class="justify-content-center" v-model:rating="myRate" :max-rating="10"></star-rating>
+                        <!--<button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save </button>-->
                     </div>
                     <p class="extended-title">Info</p>
                     <div>
