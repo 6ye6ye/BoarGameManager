@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
+using BoardGameManager1.Parser.GameParser;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using DAL.Common.Filters;
@@ -18,11 +19,12 @@ namespace BoardGameManager1.Controllers
     public class GamesController : ControllerBase
     {
         private readonly GameService _gameService;
+        private readonly IGameParser _gameParcer;
 
-        public GamesController(AppDbContext context, IMapper mapper)
+        public GamesController(AppDbContext context, IMapper mapper, IGameParser gameParcer)
         {
             _gameService = new GameService(context, mapper);
-          
+            _gameParcer = gameParcer;
         }
 
         [HttpGet]
@@ -30,6 +32,28 @@ namespace BoardGameManager1.Controllers
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> GetGames()
         {
             return Ok(await _gameService.GetGames(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("add-from-api")]
+        public async Task<ActionResult> DownloadGamesFromApi(int count)
+        {
+            var games=await _gameParcer.GetGames(count);
+           
+            await _gameService.AddGames(games);
+            return Ok();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("add-from-api/by-user")]
+        public async Task<ActionResult> DownloadGamesFromApiUser(string name)
+        {
+            var games = await _gameParcer.GetGamesByUserCollection(name);
+
+            await _gameService.AddGames(games);
+            return Ok();
         }
 
         [HttpGet]
@@ -123,10 +147,7 @@ namespace BoardGameManager1.Controllers
         [AppAutorize(UserRoleEnum.Admin)]
         public string UploadImage([FromForm] IFormFile file)
         {
-            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
-            file.CopyTo(new FileStream(imagePath, FileMode.Create));
-            return uniqueFileName;
+            return _gameService.UploadImageFromFile(file);
         }
     }
 }

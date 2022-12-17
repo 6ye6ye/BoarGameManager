@@ -10,6 +10,7 @@ namespace DAL.Entities
     public class Game: BaseEntity
     {
         public string? Image { get; set; }
+        public string Alias { get; set; }
         public string Name { get; set; }
         public string? NameRu { get; set; }
         public string? NameEng { get; set; }
@@ -23,6 +24,8 @@ namespace DAL.Entities
         public int MinPartyTime { get; set; }
         public int MaxPartyTime { get; set; }
         public int ReleaseYear { get; set; }
+
+        public int? TeseraId { get; set; }
 
         public virtual ICollection<GameRate> GameRates { get; set; }
         public virtual ICollection<GameRole> GameRoles { get; set; }

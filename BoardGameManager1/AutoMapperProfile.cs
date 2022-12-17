@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Entities;
-using BoardGameManager1.Parser.GameParser;
+using BoardGameManager1.Helpers.Parser.GameParser.Tesera.Models;
 using DAL;
 using DAL.Entities;
 using DTO;
@@ -16,8 +16,22 @@ namespace BoardGameManager1
                   .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Login));
 
             //----Game mapGameDTO
-            CreateMap<Game, TesseraGame>();
-            CreateMap<TesseraGame, Game>();
+            CreateMap<Game, TeseraGame>();
+            CreateMap<TeseraGame, Game>()
+                .ForMember(dest => dest.TeseraId, opt => opt.MapFrom(src => src.teseraId))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.photoUrl))
+                .ForMember(dest => dest.GameInfo, opt => opt.MapFrom(src => src.description))
+                .ForMember(dest => dest.GameInfoShort, opt => opt.MapFrom(src => src.descriptionShort))
+                .ForMember(dest => dest.MinPartyTime, opt => opt.MapFrom(src => src.playtimeMin))
+                .ForMember(dest => dest.MaxPartyTime, opt => opt.MapFrom(src => src.playtimeMax))
+                .ForMember(dest => dest.PlayersMinCount, opt => opt.MapFrom(src => src.playersMin))
+                .ForMember(dest => dest.PlayersMaxCount, opt => opt.MapFrom(src => src.playersMax))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.title))
+                .ForMember(dest => dest.Alias, opt => opt.MapFrom(src => src.alias))
+                .ForMember(dest => dest.NameEng, opt => opt.MapFrom(src => src.title2))
+                .ForMember(dest => dest.NameRu, opt => opt.MapFrom(src => src.title3))
+                .ForMember(dest => dest.MinAge, opt => opt.MapFrom(src => src.playersAgeMin))
+                .ForMember(dest => dest.ReleaseYear, opt => opt.MapFrom(src => src.year));
             CreateMap<Game, GameDTOGetShortWithImage>();
             CreateMap<Game, GameDTOGetShort>();
             CreateMap<Game, GameDTOGet>()
@@ -65,7 +79,7 @@ namespace BoardGameManager1
             CreateMap<UserRole, RoleDTOGet>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Role.Name))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Role.Id));
-           
+
             //----User map
             CreateMap<User, UserDTOGetShort>();
             CreateMap<User, UserDTOGet>()

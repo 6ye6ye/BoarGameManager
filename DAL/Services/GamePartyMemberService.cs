@@ -30,9 +30,9 @@ namespace BoardGameManager1.Services
             return gameParties.AsEnumerable();
         }
    
-        public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(string gamePartyMemberId)
+        public async Task<GamePartyMemberDTOGet> GetGamePartyMemberById(Guid gamePartyMemberId)
         {
-            var gameParties = await _context.GamePartyMembers.FindAsync(new Guid(gamePartyMemberId));
+            var gameParties = await _context.GamePartyMembers.FindAsync(gamePartyMemberId);
             if (gameParties == null)
                 throw new NotFoundException("Record");
             return _mapper.Map<GamePartyMemberDTOGet>(gameParties);

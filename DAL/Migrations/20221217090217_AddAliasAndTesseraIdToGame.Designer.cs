@@ -4,6 +4,7 @@ using BoardGamesManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221217090217_AddAliasAndTesseraIdToGame")]
+    partial class AddAliasAndTesseraIdToGame
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,15 +98,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f840b230-fa8b-4683-ace7-c795c84ff989"),
-                            ConcurrencyStamp = "d0811bff-f831-4fea-bc2b-10e4a31a146a",
+                            Id = new Guid("de7ef132-723a-4dd8-ad50-7d80a5ee8e17"),
+                            ConcurrencyStamp = "de0e16dc-6797-4f2c-b097-5e08ec5ab4ed",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("277f24e5-5288-4221-a7b0-6379a7ae6a44"),
-                            ConcurrencyStamp = "73276c2e-fcb9-4478-9897-76e526e76a65",
+                            Id = new Guid("a15a448f-1efe-449a-968b-0b9d4ddb8ec7"),
+                            ConcurrencyStamp = "7fde8ce8-cf35-4197-97d2-794686f7672c",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -127,13 +129,13 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("015dc6fa-ee49-45f9-862f-1197a585b1fb"),
-                            RoleId = new Guid("f840b230-fa8b-4683-ace7-c795c84ff989")
+                            UserId = new Guid("3fa4311c-95d8-4083-bb02-2e6be15c7bee"),
+                            RoleId = new Guid("de7ef132-723a-4dd8-ad50-7d80a5ee8e17")
                         },
                         new
                         {
-                            UserId = new Guid("92cd2bc7-b2d3-4a83-ab6d-ac4077c0cf43"),
-                            RoleId = new Guid("277f24e5-5288-4221-a7b0-6379a7ae6a44")
+                            UserId = new Guid("7fe08019-9bba-4a70-8091-65796d61b1e5"),
+                            RoleId = new Guid("a15a448f-1efe-449a-968b-0b9d4ddb8ec7")
                         });
                 });
 
@@ -197,7 +199,7 @@ namespace DAL.Migrations
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TeseraId")
+                    b.Property<int?>("TesseraId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -296,14 +298,14 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bbc38532-1850-46ce-8f4d-f8f8e588e4fc"),
-                            AccountId = new Guid("015dc6fa-ee49-45f9-862f-1197a585b1fb"),
+                            Id = new Guid("7ea4868f-b2ee-4373-b276-7d76f698d099"),
+                            AccountId = new Guid("3fa4311c-95d8-4083-bb02-2e6be15c7bee"),
                             Name = "admin"
                         },
                         new
                         {
-                            Id = new Guid("d7f307b7-fa3f-4500-b622-f73777d753f5"),
-                            AccountId = new Guid("92cd2bc7-b2d3-4a83-ab6d-ac4077c0cf43"),
+                            Id = new Guid("e968c49c-3774-4dd6-adb1-34546745c2ad"),
+                            AccountId = new Guid("7fe08019-9bba-4a70-8091-65796d61b1e5"),
                             Name = "user"
                         });
                 });
@@ -376,9 +378,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("015dc6fa-ee49-45f9-862f-1197a585b1fb"),
+                            Id = new Guid("3fa4311c-95d8-4083-bb02-2e6be15c7bee"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a35011f1-ad39-4cf2-be37-36da13908cbd",
+                            ConcurrencyStamp = "4cb6cf9a-5c88-497d-8096-39b7dc5f31e0",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -386,15 +388,15 @@ namespace DAL.Migrations
                             NormalizedUserName = "admin",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ecbdd0cb-b151-4714-a849-0f5d9f57478b",
+                            SecurityStamp = "10364dfe-d520-45be-9624-d23464ee5c00",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = new Guid("92cd2bc7-b2d3-4a83-ab6d-ac4077c0cf43"),
+                            Id = new Guid("7fe08019-9bba-4a70-8091-65796d61b1e5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02f609a5-8ff2-460f-a0ee-1a60c41983ad",
+                            ConcurrencyStamp = "0b355f24-c5d4-4046-932e-f8c8129b22a7",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -402,7 +404,7 @@ namespace DAL.Migrations
                             NormalizedUserName = "user",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8e74d32e-bed1-4705-beec-a1025c9fa977",
+                            SecurityStamp = "b91c3e91-b252-4e20-b8ad-9da9eac60177",
                             TwoFactorEnabled = false,
                             UserName = "user"
                         });
@@ -454,15 +456,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("ee59bc50-d271-426d-8e05-ef62fb6ae7fb"),
+                            Id = new Guid("d161eda9-5015-4feb-a931-5c178e89a15f"),
                             Name = "MyHome",
-                            UserId = new Guid("015dc6fa-ee49-45f9-862f-1197a585b1fb")
+                            UserId = new Guid("3fa4311c-95d8-4083-bb02-2e6be15c7bee")
                         },
                         new
                         {
-                            Id = new Guid("559ab69c-fb11-4863-83db-7d48aeef48ef"),
+                            Id = new Guid("bbbb626c-0f6d-4e55-bda3-6bbe92e67b10"),
                             Name = "Work",
-                            UserId = new Guid("015dc6fa-ee49-45f9-862f-1197a585b1fb")
+                            UserId = new Guid("3fa4311c-95d8-4083-bb02-2e6be15c7bee")
                         });
                 });
 
@@ -494,9 +496,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("53916d25-b633-480f-a17d-494c2daf1b82"),
-                            InRequestUserId = new Guid("015dc6fa-ee49-45f9-862f-1197a585b1fb"),
-                            OutRequestUserId = new Guid("92cd2bc7-b2d3-4a83-ab6d-ac4077c0cf43"),
+                            Id = new Guid("6b148b17-a7fd-4fb5-9010-b153ebb55b6d"),
+                            InRequestUserId = new Guid("3fa4311c-95d8-4083-bb02-2e6be15c7bee"),
+                            OutRequestUserId = new Guid("7fe08019-9bba-4a70-8091-65796d61b1e5"),
                             Status = 1
                         });
                 });

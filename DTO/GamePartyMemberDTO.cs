@@ -23,7 +23,7 @@
     {
         public Guid GamePartyId { get; set; }
         public Guid PlayerId { get; set; }
-        public Guid GameRoleId { get; set; }
+        public Guid? GameRoleId { get; set; }
         public int Points { get; set; }
         public bool IsWinner { get; set; }
     }

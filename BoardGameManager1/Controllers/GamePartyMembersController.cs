@@ -37,7 +37,7 @@ namespace BoardGameManager1.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(string id)
+        public async Task<ActionResult<GamePartyMemberDTOGet>> GetGamePartyMember(Guid id)
         {
             var gameParty = await _service.GetGamePartyMemberById(id);
             return Ok(gameParty);

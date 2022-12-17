@@ -5,8 +5,10 @@ using BoardGamesManager.Data;
 using DAL.Common.Filters;
 using DAL.Entities;
 using DTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace BoardGameManager1.Services
 {
@@ -59,7 +61,7 @@ namespace BoardGameManager1.Services
         {
             var games = await _context.Games
                      .Include(c => c.UserGames.Where(c => c.UserId.ToString() == userId))
-                     .OrderByDescending(c=>c.Rating)
+                     .OrderByDescending(c => c.Rating)
                      .Take(10)
                      .Select(c => _mapper.Map<GameDTOGet>(c))
                      .ToListAsync();
@@ -84,9 +86,20 @@ namespace BoardGameManager1.Services
             return game.Id;
         }
 
+        public async Task AddGames(IEnumerable<Game> games)
+        {
+            games = games.Where(g =>!_context.Games.Select(c=>c.TeseraId).Contains(g.TeseraId));
+            foreach (var game in games)
+            {
+                game.Image = await UploadImageFromUrl(game.Image, game.Name);
+            }
+            await _context.Games.AddRangeAsync(games);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task EditGame(GameDTOEdit gameDTO)
         {
-           var game = _mapper.Map<Game>(gameDTO);
+            var game = _mapper.Map<Game>(gameDTO);
             _context.Entry(game).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
@@ -94,7 +107,7 @@ namespace BoardGameManager1.Services
         public async Task DeleteGame(string id)
         {
             var game = await getGame(id);
-            if (game.Image!= "no-image-icon-6.png")
+            if (game.Image != "no-image-icon-6.png")
             {
                 string Path = "../BoardGameManager1/wwwroot/images/" + game.Image;
                 FileInfo file = new FileInfo(Path);
@@ -107,22 +120,27 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
         }
 
-
-        //public async Task<GameDTOEdit> EditGame(GameDTOEdit gameDTO)
-        //{
-        //    var game = _mapper.Map<Game>(gameDTO);
-        //    _context.Games.Attach(game);
-
-        //    _context.Entry(game).Property(a => a.Image).IsModified = true;
-        //    _context.Entry(game).Property(a => a.PlayersMinCount).IsModified = true;
-        //    _context.Entry(game).Property(a => a.PlayersMaxCount).IsModified = true;
-
-        //    game.ModifiedOn = DateTime.Now;
-        //    account.ModifiedBy = 1;
-
-        //    _context.SaveChanges();
-        //}
-
+        public string UploadImageFromFile(IFormFile file)
+        {
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", uniqueFileName);
+            file.CopyTo(new FileStream(imagePath, FileMode.Create));
+            return uniqueFileName;
+        }
+        public async Task<string> UploadImageFromUrl(string uri, string imageName)
+        {
+            var fileExtension = Path.GetExtension(uri);
+            using (HttpClient client = new HttpClient())
+            {
+                var imageBytes = await client.GetByteArrayAsync(uri);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", imageName+ fileExtension);
+                //await File.WriteAllBytesAsync("wwwroot/images/", imageBytes);
+                using (FileStream file = File.Create(imagePath)) //path = "wwwroot\\XML\\1.zip"
+                    file.Write(imageBytes, 0, imageBytes.Length);
+               // await new FileStream(imagePath, FileMode.Create).ReadAsync(imageBytes);
+            }
+            return imageName+ fileExtension;
+        }
 
         public async Task<double> GetCurrentUserGameRate(string gameId, string userId)
         {

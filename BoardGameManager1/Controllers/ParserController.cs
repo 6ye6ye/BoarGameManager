@@ -3,6 +3,7 @@ using BoardGameManager1.Parser.GameParser;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
 using BoardPlayerManager1.Services;
+using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,12 @@ namespace BoardGameManager1.Controllers
             _gameParcer = gameParcer;
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("games")]
-        public async Task<ActionResult<IEnumerable<GameDTOGet>>> DownloadGamesFromApi()
-        {
-            return Ok(await _gameParcer.DownloadGamesFromApi(30));
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //[Route("games")]
+        //public async Task<ActionResult<IEnumerable<Game>>> DownloadGamesFromApi(int count)
+        //{
+        //    return Ok(await _gameParcer.DownloadGamesFromApi(count));
+        //}
     }
 }

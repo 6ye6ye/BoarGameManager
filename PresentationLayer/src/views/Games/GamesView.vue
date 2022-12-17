@@ -83,9 +83,8 @@
                         </div>
                         <div>
                             <p><span> {{item.releaseYear }}</span></p>
-                            <span> Min/max players: {{item.playersMinCount }}/{{item.playersMaxCount }} || </span>
-                            <span> Min/max players: {{item.playersMinCount }}/{{item.playersMaxCount }} || </span>
-                            <span> Min/max party time: {{item.minPartyTime }}/ {{item.maxPartyTime }} || </span>
+                            <span> Players: {{item.playersMinCount }}-{{item.playersMaxCount }} || </span>
+                            <span> Party time: {{item.minPartyTime }}-{{item.maxPartyTime }} || </span>
                             <span> Min. age: {{item.minAge }}</span>
                         </div>
 

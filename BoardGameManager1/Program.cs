@@ -1,6 +1,7 @@
-﻿using BoardGameManager1;
+﻿using AutoMapper;
 using BoardGameManager1.Entities;
 using BoardGameManager1.Extensions;
+using BoardGameManager1.Helpers.Parser.GameParser.Tesera;
 using BoardGameManager1.Parser.GameParser;
 using BoardGamesManager.Data;
 using DAL.Entities;
@@ -75,7 +76,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-builder.Services.AddScoped<IGameParser, TesseraGameParser>();
+builder.Services.AddScoped<IGameParser, TeseraGameParser>();
 
 var app = builder.Build();
 app.AddGlobalErrorHandler();

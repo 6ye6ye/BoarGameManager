@@ -17,6 +17,7 @@
         public int MinPartyTime { get; set; }
         public int MaxPartyTime { get; set; }
         public int ReleaseYear { get; set; }
+
         public bool AddedToUserGames { get; set; }
     }
     public class GameDTOGetShort
@@ -46,6 +47,7 @@
         public int MinPartyTime { get; set; }
         public int MaxPartyTime { get; set; }
         public int ReleaseYear { get; set; }
+        public int? TesseraId { get; set; }
     }
     public class GameDTOEdit
     {

@@ -15,7 +15,7 @@
                     <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
                 </select>
             </div>
-            <div class="form-group ">
+            <div class="form-group " v-if="hasRoles">
                 <label class="control-label">Role*</label>
                 <select v-model="gamePartyMember.gameRoleId" class="form-select" required>
                     <option label="- Select  game role -" value="" disabled hidden></option>
@@ -64,6 +64,7 @@
                 }
             }
         },
+
         components: {
             AddPlayerView,
             ModalWindow
@@ -77,6 +78,9 @@
                 return this.gamePartyMember.gameRoleId
                     && (this.gamePartyMember.points || this.gamePartyMember.points==0)
                     && this.gamePartyMember.playerId
+            },
+            hasRoles() {
+                return this.gameRoles.length!=0
             }
         },
         methods: {
