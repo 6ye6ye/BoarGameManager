@@ -2,12 +2,11 @@
 {
     public class TeseraUserGet
     {
-        public TeseraUser User { get; set; }
-
+        public TeseraUser user { get; set; }
     }
 
     public class TeseraUser
     {
-        public int TeseraId { get; set; }
+        public int teseraId { get; set; }
     }
 }

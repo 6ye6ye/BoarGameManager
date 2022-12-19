@@ -2,7 +2,7 @@
 using BoardGameManager1.Entities;
 using BoardGameManager1.Extensions;
 using BoardGameManager1.Helpers.Parser.GameParser.Tesera;
-using BoardGameManager1.Parser.GameParser;
+using BoardGameManager1.Helpers.Parsers;
 using BoardGamesManager.Data;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;

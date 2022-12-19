@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BoardGameManager1.Common.Exceptions;
 using DAL.Common;
+using DAL.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using System;
 using System.Net;
@@ -43,6 +44,12 @@ namespace BoardGameManager1.Extensions
             switch (exceptionType.Name)
             {
                 case nameof(NotFoundException):
+                    {
+                        status = HttpStatusCode.NotFound;
+                        logger.LogError(message, stackTrace);
+                        break;
+                    }
+                case nameof(NotFoundExternalApiException):
                     {
                         status = HttpStatusCode.NotFound;
                         logger.LogError(message, stackTrace);
