@@ -38,11 +38,12 @@
                         <star-rating v-on:click="setGameRate()" class="justify-content-center" v-model:rating="myRate" :max-rating="10"></star-rating>
                         <!--<button v-on:click="setGameRate()" type="button" class="btn btn-info mt-3">Save </button>-->
                     </div>
-                    <p class="extended-title">Info</p>
-                    <div>
-                        <p>{{game.gameInfo }}</p>
-                    </div>
+                    <p class="extended-title">Info short</p>
+                    <div v-html="game.gameInfoShort" style="text-align: left; text-indent:30px" />
+                    <p class="extended-title">Details</p>
+                    <div v-html="game.gameInfo" style="text-align: left; text-indent:30px" />
                 </div>
+                
 
             </div>
         </div>

@@ -81,20 +81,43 @@ namespace BoardGameManager1.Services
             if (game != null)
                 throw new DoublicateException(gameDTO.Name);
             game = _mapper.Map<Game>(gameDTO);
+            game.DateAdded = DateTime.Now;
+
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
+
             return game.Id;
         }
 
-        public async Task AddGames(IEnumerable<Game> games)
+        public async Task<ActionResult<Guid>> AddGame(Game game)
         {
-            games = games.Where(g =>!_context.Games.Select(c=>c.TeseraId).Contains(g.TeseraId));
+            var gameExist = await _context.Games.FirstOrDefaultAsync(g => g.Name == game.Name);
+            if (gameExist != null)
+                throw new DoublicateException(game.Name);
+            game.DateAdded = DateTime.Now;
+            _context.Games.Add(game);
+            await _context.SaveChangesAsync();
+
+            return game.Id;
+        }
+
+        public async Task<IEnumerable<GameDTOGet>> AddGames(IEnumerable<Game> games)
+        {
+            var teseraGames = await _context.Games.Select(c => c.TeseraId).ToListAsync();
+            games = games.Where(g => !teseraGames.Contains(g.TeseraId));
             foreach (var game in games)
             {
-                game.Image = await UploadImageFromUrl(game.Image, game.Name);
+                game.DateAdded = DateTime.Now;
+                if (game.Image != null)
+                    game.Image = await UploadImageFromUrl(game.Image, game.Alias);
+                else
+                    game.Image = "no-image-icon-6.png";
             }
             await _context.Games.AddRangeAsync(games);
             await _context.SaveChangesAsync();
+            var count = games.Count();
+            var mapped = _mapper.Map<IEnumerable<GameDTOGet>>(games);
+            return mapped;
         }
 
         public async Task EditGame(GameDTOEdit gameDTO)
@@ -133,13 +156,13 @@ namespace BoardGameManager1.Services
             using (HttpClient client = new HttpClient())
             {
                 var imageBytes = await client.GetByteArrayAsync(uri);
-                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", imageName+ fileExtension);
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/", imageName + fileExtension);
                 //await File.WriteAllBytesAsync("wwwroot/images/", imageBytes);
                 using (FileStream file = File.Create(imagePath)) //path = "wwwroot\\XML\\1.zip"
                     file.Write(imageBytes, 0, imageBytes.Length);
-               // await new FileStream(imagePath, FileMode.Create).ReadAsync(imageBytes);
+                // await new FileStream(imagePath, FileMode.Create).ReadAsync(imageBytes);
             }
-            return imageName+ fileExtension;
+            return imageName + fileExtension;
         }
 
         public async Task<double> GetCurrentUserGameRate(string gameId, string userId)

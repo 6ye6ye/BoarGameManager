@@ -14,9 +14,5 @@ class GameService {
     async Delete(id) {
         return await axios.delete(url + '/api/UserGames/' + id);
     }
-
-
-
-
 }
 export default new GameService();  

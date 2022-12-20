@@ -24,6 +24,7 @@ namespace DAL.Entities
         public int MinPartyTime { get; set; }
         public int MaxPartyTime { get; set; }
         public int ReleaseYear { get; set; }
+        public DateTime DateAdded { get; set; }
 
         public int? TeseraId { get; set; }
 

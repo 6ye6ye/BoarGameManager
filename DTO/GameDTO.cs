@@ -3,6 +3,7 @@
     public class GameDTOGet
     {
         public Guid Id { get; set; }
+        public string Alias { get; set; }
         public string Image { get; set; }
         public string Name { get; set; }
         public string NameRu { get; set; }
@@ -23,7 +24,6 @@
     public class GameDTOGetShort
     {
         public Guid Id { get; set; }
-
         public string Name { get; set; }
     }
 
@@ -36,6 +36,7 @@
     public class GameDTOAdd
     {
         public string? Image { get; set; }
+        public string Alias { get; set; }
         public string Name { get; set; }
         public string NameRu { get; set; }
         public string NameEng { get; set; }
@@ -52,6 +53,7 @@
     public class GameDTOEdit
     {
         public Guid Id { get; set; }
+        public string Alias { get; set; }
         public string Image { get; set; }
         public string Name { get; set; }
         public string NameRu { get; set; }
@@ -64,5 +66,6 @@
         public int MinPartyTime { get; set; }
         public int MaxPartyTime { get; set; }
         public int ReleaseYear { get; set; }
+        public int? TesseraId { get; set; }
     }
 }

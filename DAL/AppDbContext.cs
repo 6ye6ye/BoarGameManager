@@ -23,7 +23,7 @@ namespace BoardGamesManager.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
            : base(options)
         {
-         
+
             //   Database.EnsureCreated();
         }
 
@@ -31,36 +31,36 @@ namespace BoardGamesManager.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>(b => {
-                b.HasMany(e => e.UserRoles)
-                    .WithOne(e => e.User)
-                    .HasForeignKey(ur => ur.UserId)
-                    .IsRequired(); });
-
-            modelBuilder.Entity<Role>(b => {
+            modelBuilder.Entity<Role>(b =>
+            {
                 b.HasMany(e => e.UserRoles)
                     .WithOne(e => e.Role)
                     .HasForeignKey(ur => ur.RoleId)
                     .IsRequired();
             });
 
-            modelBuilder.Entity<User>()
-               .HasMany(m => m.PlayGamesPlayers)
-               .WithOne(m => m.Account)
-              .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<User>()
-               .HasMany(m => m.CreatedPlayers)
-               .WithOne(m => m.Creator)
-              .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<User>()
-                .HasMany(m => m.AddedFriends)
-                .WithOne(m => m.OutRequestUser)
-                .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<User>()
-                .HasMany(m => m.AcceptedFriends)
-                .WithOne(m => m.InRequestUser)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>(entity =>{
+                entity.HasMany(e => e.UserRoles)
+                    .WithOne(e => e.User)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+                entity.HasMany(m => m.AddedFriends)
+                    .WithOne(m => m.OutRequestUser)
+                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasMany(m => m.AcceptedFriends)
+                    .WithOne(m => m.InRequestUser)
+                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasMany(m => m.PlayGamesPlayers)
+                    .WithOne(m => m.Account)
+                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasMany(m => m.CreatedPlayers)
+                    .WithOne(m => m.Creator)
+                    .OnDelete(DeleteBehavior.Restrict);
+                entity.HasMany(m => m.CreatedGames)
+                    .WithOne(m => m.PartyCreator)
+                    .OnDelete(DeleteBehavior.SetNull);
+            }
+            );
 
             modelBuilder.Entity<Game>()
                .HasMany(m => m.GameParties)
@@ -71,41 +71,25 @@ namespace BoardGamesManager.Data
                 .HasMany(m => m.GamePartyMembers)
                 .WithOne(m => m.GameRole)
                 .OnDelete(DeleteBehavior.SetNull);
+
             modelBuilder.Entity<UserGamePlace>()
                .HasMany(m => m.GameParties)
                .WithOne(m => m.UserGamePlace)
                .OnDelete(DeleteBehavior.SetNull);
 
-            modelBuilder.Entity<User>()
-              .HasMany(m => m.CreatedGames)
-              .WithOne(m => m.PartyCreator)
-              .OnDelete(DeleteBehavior.SetNull);
-
             modelBuilder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
-            modelBuilder.Entity<Game>()
-                .Property(b => b.GameInfoShort).HasMaxLength(500);
-            modelBuilder.Entity<Game>()
-                .Property(b => b.GameInfo).HasMaxLength(5000);
-            modelBuilder.Entity<Game>()
-               .Property(b => b.Name).HasMaxLength(100);
-            modelBuilder.Entity<Game>()
-               .Property(b => b.NameEng).HasMaxLength(100);
-            modelBuilder.Entity<Game>()
-              .Property(b => b.NameRu).HasMaxLength(100);
+
             modelBuilder.Entity<Game>(entity =>
             {
-                entity.Property(e => e.PlayersMinCount)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.PlayersMinCount)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.PlayersMinCount).IsRequired().HasMaxLength(255).IsUnicode(false);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.PlayersMinCount).IsRequired().HasMaxLength(255).IsUnicode(false);
+                entity.Property(b => b.NameRu).HasMaxLength(100);
+                entity.Property(b => b.NameEng).HasMaxLength(100);
+                entity.Property(b => b.Name).HasMaxLength(100);
+                entity.Property(b => b.GameInfo).HasMaxLength(5000);
+                entity.Property(b => b.GameInfoShort).HasMaxLength(500);
+                entity.Property(g => g.DateAdded).HasColumnType("date");
             });
 
             Seed(modelBuilder);
@@ -157,7 +141,7 @@ namespace BoardGamesManager.Data
                 RoleId = userRole.Id,
                 UserId = user.Id
             };
-   
+
 
             var userFried = new UserFriend()
             {

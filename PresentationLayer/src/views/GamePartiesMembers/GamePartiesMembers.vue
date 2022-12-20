@@ -23,7 +23,8 @@
         <tbody>
             <tr v-for="item in gamePartyMembers" :key="item.Id">
                 <td>{{item.player.name }}</td>
-                <td>{{item.gameRole.name }}</td>
+                <td v-if="item.gameRole!=null">{{item.gameRole.name }}</td>
+                <td v-else> default </td>
                 <td>{{item.points }}</td>
                 <td>{{item.isWinner }}</td>
                 <td v-if="isCreator">

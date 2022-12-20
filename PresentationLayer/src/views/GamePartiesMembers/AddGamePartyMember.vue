@@ -58,7 +58,7 @@
                 gamePartyMember: {
                     gamePartyId: this.gamePartyId,
                     playerId: "",
-                    gameRoleId: "",
+                    gameRoleId: null,
                     points: 0,
                     isWinner: false
                 }
@@ -75,7 +75,7 @@
         },
         computed: {
             isValid() {
-                return this.gamePartyMember.gameRoleId
+                return (this.gamePartyMember.gameRoleId || this.gameRoles.length == 0)
                     && (this.gamePartyMember.points || this.gamePartyMember.points==0)
                     && this.gamePartyMember.playerId
             },

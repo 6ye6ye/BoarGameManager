@@ -1,6 +1,6 @@
 <template>
     <AppHeader />
-    <div  id="app">
+    <div id="app">
         <router-view></router-view>
     </div>
 </template>
@@ -17,8 +17,9 @@
 
 <style>
     body {
-        height:100%;
+        height: 100%;
     }
+
     #app {
         font-family: Avenir, Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
@@ -29,14 +30,15 @@
     }
 
     table {
-        margin-bottom:0px;
+        margin-bottom: 0px;
         background-color: white
     }
+
     .filter {
         border: 1px solid;
         background-color: #edededd3;
-      
     }
+
         .filter.flex {
             display: flex;
             justify-content: flex-start;
@@ -45,18 +47,20 @@
             width: 100%;
         }
 
-        input {
-            border: 2px solid currentcolor;
-        }
+    input {
+        border: 2px solid currentcolor;
+    }
+
         input:invalid {
             border: 2px double red;
         }
+
     .container {
         padding: 0px 0px 20px 0px;
         height: auto !important;
-        
         margin-bottom: 30px;
-     }
+    }
+
     .container-white {
         background-color: white;
         box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
@@ -64,15 +68,25 @@
         -moz-box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
         height: 100%;
         margin-bottom: 30px;
-    }
-    .row {
-        margin-left:0px;
-        margin-right:0px;
+        padding-bottom: 20px;
     }
 
-    .icon{
-        width:30px;
-        height:30px;
+    .m-rl-20 {
+        margin: 0 20px 0 20px;
+    }
+
+    .m-tb-20 {
+        margin: 20px 0 20px 0;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .icon {
+        width: 30px;
+        height: 30px;
     }
 
     .title {
@@ -106,4 +120,12 @@
         overflow-x: hidden;
     }
 
+    .text-justify {
+        text-align: justify;
+    }
+
+    .input-container input, .input-container button {
+        margin-bottom: 10px;
+        border: 1px solid;
+    }
 </style>

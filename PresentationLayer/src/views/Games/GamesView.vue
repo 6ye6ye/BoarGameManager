@@ -43,7 +43,12 @@
                         </th>
                         <th class="align-bottom">
                             <img class="icon" v-if="isAuth&&isAdmin" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
+
                         </th>
+                        <th class="align-bottom">
+                            <button v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from api</button>
+                        </th>
+
                     </tr>
                 </thead>
             </table>
@@ -89,7 +94,7 @@
                         </div>
 
                         <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
-                        <span class="text-left">  {{item.gameInfoShort }}</span>
+                        <span class="text-justify">  {{item.gameInfoShort }}</span>
                     </div>
                 </div>
             </div>
@@ -220,6 +225,11 @@
             goToDetails(id) {
                 this.$router.push({ name: 'GameView', params: { id: id } })
             },
+
+            goToImportGamesMenu() {
+                this.$router.push({ name: 'ImportGamesMenu' })
+            },
+
             goToDelete(id) {
                 GamesService.Delete(id).then(response => {
                     if (response.status == 200) {
@@ -271,7 +281,7 @@
 
     .card-strip {
         background-color: #fff;
-   /*     padding: 25px;*/
+        /*     padding: 25px;*/
         width: 100%;
         margin: 20px auto;
         border-radius: 3px;
@@ -281,6 +291,7 @@
     .game-image {
         width: 150px;
         height: 150px;
+        padding: 20px;
     }
 
 

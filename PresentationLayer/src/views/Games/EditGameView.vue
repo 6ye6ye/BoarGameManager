@@ -4,6 +4,7 @@
         <div>
             <img class="game-image" :src="game.image">
         </div>
+
         <div>
             <label class="form-label">Name</label>
             <input type="text" v-model="game.name" minlength="3" maxlength="100" class="form-control" required />
@@ -18,11 +19,11 @@
         </div>
         <div>
             <label class="form-label">Game info short</label>
-            <textarea type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" rows="3" class="form-control"  required />
+            <textarea type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" rows="3" class="form-control" required />
         </div>
         <div>
             <label class="form-label">Game info</label>
-            <textarea type="text" v-model="game.gameInfo" maxlength="2000" rows="3"  class="form-control"  />
+            <textarea type="text" v-model="game.gameInfo" maxlength="2000" rows="3" class="form-control" />
         </div>
         <div>
             <label class="form-label">PlayersMinCount</label>
@@ -67,6 +68,7 @@
                 imageFile: undefined,
                 game: {
                     id: this.gameId, 
+                    alias:'',
                     image: '',
                     name: '',
                     nameRu: '',

@@ -17,6 +17,8 @@ import UserView from '../views/Users/UserView.vue';
 import PlayersView from '../views/Players/PlayersView.vue';
 import GamePlacesView from '../views/GamePlaces/GamePlacesView.vue';
 
+import ImportGamesMenu from '../views/AdminPanel/ImportGamesMenu.vue';
+
 
 import {
     createWebHistory,
@@ -97,6 +99,12 @@ const routes = [
         path: '/myAccount',
         name: 'MyUserView',
         component: UserView,
+        params: true,
+    },
+    {
+        path: '/importGames',
+        name: 'ImportGamesMenu',
+        component: ImportGamesMenu,
         params: true,
     },
     {

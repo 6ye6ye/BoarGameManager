@@ -44,6 +44,7 @@ class GameService {
             data: {
                 id: game.id,
                 image: patch,
+                alias: game.alias,
                 name: game.name,
                 nameRu: game.nameRu,
                 nameEng: game.nameEng,
@@ -63,6 +64,7 @@ class GameService {
         return await axios.put(url + '/api/Games', {
             id: game.id,
             image: game.image.replace('https://localhost:5001/images/', ''),
+            alias: game.alias,
             name: game.name,
             nameRu: game.nameRu,
             nameEng: game.nameEng,

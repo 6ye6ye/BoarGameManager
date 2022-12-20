@@ -56,12 +56,14 @@
                                 {
                                     AccountService.getCurrentUserRole().then(response => {
                                         localStorage.setItem('role', response.data[0]);
+                                        AccountService.getCurrentUserName().then(response => {
+                                            localStorage.setItem('userName', response.data)
+                                            localStorage.setItem('isAuth', 'true')
+                                        });
                                     });
 
-                                    AccountService.getCurrentUserName().then(response => {
-                                        localStorage.setItem('userName', response.data)
-                                    });
-                                    localStorage.setItem('isAuth', 'true')
+                                  
+                              
                                     window.location.reload()
                                     window.location.href = '/';
                                     return { ok: true }

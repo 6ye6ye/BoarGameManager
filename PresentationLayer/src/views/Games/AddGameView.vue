@@ -3,6 +3,10 @@
         <h2>New game</h2>
         <hr>
         <div>
+            <label class="form-label">Alias</label>
+            <input type="text" v-model="game.alias" minlength="3" maxlength="100" class="form-control" required />
+        </div>
+        <div>
             <label class="form-label">Name</label>
             <input type="text" v-model="game.name" minlength="3" maxlength="100" class="form-control" required />
         </div>
@@ -16,11 +20,11 @@
         </div>
         <div>
             <label class="form-label">Game info short</label>
-            <textarea  type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" rows="3" class="form-control" required />
+            <textarea type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" rows="3" class="form-control" required />
         </div>
         <div>
             <label class="form-label">Game info</label>
-            <textarea  type="text" v-model="game.gameInfo" minlength="1" maxlength="2000" rows="3" class="form-control" required />
+            <textarea type="text" v-model="game.gameInfo" minlength="1" maxlength="2000" rows="3" class="form-control" required />
         </div>
         <div>
             <label class="form-label">Image</label>
@@ -72,6 +76,7 @@
                 imageFile: undefined,
                 game: {
                     image: '',
+                    alias:'',
                     name: '',
                     nameRu: '',
                     nameEng: '',
@@ -92,6 +97,7 @@
                 return this.game.name
                     && this.game.nameRu
                     && this.game.nameEng
+                    && this.game.alias
                     && this.game.gameInfoShort
                     && this.game.gameInfo
                     && this.game.playersMinCount

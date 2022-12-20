@@ -74,13 +74,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 builder.Services.AddScoped<IGameParser, TeseraGameParser>();
-builder.Services.AddAuthentication().AddPolicyScheme(options =>
-{
-    // Set the Metadata Address
-    options.MetadataAddress = requestUri.AbsoluteUri;
-    // Set the WS-Federation realm.
-    options.Wtrealm = pingFederateSettings.Wtrealm;
-})
+
 builder.Services.AddAuthenticationCore();
 
 
