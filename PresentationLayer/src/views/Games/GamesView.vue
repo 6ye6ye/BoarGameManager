@@ -46,7 +46,7 @@
 
                         </th>
                         <th class="align-bottom">
-                            <button v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from api</button>
+                            <button v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from Tesera</button>
                         </th>
 
                     </tr>
