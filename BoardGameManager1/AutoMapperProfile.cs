@@ -4,8 +4,6 @@ using BoardGameManager1.Helpers.Parser.GameParser.Tesera.Models;
 using DAL;
 using DAL.Entities;
 using DTO;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
 
 namespace BoardGameManager1
 {
