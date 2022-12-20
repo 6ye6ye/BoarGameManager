@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal;
 using BoardGameManager1.Common.Exceptions;
 using DAL.Common;
 using DAL.Common.Exceptions;
@@ -51,7 +52,7 @@ namespace BoardGameManager1.Extensions
                     }
                 case nameof(NotFoundExternalApiException):
                     {
-                        status = HttpStatusCode.NotFound;
+                        status = HttpStatusCode.BadRequest;
                         logger.LogError(message, stackTrace);
                         break;
                     }

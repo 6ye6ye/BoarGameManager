@@ -32,6 +32,16 @@ namespace BoardGameManager1.Controllers
             return Ok(gamesDto);
         }
 
+
+        [HttpGet]
+        [Route("by-alias")]
+        public async Task<ActionResult<IEnumerable<GameDTOGet>>> DownloadGamesFromApiByAlias([FromQuery] ParamsWithName param)
+        {
+            var game = await _gameParcer.GetGameById(param.Name);
+            var gameDto = await _gameService.AddGame(game);
+            return Ok(gameDto);
+        }
+
         [HttpGet]
         [Route("last-added")]
         public async Task<ActionResult<IEnumerable<GameDTOGet>>> DownloadGamesLastAddedFromApi([FromQuery] ParamsWithCount param)
