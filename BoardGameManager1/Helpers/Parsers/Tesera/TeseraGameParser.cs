@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Helpers.Parser.GameParser.Tesera.Models;
 using BoardGameManager1.Helpers.Parsers;
 using BoardGameManager1.Helpers.Parsers.GameParser.Tesera;
@@ -40,8 +41,10 @@ namespace BoardGameManager1.Helpers.Parser.GameParser.Tesera
         //Tessera use allias as unique id for get requests
         public async Task<Game> GetGameById(string alias)
         {
-            var url =  TesseraUrlHelper.GetGameByAlias(alias);
-            var teseraGame = await GetDataFromUrl<TeseraGame>(TesseraUrlHelper.GetGameByAlias(alias));
+            var url = TesseraUrlHelper.GetGameByAlias(alias);
+            var teseraGame = await GetDataFromUrl<TeseraGame>(url);
+            if (teseraGame.alias == null)
+                throw new NotFoundException(alias);
             return await ParseGame(teseraGame);
         }
 

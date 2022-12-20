@@ -30,8 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthenticationCore();
+
 var MyAllowSpecificOrigins = "AllowOrigin";
 builder.Services.AddCors(options =>
 {
@@ -62,7 +61,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddIdentity<User, Role>(options =>
     options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    ;
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings
@@ -74,7 +74,14 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 builder.Services.AddScoped<IGameParser, TeseraGameParser>();
-
+builder.Services.AddAuthentication().AddPolicyScheme(options =>
+{
+    // Set the Metadata Address
+    options.MetadataAddress = requestUri.AbsoluteUri;
+    // Set the WS-Federation realm.
+    options.Wtrealm = pingFederateSettings.Wtrealm;
+})
+builder.Services.AddAuthenticationCore();
 
 
 var app = builder.Build();
