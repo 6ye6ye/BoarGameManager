@@ -68,19 +68,7 @@
         methods: {
             async getGames(param) {
                 this.errorMessage = '';
-
-                if (this.games.length > 0) {
-                    if (confirm("The list of added games will be cleared.Are you sure you want to continue?")) {
-                        this.status = 'loading...'
-                        this.getByParamType(param);
-                    }
-                }
-                else {
-                    this.status = 'loading...'
-                    this.getByParamType(param);
-                }
-            },
-            async getByParamType(param) {
+                this.status = 'loading...'
                 switch (param) {
                     case 'top-by-rate':
                         await this.getGamesByRateFromApi();
@@ -92,50 +80,50 @@
                         await this.getGamesByUserCollection();
                         break;
                     case 'by-alias':
-                        await this.getGamesByUserCollection();
+                        await this.getGamesByAlias();
                         break;
                     default:
+                        this.status = ''
                         this.errorMessage = "Get type not fount"
                         break;
                 }
-
+                this.status = '';
             },
             async getGamesByRateFromApi() {
 
                 await GameParserService.GetTopByRate(this.countByRate)
                     .then(response => {
                         if (response.status == 200) {
-                            this.games = response.data;
-                            this.currentCount = this.countByRate;
+                            this.games = this.games.concat(response.data);
+                            this.currentCount +=  this.countByRate;
                         }
                     })
                     .catch(e => {
                         this.errorMessage = e.response.data;
                     });
-                this.status = '';
+             
             },
             async getLastAddedGames() {
 
                 await  GameParserService.GetLastAddedGamesFromApi(this.countLastAdded)
                     .then(response => {
                         if (response.status == 200) {
-                            this.games = response.data;
-                            this.currentCount = this.countLastAdded;
+                            this.games=this.games.concat(response.data);
+                            this.currentCount +=  this.countLastAdded;
                            
                         }
                     })
                     .catch(e => {
                         this.errorMessage = e.response.data;
                     });
-                this.status = '';
             },
             async getGamesByUserCollection() {
                 if (this.userName.length != 0)
                     await GameParserService.GetByUserCollection(this.userName, this.countByUser)
                         .then(response => {
                             if (response.status == 200) {
-                                this.games = response.data;
-                                this.currentCount = this.countByUser;
+                                this.games = this.games.concat(response.data);
+                                this.currentCount += this.countByUser;
                             }
                         })
                         .catch(e => {
@@ -143,16 +131,15 @@
                         });
                 else 
                     this.errorMessage = "User name required";
-              
-                this.status = '';
+
             },
-            async getGamesByUserCollection() {
+            async getGamesByAlias() {
                 if (this.alias.length != 0)
                     await GameParserService.GetByGameAlias(this.alias)
                         .then(response => {
                             if (response.status == 200) {
-                                this.games = response.data;
-                                this.currentCount = this.countByUser;
+                                this.games.push(response.data);
+                                this.currentCount += 1;
                             }
                         })
                         .catch(e => {
@@ -160,8 +147,6 @@
                         });
                 else 
                     this.errorMessage = "Alias required";
-                this.status = '';
-
             }
         }
     }

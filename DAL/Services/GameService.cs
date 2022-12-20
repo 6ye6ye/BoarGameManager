@@ -89,16 +89,20 @@ namespace BoardGameManager1.Services
             return game.Id;
         }
 
-        public async Task<ActionResult<Guid>> AddGame(Game game)
+        public async Task<GameDTOGet> AddGame(Game game)
         {
             var gameExist = await _context.Games.FirstOrDefaultAsync(g => g.Name == game.Name);
             if (gameExist != null)
                 throw new DoublicateException(game.Name);
             game.DateAdded = DateTime.Now;
+            if (game.Image != null)
+                game.Image = await UploadImageFromUrl(game.Image, game.Alias);
+            else
+                game.Image = "no-image-icon-6.png";
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
-
-            return game.Id;
+            var mapped = _mapper.Map<GameDTOGet>(game);
+            return mapped;
         }
 
         public async Task<IEnumerable<GameDTOGet>> AddGames(IEnumerable<Game> games)

@@ -2,6 +2,10 @@
 
 namespace BoardGameManager1.Helpers.Parser.GameParser.Tesera.Models
 {
+    public class TeseraGameGet
+    {
+        public TeseraGame game { get; set; }
+    }
     public class TeseraGame
     {
         public int teseraId { get; set; }

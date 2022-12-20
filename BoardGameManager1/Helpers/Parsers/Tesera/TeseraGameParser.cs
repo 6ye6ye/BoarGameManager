@@ -42,10 +42,10 @@ namespace BoardGameManager1.Helpers.Parser.GameParser.Tesera
         public async Task<Game> GetGameById(string alias)
         {
             var url = TesseraUrlHelper.GetGameByAlias(alias);
-            var teseraGame = await GetDataFromUrl<TeseraGame>(url);
-            if (teseraGame.alias == null)
+            var teseraGame = await GetDataFromUrl<TeseraGameGet>(url);
+            if (teseraGame.game== null || teseraGame.game.alias == null)
                 throw new NotFoundException(alias);
-            return await ParseGame(teseraGame);
+            return await ParseGame(teseraGame.game);
         }
 
 
