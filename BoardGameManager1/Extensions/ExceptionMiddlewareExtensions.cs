@@ -88,8 +88,9 @@ namespace BoardGameManager1.Extensions
                     }
                 default:
                     {
-                        status = HttpStatusCode.InternalServerError;
+                        status = HttpStatusCode.BadRequest;
                         logger.LogError(message, stackTrace);
+                        message = "Error :((( ";
                         break;
                     }
             }

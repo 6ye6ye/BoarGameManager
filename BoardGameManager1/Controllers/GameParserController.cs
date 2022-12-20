@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
-using BoardGameManager1.Common.Exceptions;
 using BoardGameManager1.Enums;
 using BoardGameManager1.Helpers.Parsers;
 using BoardGameManager1.Services;
 using BoardGamesManager.Data;
-using DAL.Common.Filters;
-using DAL.Entities;
 using DTO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using static DTO.GameGetFromApiParams;
 
 namespace BoardGameManager1.Controllers

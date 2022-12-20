@@ -5,6 +5,7 @@ using DAL;
 using DAL.Entities;
 using DTO;
 using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace BoardGameManager1
 {
@@ -20,8 +21,8 @@ namespace BoardGameManager1
             CreateMap<TeseraGame, Game>()
                 .ForMember(dest => dest.TeseraId, opt => opt.MapFrom(src => src.teseraId))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.photoUrl))
-                .ForMember(dest => dest.GameInfo, opt => opt.MapFrom(src => src.description))
-                .ForMember(dest => dest.GameInfoShort, opt => opt.MapFrom(src => src.descriptionShort))
+                .ForMember(dest => dest.GameInfo, opt => opt.MapFrom(src => src.description.Substring(0, Math.Min(src.description.Length, 5000))))
+                .ForMember(dest => dest.GameInfoShort, opt => opt.MapFrom(src => src.descriptionShort.Substring(0, Math.Min(src.descriptionShort.Length, 500))))
                 .ForMember(dest => dest.MinPartyTime, opt => opt.MapFrom(src => src.playtimeMin))
                 .ForMember(dest => dest.MaxPartyTime, opt => opt.MapFrom(src => src.playtimeMax))
                 .ForMember(dest => dest.PlayersMinCount, opt => opt.MapFrom(src => src.playersMin))

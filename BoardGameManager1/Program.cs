@@ -29,6 +29,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     b => b.MigrationsAssembly("DAL")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+
+builder.Services.AddAuthorization();
+builder.Services.AddAuthenticationCore();
 var MyAllowSpecificOrigins = "AllowOrigin";
 builder.Services.AddCors(options =>
 {
@@ -75,8 +78,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
-
 builder.Services.AddScoped<IGameParser, TeseraGameParser>();
+
+
 
 var app = builder.Build();
 app.AddGlobalErrorHandler();
@@ -89,8 +93,9 @@ if (app.Environment.IsDevelopment())
 app.UseStaticFiles();
 app.UseHttpLogging();
 app.UseCors(MyAllowSpecificOrigins);
-app.UseAuthentication(); 
+
 app.UseRouting();
+app.UseAuthentication(); 
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
