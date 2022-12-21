@@ -21,17 +21,22 @@
 
         public bool AddedToUserGames { get; set; }
     }
-    public class GameDTOGetShort
+    public class GameDTOGetShort: IGameDTOGetShort
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class GameDTOGetShortWithImage
+    public interface IGameDTOGetShort
     {
         public Guid Id { get; set; }
-        public string Image { get; set; }
         public string Name { get; set; }
+    }
+    public class GameDTOGetShortWithImage: IGameDTOGetShort
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string Image { get; set; }
     }
     public class GameDTOAdd
     {

@@ -1,14 +1,15 @@
 ﻿<template>
+    <modal-window v-if="isModalVisible" @close="closeModal">
+        <template v-slot:body>
+            <AddGamePartyMemberView @close="closeModal" @get-game-party-members="getGamePartyMembers" :gameId="gameId" :gamePartyId="gamePartyId"></AddGamePartyMemberView>
+        </template>
+    </modal-window>
 
     <div class="extended-title">
         <p class="d-inline ">Game party members</p>
         <img class="icon" v-if="isCreator" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
     </div>
-    <ModalWindow v-if="isModalVisible" @close="closeModal">
-        <template v-slot:body>
-            <AddGamePartyMemberView @close="closeModal" @get-game-party-members="getGamePartyMembers" :gameId="gameId" :gamePartyId="gamePartyId"></AddGamePartyMemberView>
-        </template>
-    </ModalWindow>
+
 
     <table id="gamePartyMembersTable" class="table">
         <thead>
@@ -39,7 +40,6 @@
 
 
 <script>
-    import ModalWindow from "../ModalWindow.vue";
     import AddGamePartyMemberView from "../GamePartiesMembers/AddGamePartyMember.vue";
     import GamePartyMemberService from "../../services/GamePartyMemberService";
     export default {
@@ -66,8 +66,7 @@
             };
         },
         components: {
-            AddGamePartyMemberView,
-            ModalWindow
+            AddGamePartyMemberView
         },
         created() {
             this.getGamePartyMembers();

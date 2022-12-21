@@ -52,9 +52,16 @@ namespace BoardGameManager1.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTOGetShort>>> GetGamesShort()
         {
-            return Ok(await _gameService.GetGamesShort());
+            return Ok(await _gameService.GetGamesShort<GameDTOGetShort> ());
         }
 
+        [HttpGet]
+        [Route("short-with-image")]
+        [AllowAnonymous]
+        public async Task<ActionResult<IEnumerable<GameDTOGetShortWithImage>>> GetGamesShortWithImage()
+        {
+            return Ok(await _gameService.GetGamesShort<GameDTOGetShortWithImage>());
+        }
 
         //[HttpGet]
         //[Route("short-with-image")]

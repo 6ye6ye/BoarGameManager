@@ -1,33 +1,43 @@
 <template>
     <AppHeader />
-    <div id="app">
-        <router-view></router-view>
+    <div id="app" class="container  min-w-screen flex my-6 items-center justify-center  font-sans overflow-hidden">
+            <router-view></router-view>
     </div>
 </template>
 
 <script>
     import AppHeader from './views/AppHeader.vue'
+    import { useRouter } from "vue-router";
+
+
     export default {
         name: 'app',
         components: {
             AppHeader
         },
+        data() {
+            return {
+                defaultLayout: "default",
+                currentRoute: useRouter()
+            }
+        },
+
+      
+        computed: {
+            layout() {
+                return `${this.currentRoute.value.meta.layout || this.defaultLayout}-layout`
+            }
+
+        }
     };
 </script>
 
 <style>
-    body {
-        height: 100%;
-    }
-
-    #app {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-align: center;
-        color: #2c3e50;
-        margin-top: 30px;
-    }
+    .vue-star-rating{
+        flex-wrap:wrap;
+    } 
+</style>
+<!--<style>
 
     table {
         margin-bottom: 0px;
@@ -68,15 +78,6 @@
         -moz-box-shadow: -1px -1px 35px 5px rgba(18,18,18,0.07);
         height: 100%;
         margin-bottom: 30px;
-        padding-bottom: 20px;
-    }
-
-    .m-rl-20 {
-        margin: 0 20px 0 20px;
-    }
-
-    .m-tb-20 {
-        margin: 20px 0 20px 0;
     }
 
     .row {
@@ -119,13 +120,4 @@
         display: inline;
         overflow-x: hidden;
     }
-
-    .text-justify {
-        text-align: justify;
-    }
-
-    .input-container input, .input-container button {
-        margin-bottom: 10px;
-        border: 1px solid;
-    }
-</style>
+</style>-->

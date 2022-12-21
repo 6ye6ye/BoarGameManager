@@ -1,35 +1,36 @@
 <template>
+    <div class="flex w-full justify-items-stretch">
+        <ModalWindow v-show="isModalVisible" @close="closeModal">
+            <template v-slot:body>
+                <ChangePassword @close="closeModal"></ChangePassword>
+            </template>
+        </ModalWindow>
 
-    <div class="d-flex container">
-        <div class="container container-white user-info ">
-            <ModalWindow v-show="isModalVisible" @close="closeModal">
-                <template v-slot:body>
-                    <ChangePassword @close="closeModal"></ChangePassword>
-                </template>
-            </ModalWindow>
-            <div class="title">
-                <h3>User info</h3>
-            </div>
-            <div class="row">
-                <div>
-                    Login
-                    <p>{{user.userName}}</p>
-                </div>
-                <div>
-                    Email
-                    <p>{{user.email}}</p>
-                </div>
-                <div>
-                    Role
-                    <p>{{user.role.name}}</p>
-                </div>
-
-            </div>
-            <button v-on:click="showModal" type="button" class="btn btn-primary"> Change password </button>
+        <div class=" w-1/3 mr-20 w-32 bg-white rounded-lg shadow-xl p-8">
+            <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
+            <ul class="mt-2 text-gray-700">
+                <li class="flex border-y py-2">
+                    <span class="font-bold w-24">Name:</span>
+                    <span>{{user.userName}}</span>
+                </li>
+                <li class="flex border-b py-2">
+                    <span class="font-bold w-24">Email:</span>
+                    <span>{{user.email}}</span>
+                </li>
+                <li class="flex border-b py-2">
+                    <span class="font-bold w-24">Role:</span>
+                    <span>{{user.role.name}}</span>
+                </li>
+            </ul>
+            <button v-on:click="showModal"
+                    type="button"
+                    class=" w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+                Change password
+            </button>
         </div>
-        <div class="container container-white">
-                <h3>Statistic</h3>
-    
+        <div class="w-2/3 bg-white rounded-lg shadow-xl p-8">
+            <h3>Statistic</h3>
+
             <p class="title">Played games</p>
             <div class="row">
             </div>

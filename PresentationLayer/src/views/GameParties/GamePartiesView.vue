@@ -1,90 +1,144 @@
 <template>
-    <div class="container">
-        <ModalWindow v-if="isModalVisible" @close="closeAddModal">
-            <template v-slot:body>
-                <AddGamePartyView @close="closeAddModal" @get-game-parties="getGameParties"></AddGamePartyView>
-            </template>
-        </ModalWindow>
-        <div class="filter flex ">
-   
-        <div>
-            <label class="form-label">Game name</label>
-            <input type="text" v-model="filter.gameName" placeholder="Input name" class="form-control" />
+    <modal-window v-if="isModalVisible" @close="closeAddModal">
+        <template v-slot:body>
+            <AddGamePartyView @close="closeAddModal" @get-game-parties="getGameParties"></AddGamePartyView>
+        </template>
+    </modal-window>
+    <div class="w-full">
+        <div class="bg-white  shadow-md rounded mb-6">
+            <!--Filter-->
+            <div class="my-2 flex md:flex-row md:flex-nowrap flex-col  items-stretch text-sm">
+               
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            Name:
+                        </span>
+                        <input input type="text"
+                               v-model="filter.gameName"
+                               placeholder="Input name"
+                               class="appearance-none
+                               block pl-16 pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            From:
+                        </span>
+                        <input type="date"
+                               v-model="filter.startDate"
+                               placeholder="Input date"
+                               class="appearance-none
+                               block pl-12 pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            To:
+                        </span>
+                        <input type="date"
+                               v-model="filter.gamePlaceId"
+                               placeholder="Input date"
+                               class="appearance-none
+                               block pl-8 pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
+                    <div class="w-full flex flex-row border">
+                        <select v-model="filter.gamePlaceId"
+                                class=" block  pr-6 py-2 w-full bg-white
+                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
+                            <option value=''>- All game places -</option>
+                            <option v-for="gamePlace in gamePlaces" v-bind:key="gamePlace.id" v-bind:value="gamePlace.id"> {{gamePlace.name}}</option>
+                        </select>
+                    </div>
+                    <div class="w-full flex flex-row border">
+                        <select v-model="filter.playerId"
+                                class=" block  pr-6 py-2 w-full bg-white
+                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
+                            <option value=''>- All players -</option>
+                            <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
+                        </select>
+                    </div>
+                    <div class="w-full flex flex-row border">
+                        <select v-model="filter.created"
+                                class=" block  pr-6 py-2 w-full bg-white
+                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
+                            <option value=''>-  All (created by me/not) -</option>
+                            <option value='true'>Just created</option>
+                            <option value='false'>Just no created</option>
+                        </select>
+                    </div>
+                    <span v-on:click="getGamePartiesWithFilters()" class="inset-y-0 left-0 flex items-center px-2">
+                        <svg viewBox="0 0 24 24" class="h-7 w-7 fill-current text-gray-500">
+                            <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
+                            </path>
+                        </svg>
+                    </span>
+
+                    <!--<div class="align-bottom">
+                        <img class="icon" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
+                    </div>-->
+                </div>
+            </div>
+       
+            <div class="bg-white shadow-md rounded my-6">
+                <table class="min-w-max w-full table-auto">
+                    <thead>
+                        <tr class="bg-blue-400 text-white uppercase  leading-normal">
+                            <th @click="sort('date')"
+                                style="cursor: pointer;"
+                                class="py-3 px-6 text-left">Date</th>
+                            <th @click="sort('game')"
+                                style="cursor: pointer;"
+                                class="py-3 px-6 text-left">Game</th>
+                            <th @click="sort('gamePlace.name')"
+                                style="cursor: pointer;"
+                                class="py-3 px-6 text-left">Place</th>
+                            <th @click="sort('partyCreatorName')"
+                                style="cursor: pointer;"
+                                class="py-3 px-6 text-left">Creator</th>
+                            <th class="py-3 px-6 text-left"></th>
+                            <th class="py-3 px-6 text-left"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 ">
+                        <tr v-for="item in gameParties"
+                            :key="item.Id"
+                            class="border-b border-gray-200 hover:bg-gray-100">
+                  
+                            <td class="py-3 px-6 text-left whitespace-nowrap">{{item.date }}</td>
+                            <td class="py-3 px-6 text-left whitespace-nowrap">{{item.game.name}}</td>
+                            <td class="py-3 px-6 text-left whitespace-nowrap">{{item.userGamePlace.name }}</td>
+                            <td class="py-3 px-6 text-left whitespace-nowrap">{{item.partyCreatorName }}</td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex item-center justify-center">
+                                    <div v-on:click="goToDetails(item.id)"
+                                         class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
+                                    </div>
+
+                                    <div v-on:click="goToDelete(item.id)"
+                                         class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div>
-            <label class="form-label">From:</label>
-            <input type="date" v-model="filter.startDate" class="form-control" />
-        </div>
-        <div>
-            <label class="form-label">To:</label>
-            <input type="date" v-model="filter.endDate" class="form-control" />
-        </div>
-        <div>
-            <label class="form-label">Game place</label>
-            <select v-model="filter.gamePlaceId" class="form-select">
-                <option value=''>- All places -</option>
-                <option v-for="gamePlace in gamePlaces" v-bind:key="gamePlace.id" v-bind:value="gamePlace.id"> {{gamePlace.name}}</option>
-            </select>
-        </div>
-        <div>
-            <label class="form-label">Player</label>
-            <select v-model="filter.playerId" class="form-select">
-                <option value=''>- All players-</option>
-                <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
-            </select>
-        </div>
-        <div>
-            <label class="form-label">Created</label>
-            <select v-model="filter.created" class="form-select">
-                <option value=''>- All -</option>
-                <option value='true'>Just created</option>
-                <option value='false'>Just no created</option>
-            </select>
-        </div>
-        <div class="align-bottom">
-            <img class="icon" v-on:click="getGamePartiesWithFilters()" type="button" :src="require('/src/assets/icon-search.png')" />
-        </div>
-        <div class="align-bottom">
-            <img class="icon" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
-        </div>
-    </div>
-  
-    <div class="post container-white">
-        <div class="row" style="margin-bottom: 10px;">
-        </div>
-        <p>{{errorMessage}}</p>
-        <table id="gamesTable" class="table">
-            <thead>
-                <tr class="filter">
-                    <th @click="sort('date')" style="cursor: pointer;">Date</th>
-                    <th @click="sort('game')" style="cursor: pointer;">Game</th>
-                    <th @click="sort('gamePlace.name')" style="cursor: pointer;">Place</th>
-                    <th @click="sort('partyCreatorName')" style="cursor: pointer;">Creator</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in gameParties" :key="item.Id">
-                    <td>{{item.date }}</td>
-                    <td>{{item.game.name}}</td>
-                    <td>{{item.userGamePlace.name }}</td>
-                    <td>{{item.partyCreatorName }}</td>
-                    <td>
-                        <div>
-                            <img class="icon" v-on:click="goToDetails(item.id)" type="button" :src="require('/src/assets/icon-details.png')" />
-                            <img class="icon" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
 </template>  
   
 <script>  
-    import ModalWindow from "../ModalWindow.vue";
+
     import AddGamePartyView from "../GameParties/AddGameParty.vue";
     import GamePartiesService from "../../services/GamePartiesService";
     import PlayersService from "../../services/PlayersService";
@@ -116,9 +170,7 @@
                 return 'gameParty' + id;
             }
         },
-
         components: {
-            ModalWindow,
             AddGamePartyView
         },
         created() {

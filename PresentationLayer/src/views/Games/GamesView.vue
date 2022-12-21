@@ -1,16 +1,16 @@
 ﻿<template>
-    <div class="d-flex">
-        <div class="container ">
-            <ModalWindow v-show="isModalAddVisible" @close="closeAddModal">
+    <div class="grid grid-cols-3 gap-4">
+        <div class="col-span-2">
+            <modal-window v-show="isModalAddVisible" @close="closeAddModal">
                 <template v-slot:body>
                     <AddGameView @get-games="getGames"></AddGameView>
                 </template>
-            </ModalWindow>
-            <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+            </modal-window>
+            <modal-window v-if="isModalEditVisible" @close="closeEditModal">
                 <template v-slot:body>
                     <EditGameView :gameId="currentId" @get-games="getGames" @close="closeEditModal"></EditGameView>
                 </template>
-            </ModalWindow>
+            </modal-window>
 
             <table class="table">
                 <thead>
@@ -46,7 +46,7 @@
 
                         </th>
                         <th class="align-bottom">
-                            <button v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from api</button>
+                            <button v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from Tesera</button>
                         </th>
 
                     </tr>
@@ -70,37 +70,37 @@
                         </tr>
                     </thead>
                 </table>
-
-                <div class="d-flex justify-content-start card-strip" v-for="item in games" :key="item.Id">
-                    <div>
-                        <img class="game-image" v-bind:src="item.image">
-                        <div v-if="isAuth">
-                            <label>Add to my games:</label>
-                            <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
-                        </div>
-                        <img class="icon" v-if="isAuth&&isAdmin" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
-                        <img class="icon" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
-                    </div>
-                    <div class="info w-100 col" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
-                        <div class="row px-3 mb-2">
-                            <h4 class="mr-4">{{item.name }}</h4>
-                            <p class="mt-1 mr-4 extended-title">{{item.nameRu}}|{{item.nameEng}}</p>
-                        </div>
+               
+                    <div class="flex bg-white rounded-lg shadow-xl p-8 justify-content-start card-strip" v-for="item in games" :key="item.Id">
                         <div>
-                            <p><span> {{item.releaseYear }}</span></p>
-                            <span> Players: {{item.playersMinCount }}-{{item.playersMaxCount }} || </span>
-                            <span> Party time: {{item.minPartyTime }}-{{item.maxPartyTime }} || </span>
-                            <span> Min. age: {{item.minAge }}</span>
+                            <img class="game-image" v-bind:src="item.image">
+                            <div v-if="isAuth">
+                                <label>Add to my games:</label>
+                                <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
+                            </div>
+                            <img class="icon" v-if="isAuth&&isAdmin" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
+                            <img class="icon" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
                         </div>
+                        <div class="info w-100 col" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+                            <div class="row px-3 mb-2">
+                                <h4 class="mr-4">{{item.name }}</h4>
+                                <p class="mt-1 mr-4 extended-title">{{item.nameRu}}|{{item.nameEng}}</p>
+                            </div>
+                            <div>
+                                <p><span> {{item.releaseYear }}</span></p>
+                                <span> Players: {{item.playersMinCount }}-{{item.playersMaxCount }} || </span>
+                                <span> Party time: {{item.minPartyTime }}-{{item.maxPartyTime }} || </span>
+                                <span> Min. age: {{item.minAge }}</span>
+                            </div>
 
-                        <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="d-flex justify-content-center"></star-rating>
-                        <span class="text-justify">  {{item.gameInfoShort }}</span>
+                            <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="flex-wrap justify-content-center"></star-rating>
+                            <span class="text-justify">  {{item.gameInfoShort }}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="container sidenav container-white">
+            </div>
+        <div >
             <h3>Top 10 games</h3>
             <ol>
                 <li v-on:click="goToDetails(item.id)" v-for="item in topGames" :key="item.Id">
@@ -113,7 +113,6 @@
 
 <script>
     import StarRating from 'vue-star-rating'
-    import ModalWindow from "../ModalWindow.vue";
     import AddGameView from "../Games/AddGameView.vue";
     import EditGameView from "../Games/EditGameView.vue";
     import GamesService from "../../services/GameService";
@@ -143,7 +142,7 @@
             };
         },
         components: {
-            ModalWindow,
+        
             AddGameView,
             EditGameView,
             StarRating
@@ -294,7 +293,7 @@
         padding: 20px;
     }
 
-
+/*
     @media screen and (max-width: 1012px) {
         .card-strip {
             width: 100%;
@@ -316,5 +315,5 @@
         .price {
             margin-left: 0px;
         }
-    }
+    }*/
 </style>

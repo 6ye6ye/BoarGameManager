@@ -24,9 +24,9 @@ namespace BoardGameManager1.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GameDTOGetShort>> GetGamesShort()
+        public async Task<IEnumerable<T>> GetGamesShort<T>() where T :IGameDTOGetShort
         {
-            var games = await _context.Games.OrderByDescending(c => c.Name).Select(c => _mapper.Map<GameDTOGetShort>(c)).ToArrayAsync();
+            var games = await _context.Games.OrderByDescending(c => c.Name).Select(c => _mapper.Map<T>(c)).ToArrayAsync();
             return games.AsEnumerable();
         }
 

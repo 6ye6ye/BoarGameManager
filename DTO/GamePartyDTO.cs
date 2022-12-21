@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
         public string Date { get; set; }
-        public GameDTOGetShort Game { get; set; }
+        public GameDTOGetShortWithImage Game { get; set; }
         public UserGamePlaceDTOGetShort UserGamePlace{ get; set; }
         public string PartyCreatorId { get; set; }
         public string PartyCreatorName { get; set; }
