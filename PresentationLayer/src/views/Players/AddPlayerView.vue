@@ -1,11 +1,20 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addPlayer" method="post">
-        <div class="row ">
-            <h2>Player</h2>
-            <input placeholder="Input name" type="text" v-model="name" minlength="3" maxlength="50" class="form-control" required />
-        </div>
-        <p class="text-danger"> {{errorMessage}}</p>
-        <button type="submit" class="button-submit btn button-primary ">Add</button>
+        <label class="block">
+            <span class=" text-gray-700">Name</span>
+            <input type="text"
+                   placeholder="Input name"
+                   class="block pl-4 w-full  border-gray-200 rounded-md border
+                   focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   v-model="name"
+                   minlength="3" maxlength="50" required />
+        </label>
+
+        <ErrorMessage class="text-danger" :message="errorMessage"> </ErrorMessage>
+        <button type="submit"
+                class="mt-2 w-full px-4 py-2 text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+            Add
+        </button>
     </form>
 </template>
 

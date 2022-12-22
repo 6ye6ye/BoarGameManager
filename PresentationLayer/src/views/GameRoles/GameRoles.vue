@@ -1,11 +1,17 @@
 <template>
     <ModalWindow v-show="isModalAddVisible" @close="closeAddModal">
+        <template v-slot:title>
+            <h5>New game role</h5>
+        </template>
         <template v-slot:body>
             <AddGameRole @close="closeAddModal" @get-game-roles="getGameRoles"></AddGameRole>
         </template>
     </ModalWindow>
 
     <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+        <template v-slot:title>
+            <h5>Edit game role</h5>
+        </template>
         <template v-slot:body>
             <EditGameRole :gameRoleId="currentId" @get-game-roles="getGameRoles" @close="closeEditModal"></EditGameRole>
         </template>
@@ -34,7 +40,6 @@
     import AddGameRole from "./AddGameRole.vue";
     import EditGameRole from "./EditGameRole.vue";
     import GameRolesService from "../../services/GameRolesService";
-    import ModalWindow from "../ModalWindow.vue";
     export default {
         name: 'GamesRoles',
         data() {
@@ -55,7 +60,6 @@
         },
         components: {
             AddGameRole,
-            ModalWindow,
             EditGameRole
         },
         methods: {

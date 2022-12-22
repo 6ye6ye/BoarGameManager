@@ -11,6 +11,9 @@
                 <button type="button" class="btn btn-primary" @click="showModal">+</button>
 
                 <ModalWindow v-if="isModalVisible" @close="closeModal">
+                    <template v-slot:title>
+                        <h5>New game place</h5>
+                    </template>
                     <template v-slot:body>
                         <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
                     </template>
@@ -37,7 +40,7 @@
 
 
 <script>
-    import ModalWindow from "../ModalWindow.vue";
+     import ModalWindow from "../../components/ModalWindow.vue";
     import GamesPartyService from "../../services/GamePartiesService";
     import AddGamePlace from "../../views/GamePlaces/AddGamePlace.vue";
 

@@ -3,6 +3,9 @@
         <div class="container ">
 
             <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+                <template v-slot:title>
+                    <h5>Edit game</h5>
+                </template>
                 <template v-slot:body>
                     <EditGameView :gameId="currentId" @get-games="getGames" @close="closeEditModal"></EditGameView>
                 </template>
@@ -48,7 +51,7 @@
 </template>
 
 <script>
-    import ModalWindow from "../ModalWindow.vue";
+
     import EditGameView from "../Games/EditGameView.vue";
     import GamesService from "../../services/GameService";
     export default {
@@ -62,7 +65,7 @@
         },
     
         components: {
-            ModalWindow,
+ 
             EditGameView,
         },
        

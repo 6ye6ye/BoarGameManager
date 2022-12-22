@@ -6,6 +6,9 @@
                 <label class="control-label d-inline">Player</label><span class="required">*</span>
                 <img class="icon"  type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
                 <ModalWindow v-if="isModalVisible" @close="closeModal">
+                    <template v-slot:title>
+                        <h5>New game party</h5>
+                    </template>
                     <template v-slot:body>
                         <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
                     </template>
@@ -42,7 +45,7 @@
     import GameRolesService from "../../services/GameRolesService";
     import GamePartyMemberService from "../../services/GamePartyMemberService";
     import AddPlayerView from "../Players/AddPlayerView.vue";
-    import ModalWindow from "../ModalWindow.vue";
+     import ModalWindow from "../../components/ModalWindow.vue";
     export default {
         name: 'AddGameRoleView',
         props: ['gamePartyId', 'gameId'],

@@ -9,9 +9,9 @@ namespace DAL.Entities
         public DateTime Date { get; set; }
         public Guid? UserGamePlaceId { get; set; }
         public Guid? PartyCreatorId { get; set; }
-        public Guid? GameId { get; set; }
+        public Guid GameId { get; set; }
 
-        public virtual Game? Game { get; set; }
+        public virtual Game Game { get; set; }
         [ForeignKey("UserGamePlaceId")]
         public virtual UserGamePlace? UserGamePlace { get; set; }
         [ForeignKey("PartyCreatorId")]

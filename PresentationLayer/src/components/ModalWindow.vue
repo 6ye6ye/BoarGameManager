@@ -1,12 +1,19 @@
 <template>
     <div class="modal-mask">
-        <div class="modal-wrapper">
-            <div class="modal-container">
-        
-             
-                <button class="modal-default-button button-close" @click="$emit('close')">
-                    x
-                </button>
+        <div class="flex flex-column items-center">
+            <div class=" w-full max-w-md p-6 bg-white rounded-md shadow-md">
+                <div class="modal-header flex  items-center justify-between  border-b border-gray-200 rounded-t-md pb-2">
+                    <img class="icon w-7 h-7" :src="require('/src/assets/icon-main.png')" />
+                   
+                    <h5 class="text-xl font-medium leading-normal text-gray-800">
+                            <slot name="title" />
+                    </h5>
+                    <button type="button" @click="$emit('close')"
+                            class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+                            data-bs-dismiss="modal" aria-label="Close">x</button>
+                </div>
+           
+                <hr/>
                 <div class="modal-body">
                     <slot name="body" />
                 </div>
@@ -16,10 +23,15 @@
             </div>
         </div>
     </div>
+
+
 </template>
+
+
 
 <script>
     export default {
+        props:['title'],
         methods: {
             close() {
                 this.$emit('close');
@@ -34,19 +46,18 @@
         z-index: 9998;
         top: 0;
         left: 0;
-        padding:20px 0px 20px 0px;
-        margin-bottom:20px;
+        padding: 20px 0px 20px 0px;
+        margin-bottom: 20px;
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content:center;
-       
+      
+        justify-content: center;
         overflow: auto;
         background-color: rgba(0, 0, 0, 0.5);
         transition: opacity 0.3s ease;
     }
 
-    .modal-wrapper {
+    /*.modal-wrapper {
         display: flex;
         flex-direction: column;
         vertical-align: middle;
@@ -55,7 +66,7 @@
     .modal-container {
         width: 600px;
         margin: 0px auto;
-        padding: 10px ;
+        padding: 10px;
         background-color: #fff;
         border-radius: 2px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -75,11 +86,12 @@
     .modal-default-button {
         float: right;
     }
+
     .button-submit {
-       margin-top:10px;
+        margin-top: 10px;
     }
 
-    .button-close{
-        margin:0 auto;
-    }
+    .button-close {
+        margin: 0 auto;
+    }*/
 </style>

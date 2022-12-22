@@ -1,45 +1,66 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGameParty" method="post">
-        <h2>Game party</h2>
-        <div class="form-group  mb-3">
-            <label class="control-label">Date</label><span class="required">*</span>
-            <input type="date" v-model="gameParty.date" class="form-control" />
+
+        <label class="block">
+            <span class=" text-gray-700">Date</span>
+            <input type="date"
+                   class="block pl-4 w-full  border-gray-200 rounded-md border  
+                   focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   v-model="gameParty.date" required />
+        </label>
+
+        <div class="block">
+            <span class=" text-gray-700">Game place</span>
+            <div class="flex rounded-md shadow-sm rounded-md" role="group">
+                <select v-model="gameParty.userGamePlaceId" 
+                        class="block pl-4 w-full  border-gray-200 rounded-md border 
+                        focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                        required>
+                    <option label="- Select game place -" value="" disabled hidden></option>
+                    <option v-for="place in userGamePlaces" v-bind:key="place.id" v-bind:value="place.id"> {{place.name}}</option>
+                </select>
+                <button type="button"
+                        class="w-full px-4  text-center 
+                        text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400
+                        rounded-r-md border "
+                        @click="showModal">
+                    +
+                </button>
+
+                <ModalWindow v-if="isModalVisible" @close="closeModal">
+                    <template v-slot:title>
+                        <h5>New game place</h5>
+                    </template>
+                    <template v-slot:body>
+                        <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
+                    </template>
+                </ModalWindow>
+            </div>
         </div>
-        <div class="form-group ">
-            <label class="control-label">Game place</label><span class="required">*</span>
-            <button type="button" class="btn btn-primary" @click="showModal">+</button>
 
-            <ModalWindow v-if="isModalVisible" @close="closeModal">
-                <template v-slot:body>
-                    <AddGamePlace @close="closeModal" @get-game-places="getUserGamePlaces"></AddGamePlace>
-                </template>
-            </ModalWindow>
-
-            <select v-model="gameParty.userGamePlaceId" class="form-select" required>
-                <option label="- Select game place -" value="" disabled hidden></option>
-                <option v-for="place in userGamePlaces" v-bind:key="place.id" v-bind:value="place.id"> {{place.name}}</option>
-            </select>
-        </div>
-
-        <div class="form-group ">
-            <label class="control-label">Game</label><span class="required">*</span>
-
-            <select v-model="gameParty.gameId" class="form-select" required>
+        <label class="block">
+            <span class="text-gray-700">Game</span>
+            <select v-model="gameParty.gameId" 
+                    class="block pl-4 w-full  border-gray-200 rounded-md border 
+                        focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                    required>
                 <option label="- Select  game -" value="" disabled hidden></option>
                 <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id"> {{game.name}}</option>
-
             </select>
-        </div>
-        <p class="text-danger"> {{errorMessage}}</p>
-      
-        <button type="submit" class="btn btn-primary">Add</button>
+        </label>
+        <ErrorMessage :message="errorMessage"></ErrorMessage>
+
+        <button type="submit"
+                class="mt-2 w-full px-4 py-2 text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+            Add
+        </button>
     </form>
 </template>
 
 
 
 <script>
-    import ModalWindow from "../ModalWindow.vue";
+    import ModalWindow from "../../components/ModalWindow.vue";
 
     import AddGamePlace from "../../views/GamePlaces/AddGamePlace.vue";
     import GamePartiesService from "../../services/GamePartiesService";

@@ -5,10 +5,7 @@
 </template>
 
 <script>
-
     export default {
-        name: 'LoginView',
         props: ['message'],
-
     }
 </script>

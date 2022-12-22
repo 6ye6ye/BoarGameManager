@@ -1,41 +1,58 @@
 ﻿<template>
-    <div class="container container-white">
+    <div class="flex w-full items-start">
         <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+            <template v-slot:title>
+                <h5>Edit game party</h5>
+            </template>
             <template v-slot:body>
                 <EditGamePartyView :gamePartyId="gameParty.id" @close="closeEditModal" @get-game-party="getGameParty"></EditGamePartyView>
             </template>
         </ModalWindow>
-        <h1>Game party</h1>
-        <div class="extended-title">
-            <p class="d-inline">Info</p>
-            <img class="icon" @click="showEditModal()" type="button" :src="require('/src/assets/icon-edit.png')" />
-        </div>
-        <div class="row align-items-center">
-            <div>
-                <label>Date: </label>
-                <label for="gameParty.date">{{gameParty.date}}</label>
-            </div>
-            <div>
-                <label>Game: </label>
-                <label>{{gameParty.game.name}}</label>
-            </div>
-            <div>
-                <label>Place: </label>
-                {{gameParty.userGamePlace.name}}
-            </div>
-            <div>
-                <label>Party creator: </label>
-                {{gameParty.partyCreatorName}}
-            </div>
-        </div>
-        <div>
-            <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="gameParty.id" :isCreator="isCreator" />
-        </div>
+
+        <ContainerWhite class="w-1/3">
+            <template v-slot:body>
+                <h4 class="text-xl text-gray-900 font-bold">Game party info</h4>
+                <ul class="mt-2 text-gray-700">
+                    <li class="flex border-y py-2">
+                        <span class="font-bold w-24">Date:</span>
+                        <span>{{gameParty.date}}</span>
+                    </li>
+                    <li class="flex border-b py-2">
+                        <span class="font-bold w-24">Game:</span>
+                        <span>{{gameParty.game.name}}</span>
+                    </li>
+                    <li class="flex border-b py-2">
+                        <span class="font-bold w-24">Place:</span>
+                        <span>{{gameParty.userGamePlace.name}}</span>
+                    </li>
+                    <li class="flex border-b py-2">
+                        <span class="font-bold w-24">Place:</span>
+                        <span>{{gameParty.userGamePlace.name}}</span>
+                    </li>
+                    <li class="flex border-b py-2">
+                        <span class="font-bold w-24">Party creator:</span>
+                        <span>{{gameParty.partyCreatorName}}</span>
+                    </li>
+                </ul>
+                <button v-on:click="showEditModal"
+                        type="button"
+                        class=" w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+                    Edit
+                </button>
+            </template>
+        </ContainerWhite>
+
+        <ContainerWhite class=" w-2/3">
+            <template v-slot:body>
+                <h4 class="text-xl text-center text-gray-700 font-bold">Party members</h4>
+                <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="gameParty.id" :isCreator="isCreator" />
+            </template>
+        </ContainerWhite>
     </div>
 </template>
 
 <script>
-    import ModalWindow from "../ModalWindow.vue";
+
     import UsersService from "../../services/UsersService";
     import GamesPartyService from "../../services/GamePartiesService";
     import EditGamePartyView from "../GameParties/EditGameParty.vue";
@@ -53,9 +70,9 @@
                     },
                     userGamePlace: {
                         id: '',
-                        name:'',
+                        name: '',
                     },
-                   
+
                     partyCreatorId: '',
                     partyCreatorName: ''
                 },
@@ -70,7 +87,7 @@
         components: {
             GamePartyMembers,
             EditGamePartyView,
-            ModalWindow
+
         },
         methods: {
             showEditModal() {

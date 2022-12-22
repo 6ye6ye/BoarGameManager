@@ -1,12 +1,15 @@
 <template>
     <div class="flex w-full justify-items-stretch">
         <ModalWindow v-show="isModalVisible" @close="closeModal">
+            <template v-slot:title>
+                <h5>Change password</h5>
+            </template>
             <template v-slot:body>
                 <ChangePassword @close="closeModal"></ChangePassword>
             </template>
         </ModalWindow>
 
-        <div class=" w-1/3 mr-20 w-32 bg-white rounded-lg shadow-xl p-8">
+        <div class=" w-1/3 mr-20 bg-white rounded-lg shadow-xl p-8">
             <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
             <ul class="mt-2 text-gray-700">
                 <li class="flex border-y py-2">
@@ -43,7 +46,7 @@
 <script>
     import UsersService from "../../services/UsersService";
     import ChangePassword from "../Account/ChangePassword.vue";
-    import ModalWindow from "../ModalWindow.vue";
+    import ModalWindow from "../../components/ModalWindow.vue";
     export default {
         name: 'UserView',
         data() {

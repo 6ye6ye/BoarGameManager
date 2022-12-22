@@ -1,106 +1,170 @@
 ﻿<template>
     <div class="grid grid-cols-3 gap-4">
         <div class="col-span-2">
-            <modal-window v-show="isModalAddVisible" @close="closeAddModal">
+            <ModalWindow v-show="isModalAddVisible" @close="closeAddModal" :title="Test">
+                <template v-slot:title>
+                    <h5>New game</h5>
+                </template>
                 <template v-slot:body>
                     <AddGameView @get-games="getGames"></AddGameView>
                 </template>
-            </modal-window>
-            <modal-window v-if="isModalEditVisible" @close="closeEditModal">
+            </ModalWindow>
+            <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
+                <template v-slot:title>
+                    <h5>Edit game</h5>
+                </template>
                 <template v-slot:body>
                     <EditGameView :gameId="currentId" @get-games="getGames" @close="closeEditModal"></EditGameView>
                 </template>
-            </modal-window>
+            </ModalWindow>
+            <FilterBox>
+                <template v-slot:body>
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            Name:
+                        </span>
+                        <input input type="text"
+                               v-model="filter.gameName"
+                               placeholder="Input name"
+                               class="appearance-none
+                               block pl-16 pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            Min rate:
+                        </span>
+                        <input type="number"
+                               v-model="filter.minRate"
+                               min="0" max="10"
+                               placeholder="Input min rate"
+                               class="appearance-none
+                               block pl-20 pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            Max rate:
+                        </span>
+                        <input type="number"
+                               v-model="filter.maxRate"
+                               min="0" max="10"
+                               placeholder="Input max rate"
+                               class="appearance-none
+                               block pl-20 pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
+                    <div class="w-full flex relative border">
+                        <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                            Release year:
+                        </span>
+                        <input type="number"
+                               v-model="filter.releaseYear"
+                               min="1900" max="2022"
+                               placeholder="Input max rate"
+                               class="appearance-none
+                               block pl-24  pr-6 py-2 w-full bg-white
+                               placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
+                               focus:text-gray-700 focus:outline-none" />
+                    </div>
 
-            <table class="table">
-                <thead>
-                    <tr class=" table filter ">
-                        <th>
-                            <label class="form-label">Name</label>
-                            <input type="text" v-model="filter.name" placeholder="Input name" class="form-control" />
-                        </th>
-                        <th>
-                            <label class="form-label">MinRate</label>
-                            <input type="number" v-model="filter.minRate" min="0" max="10" class="form-control" />
-                        </th>
-                        <th>
-                            <label class="form-label">MaxRate</label>
-                            <input type="number" v-model="filter.maxRate" min="0" max="10" class="form-control" />
-                        </th>
-                        <th>
-                            <label class="form-label">ReleaseYear</label>
-                            <input type="number" v-model="filter.releaseYear" min="1900" max="2022" placeholder="Input year" class="form-control" />
-                        </th>
-                        <th>
-                            <label class="form-label">My games</label>
-                            <select v-model="filter.showAdded" class="form-select">
-                                <option value='false'>- All -</option>
-                                <option value='true'>my games</option>
-                            </select>
-                        </th>
-                        <th class="align-bottom">
-                            <img class="icon" v-on:click="getGamesWithFilters()" type="button" :src="require('/src/assets/icon-search.png')" />
-                        </th>
-                        <th class="align-bottom">
-                            <img class="icon" v-if="isAuth&&isAdmin" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
-
-                        </th>
-                        <th class="align-bottom">
-                            <button v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from Tesera</button>
-                        </th>
-
-                    </tr>
-                </thead>
-            </table>
-            <div class="post">
-                <table class="table ">
-                    <thead>
-                        <tr class="table filter">
-                            <th @click="sort('name')" style="cursor: pointer;">Name ⇅</th>
-                            <th @click="sort('rating')" style="cursor: pointer;">Rate ⇅</th>
-                            <th @click="sort('playersMinCount')" style="cursor: pointer;">Min player count ⇅</th>
-                            <th @click="sort('playersMaxCount')" style="cursor: pointer;">Max player count ⇅</th>
-                            <th @click="sort('minAge')" style="cursor: pointer;">Min age ⇅</th>
-                            <th @click="sort('minPartyTime')" style="cursor: pointer;">Min party time ⇅</th>
-                            <th @click="sort('maxPartyTime')" style="cursor: pointer;">Max party time ⇅</th>
-                            <th @click="sort('releaseYear')" style="cursor: pointer;">Release year ⇅</th>
-                            <th v-if="isAuth" @click="sort('addedToUserGames')" style="cursor: pointer;">Added</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                </table>
+                    <div class="w-full flex flex-row border">
+                        <select v-model="filter.showAdded"
+                                class=" block  pr-6 py-2 w-full bg-white
+                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
+                            <option value='false'>- All -</option>
+                            <option value='true'>my games</option>
+                        </select>
+                    </div>
+                    <span v-on:click="getGamesWithFilters()" class="justify-center bg-green-400 border-1 border-green-800  inset-y-0 left-0 flex  items-center ">
+                        <svg viewBox="0 0 24 24" class="h-7 lg:w-7 fill-current text-white">
+                            <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
+                            </path>
+                        </svg>
+                    </span>
+                    <span @click="showAddModal" type="button" class="justify-center bg-green-400 border-1 border-green-800 inset-y-0 left-0 flex  items-center ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" 
+                             class=" lg:w-10 h-10 fill-current text-normal text-white" viewBox="0 0 16 16"> <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" /> </svg>
+                    </span>
+                    <button class="bg-green-400 text-white  lg:w-20 h-10"
+                            v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu"> Import from Tesera</button>
                
-                    <div class="flex bg-white rounded-lg shadow-xl p-8 justify-content-start card-strip" v-for="item in games" :key="item.Id">
-                        <div>
-                            <img class="game-image" v-bind:src="item.image">
-                            <div v-if="isAuth">
-                                <label>Add to my games:</label>
-                                <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
-                            </div>
-                            <img class="icon" v-if="isAuth&&isAdmin" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
-                            <img class="icon" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
-                        </div>
-                        <div class="info w-100 col" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
-                            <div class="row px-3 mb-2">
-                                <h4 class="mr-4">{{item.name }}</h4>
-                                <p class="mt-1 mr-4 extended-title">{{item.nameRu}}|{{item.nameEng}}</p>
-                            </div>
-                            <div>
-                                <p><span> {{item.releaseYear }}</span></p>
-                                <span> Players: {{item.playersMinCount }}-{{item.playersMaxCount }} || </span>
-                                <span> Party time: {{item.minPartyTime }}-{{item.maxPartyTime }} || </span>
-                                <span> Min. age: {{item.minAge }}</span>
-                            </div>
+                </template>
+            </FilterBox>
 
-                            <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="flex-wrap justify-content-center"></star-rating>
-                            <span class="text-justify">  {{item.gameInfoShort }}</span>
+            <!-- Sort -->
+            <FilterBox>
+                <template v-slot:body>
+
+                    <div class="w-full flex justify-around divide-x relative border">
+
+                        <span @click="sort('rating')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Rate ⇅</span>
+                        <span @click="sort('playersMinCount')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Min player count ⇅</span>
+                        <span @click="sort('playersMaxCount')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Max player count ⇅</span>
+                        <span @click="sort('minAge')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Min age ⇅</span>
+                        <span @click="sort('minPartyTime')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Min party time ⇅</span>
+                        <span @click="sort('maxPartyTime')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Max party time ⇅</span>
+                        <span @click="sort('releaseYear')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Release year ⇅</span>
+                        <span v-if="isAuth"
+                              @click="sort('addedToUserGames')"
+                              style="cursor: pointer;"
+                              class="font-light text-left">Added</span>
+
+                    </div>
+
+                </template>
+            </FilterBox>
+            <div class="post">
+                
+
+                <div class="flex bg-white rounded-lg shadow-xl p-8 justify-content-start card-strip" v-for="item in games" :key="item.Id">
+                    <div>
+                        <img class="game-image" v-bind:src="item.image">
+                        <div v-if="isAuth">
+                            <label>Add to my games:</label>
+                            <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
                         </div>
+                        <img class="w-7 h-7" v-if="isAuth&&isAdmin" @click="showEditModal(item.id)" type="button" :src="require('/src/assets/icon-edit.png')" />
+                        <img class="w-7 h-7" v-if="isAdmin && !isMyGamesPage" v-on:click="goToDelete(item.id)" type="button" :src="require('/src/assets/icon-remove.png')" />
+                    </div>
+                    <div class="info w-100 col" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
+                        <div class="row px-3 mb-2">
+                            <h4 class="mr-4">{{item.name }}</h4>
+                            <p class="mt-1 mr-4 extended-title">{{item.nameRu}}|{{item.nameEng}}</p>
+                        </div>
+                        <div>
+                            <p><span> {{item.releaseYear }}</span></p>
+                            <span> Players: {{item.playersMinCount }}-{{item.playersMaxCount }} || </span>
+                            <span> Party time: {{item.minPartyTime }}-{{item.maxPartyTime }} || </span>
+                            <span> Min. age: {{item.minAge }}</span>
+                        </div>
+
+                        <star-rating v-model:rating="item.rating" :rating="0.01" :max-rating="10" :read-only="true" class="flex-wrap justify-content-center"></star-rating>
+                        <span class="text-justify">  {{item.gameInfoShort }}</span>
                     </div>
                 </div>
-
             </div>
-        <div >
+
+
+        </div>
+        <div>
             <h3>Top 10 games</h3>
             <ol>
                 <li v-on:click="goToDetails(item.id)" v-for="item in topGames" :key="item.Id">
@@ -142,7 +206,7 @@
             };
         },
         components: {
-        
+
             AddGameView,
             EditGameView,
             StarRating
@@ -293,7 +357,7 @@
         padding: 20px;
     }
 
-/*
+    /*
     @media screen and (max-width: 1012px) {
         .card-strip {
             width: 100%;
