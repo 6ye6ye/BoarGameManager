@@ -1,5 +1,5 @@
 ﻿<template>
-    <div class="flex w-full items-start">
+    <div class="flex w-full items-start flex-wrap xl:!flex-nowrap ">
         <ModalWindow v-if="isModalEditVisible" @close="closeEditModal">
             <template v-slot:title>
                 <h5>Edit game party</h5>
@@ -9,7 +9,7 @@
             </template>
         </ModalWindow>
 
-        <ContainerWhite class="w-1/3">
+        <ContainerWhite class="xl:w-1/3 xl:mr-10 mr-0 w-full">
             <template v-slot:body>
                 <h4 class="text-xl text-gray-900 font-bold">Game party info</h4>
                 <ul class="mt-2 text-gray-700">
@@ -42,7 +42,7 @@
             </template>
         </ContainerWhite>
 
-        <ContainerWhite class=" w-2/3">
+        <ContainerWhite class=" xl:w-2/3 w-full">
             <template v-slot:body>
                 <h4 class="text-xl text-center text-gray-700 font-bold">Party members</h4>
                 <GamePartyMembers :gameId="gameParty.game.id" :gamePartyId="gameParty.id" :isCreator="isCreator" />

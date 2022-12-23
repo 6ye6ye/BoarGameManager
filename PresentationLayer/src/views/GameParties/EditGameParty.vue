@@ -30,7 +30,7 @@
                     <option @change="onChangeGameParty" v-for="game in games" :key="game.id" :value="game.id"> {{game.name}}</option>
                 </select>
 
-                <p class="text-danger"> {{errorMessage}}</p>
+                <ErrorMessage :message="errorMessage"></ErrorMessage>
                 <button type="submit" class="button-submit btn btn-primary">Save</button>
             </div>
         </div>

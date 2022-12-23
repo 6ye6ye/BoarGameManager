@@ -19,23 +19,23 @@
                 <thead>
                     <tr class="bg-blue-400 text-white uppercase  leading-normal">
 
-                        <th class="py-3 px-6 text-left">Player</th>
-                        <th class="py-3 px-6 text-left">Game role</th>
-                        <th class="py-3 px-6 text-left">Points</th>
-                        <th class="py-3 px-6 text-left">IsWinner</th>
-                        <th class="py-3 px-6 text-left"></th>
+                        <th class="py-3 px-2 text-left">Player</th>
+                        <th class="py-3 px-2 text-left">Game role</th>
+                        <th class="py-3 px-2 text-left">Points</th>
+                        <th class="py-3 px-2 text-left">IsWinner</th>
+                        <th class="py-3 px-2 text-left"></th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 ">
                     <tr v-for="item in gamePartyMembers"
                         :key="item.Id"
                         class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.player.name }}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap" v-if="item.gameRole!=null">{{item.gameRole.name }}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap" v-else> default </td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.points }}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.isWinner }}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap" v-if="isCreator">
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.player.name }}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap" v-if="item.gameRole!=null">{{item.gameRole.name }}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap" v-else> default </td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.points }}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.isWinner }}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap" v-if="isCreator">
                             <div v-on:click="goToDelete(item.id)"
                                  class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,8 +49,6 @@
         </div>
     </div>
 </template>
-
-
 
 <script>
     import AddGamePartyMemberView from "../GamePartiesMembers/AddGamePartyMember.vue";

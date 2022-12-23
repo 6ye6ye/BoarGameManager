@@ -113,7 +113,7 @@
                 class="mt-2 w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
             Add
         </button>
-        <p class="text-danger"> {{errorMessage}}</p>
+        <ErrorMessage :message="errorMessage"></ErrorMessage>
     </form>
 </template>
 

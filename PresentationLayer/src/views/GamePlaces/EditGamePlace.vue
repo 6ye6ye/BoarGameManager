@@ -1,13 +1,19 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="editGamePlace" method="post">
-        <div class="row ">
-            <div class=" mx-auto">
-                <h2>Game place</h2>
-                <input placeholder="Input  name" type="text" v-model="gamePlace.name" minlength="3" maxlength="50" class="form-control" required />
-                <button type="submit" class="button-submit btn btn-primary">Save</button>
-                <p class="text-danger"> {{errorMessage}}</p>
-            </div>
-        </div>
+      
+        <label class="block">
+            <span class=" text-gray-700">Name: </span>
+            <input type="text"
+                   class="block pl-4 w-full  border-gray-200 rounded-md border
+                   focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   minlength="3" maxlength="50"
+                   v-model="gamePlace.name" required />
+        </label>
+        <ErrorMessage :message="errorMessage"></ErrorMessage>
+        <button type="submit"
+                class="mt-2 w-full px-4 py-2 text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+            Save
+        </button>
     </form>
 </template>
 

@@ -51,8 +51,8 @@
         </div>
 
         <hr>
+        <ErrorMessage :message="errorMessage"></ErrorMessage>
         <button type="submit" class="btn btn-primary">Save</button>
-        <p class="text-danger"> {{errorMessage}}</p>
     </form>
 </template>
 

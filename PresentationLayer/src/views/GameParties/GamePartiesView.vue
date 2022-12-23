@@ -1,13 +1,13 @@
 <template>
-        <div class="w-full">
-            <ModalWindow v-if="isModalVisible" @close="closeAddModal" :title="Test">
-                <template v-slot:title>
-                    <h5>New game party</h5>
-                </template>
-                <template #body>
-                    <AddGamePartyView @close="closeAddModal" @get-game-parties="getGameParties"></AddGamePartyView>
-                </template>
-            </ModalWindow>
+    <ModalWindow v-if="isModalVisible" @close="closeAddModal" :title="Test">
+        <template v-slot:title>
+            <h5>New game party</h5>
+        </template>
+        <template #body>
+            <AddGamePartyView @close="closeAddModal" @get-game-parties="getGameParties"></AddGamePartyView>
+        </template>
+    </ModalWindow>
+    <div class="w-full">
         <div class="bg-white  shadow-md rounded mb-6">
             <!--Filter-->
             <div class="my-2 flex md:flex-row md:flex-nowrap flex-col  items-stretch text-sm">
@@ -72,48 +72,51 @@
                         <option value='false'>Just no created</option>
                     </select>
                 </div>
-                <span v-on:click="getGamePartiesWithFilters()" class="inset-y-0 left-0 flex border items-center px-2">
-                    <svg viewBox="0 0 24 24" class="h-7 w-7 fill-current text-gray-500">
+              
+                <span v-on:click="getGamePartiesWithFilters()"
+                      class="h-10 px-2 justify-center  bg-green-500 border-1 border-green-800  focus:outline-none hover:bg-green-400 inset-y-0 left-0 flex  items-center ">
+                    <svg viewBox="0 0 24 24" class="h-7 lg:w-7 fill-current text-white">
                         <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
                         </path>
                     </svg>
                 </span>
-                <span @click="showAddModal" type="button" class="inset-y-0 left-0 flex border items-center px-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="fill-current text-gray-500" viewBox="0 0 16 16"> <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" /> </svg>
+                <span @click="showAddModal" type="button"
+                      class="h-10  font-bold px-2 justify-center text-white bg-green-500 border-1 border-green-800  focus:outline-none hover:bg-green-400 inset-y-0 left-0 flex  items-center ">
+                    Add
                 </span>
                 <!--<div class="align-bottom">
-                <img class="icon" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
-            </div>-->
+        <img class="icon" type="button" @click="showAddModal" :src="require('/src/assets/icon-add.png')" />
+    </div>-->
             </div>
         </div>
         <div class="bg-white shadow-md rounded my-6" v-if="gameParties.length>0">
-            <table class="min-w-max w-full table-auto" >
+            <table class="min-w-max w-full table-auto">
                 <thead>
                     <tr class="bg-blue-400 text-white uppercase  leading-normal">
                         <th @click="sort('date')"
                             style="cursor: pointer;"
-                            class="py-3 px-6 text-left">Date</th>
+                            class="py-3 px-2 text-left">Date</th>
                         <th @click="sort('game')"
                             style="cursor: pointer;"
-                            class="py-3 px-6 text-left">Game</th>
+                            class="py-3 px-2 text-left">Game</th>
                         <th @click="sort('gamePlace.name')"
                             style="cursor: pointer;"
-                            class="py-3 px-6 text-left">Place</th>
+                            class="py-3 px-2 text-left">Place</th>
                         <th @click="sort('partyCreatorName')"
                             style="cursor: pointer;"
-                            class="py-3 px-6 text-left">Creator</th>
-                        <th class="py-3 px-6 text-left"></th>
+                            class="py-3 px-2 text-left">Creator</th>
+                        <th class="py-3 px-2 text-left"></th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 ">
                     <tr v-for="item in gameParties"
                         :key="item.Id"
                         class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.date }}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.game.name}}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.userGamePlace.name }}</td>
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{item.partyCreatorName }}</td>
-                        <td class="py-3 px-6 text-center">
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.date }}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.game.name}}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.userGamePlace.name }}</td>
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.partyCreatorName }}</td>
+                        <td class="py-3 px-2 text-center">
                             <div class="flex item-center justify-center">
                                 <div v-on:click="goToDetails(item.id)"
                                      class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">

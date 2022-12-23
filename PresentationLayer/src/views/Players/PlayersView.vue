@@ -30,21 +30,21 @@
                     add
                 </button>
             </div>
-            <div class="relative bg-white shadow-md rounded z-40" v-if="players.length>0">
+            <div class="relative bg-white shadow-md rounded z-40" >
                 <table class="min-w-max w-full table-auto">
                     <thead>
                         <tr class="bg-blue-400 text-white uppercase  leading-normal">
-                            <th class="py-3 px-6 text-left">Name</th>
-                            <th class="py-3 px-6 text-left"></th>
+                            <th class="py-3 px-2 text-left">Name</th>
+                            <th class="py-3 px-2 text-left"></th>
 
                         </tr>
                     </thead>
-                    <tbody class="text-gray-600 ">
+                    <tbody class="text-gray-600" v-if="players.length>0">
                         <tr v-for="item in players"
                             :key="item.Id"
                             class="border-b border-gray-200 hover:bg-gray-100">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">{{item.name }}</td>
-                            <td class="py-3 px-6 text-center">
+                            <td class="py-3 px-2 text-left whitespace-nowrap">{{item.name }}</td>
+                            <td class="py-3 px-2 text-center">
                                 <div class="flex item-center justify-center">
                                     <div v-on:click="showEditModal(item.id)"
                                          class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">
@@ -67,10 +67,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <InfoMessage v-show="players.length==0" message="No created players!"></InfoMessage>
             </div>
-            <p v-else>
-                No created players
-            </p>
+            
         </div>
     </div>
 </template>

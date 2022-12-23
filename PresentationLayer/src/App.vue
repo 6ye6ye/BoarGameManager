@@ -1,7 +1,10 @@
 <template>
-    <AppHeader />
-    <div id="app" class="container  min-w-screen flex my-6 items-center justify-center  font-sans overflow-hidden">
+    <div class="h-screen bg-main">
+        <AppHeader  />
+
+        <div id="app" bf class="container  w-full bg-min-w-screen flex my-6 items-start justify-center  font-sans overflow-hidden">
             <router-view></router-view>
+        </div>
     </div>
 </template>
 
@@ -22,7 +25,7 @@
             }
         },
 
-      
+
         computed: {
             layout() {
                 return `${this.currentRoute.value.meta.layout || this.defaultLayout}-layout`
@@ -33,9 +36,9 @@
 </script>
 
 <style>
-    .vue-star-rating{
-        flex-wrap:wrap;
-    } 
+    .vue-star-rating {
+        flex-wrap: wrap;
+    }
 </style>
 <!--<style>
 

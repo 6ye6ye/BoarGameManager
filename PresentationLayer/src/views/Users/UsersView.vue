@@ -32,8 +32,9 @@
                            placeholder="Input email"
                            class="appearance-none  block pl-16 pr-6 py-2 w-full bg-white placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                 </div>
-                <span v-on:click="getUsersWithFilters()" class="border inset-y-0 left-0 flex items-center px-2">
-                    <svg viewBox="0 0 24 24" class="h-7 w-7 fill-current text-gray-500">
+                <span v-on:click="getUsersWithFilters()"
+                      class="h-10 px-2 justify-center  bg-green-500 border-1 border-green-800  focus:outline-none hover:bg-green-400 inset-y-0 left-0 flex  items-center ">
+                    <svg viewBox="0 0 24 24" class="h-7 lg:w-7 fill-current text-white">
                         <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm-8 6a8 8 0 1114.32 4.906l5.387 5.387a1 1 0 01-1.414 1.414l-5.387-5.387A8 8 0 012 10z">
                         </path>
                     </svg>
@@ -46,23 +47,24 @@
                     <tr class="bg-blue-400 text-white uppercase  leading-normal">
                         <th @click="sort('userName')"
                             style="cursor: pointer;"
-                            class="py-3 px-6 text-left">Login⇅</th>
+                            class="py-3 px-2 text-left">Login⇅</th>
                         <th @click="sort('email')"
                             style="cursor: pointer;"
-                            class="py-3 px-6 text-left">Email⇅</th>
-                        <th class="py-3 px-6 text-left">Role</th>
-                        <th class="py-3 px-6 text-center">Actions</th>
+                            class="py-3 px-2 text-left">Email⇅</th>
+                        <th class="py-3 px-2 text-left">Role</th>
+                        <th class="py-3 px-2 text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 ">
                     <tr v-for="user in users"
                         :key="user.id"
                         class="border-b border-gray-200 hover:bg-gray-100">
-                        <td class="py-3 px-6 text-left whitespace-nowrap">{{user.userName}}</td>
-                        <td class="py-3 px-6 text-left">{{user.email}}</td>
-                        <td class="py-3 px-6 text-left">{{user.role.name}}</td>
-                        <td class="py-3 px-6 text-center">
+                        <td class="py-3 px-2 text-left whitespace-nowrap">{{user.userName}}</td>
+                        <td class="py-3 px-2 text-left">{{user.email}}</td>
+                        <td class="py-3 px-2 text-left">{{user.role.name}}</td>
+                        <td class="py-3 px-2 text-center">
                             <div class="flex item-center justify-center">
+
                                 <div v-on:click="goToDetails(user.id)"
                                      class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,7 +81,6 @@
                                 </div>
                             </div>
                         </td>
-
                     </tr>
                 </tbody>
             </table>

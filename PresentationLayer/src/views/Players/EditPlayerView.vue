@@ -6,7 +6,7 @@
                 <input placeholder="Input name" type="text" v-model="player.name" minlength="3" maxlength="50" class="form-control" required />
                 <button type="submit" class="button-submit btn btn-success ">Save</button>
             </div>
-            <p class="text-danger"> {{errorMessage}}</p>
+            <ErrorMessage :message="errorMessage"></ErrorMessage>
         </div>
     </form>
 </template>

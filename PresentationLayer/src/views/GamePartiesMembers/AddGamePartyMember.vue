@@ -4,7 +4,7 @@
             <h2>Game party member</h2>
             <div class="form-group ">
                 <label class="control-label d-inline">Player</label><span class="required">*</span>
-                <img class="icon"  type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
+                <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
                 <ModalWindow v-if="isModalVisible" @close="closeModal">
                     <template v-slot:title>
                         <h5>New game party</h5>
@@ -35,8 +35,8 @@
             </div>
 
         </div>
+        <ErrorMessage :message="errorMessage"></ErrorMessage>
         <button type="submit" class="btn btn-primary">Add</button>
-        <p class="text-danger"> {{errorMessage}}</p>
     </form>
 </template>
 

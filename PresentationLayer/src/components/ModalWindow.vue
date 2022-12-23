@@ -1,7 +1,7 @@
 <template>
     <div class="modal-mask">
         <div class="flex flex-column items-center">
-            <div class=" w-full max-w-md p-6 bg-white rounded-md shadow-md">
+            <div class=" w-full max-w-xl p-6 bg-white rounded-md shadow-md">
                 <div class="modal-header flex  items-center justify-between  border-b border-gray-200 rounded-t-md pb-2">
                     <img class="icon w-7 h-7" :src="require('/src/assets/icon-main.png')" />
                    
@@ -13,10 +13,11 @@
                             data-bs-dismiss="modal" aria-label="Close">x</button>
                 </div>
            
-                <hr/>
+                <hr class="my-2"/>
                 <div class="modal-body">
                     <slot name="body" />
                 </div>
+
                 <div class="mt-2">
                     <slot name="button" />
                 </div>

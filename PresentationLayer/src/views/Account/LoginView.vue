@@ -1,44 +1,44 @@
 ﻿<template>
 
-        <div class="w-full max-w-md p-6 bg-white rounded-md shadow-md">
-            <div class="flex items-center justify-center">
-                <img class="icon" :src="require('/src/assets/icon-main.png')" />
-                <span class="text-2xl font-semibold text-gray-700">Board games</span>
-            </div>
-            <form ref="form" @submit.prevent="trylogin" method="post" class="mt-4">
-                <label class="block">
-                    <span class="text-sm text-gray-700">Login</span>
-
-                    <input type="text"
-                           class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
-                           v-model="userName" />
-                </label>
-
-                <label class="block mt-3">
-                    <span class="text-sm text-gray-700">Password</span>
-                    <input type="password"
-                           class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
-                           v-model="password" />
-                </label>
-
-                <div class="flex items-center justify-between mt-4">
-                    <div>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" class="text-indigo-600 border  border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500" />
-                            <span class="mx-2 text-sm text-gray-600">Remember me</span>
-                        </label>
-                    </div>
-                </div>
-                <ErrorMessage  :message="errorMessage" />
-  
-                <div class="mt-6">
-                    <button type="submit"   data-ripple-light="true"
-                            class=" w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
-                        Sign in
-                    </button>
-                </div>
-            </form>
+    <div class="w-full mb-3 max-w-md p-6 bg-white rounded-md shadow-md">
+        <div class="flex items-center justify-center">
+            <img class="icon" :src="require('/src/assets/icon-main.png')" />
+            <span class="text-2xl font-semibold text-gray-700">Board games</span>
         </div>
+        <form ref="form" @submit.prevent="trylogin" method="post" class="mt-4">
+            <label class="block">
+                <span class="text-sm text-gray-700">Login</span>
+
+                <input type="text"
+                       class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                       v-model="userName" />
+            </label>
+
+            <label class="block mt-3">
+                <span class="text-sm text-gray-700">Password</span>
+                <input type="password"
+                       class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                       v-model="password" />
+            </label>
+
+            <div class="flex items-center justify-between mt-4">
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="text-indigo-600 border  border-gray-200 rounded-md focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500" />
+                        <span class="mx-2 text-sm text-gray-600">Remember me</span>
+                    </label>
+                </div>
+            </div>
+            <ErrorMessage :message="errorMessage" />
+
+            <div class="mt-6">
+                <button type="submit" data-ripple-light="true"
+                        class=" w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+                    Sign in
+                </button>
+            </div>
+        </form>
+    </div>
 
 </template>
 
@@ -140,4 +140,3 @@
 
 <style lang="scss" scoped>
 </style>-->
-  

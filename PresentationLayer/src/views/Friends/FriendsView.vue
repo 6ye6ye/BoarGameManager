@@ -2,7 +2,7 @@
     <div class="container ">
         <ModalWindow v-show="isModalVisible" @close="closeModal">
             <template v-slot:title>
-                <h5>New friend</h5>
+                <h5>Add friend</h5>
             </template>
             <template v-slot:body>
                 <AddFriendView></AddFriendView>
@@ -31,8 +31,6 @@
                 </button>
             </div>
         </div>
-
-
         <div class="post my-6">
             <div class=" flex justify-end ">
                 <button v-on:click="showModal"
@@ -41,27 +39,23 @@
                     add
                 </button>
             </div>
-
-
-            <div v-show="friends.length!=0"
-                 class="bg-white shadow-md rounded " v-if="friends.length>0">
-
+            <div class="bg-white shadow-md rounded " >
                 <table class="min-w-max w-full table-auto">
                     <thead>
                         <tr class="bg-blue-400 text-white uppercase  leading-normal">
-                            <th class="py-3 px-6 text-left">Login</th>
-                            <th class="py-3 px-6 text-left"></th>
+                            <th class="py-3 px-2 text-center">Login</th>
+                            <th class="py-3 px-2 text-center"></th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-600 ">
+                    <tbody class="text-gray-600 " v-if="friends.length>0">
                         <tr v-for="item in friends" :key="item.id">
-                            <td class="py-3 px-6 text-left whitespace-nowrap">{{item.friend.userName }}</td>
-                            <td class="py-3 px-6 text-center">
+                            <td class="py-3 px-2 text-center whitespace-nowrap">{{item.friend.userName }}</td>
+                            <td class="py-3 px-2 text-center">
                                 <div class="flex item-center justify-center">
                                     <img class="icon" v-show="showButtonsConfirm" v-on:click="goToAccept(item.id)" type="button" :src="require('/src/assets/icon-accept.png')" />
                                     <img class="icon" v-show="showButtonsConfirm" v-on:click="goToIgnore(item.id)" type="button" :src="require('/src/assets/icon-ignore.png')" />
                                     <div v-on:click="goToDelete(item.id)"
-                                         class="w-6 mr-2 transform hover:text-purple-500 hover:scale-110">
+                                         class="w-6 mx-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                         </svg>
@@ -70,11 +64,10 @@
                             </td>
                         </tr>
                     </tbody>
+                   
                 </table>
+                <InfoMessage v-show="friends.length==0" message="No users!"></InfoMessage>
             </div>
-            <h2 v-show="friends.length==0"  >
-                No users!
-            </h2>
         </div>
     </div>
 </template>
