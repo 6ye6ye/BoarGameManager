@@ -29,7 +29,7 @@
                     </label>
                 </div>
             </div>
-            <ErrorMessage :message="errorMessage" />
+            <ErrorMessage v-show="errorMessage!=''" :message="errorMessage" />
 
             <div class="mt-6">
                 <button type="submit" data-ripple-light="true"
@@ -46,7 +46,6 @@
 
 <script>
     import AccountService from "../../services/AccountService";
-    import ErrorMessage from "../../components/ErrorMessage.vue";
     export default {
         name: 'LoginView',
         data() {
@@ -62,9 +61,6 @@
                 return this.userName && this.password
             }
         },
-        components: {
-            ErrorMessage
-        },
         methods: {
             async trylogin() {
                 if (!this.isValid) return false
@@ -79,14 +75,11 @@
                                         localStorage.setItem('isAuth', 'true')
                                     });
                                 });
-
-
-
                                 window.location.reload()
                                 window.location.href = '/';
                                 return { ok: true }
                             }
-                        case (400):
+                        default :
                             {
                                 this.errorMessage = response;
                                 return { ok: false }

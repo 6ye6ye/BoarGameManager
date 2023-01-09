@@ -1,58 +1,101 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="editGame" method="post">
-        <h2>Edit game</h2>
-        <div>
+        <div class="flex justify-center">
             <img class="game-image" :src="game.image">
         </div>
 
         <div>
-            <label class="form-label">Name</label>
-            <input type="text" v-model="game.name" minlength="3" maxlength="100" class="form-control" required />
+            <span>Name</span>
+            <input type="text"
+                   v-model="game.name"
+                   minlength="3" maxlength="100"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">NameRu</label>
-            <input type="text" v-model="game.nameRu" minlength="3" maxlength="100" class="form-control" required />
+            <span>NameRu</span>
+            <input type="text"
+                   v-model="game.nameRu"
+                   minlength="3" maxlength="100"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">NameEng</label>
-            <input type="text" v-model="game.nameEng" minlength="3" maxlength="100" class="form-control" required />
+            <span>NameEng</span>
+            <input type="text"
+                   v-model="game.nameEng"
+                   minlength="3" maxlength="100"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">Game info short</label>
-            <textarea type="text" v-model="game.gameInfoShort" minlength="1" maxlength="300" rows="3" class="form-control" required />
+            <span>Game info short</span>
+            <textarea type="text"
+                      v-model="game.gameInfoShort"
+                      minlength="1" maxlength="300" rows="3"
+                      class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                      required />
         </div>
         <div>
-            <label class="form-label">Game info</label>
-            <textarea type="text" v-model="game.gameInfo" maxlength="2000" rows="3" class="form-control" />
+            <span>Game info</span>
+            <textarea type="text"
+                      v-model="game.gameInfo"
+                      maxlength="2000" rows="3"
+                      class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500" />
         </div>
         <div>
-            <label class="form-label">PlayersMinCount</label>
-            <input type="number" v-model="game.playersMinCount" min="1" max="50" class="form-control" required />
+            <span>PlayersMinCount</span>
+            <input type="number"
+                   v-model="game.playersMinCount"
+                   min="1" max="50"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">PlayersMaxCount</label>
-            <input type="number" v-model="game.playersMaxCount" min="1" max="50" class="form-control" required />
+            <span>PlayersMaxCount</span>
+            <input type="number"
+                   v-model="game.playersMaxCount"
+                   min="1" max="50"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">MinAge</label>
-            <input type="number" v-model="game.minAge" min="1" max="80" class="form-control" required />
+            <span>MinAge</span>
+            <input type="number"
+                   v-model="game.minAge"
+                   min="1" max="80"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">MinPartyTime(min)</label>
-            <input type="number" v-model="game.minPartyTime" min="1" max="1000" class="form-control" required />
+            <span>MinPartyTime(min)</span>
+            <input type="number"
+                   v-model="game.minPartyTime"
+                   min="1" max="1000"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">MaxPartyTime(min)</label>
-            <input type="number" v-model="game.maxPartyTime" min="1" max="1000" class="form-control" required />
+            <span>MaxPartyTime(min)</span>
+            <input type="number"
+                   v-model="game.maxPartyTime"
+                   min="1" max="1000"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
         <div>
-            <label class="form-label">ReleaseYear</label>
-            <input type="number" v-model="game.releaseYear" min="1900" max="2030" class="form-control" required />
+            <span>ReleaseYear</span>
+            <input type="number"
+                   v-model="game.releaseYear"
+                   min="1900" max="2030"
+                   class="block pl-4 w-full mt-1 border-gray-200 rounded-md border  focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
+                   required />
         </div>
-
-        <hr>
+        <button type="submit"
+                class="mt-2 w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+            Save
+        </button>
         <ErrorMessage :message="errorMessage"></ErrorMessage>
-        <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </template>
 
@@ -62,20 +105,20 @@
     export default {
         name: 'EditGameView',
         emits: ['close', 'get-games'],
-        props: [ 'gameId'],
+        props: ['gameId'],
         data() {
             return {
                 imageFile: undefined,
                 game: {
-                    id: this.gameId, 
-                    alias:'',
+                    id: this.gameId,
+                    alias: '',
                     image: '',
                     name: '',
                     nameRu: '',
                     nameEng: '',
                     gameInfoShort: '',
                     gameInfo: '',
-                    playersMinCount:'',
+                    playersMinCount: '',
                     playersMaxCount: '',
                     minAge: '',
                     minPartyTime: '',
@@ -116,7 +159,7 @@
                 if (!this.isValid) return false
                 GamesService.Edit(this.game)
                     .then(response => {
-                        if (response.status==200) {
+                        if (response.status == 200) {
                             this.$emit('close');
                             this.$emit('get-games');
                             return { ok: true }

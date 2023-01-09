@@ -9,7 +9,7 @@
             </template>
         </ModalWindow>
 
-        <div class=" w-1/3 mr-20 bg-white rounded-lg shadow-xl p-8">
+        <div class=" w-1/3 mr-20 bg-white rounded-lg shadow-md p-8">
             <h4 class="text-xl text-gray-900 font-bold">Personal Info</h4>
             <ul class="mt-2 text-gray-700">
                 <li class="flex border-y py-2">
@@ -31,7 +31,7 @@
                 Change password
             </button>
         </div>
-        <div class="w-2/3 bg-white rounded-lg shadow-xl p-8">
+        <div class="w-2/3 bg-white rounded-lg shadow-md p-8">
             <h3>Statistic</h3>
 
             <p class="title">Played games</p>

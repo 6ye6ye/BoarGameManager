@@ -73,7 +73,7 @@ namespace BoardGameManager1.Controllers
 
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<GameDTOGet>> GetGame(string id)
+        public async Task<ActionResult<GameDTOGet>> GetGame(Guid id)
         {
 
             var game = await _gameService.GetGameById(id);
@@ -107,21 +107,10 @@ namespace BoardGameManager1.Controllers
 
         [HttpDelete("{id}")]
         [AppAutorize(UserRoleEnum.Admin)]
-        public async Task<IActionResult> DeleteGame(string id)
+        public async Task<IActionResult> DeleteGame(Guid id)
         {
-            try
-            {
                 await _gameService.DeleteGame(id);
                 return Ok();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         [HttpPost]

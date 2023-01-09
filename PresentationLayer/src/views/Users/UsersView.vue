@@ -3,7 +3,7 @@
         <div class="bg-white  shadow-md rounded mb-6">
             <!--Filter-->
             <div class=" flex md:flex-row md:flex-nowrap flex-col  items-stretch text-sm">
-                <div class="flex flex-row border pl-2 ">
+                <div class="grow border pl-2 ">
                     <select v-model="filter.roleId"
                             class=" block  pr-6 py-2 w-full bg-white
                                 placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
@@ -11,7 +11,7 @@
                         <option v-for="role in roles" v-bind:key="role.id" v-bind:value="role.id"> {{role.name}}</option>
                     </select>
                 </div>
-                <div class="block relative border">
+                <div class="grow relative border">
                     <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                         Login:
                     </span>
@@ -23,14 +23,14 @@
                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
                                focus:text-gray-700 focus:outline-none" />
                 </div>
-                <div class="block relative border ">
+                <div class="grow relative border ">
                     <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                         Email:
                     </span>
                     <input type="text"
                            v-model="filter.email"
                            placeholder="Input email"
-                           class="appearance-none  block pl-16 pr-6 py-2 w-full bg-white placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+                           class="appearance-none    pl-16 pr-6 py-2 w-full bg-white placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
                 </div>
                 <span v-on:click="getUsersWithFilters()"
                       class="h-10 px-2 justify-center  bg-green-500 border-1 border-green-800  focus:outline-none hover:bg-green-400 inset-y-0 left-0 flex  items-center ">
@@ -55,7 +55,7 @@
                         <th class="py-3 px-2 text-center">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 ">
+                <tbody class="text-gray-600">
                     <tr v-for="user in users"
                         :key="user.id"
                         class="border-b border-gray-200 hover:bg-gray-100">

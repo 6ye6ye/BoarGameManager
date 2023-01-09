@@ -36,7 +36,7 @@ export default class AccountService {
         });
     }
     
-    static async register(login, email, password, passwordRepeat, name) {
+    static async register(login, email, password, passwordRepeat) {
          return await axios({
             method: 'post',
             url: url + '/API/Account/Register',
@@ -44,8 +44,7 @@ export default class AccountService {
                 login: login,
                 email: email,
                 password: password,
-                passwordRepeat: passwordRepeat,
-                name: name
+                passwordRepeat: passwordRepeat
             }
         });
 

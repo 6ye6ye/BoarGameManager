@@ -20,7 +20,7 @@
         <div class="xl:w-3/4 px-6 xl:mr-10  w-full">
             <FilterBox>
                 <template v-slot:body>
-                    <div class="w-full flex relative border">
+                    <div class="grow flex relative border">
                         <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                             Name:
                         </span>
@@ -28,11 +28,11 @@
                                v-model="filter.gameName"
                                placeholder="Input name"
                                class="appearance-none
-                               block pl-16 pr-2 py-2 w-full bg-white
+                               pl-16 pr-2 py-2 w-full bg-white
                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
                                focus:text-gray-700 focus:outline-none" />
                     </div>
-                    <div class="w-full flex relative border">
+                    <div class="grow flex relative border">
                         <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                             Min rate:
                         </span>
@@ -41,11 +41,11 @@
                                min="0" max="10"
                                placeholder="Input min rate"
                                class="appearance-none
-                               block pl-20 pr-2 py-2 w-full bg-white
+                               pl-20 pr-2 py-2 w-full bg-white
                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
                                focus:text-gray-700 focus:outline-none" />
                     </div>
-                    <div class="w-full flex relative border">
+                    <div class="grow flex relative border">
                         <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
                             Max rate:
                         </span>
@@ -54,30 +54,30 @@
                                min="0" max="10"
                                placeholder="Input max rate"
                                class="appearance-none
-                               block pl-20 pr-2 py-2 w-full bg-white
+                               pl-20 pr-2 py-2 w-full bg-white
                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
                                focus:text-gray-700 focus:outline-none" />
                     </div>
-                    <div class="w-full flex relative border">
+                    <div class="grow flex relative border">
                         <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-                            Release year:
+                            Year:
                         </span>
                         <input type="number"
                                v-model="filter.releaseYear"
                                min="1900" max="2022"
-                               placeholder="Input max rate"
+                               placeholder="Input release year"
                                class="appearance-none
-                               block pl-24  pr-2 py-2 w-full bg-white
+                               pl-14  pr-2 py-2 w-full bg-white
                                placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-200
                                focus:text-gray-700 focus:outline-none" />
                     </div>
 
-                    <div class="w-full flex flex-row border">
+                    <div class="grow flex flex-row border">
                         <select v-model="filter.showAdded"
-                                class=" block  pr-3 py-2  w-full bg-white
+                                class=" block pl-6 pr-3 py-2  w-full bg-white
                                 placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
                             <option value='false'>- All -</option>
-                            <option value='true'>my games</option>
+                            <option value='true'>My collection</option>
                         </select>
                     </div>
                     <span v-on:click="getGamesWithFilters()"
@@ -91,7 +91,7 @@
                           class="h-10 px-2 justify-center text-white bg-green-500 border-1 border-green-800  focus:outline-none hover:bg-green-400 inset-y-0 left-0 flex  items-center ">
                         Add
                     </span>
-                    <button class="bg-green-500 text-white  focus:outline-none hover:bg-green-400 w-full h-10"
+                    <button class="bg-green-500 text-white  focus:outline-none hover:bg-green-400  h-10"
                             v-if="isAuth&&isAdmin" type="button" @click="goToImportGamesMenu">
                         Import from Tesera
                     </button>
@@ -101,7 +101,7 @@
             <!-- Sort -->
             <FilterBox>
                 <template v-slot:body>
-                    <div class="w-full flex justify-around divide-x relative border">
+                    <div class="w-full flex justify-around  relative border">
                         <span @click="sort('rating')"
                               class="cursor-pointer text-center">Rate ⇅</span>
                         <span @click="sort('playersMinCount')"
@@ -131,8 +131,8 @@
             </FilterBox>
 
             <!-- game card -->
-            <div class="ease  duration-300 hover:scale-105 cursor-pointer flex bg-white rounded shadow-md p-8 justify-content-start my-4" v-for="item in games" :key="item.Id">
-                <div class="flex flex-col w-1/4 mr-2 items-center">
+            <div class="ease  duration-300 hover:scale-105 cursor-pointer flex bg-white rounded shadow-md  justify-content-start my-4" v-for="item in games" :key="item.Id">
+                <div class="flex flex-col w-1/4 mr-2 my-4 items-center">
                     <img class="w-140px h-140px" v-bind:src="item.image">
                     <star-rating v-model:rating="item.rating"
                                  :rating="0.01"
@@ -144,8 +144,9 @@
                     </star-rating>
 
                     <div v-if="isAuth">
-                        <label>Add to my games:</label>
-                        <input class="form-check-input" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
+                        
+                        <input class="form-check-input mr-2" type="checkbox" v-on:click="changeGameAdded(item.id,item.addedToUserGames)" v-model="item.addedToUserGames" />
+                        <label> - add to collection</label>
                     </div>
 
                     <div class="flex item-center justify-center">
@@ -156,7 +157,6 @@
                                  stroke-linecap="round" stroke-width="2" stroke-linejoin="round">
                                 <polygon points="16 3 21 8 8 21 3 21 3 16 16 3"></polygon>
                             </svg>
-
                         </div>
 
                         <div v-if="isAdmin && !isMyGamesPage"
@@ -169,22 +169,22 @@
                     </div>
                 </div>
                 <div class="w-3/4 flex flex-col items-center text-center" v-on:click="goToDetails(item.id)" style="cursor: pointer;">
-                    <div class="">
-
-                        <h2 class="text-xl font-medium leading-normal text-gray-800">{{item.name }}</h2>
-                        <p class="">{{item.nameRu}}|{{item.nameEng}}</p>
+                    <div class="mb-2 w-full bg-blue-500 border">
+                        <h2 class="text-xl font-medium leading-normal text-white ">{{item.name }}</h2>
+                        <p class="text-white">{{item.nameRu}}|{{item.nameEng}}</p>
                     </div>
-                    <div>
-                        <p><span> {{item.releaseYear }}</span></p>
+                    <div class="mb-2  font-semibold">
+
                         <span> Players: {{item.playersMinCount }}-{{item.playersMaxCount }} || </span>
                         <span> Party time: {{item.minPartyTime }}-{{item.maxPartyTime }} || </span>
                         <span> Min. age: {{item.minAge }}</span>
+                        <p class="text-green-600"> {{item.releaseYear }}</p>
                     </div>
-                    <span class="text-justify">  {{item.gameInfoShort }}</span>
+                    <span class="text-justify px-2">  {{item.gameInfoShort }}</span>
                 </div>
             </div>
         </div>
-        <ContainerWhite class=" xl:w-1/4 w-full pt-4">
+        <ContainerWhite class="xl:block hidden xl:w-1/4 w-full pt-4">
             <template v-slot:body>
                 <h5 class="text-xl  text-center font-medium leading-normal text-gray-800 pb-2">
                     Top 10 games
@@ -225,7 +225,6 @@
                 isAdmin: localStorage.role == 'Admin',
                 isModalEditVisible: false,
                 isModalAddVisible: false,
-                isMyGamesPage: false,
                 games: [],
                 topGames: [],
                 currentId: '',
@@ -279,7 +278,6 @@
             getGames() {
                 GamesService.GetAll().then(response => {
                     this.games = response.data;
-                    this.isMyGamesPage = false;
                 })
                     .catch(e => {
                         console.log(e);
@@ -304,7 +302,6 @@
             getUserGames() {
                 UserGamesService.GetUserGames().then(response => {
                     this.games = response.data;
-                    this.isMyGamesPage = true;
                 })
                     .catch(e => {
                         console.log(e);

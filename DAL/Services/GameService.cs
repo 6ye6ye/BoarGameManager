@@ -69,7 +69,7 @@ namespace BoardGameManager1.Services
         }
 
 
-        public async Task<GameDTOGet> GetGameById(string id)
+        public async Task<GameDTOGet> GetGameById(Guid id)
         {
             var game = await getGame(id);
             return _mapper.Map<GameDTOGet>(game);
@@ -131,7 +131,7 @@ namespace BoardGameManager1.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteGame(string id)
+        public async Task DeleteGame(Guid id)
         {
             var game = await getGame(id);
             if (game.Image != "no-image-icon-6.png")
@@ -179,10 +179,10 @@ namespace BoardGameManager1.Services
             return userGameRate.Rate;
         }
 
-        public async Task<double> PostCurrentUserGameRate(string gameId, int rate, string userId)
+        public async Task<double> PostCurrentUserGameRate(Guid gameId, int rate, Guid userId)
         {
             var game = await getGame(gameId);
-            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId.ToString() == userId && g.GameId.ToString() == gameId);
+            var userGameRate = _context.GameRates.FirstOrDefault(g => g.UserId== userId && g.GameId == gameId);
 
             //if already rated change user game rate
             if (userGameRate != null || rate != userGameRate.Rate)
@@ -193,10 +193,10 @@ namespace BoardGameManager1.Services
             //if not rated, add new rate
             else
             {
-                _context.GameRates.Add(new GameRate() { GameId = new Guid(gameId), Rate = rate, UserId = new Guid(userId) });
+                _context.GameRates.Add(new GameRate() { GameId = gameId, Rate = rate, UserId =userId });
             }
 
-            var gameRates = _context.GameRates.Where(g => g.GameId.ToString() == gameId);
+            var gameRates = _context.GameRates.Where(g => g.GameId== gameId);
 
             game.RatingCount = gameRates.Count();
             game.Rating = (gameRates.Sum(c => c.Rate) / game.RatingCount);
@@ -208,9 +208,9 @@ namespace BoardGameManager1.Services
         }
 
 
-        private async Task<Game> getGame(string id)
+        private async Task<Game> getGame(Guid id)
         {
-            var game = await _context.Games.FindAsync(new Guid(id));
+            var game = await _context.Games.FindAsync(id);
             if (game == null)
                 throw new NotFoundException("Game");
             return game;

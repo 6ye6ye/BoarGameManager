@@ -52,7 +52,7 @@
                             class=" block  pr-6 py-2 w-full bg-white
                                 placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
                         <option value=''>- All game places -</option>
-                        <option v-for="gamePlace in gamePlaces" v-bind:key="gamePlace.id" v-bind:value="gamePlace.id"> {{gamePlace.name}}</option>
+                        <option v-show="gamePlaces.length>0" v-for="gamePlace in gamePlaces" v-bind:key="gamePlace.id" v-bind:value="gamePlace.id"> {{gamePlace.name}}</option>
                     </select>
                 </div>
                 <div class="w-full flex flex-row border">
@@ -60,16 +60,17 @@
                             class=" block  pr-6 py-2 w-full bg-white
                                 placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
                         <option value=''>- All players -</option>
-                        <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
+                     
+                        <option  v-show="players.length>0" v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
                     </select>
                 </div>
                 <div class="w-full flex flex-row border">
                     <select v-model="filter.created"
                             class=" block  pr-6 py-2 w-full bg-white
                                 placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none">
-                        <option value=''>-  All (created by me/not) -</option>
-                        <option value='true'>Just created</option>
-                        <option value='false'>Just no created</option>
+                        <option value=''>-  All (created/no) -</option>
+                        <option value='true'> Created</option>
+                        <option value='false'>No created</option>
                     </select>
                 </div>
               
@@ -89,8 +90,8 @@
     </div>-->
             </div>
         </div>
-        <div class="bg-white shadow-md rounded my-6" v-if="gameParties.length>0">
-            <table class="min-w-max w-full table-auto">
+        <div class="bg-white shadow-md rounded my-6" >
+            <table  class="min-w-max w-full table-auto">
                 <thead>
                     <tr class="bg-blue-400 text-white uppercase  leading-normal">
                         <th @click="sort('date')"
@@ -108,12 +109,13 @@
                         <th class="py-3 px-2 text-left"></th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 ">
+                <tbody v-if="gameParties.length!=0" class="text-gray-600 ">
                     <tr v-for="item in gameParties"
                         :key="item.Id"
                         class="border-b border-gray-200 hover:bg-gray-100">
                         <td class="py-3 px-2 text-left whitespace-nowrap">{{item.date }}</td>
-                        <td class="py-3 px-2 text-left whitespace-nowrap">{{item.game.name}}</td>
+                        <td v-if="item.game!=null" class="py-3 px-2 text-left whitespace-nowrap">{{item.game.name}}</td>
+                        <td v-else class="py-3 px-2 text-left whitespace-nowrap">deleted</td>
                         <td class="py-3 px-2 text-left whitespace-nowrap">{{item.userGamePlace.name }}</td>
                         <td class="py-3 px-2 text-left whitespace-nowrap">{{item.partyCreatorName }}</td>
                         <td class="py-3 px-2 text-center">
@@ -154,32 +156,9 @@
             return {
                 isModalVisible: false,
                 errorMessage: '',
-                gameParties: [
-                    //{
-                    //id: '',
-                    //date: '',
-                    //game: {
-                    //    id: '',
-                    //    name:''
-                    //},
-                    //userGamePlace: {
-                    //    id: '',
-                    //    name:''
-                    //},
-                    //partyCreatorName:''
-
-                    //}
-                ],
-                gamePlaces: [
-                    {
-                        id: '',
-                        name:''
-                    }
-                ],
-                players: [{
-                        id: '',
-                        name:''
-                }],
+                gameParties: [],
+                gamePlaces: [],
+                players: [],
                 filter: {
                     gameName: '',
                     startDate: '',

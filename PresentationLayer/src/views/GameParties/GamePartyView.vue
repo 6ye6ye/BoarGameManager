@@ -19,7 +19,8 @@
                     </li>
                     <li class="flex border-b py-2">
                         <span class="font-bold w-24">Game:</span>
-                        <span>{{gameParty.game.name}}</span>
+                        <span v-if="gameParty.game!=null">{{gameParty.game.name}}</span>
+                        <span v-else >deleted</span>
                     </li>
                     <li class="flex border-b py-2">
                         <span class="font-bold w-24">Place:</span>

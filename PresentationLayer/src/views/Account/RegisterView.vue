@@ -5,7 +5,7 @@
                 <img class="icon" :src="require('/src/assets/icon-main.png')" />
                 <span class="text-2xl font-semibold text-gray-700">Board games</span>
             </div>
-            <form ref="form" @submit.prevent="trylogin" method="post" class="mt-4">
+            <form ref="form" @submit.prevent="tryRegister()" method="post" class="mt-4">
                 <label class="block">
                     <span class="text-sm text-gray-700">Login</span>
 
@@ -40,41 +40,11 @@
                 </div>
             </form>
         </div>
- 
-
-    <!--<form ref="form" class="row d-flex justify-content-center" @submit.prevent="tryRegister" method="post">
-        <h2> Registration</h2>
-        <div class="col-md-4">
-            <div>
-                <label class="form-label">Login</label>
-                <input type="text" v-model="login" minlength="3" maxlength="50" class="form-control" required />
-            </div>
-            <div>
-                <label class="form-label">Email address</label>
-                <input type="email" v-model="email" class="form-control" minlength="3" maxlength="100" required />
-            </div>
-            <div>
-                <label class="form-label">Name</label>
-                <input type="text" v-model="name" class="form-control" minlength="3" maxlength="100" required />
-            </div>
-            <div>
-                <label class="form-label">Password</label>
-                <input type="password" v-model="password" class="form-control" minlength="6" maxlength="100" required />
-            </div>
-            <div>
-                <label class="form-label">Password repeat</label>
-                <input type="password" v-model="passwordRepeat" class="form-control" minlength="6" maxlength="100" required />
-            </div>
-
-            <button type="submit" value="Register" class="btn btn-primary"> Register </button>
-        </div>
-    </form>-->
 </template>
 
 
 <script>
     import AccountService from "../../services/AccountService";
-    import ErrorMessage from "../../components/ErrorMessage.vue";
     export default {
         name: 'RegisterView',
         data() {
@@ -84,21 +54,17 @@
                 email: '',
                 password: '',
                 passwordRepeat: '',
-                name: ''
             }
-        },
-        components: {
-            ErrorMessage
         },
         computed: {
             isValid() {
-                return this.login && this.email && this.password && this.passwordRepeat && this.name
+                return this.login && this.email && this.password && this.passwordRepeat 
             }
         },
         methods: {
             async tryRegister() {
                 if (!this.isValid) return false
-                AccountService.register(this.login, this.email, this.password, this.passwordRepeat, this.name).then(response => {
+                AccountService.register(this.login, this.email, this.password, this.passwordRepeat).then(response => {
                     if (response.status == 200) {
                         AccountService.getCurrentUserRole().then(response => {
                             localStorage.setItem('role', response.data[0]);

@@ -39,12 +39,12 @@
                     add
                 </button>
             </div>
-            <div class="bg-white shadow-md rounded " >
+            <div class="bg-white shadow-md rounded ">
                 <table class="min-w-max w-full table-auto">
                     <thead>
                         <tr class="bg-blue-400 text-white uppercase  leading-normal">
                             <th class="py-3 px-2 text-center">Login</th>
-                            <th class="py-3 px-2 text-center"></th>
+                            <th class="py-3 px-2 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 " v-if="friends.length>0">
@@ -64,10 +64,10 @@
                             </td>
                         </tr>
                     </tbody>
-                   
+
                 </table>
-                <InfoMessage v-show="friends.length==0" message="No users!"></InfoMessage>
             </div>
+            <InfoMessage v-show="friends.length==0" message="No users!"></InfoMessage>
         </div>
     </div>
 </template>

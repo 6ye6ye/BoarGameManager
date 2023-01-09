@@ -1,14 +1,12 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGameParty" method="post">
-
-        <label class="block">
+        <div class="block">
             <span class=" text-gray-700">Date</span>
             <input type="date"
                    class="block pl-4 w-full  border-gray-200 rounded-md border  
                    focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                    v-model="gameParty.date" required />
-        </label>
-
+        </div>
         <div class="block">
             <span class=" text-gray-700">Game place</span>
             <div class="flex rounded-md shadow-sm rounded-md" role="group">
@@ -38,7 +36,7 @@
             </div>
         </div>
 
-        <label class="block">
+        <div class="block">
             <span class="text-gray-700">Game</span>
             <select v-model="gameParty.gameId" 
                     class="block pl-4 w-full  border-gray-200 rounded-md border 
@@ -47,7 +45,8 @@
                 <option label="- Select  game -" value="" disabled hidden></option>
                 <option v-for="game in games" v-bind:key="game.id" v-bind:value="game.id"> {{game.name}}</option>
             </select>
-        </label>
+        </div>
+
         <ErrorMessage :message="errorMessage"></ErrorMessage>
 
         <button type="submit"

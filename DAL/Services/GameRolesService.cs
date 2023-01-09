@@ -55,7 +55,8 @@ namespace BoardGameManager1.Services
         public async Task EditGameRole(GameRoleDTOEdit gameRoleDTO)
         {
             var gameRole = _mapper.Map<GameRole>(gameRoleDTO);
-            _context.Entry(gameRole).State = EntityState.Modified;
+            _context.Update(gameRole);
+            //_context.Entry(gameRole).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 

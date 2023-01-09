@@ -71,10 +71,10 @@ namespace BoardGameManager1.Controllers
                 }
                 else
                 {
-                    return NotFound("No user with this password and login");
+                    return Conflict("No user with this password and login");
                 }
             }
-            return Ok();
+            return BadRequest();
         }
 
         [HttpPost]

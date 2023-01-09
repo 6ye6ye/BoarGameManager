@@ -1,51 +1,53 @@
 <template>
     <form ref="form" class="col-sm" @submit.prevent="addGamePartyMember" method="post">
-        <div class="row ">
-            <h2>Game party member</h2>
-            <div class="form-group ">
-                <label class="control-label d-inline">Player</label><span class="required">*</span>
-                <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
-                <ModalWindow v-if="isModalVisible" @close="closeModal">
-                    <template v-slot:title>
-                        <h5>New game party</h5>
-                    </template>
-                    <template v-slot:body>
-                        <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
-                    </template>
-                </ModalWindow>
-                <select v-model="gamePartyMember.playerId" class="form-select" required>
-                    <option label="- Select  player -" value="" disabled hidden></option>
-                    <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
-                </select>
-            </div>
-            <div class="form-group " v-if="hasRoles">
-                <label class="control-label">Role*</label>
-                <select v-model="gamePartyMember.gameRoleId" class="form-select" required>
-                    <option label="- Select  game role -" value="" disabled hidden></option>
-                    <option v-for="gameRole in gameRoles" v-bind:key="gameRole.id" v-bind:value="gameRole.id"> {{gameRole.name}}</option>
-                </select>
-            </div>
-            <div class="form-group ">
-                <label class="control-label">Points</label>
-                <input type="number" v-model="gamePartyMember.points" min="-1000000" max="1000000" class="form-control" required />
-            </div>
-            <div class="form-group ">
-                <label class="control-label">Winner</label>
-                <input type="checkbox" v-model="gamePartyMember.isWinner" />
-            </div>
+        <ModalWindow v-if="isModalVisible" @close="closeModal">
+            <template v-slot:title>
+                <h5>New player</h5>
+            </template>
+            <template v-slot:body>
+                <AddPlayerView @close="closeModal" @get-players="getPlayers"></AddPlayerView>
+            </template>
+        </ModalWindow>
 
+        <div class="block">
+            <span class=" text-gray-700">Player</span>
+            <img class="icon" type="button" @click="showModal" :src="require('/src/assets/icon-add.png')" />
+            
+            <select v-model="gamePartyMember.playerId" class="form-select" required>
+                <option label="- Select  player -" value="" disabled hidden></option>
+                <option v-for="player in players" v-bind:key="player.id" v-bind:value="player.id"> {{player.name}}</option>
+            </select>
         </div>
+        <div class="form-group " v-if="hasRoles">
+            <label class="control-label">Role*</label>
+            <select v-model="gamePartyMember.gameRoleId" class="form-select" required>
+                <option label="- Select  game role -" value="" disabled hidden></option>
+                <option v-for="gameRole in gameRoles" v-bind:key="gameRole.id" v-bind:value="gameRole.id"> {{gameRole.name}}</option>
+            </select>
+        </div>
+        <div class="form-group ">
+            <label class="control-label">Points</label>
+            <input type="number" v-model="gamePartyMember.points" min="-1000000" max="1000000" class="form-control" required />
+        </div>
+        <div class="form-group ">
+            <label class="control-label">Winner</label>
+            <input type="checkbox" v-model="gamePartyMember.isWinner" />
+        </div>
+
         <ErrorMessage :message="errorMessage"></ErrorMessage>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit"
+                class="mt-2 w-full px-4 py-2 text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
+            Add
+        </button>
     </form>
 </template>
 
 <script>
-   import PlayersService from "../../services/PlayersService";
+    import PlayersService from "../../services/PlayersService";
     import GameRolesService from "../../services/GameRolesService";
     import GamePartyMemberService from "../../services/GamePartyMemberService";
     import AddPlayerView from "../Players/AddPlayerView.vue";
-     import ModalWindow from "../../components/ModalWindow.vue";
+    import ModalWindow from "../../components/ModalWindow.vue";
     export default {
         name: 'AddGameRoleView',
         props: ['gamePartyId', 'gameId'],
@@ -53,7 +55,7 @@
         data() {
 
             return {
-                errorMessage:"",
+                errorMessage: "",
                 isModalVisible: false,
                 show: false,
                 players: [],
@@ -79,11 +81,11 @@
         computed: {
             isValid() {
                 return (this.gamePartyMember.gameRoleId || this.gameRoles.length == 0)
-                    && (this.gamePartyMember.points || this.gamePartyMember.points==0)
+                    && (this.gamePartyMember.points || this.gamePartyMember.points == 0)
                     && this.gamePartyMember.playerId
             },
             hasRoles() {
-                return this.gameRoles.length!=0
+                return this.gameRoles.length != 0
             }
         },
         methods: {

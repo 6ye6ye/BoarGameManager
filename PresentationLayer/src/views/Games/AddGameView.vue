@@ -113,7 +113,7 @@
                 class="mt-2 w-full px-4 py-2 text-sm text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
             Add
         </button>
-        <ErrorMessage :message="errorMessage"></ErrorMessage>
+        <ErrorMessage v-show="errorMessage!=''" :message="errorMessage"></ErrorMessage>
     </form>
 </template>
 

@@ -43,7 +43,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("GameRates");
+                    b.ToTable("GameRates", (string)null);
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.GameRole", b =>
@@ -63,7 +63,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("GameRoles");
+                    b.ToTable("GameRoles", (string)null);
                 });
 
             modelBuilder.Entity("BoardGameManager1.Entities.Role", b =>
@@ -96,15 +96,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d78c27cb-7dea-4d10-941c-25b0da5cc316"),
-                            ConcurrencyStamp = "9e50beb8-1202-401b-9e92-549d15a6fbbd",
+                            Id = new Guid("5bfca672-bf0f-47de-8a87-8e12dda03fea"),
+                            ConcurrencyStamp = "61f7d472-a065-431e-8166-185209da101a",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = new Guid("a3e4c777-01c6-4da2-9e0d-a484cf6f9e53"),
-                            ConcurrencyStamp = "b782ad4d-6ff1-4ed2-913d-f3afa31c4ee6",
+                            Id = new Guid("466398d3-0ba9-4845-a9d4-e2323e8c439f"),
+                            ConcurrencyStamp = "f754335b-0827-46eb-8aff-d7b7cbb06016",
                             Name = "User",
                             NormalizedName = "User"
                         });
@@ -127,13 +127,13 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("37bd3f88-dcb9-4909-9703-ddd005f0e42a"),
-                            RoleId = new Guid("d78c27cb-7dea-4d10-941c-25b0da5cc316")
+                            UserId = new Guid("f5a299b5-20f4-43d3-afaa-af09d0b22359"),
+                            RoleId = new Guid("5bfca672-bf0f-47de-8a87-8e12dda03fea")
                         },
                         new
                         {
-                            UserId = new Guid("e3ed884b-5ca2-45ec-8cd7-b0318b475d5f"),
-                            RoleId = new Guid("a3e4c777-01c6-4da2-9e0d-a484cf6f9e53")
+                            UserId = new Guid("7403ec36-15f8-444b-bd30-02438aa9a1dc"),
+                            RoleId = new Guid("466398d3-0ba9-4845-a9d4-e2323e8c439f")
                         });
                 });
 
@@ -208,7 +208,7 @@ namespace DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.GameParty", b =>
@@ -220,7 +220,7 @@ namespace DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("GameId")
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("PartyCreatorId")
@@ -237,7 +237,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("UserGamePlaceId");
 
-                    b.ToTable("GameParties");
+                    b.ToTable("GameParties", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.GamePartyMember", b =>
@@ -269,7 +269,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("PlayerId");
 
-                    b.ToTable("GamePartyMembers");
+                    b.ToTable("GamePartyMembers", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.Player", b =>
@@ -294,19 +294,19 @@ namespace DAL.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d34c4e32-a7a1-40d4-93b6-119ff6327ef9"),
-                            AccountId = new Guid("37bd3f88-dcb9-4909-9703-ddd005f0e42a"),
+                            Id = new Guid("c2773453-6d6f-4c50-ab47-40b563f4075a"),
+                            AccountId = new Guid("f5a299b5-20f4-43d3-afaa-af09d0b22359"),
                             Name = "admin"
                         },
                         new
                         {
-                            Id = new Guid("95547a45-a09e-4d5d-9652-4ad3614107aa"),
-                            AccountId = new Guid("e3ed884b-5ca2-45ec-8cd7-b0318b475d5f"),
+                            Id = new Guid("d742dc30-c8b1-4415-9829-3acffc19ce7b"),
+                            AccountId = new Guid("7403ec36-15f8-444b-bd30-02438aa9a1dc"),
                             Name = "user"
                         });
                 });
@@ -379,9 +379,9 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("37bd3f88-dcb9-4909-9703-ddd005f0e42a"),
+                            Id = new Guid("f5a299b5-20f4-43d3-afaa-af09d0b22359"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "acb7a201-3b13-45e9-bc96-11e53a09838d",
+                            ConcurrencyStamp = "52fb6e47-730d-4e59-b5de-de1c7aa09f8c",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -389,15 +389,15 @@ namespace DAL.Migrations
                             NormalizedUserName = "admin",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0210cfd7-a69f-4b6a-9f2a-017424001722",
+                            SecurityStamp = "caa6feeb-906e-4cc7-a3db-5f554dc8c46c",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         },
                         new
                         {
-                            Id = new Guid("e3ed884b-5ca2-45ec-8cd7-b0318b475d5f"),
+                            Id = new Guid("7403ec36-15f8-444b-bd30-02438aa9a1dc"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "32d2a06b-55bd-4c17-afb9-405ac2822612",
+                            ConcurrencyStamp = "4f1ea01d-26bf-4e2d-8089-12a8f5c1fd5d",
                             Email = "user@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
@@ -405,7 +405,7 @@ namespace DAL.Migrations
                             NormalizedUserName = "user",
                             PasswordHash = "AQAAAAEAACcQAAAAEGPrM0+a2DPLt2IDXeNXCxwz6N4b+aTzO0qbm2ijrTLm0wZMouCaC+8Oan/u3yF+ZQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6b00202f-5efe-4bff-a29d-9a5af1acb10b",
+                            SecurityStamp = "16abf1ee-4d4d-4e91-a3fc-7a476b263dc1",
                             TwoFactorEnabled = false,
                             UserName = "user"
                         });
@@ -430,7 +430,7 @@ namespace DAL.Migrations
                     b.HasIndex("UserId", "GameId")
                         .IsUnique();
 
-                    b.ToTable("UserGames");
+                    b.ToTable("UserGames", (string)null);
                 });
 
             modelBuilder.Entity("DAL.Entities.UserGamePlace", b =>
@@ -452,20 +452,20 @@ namespace DAL.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL");
 
-                    b.ToTable("UserGamePlaces");
+                    b.ToTable("UserGamePlaces", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b0089db9-85be-4864-8921-e7d987297699"),
+                            Id = new Guid("63baca01-7381-4943-a0d3-b962ac5467f8"),
                             Name = "MyHome",
-                            UserId = new Guid("37bd3f88-dcb9-4909-9703-ddd005f0e42a")
+                            UserId = new Guid("f5a299b5-20f4-43d3-afaa-af09d0b22359")
                         },
                         new
                         {
-                            Id = new Guid("450272f1-e487-4702-8beb-ad5d0e8fcb74"),
+                            Id = new Guid("1f871d0f-b7be-4918-9b90-646b6034a5fe"),
                             Name = "Work",
-                            UserId = new Guid("37bd3f88-dcb9-4909-9703-ddd005f0e42a")
+                            UserId = new Guid("f5a299b5-20f4-43d3-afaa-af09d0b22359")
                         });
                 });
 
@@ -492,14 +492,14 @@ namespace DAL.Migrations
 
                     b.HasIndex("OutRequestUserId");
 
-                    b.ToTable("UserFriends");
+                    b.ToTable("UserFriends", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("66d6e313-a33e-4222-a902-079d7e771f83"),
-                            InRequestUserId = new Guid("37bd3f88-dcb9-4909-9703-ddd005f0e42a"),
-                            OutRequestUserId = new Guid("e3ed884b-5ca2-45ec-8cd7-b0318b475d5f"),
+                            Id = new Guid("16380b66-1636-4a50-9bb5-341d869e3780"),
+                            InRequestUserId = new Guid("f5a299b5-20f4-43d3-afaa-af09d0b22359"),
+                            OutRequestUserId = new Guid("7403ec36-15f8-444b-bd30-02438aa9a1dc"),
                             Status = 1
                         });
                 });
@@ -646,8 +646,7 @@ namespace DAL.Migrations
                     b.HasOne("DAL.Entities.Game", "Game")
                         .WithMany("GameParties")
                         .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("DAL.Entities.User", "PartyCreator")
                         .WithMany("CreatedGames")

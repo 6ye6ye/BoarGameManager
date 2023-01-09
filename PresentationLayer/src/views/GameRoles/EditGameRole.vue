@@ -9,10 +9,10 @@
                    v-model="role.name"
                    minlength="1" maxlength="50" required />
         </label>
-        <ErrorMessage :message="errorMessage"></ErrorMessage>
+        <ErrorMessage :message="errorMessage" class="mt-2"></ErrorMessage>
         <button type="submit"
                 class="mt-2 w-full px-4 py-2 text-center text-white bg-green-500 rounded-md focus:outline-none hover:bg-green-400">
-            Add
+            Save
         </button>
     </form>
 </template>
